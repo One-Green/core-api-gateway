@@ -9,3 +9,6 @@ create-su: ##@dev
 
 runserver:
 	pipenv run python manage.py runserver
+
+dj-shell:
+	pipenv run python manage.py shell -i ipython
