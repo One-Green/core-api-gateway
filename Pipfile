@@ -12,6 +12,7 @@ markdown = "*"
 django-filter = "*"
 django-jet = "*"
 django-rest-swagger = "*"
+ipython = "*"
 
 [requires]
 python_version = "3.7"
