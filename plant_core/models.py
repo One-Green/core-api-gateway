@@ -30,9 +30,8 @@ class PlantSettings(models.Model):
         :param kwargs:
         :return:
         """
-        if PlantSettings.objects.count() == 1:
-            PlantSettings.objects[0].delete()
-        super(PlantSettings, self).save(*args, **kwargs)
+        if not PlantSettings.objects.all().count():
+            super(PlantSettings, self).save(*args, **kwargs)
 
 
 class Enclosure(models.Model):
