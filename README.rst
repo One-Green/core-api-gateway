@@ -56,4 +56,5 @@ To configure plant temperature, hygrometry, chart temperature sensors etc ... yo
 
 Run server and open a web browser to:
 - http://localhost:8000 -> display Swagger API
+
 - http://localhost:8000/admin -> to login in admin interface
