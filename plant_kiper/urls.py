@@ -14,8 +14,23 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from django.conf.urls import url
+from plant_core import views
+from rest_framework_swagger.views import get_swagger_view
+
+schema_view = get_swagger_view(title='Plant Keeper API')
 
 urlpatterns = [
+    url(r'^$', schema_view),
+    url(r'^jet/', include('jet.urls', 'jet')),  # Django JET URLS
     path('admin/', admin.site.urls),
+    path('enclosure/', views.EnclosureView.as_view()),
+    path('peltier/', views.PeltierCellView.as_view()),
+    path('vaporgenerator/', views.VaporGeneratorView.as_view()),
+    path('watertank/', views.WaterTankView.as_view()),
+    path('electricalheater/', views.ElectricalHeaterView.as_view()),
+    path('uvlight/', views.UvLightView.as_view()),
+    path('co2valve/', views.CO2ValveView.as_view()),
+    path('filters/', views.FiltersView.as_view())
 ]
