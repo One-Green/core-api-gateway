@@ -25,14 +25,20 @@ class BaseController:
         self.state: bool = False
         self.current_value: float = 0.0
 
-    def get_action(self, current_value: float) -> bool:
+    def set_sensor_value(self, current_value: float) -> None:
         """
-        call this method for chose action
+        set read sensor value
+        :param current_value:
         :return:
         """
-
         self.current_value = current_value
 
+    @property
+    def action(self) -> bool:
+        """
+        get action to do
+        :return:
+        """
         if self.kind == 'CUT_IN':
             # neutral point => do nothing
             # or condition can be used here (less readable)
