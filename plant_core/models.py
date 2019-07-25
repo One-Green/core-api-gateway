@@ -33,6 +33,10 @@ class PlantSettings(models.Model):
         if not PlantSettings.objects.all().count():
             super(PlantSettings, self).save(*args, **kwargs)
 
+    @classmethod
+    def get_settings(cls):
+        return cls.objects.all().values()[0]
+
 
 class Enclosure(models.Model):
     """
@@ -55,6 +59,14 @@ class Enclosure(models.Model):
         if Enclosure.objects.count() == 1000:
             Enclosure.objects[0].delete()
         super(Enclosure, self).save(*args, **kwargs)
+
+    @classmethod
+    def get_status(cls):
+        """
+        get latest values
+        :return:
+        """
+        return cls.objects.values().latest('created')
 
     class Meta:
         ordering = ['created']
@@ -90,6 +102,14 @@ class PeltierCell(models.Model):
             PeltierCell.objects[0].delete()
         super(PeltierCell, self).save(*args, **kwargs)
 
+    @classmethod
+    def get_status(cls):
+        """
+        get latest values
+        :return:
+        """
+        return cls.objects.values().latest('created')
+
     class Meta:
         ordering = ['created']
 
@@ -113,6 +133,14 @@ class VaporGenerator(models.Model):
             VaporGenerator.objects[0].delete()
         super(VaporGenerator, self).save(*args, **kwargs)
 
+    @classmethod
+    def get_status(cls):
+        """
+        get latest values
+        :return:
+        """
+        return cls.objects.values().latest('created')
+
     class Meta:
         ordering = ['created']
 
@@ -135,6 +163,14 @@ class WaterTank(models.Model):
         if WaterTank.objects.count() == 1000:
             WaterTank.objects[0].delete()
         super(WaterTank, self).save(*args, **kwargs)
+
+    @classmethod
+    def get_status(cls):
+        """
+        get latest values
+        :return:
+        """
+        return cls.objects.values().latest('created')
 
     class Meta:
         ordering = ['created']
@@ -161,6 +197,14 @@ class ElectricalHeater(models.Model):
             ElectricalHeater.objects[0].delete()
         super(ElectricalHeater, self).save(*args, **kwargs)
 
+    @classmethod
+    def get_status(cls):
+        """
+        get latest values
+        :return:
+        """
+        return cls.objects.values().latest('created')
+
     class Meta:
         ordering = ['created']
 
@@ -182,6 +226,14 @@ class UvLight(models.Model):
         if UvLight.objects.count() == 1000:
             UvLight.objects[0].delete()
         super(UvLight, self).save(*args, **kwargs)
+
+    @classmethod
+    def get_status(cls):
+        """
+        get latest values
+        :return:
+        """
+        return cls.objects.values().latest('created')
 
     class Meta:
         ordering = ['created']
@@ -207,6 +259,14 @@ class CO2Valve(models.Model):
             CO2Valve.objects[0].delete()
         super(CO2Valve, self).save(*args, **kwargs)
 
+    @classmethod
+    def get_status(cls):
+        """
+        get latest values
+        :return:
+        """
+        return cls.objects.values().latest('created')
+
     class Meta:
         ordering = ['created']
 
@@ -230,6 +290,14 @@ class Filters(models.Model):
         if Filters.objects.count() == 1000:
             Filters.objects[0].delete()
         super(Filters, self).save(*args, **kwargs)
+
+    @classmethod
+    def get_status(cls):
+        """
+        get latest values
+        :return:
+        """
+        return cls.objects.values().latest('created')
 
     class Meta:
         ordering = ['created']
