@@ -1,4 +1,4 @@
 """
 core package
 """
-__all__ = ['controller']
+__all__ = ['controller', 'aggregator']
