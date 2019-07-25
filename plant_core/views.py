@@ -10,7 +10,8 @@ from plant_core.models import (Enclosure,
                                ElectricalHeater,
                                UvLight,
                                CO2Valve,
-                               Filters)
+                               Filters,
+                               SimpleFlaps)
 
 from plant_core.serializers import (EnclosureSerializer,
                                     PeltierCellSerializer,
@@ -19,7 +20,8 @@ from plant_core.serializers import (EnclosureSerializer,
                                     ElectricalHeaterSerializer,
                                     UvLightSerializer,
                                     CO2ValveSerializer,
-                                    FiltersSerializer)
+                                    FiltersSerializer,
+                                    SimpleFlapsSerializer)
 
 
 class EnclosureView(GenericAPIView):
@@ -147,4 +149,20 @@ class FiltersView(GenericAPIView):
     @csrf_exempt
     def get(self, request):
         serializer = FiltersView(Filters.objects.all(), many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class SimpleFlapsView(GenericAPIView):
+    serializer_class = SimpleFlapsSerializer
+
+    @csrf_exempt
+    def post(self, request):
+        serializer = SimpleFlapsSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+        return Response({'saved': True}, status=status.HTTP_201_CREATED)
+
+    @csrf_exempt
+    def get(self, request):
+        serializer = SimpleFlapsSerializer(SimpleFlaps.objects.all(), many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)

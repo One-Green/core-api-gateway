@@ -81,16 +81,6 @@ class PeltierCell(models.Model):
     hot_surface_temperature = models.FloatField(blank=True, null=True)
     power_status = models.BooleanField(blank=True, null=True, default=0)
 
-    # by default = full new air configuration
-    dirty_air_out_status = models.BooleanField(blank=True, null=True, default=1)
-    clean_air_in_status = models.BooleanField(blank=True, null=True, default=1)
-    mixin_air_status = models.BooleanField(blank=True, null=True, default=0)
-
-    # in case of using flap controller
-    dirty_air_flap_status = models.FloatField(blank=True, null=True)
-    clean_air_flap_status = models.FloatField(blank=True, null=True)
-    mixin_air_flap_status = models.FloatField(blank=True, null=True)
-
     def save(self, *args, **kwargs):
         """
         keep only 1000 latest values
@@ -301,3 +291,44 @@ class Filters(models.Model):
 
     class Meta:
         ordering = ['created']
+
+
+class SimpleFlaps(models.Model):
+    """
+    Air flap model
+    ========================
+    Full new air :
+    ========================
+      Flap1 clean air
+      open
+    >-[/]---*------------------>
+            |
+           [/] Flap3 recycling
+            |  close
+    <-[/]---*------------------<
+      Flap2 dirty air
+      open
+
+    ========================
+    Full recycled air :
+    ========================
+      Flap1 clean air
+      close
+    >-[/]---*------------------>
+            |
+           [/] Flap3 recycling
+            |  open
+    <-[/]---*------------------<
+      Flap2 dirty air
+      close
+    """
+
+    created = models.DateTimeField(auto_now_add=True)
+    # limit sensors
+    dirty_air_limit_sensor = models.BooleanField(blank=True, null=True, default=0)
+    clean_air_limit_sensor = models.BooleanField(blank=True, null=True, default=0)
+    mixin_air_limit_sensor = models.BooleanField(blank=True, null=True, default=0)
+    # by default = full new air configuration
+    dirty_air_flap_status = models.BooleanField(blank=True, null=True, default=1)
+    clean_air_flap_status = models.BooleanField(blank=True, null=True, default=1)
+    mixin_air_flap_status = models.BooleanField(blank=True, null=True, default=0)
