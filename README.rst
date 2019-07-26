@@ -138,7 +138,7 @@ Run server with:
 
 Open web browser, login, and create PlantSettings entry , controller wil try to load these values.
 
-Run Peltier controller
+For example, run Peltier controller
 
 .. code-block:: shell
 
