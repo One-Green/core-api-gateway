@@ -2,6 +2,7 @@
 O/I controller
 Author : Shanmugathas Vigneswaran
 """
+from datetime import time, datetime
 
 
 class BaseController:
@@ -85,3 +86,30 @@ class BaseController:
         if self.kind == 'CUT_OUT':
             self.__cut_out_handler()
             return self.state
+
+
+class BaseTimeController:
+    def __init__(self, start_at: time, end_at: time, reverse: bool = False):
+
+        assert isinstance(start_at, time)
+        assert isinstance(end_at, time)
+        assert isinstance(reverse, bool)
+
+        self.start_at: time = start_at
+        self.end_at: time = end_at
+        self.reverse: bool = reverse
+        self.state: bool = False
+
+    @property
+    def action(self) -> bool:
+        if self.start_at <= datetime.now().time() <= self.end_at:
+            if self.reverse:
+                self.state = False
+            else:
+                self.state = True
+        else:
+            if self.reverse:
+                self.state = True
+            else:
+                self.state = False
+        return self.state
