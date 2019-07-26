@@ -74,7 +74,7 @@ class Enclosure(models.Model):
 
 class Cooler(models.Model):
     """
-    Peltier cell controller (for cooling)
+    Cooling system for temperature controller
     """
     created = models.DateTimeField(auto_now_add=True)
     cold_surface_temperature = models.FloatField(blank=True, null=True)
@@ -99,6 +99,19 @@ class Cooler(models.Model):
         :return:
         """
         return cls.objects.values().latest('created')
+
+    @classmethod
+    def set_power_status(cls, new_status: bool):
+        """
+        Function shit last sensors values
+        with new power status
+        :param new_status:
+        :return:
+        """
+        current_values = cls.get_status()
+        cls(cold_surface_temperature=current_values['cold_surface_temperature'],
+            hot_surface_temperature=current_values['hot_surface_temperature'],
+            power_status=new_status).save()
 
     class Meta:
         ordering = ['created']
@@ -131,6 +144,18 @@ class VaporGenerator(models.Model):
         """
         return cls.objects.values().latest('created')
 
+    @classmethod
+    def set_power_status(cls, new_status: bool):
+        """
+        Function shit last sensors values
+        with new power status
+        :param new_status:
+        :return:
+        """
+        current_values = cls.get_status()
+        cls(water_level=current_values['water_level'],
+            power_status=new_status).save()
+
     class Meta:
         ordering = ['created']
 
@@ -161,6 +186,18 @@ class WaterTank(models.Model):
         :return:
         """
         return cls.objects.values().latest('created')
+
+    @classmethod
+    def set_power_status(cls, new_status: bool):
+        """
+        Function shit last sensors values
+        with new power status
+        :param new_status:
+        :return:
+        """
+        current_values = cls.get_status()
+        cls(water_level=current_values['water_level'],
+            power_status=new_status).save()
 
     class Meta:
         ordering = ['created']
@@ -195,6 +232,20 @@ class Heater(models.Model):
         """
         return cls.objects.values().latest('created')
 
+    @classmethod
+    def set_power_status(cls, new_status: bool):
+        """
+        Function shit last sensors values
+        with new power status
+        :param new_status:
+        :return:
+        """
+        current_values = cls.get_status()
+        cls(hot_surface_temperature=current_values['hot_surface_temperature'],
+            air_in_temperature=current_values['air_in_temperature'],
+            air_out_temperature=current_values['air_out_temperature'],
+            power_status=new_status).save()
+
     class Meta:
         ordering = ['created']
 
@@ -225,6 +276,17 @@ class UvLight(models.Model):
         """
         return cls.objects.values().latest('created')
 
+    @classmethod
+    def set_power_status(cls, new_status: bool):
+        """
+        Function shit last sensors values
+        with new power status
+        :param new_status:
+        :return:
+        """
+        # lighting is based on time controller
+        cls(power_status=new_status).save()
+
     class Meta:
         ordering = ['created']
 
@@ -236,7 +298,7 @@ class CO2Valve(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     high_pressure = models.FloatField(blank=True, null=True)
     low_pressure = models.FloatField(blank=True, null=True)
-    valve_power_status = models.BooleanField(blank=True, null=True, default=0)
+    power_status = models.BooleanField(blank=True, null=True, default=0)
 
     def save(self, *args, **kwargs):
         """
@@ -257,6 +319,19 @@ class CO2Valve(models.Model):
         """
         return cls.objects.values().latest('created')
 
+    @classmethod
+    def set_power_status(cls, new_status: bool):
+        """
+        Function shit last sensors values
+        with new power status
+        :param new_status:
+        :return:
+        """
+        current_values = cls.get_status()
+        cls(high_pressure=current_values['high_pressure'],
+            low_pressure=current_values['low_pressure'],
+            power_status=new_status).save()
+
     class Meta:
         ordering = ['created']
 
@@ -267,8 +342,8 @@ class Filters(models.Model):
     """
 
     created = models.DateTimeField(auto_now_add=True)
-    clean_air_in_delta_pressure = models.FloatField(blank=True, null=True)
-    dirty_air_out_delta_pressure = models.FloatField(blank=True, null=True)
+    in_air_delta_pressure = models.FloatField(blank=True, null=True)
+    out_air_delta_pressure = models.FloatField(blank=True, null=True)
 
     def save(self, *args, **kwargs):
         """
