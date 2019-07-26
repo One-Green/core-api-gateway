@@ -13,11 +13,11 @@ from core.controller import BaseController
 from core.aggregator import BaseAggregator
 from plant_core.models import PlantSettings
 from plant_core.models import (Enclosure,
-                               PeltierCell)
+                               Cooler)
 
 # give a name for controlled device
 # for printing / logging purpose
-CONTROLLED_DEVICE: str = 'PELTIER'
+CONTROLLED_DEVICE: str = 'COOLER'
 
 # Print template
 # generic template for logging/print (for log remove datetime_now)
@@ -77,12 +77,12 @@ while True:
         last_action = action
         print(PRINT_TEMPLATE.format(datetime_now=datetime.now(), device=CONTROLLED_DEVICE,
                                     temperature=t, hygrometry=hr, _action=action))
-        PeltierCell(power_status=action).save()
+        Cooler(power_status=action).save()
 
     elif action != last_action:
         last_action = action
         print(PRINT_TEMPLATE.format(datetime_now=datetime.now(), device=CONTROLLED_DEVICE,
                                     temperature=t, hygrometry=hr, _action=action))
-        PeltierCell(power_status=action).save()
+        Cooler(power_status=action).save()
 
     time.sleep(1)
