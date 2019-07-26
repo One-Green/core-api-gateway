@@ -166,7 +166,7 @@ class WaterTank(models.Model):
         ordering = ['created']
 
 
-class ElectricalHeater(models.Model):
+class Heater(models.Model):
     """
     Electrical heater I/O (control enclosure temperature)
     """
@@ -183,9 +183,9 @@ class ElectricalHeater(models.Model):
         :param kwargs:
         :return:
         """
-        if ElectricalHeater.objects.count() == 1000:
-            ElectricalHeater.objects[0].delete()
-        super(ElectricalHeater, self).save(*args, **kwargs)
+        if Heater.objects.count() == 1000:
+            Heater.objects[0].delete()
+        super(Heater, self).save(*args, **kwargs)
 
     @classmethod
     def get_status(cls):

@@ -7,7 +7,7 @@ from plant_core.models import (Enclosure,
                                PeltierCell,
                                VaporGenerator,
                                WaterTank,
-                               ElectricalHeater,
+                               Heater,
                                UvLight,
                                CO2Valve,
                                Filters,
@@ -17,7 +17,7 @@ from plant_core.serializers import (EnclosureSerializer,
                                     PeltierCellSerializer,
                                     VaporGeneratorSerializer,
                                     WaterTankSerializer,
-                                    ElectricalHeaterSerializer,
+                                    HeaterSerializer,
                                     UvLightSerializer,
                                     CO2ValveSerializer,
                                     FiltersSerializer,
@@ -88,19 +88,19 @@ class WaterTankView(GenericAPIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-class ElectricalHeaterView(GenericAPIView):
-    serializer_class = ElectricalHeaterSerializer
+class HeaterView(GenericAPIView):
+    serializer_class = HeaterSerializer
 
     @csrf_exempt
     def post(self, request):
-        serializer = ElectricalHeaterSerializer(data=request.data)
+        serializer = HeaterSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
         return Response({'saved': True}, status=status.HTTP_201_CREATED)
 
     @csrf_exempt
     def get(self, request):
-        serializer = ElectricalHeaterSerializer(ElectricalHeater.objects.all(), many=True)
+        serializer = HeaterSerializer(Heater.objects.all(), many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 

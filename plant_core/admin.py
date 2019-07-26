@@ -4,7 +4,7 @@ from plant_core.models import (PlantSettings,
                                PeltierCell,
                                VaporGenerator,
                                WaterTank,
-                               ElectricalHeater,
+                               Heater,
                                UvLight,
                                CO2Valve,
                                Filters)
@@ -15,7 +15,7 @@ admin.site.register(Enclosure)
 admin.site.register(PeltierCell)
 admin.site.register(VaporGenerator)
 admin.site.register(WaterTank)
-admin.site.register(ElectricalHeater)
+admin.site.register(Heater)
 admin.site.register(UvLight)
 admin.site.register(CO2Valve)
 admin.site.register(Filters)

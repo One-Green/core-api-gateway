@@ -3,7 +3,7 @@ from plant_core.models import (Enclosure,
                                PeltierCell,
                                VaporGenerator,
                                WaterTank,
-                               ElectricalHeater,
+                               Heater,
                                UvLight,
                                CO2Valve,
                                Filters,
@@ -34,9 +34,9 @@ class WaterTankSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class ElectricalHeaterSerializer(serializers.ModelSerializer):
+class HeaterSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ElectricalHeater
+        model = Heater
         fields = '__all__'
 
 
