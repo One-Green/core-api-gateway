@@ -62,13 +62,12 @@ def main():
         last_action = action
         print(PRINT_TEMPLATE.format(datetime_now=datetime.now(), device=CONTROLLED_DEVICE,
                                     temperature=t, _action=action))
-        Heater(power_status=action).save()
-
+        Heater.set_power_status(action)
     elif action != last_action:
         last_action = action
         print(PRINT_TEMPLATE.format(datetime_now=datetime.now(), device=CONTROLLED_DEVICE,
                                     temperature=t, _action=action))
-        Heater(power_status=action).save()
+        Heater.set_power_status(action)
 
 
 if __name__ == '__main__':

@@ -77,14 +77,13 @@ def main():
         last_action = action
         print(PRINT_TEMPLATE.format(datetime_now=datetime.now(), device=CONTROLLED_DEVICE,
                                     temperature=t, hygrometry=hr, _action=action))
-        Cooler(power_status=action).save()
+        Cooler.set_power_status(action)
 
     elif action != last_action:
         last_action = action
         print(PRINT_TEMPLATE.format(datetime_now=datetime.now(), device=CONTROLLED_DEVICE,
                                     temperature=t, hygrometry=hr, _action=action))
-        Cooler(power_status=action).save()
-
+        Cooler.set_power_status(action)
 
 if __name__ == '__main__':
     print(f'[!] Warning: {CONTROLLED_DEVICE} device debug mode, use controller/run.py to load controller')

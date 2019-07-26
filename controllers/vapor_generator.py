@@ -73,15 +73,13 @@ def main():
         last_action = action
         print(PRINT_TEMPLATE.format(datetime_now=datetime.now(), device=CONTROLLED_DEVICE,
                                     hygrometry=hr, _action=action))
-        VaporGenerator(power_status=action,
-                       water_level=_water_level).save()
+        VaporGenerator.set_power_status(action)
 
     elif action != last_action:
         last_action = action
         print(PRINT_TEMPLATE.format(datetime_now=datetime.now(), device=CONTROLLED_DEVICE,
                                     hygrometry=hr, _action=action))
-        VaporGenerator(power_status=action,
-                       water_level=_water_level).save()
+        VaporGenerator.set_power_status(action)
 
 
 if __name__ == '__main__':
