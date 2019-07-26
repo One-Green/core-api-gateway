@@ -49,7 +49,9 @@ hygrometry_inc_ctl = BaseController(kind='CUT_OUT',
 first_loop: bool = True
 last_action: Union[bool, None] = None
 
-while True:
+
+def main():
+    global first_loop, last_action
     # Read enclosure status
     enclosure_status = Enclosure.get_status()
     hr = enclosure_status['enclosure_hygrometry']
@@ -81,5 +83,9 @@ while True:
         VaporGenerator(power_status=action,
                        water_level=_water_level).save()
 
-    time.sleep(1)
 
+if __name__ == '__main__':
+    print(f'[!] Warning: {CONTROLLED_DEVICE} device debug mode, use controller/run.py to load controller')
+    while True:
+        main()
+        time.sleep(1)

@@ -56,7 +56,10 @@ peltier_device_ctl = BaseAggregator([
 first_loop: bool = True
 last_action: Union[bool, None] = None
 
-while True:
+
+def main():
+    global first_loop, last_action
+
     # Read enclosure status
     enclosure_status = Enclosure.get_status()
     t = enclosure_status['enclosure_temperature']
@@ -82,4 +85,9 @@ while True:
                                     temperature=t, hygrometry=hr, _action=action))
         Cooler(power_status=action).save()
 
-    time.sleep(1)
+
+if __name__ == '__main__':
+    print(f'[!] Warning: {CONTROLLED_DEVICE} device debug mode, use controller/run.py to load controller')
+    while True:
+        main()
+        time.sleep(1)
