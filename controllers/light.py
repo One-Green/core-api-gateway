@@ -15,7 +15,7 @@ from plant_core.models import UvLight
 
 # give a name for controlled device
 # for printing / logging purpose
-CONTROLLED_DEVICE: str = 'UV LIGHT'
+CONTROLLED_DEVICE: str = 'UV_LIGHT'
 
 # Print template
 # generic template for logging/print (for log remove datetime_now)
