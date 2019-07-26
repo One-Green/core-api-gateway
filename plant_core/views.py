@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from plant_core.models import (Enclosure,
-                               PeltierCell,
+                               Cooler,
                                VaporGenerator,
                                WaterTank,
                                Heater,
@@ -14,7 +14,7 @@ from plant_core.models import (Enclosure,
                                SimpleFlaps)
 
 from plant_core.serializers import (EnclosureSerializer,
-                                    PeltierCellSerializer,
+                                    CoolerSerializer,
                                     VaporGeneratorSerializer,
                                     WaterTankSerializer,
                                     HeaterSerializer,
@@ -40,19 +40,19 @@ class EnclosureView(GenericAPIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-class PeltierCellView(GenericAPIView):
-    serializer_class = PeltierCellSerializer
+class CoolerView(GenericAPIView):
+    serializer_class = CoolerSerializer
 
     @csrf_exempt
     def post(self, request):
-        serializer = PeltierCellSerializer(data=request.data)
+        serializer = CoolerSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
         return Response({'saved': True}, status=status.HTTP_201_CREATED)
 
     @csrf_exempt
     def get(self, request):
-        serializer = PeltierCellSerializer(PeltierCell.objects.all(), many=True)
+        serializer = CoolerSerializer(Cooler.objects.all(), many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 

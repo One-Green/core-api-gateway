@@ -72,7 +72,7 @@ class Enclosure(models.Model):
         ordering = ['created']
 
 
-class PeltierCell(models.Model):
+class Cooler(models.Model):
     """
     Peltier cell controller (for cooling)
     """
@@ -88,9 +88,9 @@ class PeltierCell(models.Model):
         :param kwargs:
         :return:
         """
-        if PeltierCell.objects.count() == 1000:
-            PeltierCell.objects[0].delete()
-        super(PeltierCell, self).save(*args, **kwargs)
+        if Cooler.objects.count() == 1000:
+            Cooler.objects[0].delete()
+        super(Cooler, self).save(*args, **kwargs)
 
     @classmethod
     def get_status(cls):

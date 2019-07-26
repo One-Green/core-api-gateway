@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from plant_core.models import (Enclosure,
-                               PeltierCell,
+                               Cooler,
                                VaporGenerator,
                                WaterTank,
                                Heater,
@@ -16,9 +16,9 @@ class EnclosureSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class PeltierCellSerializer(serializers.ModelSerializer):
+class CoolerSerializer(serializers.ModelSerializer):
     class Meta:
-        model = PeltierCell
+        model = Cooler
         fields = '__all__'
 
 
