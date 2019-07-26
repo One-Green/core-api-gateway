@@ -37,6 +37,41 @@ class BaseController:
         """
         self.current_value = current_value
 
+    def __cut_in_handler(self):
+        """
+        cut in kind handler
+        :return:
+        """
+        # neutral point => do nothing
+        # or condition can be used here (less readable)
+        if self.min_point <= self.current_value <= self.max_point:
+            self.state = False
+        # mini point reached, cut in => deactivate
+        if self.current_value <= self.min_point:
+            self.state = True
+        # max point reached, cut in => activate
+        elif self.current_value >= self.max_point:
+            self.state = False
+
+    def __cut_out_handler(self):
+        """
+        cut out kind handler
+        :return:
+        """
+        if self.current_value <= self.min_point:
+            if self.reverse:
+                self.state = True
+            else:
+                self.state = False
+        if self.current_value >= self.max_point:
+            if self.reverse:
+                self.state = False
+            else:
+                self.state = True
+
+    def __pid_handler(self):
+        pass
+
     @property
     def action(self) -> bool:
         """
@@ -44,34 +79,9 @@ class BaseController:
         :return:
         """
         if self.kind == 'CUT_IN':
-            # neutral point => do nothing
-            # or condition can be used here (less readable)
-            if self.min_point <= self.current_value <= self.max_point:
-                self.state = False
-            # mini point reached, cut in => deactivate
-            if self.current_value <= self.min_point:
-                self.state = True
-            # max point reached, cut in => activate
-            elif self.current_value >= self.max_point:
-                self.state = False
+            self.__cut_in_handler()
+            return self.state
 
         if self.kind == 'CUT_OUT':
-            # neutral point => do nothing
-            if self.min_point <= self.current_value <= self.max_point:
-                if self.reverse:
-                    self.state = True
-                else:
-                    self.state = False
-            # mini point reached , cut out => activate
-            elif self.current_value <= self.min_point:
-                if self.reverse:
-                    self.state = True
-                else:
-                    self.state = False
-            elif self.current_value >= self.max_point:
-                if self.reverse:
-                    self.state = False
-                else:
-                    self.state = True
-
-        return self.state
+            self.__cut_out_handler()
+            return self.state
