@@ -7,7 +7,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "plant_kiper.settings")
 sys.path.append(os.path.dirname(os.path.dirname(os.path.join('..', '..', os.path.dirname('__file__')))))
 
 # import all controller to run in parallel
-from controllers import cooler, heater, vapor_generator
+from controllers import cooler, heater, vapor_generator, light
 
 # Run controller every  LOOP_EVERY value
 # value in second
@@ -34,5 +34,6 @@ def run_parallel(*fns):
 while True:
     run_parallel(cooler.main(),
                  heater.main(),
-                 vapor_generator.main())
+                 vapor_generator.main(),
+                 light.main())
     time.sleep(LOOP_EVERY)
