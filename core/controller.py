@@ -9,12 +9,15 @@ class BaseController:
     binary controller class
     """
 
-    def __init__(self, kind: str, neutral: float, delta_max: float, delta_min: float):
+    def __init__(self, kind: str, neutral: float,
+                 delta_max: float = 0, delta_min: float = 0,
+                 reverse: bool = False):
         assert isinstance(kind, str)
         assert kind in ('CUT_IN', 'CUT_OUT')
         assert isinstance(float(neutral), float)
         assert isinstance(float(delta_max), float)
         assert isinstance(float(delta_min), float)
+        assert isinstance(reverse, bool)
 
         self.kind: str = kind
         self.neutral: float = float(neutral)
@@ -24,6 +27,7 @@ class BaseController:
         self.min_point = neutral - delta_min
         self.state: bool = False
         self.current_value: float = 0.0
+        self.reverse = reverse
 
     def set_sensor_value(self, current_value: float) -> None:
         """
@@ -54,11 +58,20 @@ class BaseController:
         if self.kind == 'CUT_OUT':
             # neutral point => do nothing
             if self.min_point <= self.current_value <= self.max_point:
-                self.state = False
+                if self.reverse:
+                    self.state = True
+                else:
+                    self.state = False
             # mini point reached , cut out => activate
             elif self.current_value <= self.min_point:
-                self.state = False
+                if self.reverse:
+                    self.state = True
+                else:
+                    self.state = False
             elif self.current_value >= self.max_point:
-                self.state = True
+                if self.reverse:
+                    self.state = False
+                else:
+                    self.state = True
 
         return self.state

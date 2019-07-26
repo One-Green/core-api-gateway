@@ -138,11 +138,11 @@ Run server with:
 
 Open web browser, login, and create PlantSettings entry , controller wil try to load these values.
 
-For example, run Peltier controller
+For example, run cooler.py (cooler can decrease temperature and hygrometry)
 
 .. code-block:: shell
 
-    cd controllers && pipenv run python peltier.py
+    cd controllers && pipenv run python cooler.py
 
 - In web browser use Swagger
 
