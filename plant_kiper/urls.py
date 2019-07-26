@@ -26,10 +26,10 @@ urlpatterns = [
     url(r'^jet/', include('jet.urls', 'jet')),  # Django JET URLS
     path('admin/', admin.site.urls),
     path('enclosure/', views.EnclosureView.as_view()),
-    path('peltier/', views.PeltierCellView.as_view()),
+    path('cooler/', views.CoolerView.as_view()),
     path('vaporgenerator/', views.VaporGeneratorView.as_view()),
     path('watertank/', views.WaterTankView.as_view()),
-    path('electricalheater/', views.ElectricalHeaterView.as_view()),
+    path('heater/', views.HeaterView.as_view()),
     path('uvlight/', views.UvLightView.as_view()),
     path('co2valve/', views.CO2ValveView.as_view()),
     path('filters/', views.FiltersView.as_view())
