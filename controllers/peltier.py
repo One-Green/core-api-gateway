@@ -1,8 +1,9 @@
 import os
 import sys
 import time
+from typing import Union
+from datetime import datetime
 import django
-from pprint import pprint
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "plant_kiper.settings")
 sys.path.append(os.path.dirname(os.path.dirname(os.path.join('..', '..', os.path.dirname('__file__')))))
@@ -12,13 +13,15 @@ from core.controller import BaseController
 from core.aggregator import BaseAggregator
 from plant_core.models import PlantSettings
 from plant_core.models import (Enclosure,
-                               PeltierCell,
-                               VaporGenerator,
-                               WaterTank,
-                               ElectricalHeater,
-                               UvLight,
-                               CO2Valve,
-                               Filters)
+                               PeltierCell)
+
+# give a name for controlled device
+# for printing / logging purpose
+CONTROLLED_DEVICE: str = 'PELTIER'
+
+# Print template
+# generic template for logging/print (for log remove datetime_now)
+PRINT_TEMPLATE = '{datetime_now};{device};{temperature};{hygrometry};{_action}'
 
 # Example of configuration dict returned
 # by PlantSettings.get_settings()
@@ -31,7 +34,7 @@ from plant_core.models import (Enclosure,
 # 'soil_hygrometry': 52.0,
 # 'light_start': datetime.time(19, 10),
 # 'light_end': datetime.time(19, 30)}
-PLANT_SETTINGS = PlantSettings.get_settings()
+PLANT_SETTINGS: dict = PlantSettings.get_settings()
 
 # Cooling decrease controller
 temperature_dec_ctl = BaseController(kind='CUT_OUT',
@@ -40,15 +43,18 @@ temperature_dec_ctl = BaseController(kind='CUT_OUT',
                                      delta_min=0)
 # Hygrometry decrease controller
 hygrometry_dec_ctl = BaseController(kind='CUT_OUT',
-                                        neutral=PLANT_SETTINGS['air_hygrometry'],
-                                        delta_max=5,
-                                        delta_min=0)
+                                    neutral=PLANT_SETTINGS['air_hygrometry'],
+                                    delta_max=5,
+                                    delta_min=0)
 # Temperature + Hygrometry decrease are controlled by
 # one device -> peltier
 peltier_device_ctl = BaseAggregator([
     temperature_dec_ctl,
     hygrometry_dec_ctl
 ])
+
+first_loop: bool = True
+last_action: Union[bool, None] = None
 
 while True:
     # Read enclosure status
@@ -64,6 +70,19 @@ while True:
     hygrometry_dec_ctl.set_sensor_value(hr)
 
     # Get aggregated action
-    action = peltier_device_ctl.action
-    print(f'T={t}, HR={hr} => Peltier status = {action}')
+    action: bool = peltier_device_ctl.action
+    # init last_action for init
+    if first_loop:
+        first_loop = False
+        last_action = action
+        print(PRINT_TEMPLATE.format(datetime_now=datetime.now(), device=CONTROLLED_DEVICE,
+                                    temperature=t, hygrometry=hr, _action=action))
+        PeltierCell(power_status=action).save()
+
+    elif action != last_action:
+        last_action = action
+        print(PRINT_TEMPLATE.format(datetime_now=datetime.now(), device=CONTROLLED_DEVICE,
+                                    temperature=t, hygrometry=hr, _action=action))
+        PeltierCell(power_status=action).save()
+
     time.sleep(1)
