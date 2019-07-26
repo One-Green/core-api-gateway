@@ -37,7 +37,7 @@ class BaseController:
         """
         self.current_value = current_value
 
-    def __cut_in_handler(self):
+    def __cut_in_handler(self) -> None:
         """
         cut in kind handler
         :return:
@@ -53,7 +53,7 @@ class BaseController:
         elif self.current_value >= self.max_point:
             self.state = False
 
-    def __cut_out_handler(self):
+    def __cut_out_handler(self) -> None:
         """
         cut out kind handler
         :return:
