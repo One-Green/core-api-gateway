@@ -110,7 +110,7 @@ class VaporGenerator(models.Model):
     """
     created = models.DateTimeField(auto_now_add=True)
     water_level = models.FloatField(blank=True, null=True)
-    pump_power_status = models.BooleanField(blank=True, null=True, default=0)
+    power_status = models.BooleanField(blank=True, null=True, default=0)
 
     def save(self, *args, **kwargs):
         """
