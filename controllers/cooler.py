@@ -61,9 +61,6 @@ while True:
     enclosure_status = Enclosure.get_status()
     t = enclosure_status['enclosure_temperature']
     hr = enclosure_status['enclosure_hygrometry']
-    light = enclosure_status['enclosure_lightning']
-    co2 = enclosure_status['enclosure_air_co2_ppm']
-    cov = enclosure_status['enclosure_cov_ppm']
 
     # Set values to controller
     temperature_dec_ctl.set_sensor_value(t)
