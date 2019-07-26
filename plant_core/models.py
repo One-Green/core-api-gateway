@@ -30,7 +30,12 @@ class PlantSettings(models.Model):
         :param kwargs:
         :return:
         """
+        # if there no last config
         if not PlantSettings.objects.all().count():
+            super(PlantSettings, self).save(*args, **kwargs)
+        else:
+            # remove last config and save new one
+            PlantSettings.objects.all().delete()
             super(PlantSettings, self).save(*args, **kwargs)
 
     @classmethod
