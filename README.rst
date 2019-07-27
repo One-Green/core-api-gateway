@@ -63,7 +63,7 @@ Controllers will read in database latest value, and will take an action:
 .. code-block:: shell
 
     DATABASE ----------->  CONTROLLER  ----------->    DATABASE
-                            shit last sensors,
+                            shift last sensors,
                             update DB if controller
                             action require change status (OFF/ON)
 
