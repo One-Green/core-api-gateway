@@ -32,15 +32,17 @@ or make measurements directly with Raspberry PI.
 
 Lot of configuration is possible, such as this one :
 
-Sensor 1 ----------------------------------> Raspberry PI (Plant Keeper Server) -------> DATABASE
-                                                                                            ^
-                                     +---------+                                            |
-Sensor 2 ----> Arduino 1 ----------> |         | --------------------------------------------
-                                     |         |
-Sensor 3 ----> Arduino 2 ----------> |  REST   |
-                                     |  API    |
-Sensor 4 ----> Raspberry PI  ------> |         |
-                                     +---------+
+.. code-block:: shell
+
+    Sensor 1 ----------------------------------> Raspberry PI (Plant Keeper Server) -------> DATABASE
+                                                                                                ^
+                                         +---------+                                            |
+    Sensor 2 ----> Arduino 1 ----------> |         | --------------------------------------------
+                                         |         |
+    Sensor 3 ----> Arduino 2 ----------> |  REST   |
+                                         |  API    |
+    Sensor 4 ----> Raspberry PI  ------> |         |
+                                         +---------+
 
 
 
@@ -48,27 +50,32 @@ Controllers
 -----------
 
 Controllers will read in database latest value, and will take an action:
+
 - value based like:
     - eg:  activate cooling system if temperature is too high
     - eg: activate vapor generator if hygrometry is too low
+
 - time based :
     - eg: activate UV light in a time slot
 
+.. code-block:: shell
 
-DATABASE ----------->  CONTROLLER  ----------->    DATABASE
-                        shit last sensors,
-                        update DB if controller
-                        action require change status (OFF/ON)
+    DATABASE ----------->  CONTROLLER  ----------->    DATABASE
+                            shit last sensors,
+                            update DB if controller
+                            action require change status (OFF/ON)
 
 
 Actuators
 ---------
 
-Write custom
+Write custom actuators behaviours in **actuators/**
 
-DATABASE -----------> ACTUATOR ----------> ON/OFF DEVICES
-                      check if any
-                      change in DB
+.. code-block:: shell
+
+    DATABASE -----------> ACTUATOR ----------> ON/OFF DEVICES
+                          check if any
+                          change in DB
 
 WIP
 ===
@@ -132,7 +139,7 @@ BaseController require 3 arguments: type of controller, neutral point,
 maximum delta, minimum delta.
 
 - Type of controller must be string = 'CUT_IN' or 'CUT_OUT', in most case you should use 'CUT_OUT'
-there is a video to explain : https://www.youtube.com/watch?v=VwMn-5NV5eM
+    there is a video to explain : https://www.youtube.com/watch?v=VwMn-5NV5eM
 
 - Neutral point must be float, this a set point value, system always try to fit this value
 
