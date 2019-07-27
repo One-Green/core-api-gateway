@@ -35,15 +35,16 @@ Lot of configuration is possible, such as this one :
 
 .. code-block:: shell
 
-    Sensor 1 ----------------------------------> Raspberry PI (Plant Keeper Server) -------> DATABASE
-                                                                                                ^
-                                         +---------+                                            |
-    Sensor 2 ----> Arduino 1 ----------> |         | --------------------------------------------
-                                         |         |
-    Sensor 3 ----> Arduino 2 ----------> |  REST   |
-                                         |  API    |
-    Sensor 4 ----> Raspberry PI  ------> |         |
-                                         +---------+
+    Sensor 1 ----------------------------------> Raspberry PI / PC (Plant Keeper Server) -------> DATABASE
+                                                                        ^
+                                                                        |
+                                                   +---------+          |
+    Sensor 2 ----> Arduino 1 --------------------> |         | ----------
+                                                   |         |
+    Sensor 3 ----> Arduino 2 --------------------> |  REST   |
+                                                   |  API    |
+    Sensor 4 ----> Raspberry PI  ----------------> |         |
+                                                   +---------+
 
 
 
