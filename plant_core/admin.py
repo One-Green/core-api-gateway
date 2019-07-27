@@ -3,7 +3,7 @@ from plant_core.models import (PlantSettings,
                                Enclosure,
                                Cooler,
                                VaporGenerator,
-                               WaterTank,
+                               WaterPump,
                                Heater,
                                UvLight,
                                CO2Valve,
@@ -14,7 +14,7 @@ admin.site.register(PlantSettings)
 admin.site.register(Enclosure)
 admin.site.register(Cooler)
 admin.site.register(VaporGenerator)
-admin.site.register(WaterTank)
+admin.site.register(WaterPump)
 admin.site.register(Heater)
 admin.site.register(UvLight)
 admin.site.register(CO2Valve)

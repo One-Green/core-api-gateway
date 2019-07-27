@@ -6,7 +6,7 @@ from rest_framework import status
 from plant_core.models import (Enclosure,
                                Cooler,
                                VaporGenerator,
-                               WaterTank,
+                               WaterPump,
                                Heater,
                                UvLight,
                                CO2Valve,
@@ -16,7 +16,7 @@ from plant_core.models import (Enclosure,
 from plant_core.serializers import (EnclosureSerializer,
                                     CoolerSerializer,
                                     VaporGeneratorSerializer,
-                                    WaterTankSerializer,
+                                    WaterPumpSerializer,
                                     HeaterSerializer,
                                     UvLightSerializer,
                                     CO2ValveSerializer,
@@ -72,19 +72,19 @@ class VaporGeneratorView(GenericAPIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-class WaterTankView(GenericAPIView):
-    serializer_class = WaterTankSerializer
+class WaterPumpView(GenericAPIView):
+    serializer_class = WaterPumpSerializer
 
     @csrf_exempt
     def post(self, request):
-        serializer = WaterTankSerializer(data=request.data)
+        serializer = WaterPumpSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
         return Response({'saved': True}, status=status.HTTP_201_CREATED)
 
     @csrf_exempt
     def get(self, request):
-        serializer = WaterTankSerializer(WaterTank.objects.all(), many=True)
+        serializer = WaterPumpSerializer(WaterPump.objects.all(), many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
