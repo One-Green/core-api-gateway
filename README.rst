@@ -11,6 +11,65 @@
 .. image:: https://img.shields.io/badge/Ask%20me-anything-1abc9c.svg
     :target: mailto:shanmugathas.vigneswaran@outlook.fr
 
+Summary
+=======
+
+This project proposes an automated management of your indoor green plant.
+Including control of temperature, hygrometry, watering, UV lighting, air quality, CO2 level, and lot of other things.
+Controller classes are included in project **core** package
+
+
+All stages of measurement, control and action are separated.
+
+
+Measurements
+------------
+For the measurements, it is possible to feed the database either by REST API,
+or directly feed database with Python code in this part of project: **sensor/**.
+It means that it is possible to use an Arduino to make measurements, in order to post the values to Raspberry PI by REST API,
+or make measurements directly with Raspberry PI.
+
+
+Lot of configuration is possible, such as this one :
+
+Sensor 1 ----------------------------------> Raspberry PI (Plant Keeper Server) -------> DATABASE
+                                                                                            ^
+                                     +---------+                                            |
+Sensor 2 ----> Arduino 1 ----------> |         | --------------------------------------------
+                                     |         |
+Sensor 3 ----> Arduino 2 ----------> |  REST   |
+                                     |  API    |
+Sensor 4 ----> Raspberry PI  ------> |         |
+                                     +---------+
+
+
+
+Controllers
+-----------
+
+Controllers will read in database latest value, and will take an action:
+- value based like:
+    - eg:  activate cooling system if temperature is too high
+    - eg: activate vapor generator if hygrometry is too low
+- time based :
+    - eg: activate UV light in a time slot
+
+
+DATABASE ----------->  CONTROLLER  ----------->    DATABASE
+                        shit last sensors,
+                        update DB if controller
+                        action require change status (OFF/ON)
+
+
+Actuators
+---------
+
+Write custom
+
+DATABASE -----------> ACTUATOR ----------> ON/OFF DEVICES
+                      check if any
+                      change in DB
+
 WIP
 ===
 
