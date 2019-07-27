@@ -62,7 +62,7 @@ class Enclosure(models.Model):
         :return:
         """
         if Enclosure.objects.count() == 1000:
-            Enclosure.objects[0].delete()
+            Enclosure.objects.all().order_by('created')[0].delete()
         super(Enclosure, self).save(*args, **kwargs)
 
     @classmethod
@@ -108,7 +108,7 @@ class Cooler(models.Model):
     @classmethod
     def set_power_status(cls, new_status: bool):
         """
-        Function shit last sensors values
+        method shift last sensors values
         with new power status
         :param new_status:
         :return:
@@ -117,6 +117,18 @@ class Cooler(models.Model):
         cls(cold_surface_temperature=current_values['cold_surface_temperature'],
             hot_surface_temperature=current_values['hot_surface_temperature'],
             power_status=new_status).save()
+
+    @classmethod
+    def set_sensors(cls, new_sensors_values: dict):
+        """
+        method to shift power status with new values
+        :param new_sensors_values:
+        :return:
+        """
+        current_values = cls.get_status()
+        cls(cold_surface_temperature=new_sensors_values.get('cold_surface_temperature'),
+            hot_surface_temperature=new_sensors_values.get('hot_surface_temperature'),
+            power_status=current_values['power_status']).save()
 
     class Meta:
         ordering = ['created']
@@ -152,7 +164,7 @@ class VaporGenerator(models.Model):
     @classmethod
     def set_power_status(cls, new_status: bool):
         """
-        Function shit last sensors values
+        method shift last sensors values
         with new power status
         :param new_status:
         :return:
@@ -161,17 +173,29 @@ class VaporGenerator(models.Model):
         cls(water_level=current_values['water_level'],
             power_status=new_status).save()
 
+    @classmethod
+    def set_sensors(cls, new_sensors_values: dict):
+        """
+        method shift last sensors values
+        with new power status
+        :param new_sensors_values:
+        :return:
+        """
+        current_values = cls.get_status()
+        cls(water_level=new_sensors_values.get('water_level'),
+            power_status=current_values['power_status']).save()
+
     class Meta:
         ordering = ['created']
 
 
-class WaterTank(models.Model):
+class WaterPump(models.Model):
     """
     Water + plant nutriment tank I/O
     """
     created = models.DateTimeField(auto_now_add=True)
     water_level = models.FloatField(blank=True, null=True)
-    pump_power_status = models.BooleanField(blank=True, null=True, default=0)
+    power_status = models.BooleanField(blank=True, null=True, default=0)
 
     def save(self, *args, **kwargs):
         """
@@ -180,9 +204,9 @@ class WaterTank(models.Model):
         :param kwargs:
         :return:
         """
-        if WaterTank.objects.count() == 1000:
-            WaterTank.objects[0].delete()
-        super(WaterTank, self).save(*args, **kwargs)
+        if WaterPump.objects.count() == 1000:
+            WaterPump.objects[0].delete()
+        super(WaterPump, self).save(*args, **kwargs)
 
     @classmethod
     def get_status(cls):
@@ -195,7 +219,7 @@ class WaterTank(models.Model):
     @classmethod
     def set_power_status(cls, new_status: bool):
         """
-        Function shit last sensors values
+        method shift last sensors values
         with new power status
         :param new_status:
         :return:
@@ -203,6 +227,18 @@ class WaterTank(models.Model):
         current_values = cls.get_status()
         cls(water_level=current_values['water_level'],
             power_status=new_status).save()
+
+    @classmethod
+    def set_sensors(cls, new_sensors_values: dict):
+        """
+        method shift last sensors values
+        with new power status
+        :param new_sensors_values:
+        :return:
+        """
+        current_values = cls.get_status()
+        cls(water_level=new_sensors_values.get('water_level'),
+            power_status=current_values['power_status']).save()
 
     class Meta:
         ordering = ['created']
@@ -240,7 +276,7 @@ class Heater(models.Model):
     @classmethod
     def set_power_status(cls, new_status: bool):
         """
-        Function shit last sensors values
+        method shift last sensors values
         with new power status
         :param new_status:
         :return:
@@ -250,6 +286,20 @@ class Heater(models.Model):
             air_in_temperature=current_values['air_in_temperature'],
             air_out_temperature=current_values['air_out_temperature'],
             power_status=new_status).save()
+
+    @classmethod
+    def set_sensors(cls, new_sensors_values: dict):
+        """
+        method shift last sensors values
+        with new power status
+        :param new_sensors_values:
+        :return:
+        """
+        current_values = cls.get_status()
+        cls(hot_surface_temperature=new_sensors_values.get('hot_surface_temperature'),
+            air_in_temperature=new_sensors_values.get('air_in_temperature'),
+            air_out_temperature=new_sensors_values.get('air_out_temperature'),
+            power_status=current_values['power_status']).save()
 
     class Meta:
         ordering = ['created']
@@ -284,7 +334,7 @@ class UvLight(models.Model):
     @classmethod
     def set_power_status(cls, new_status: bool):
         """
-        Function shit last sensors values
+        method shift last sensors values
         with new power status
         :param new_status:
         :return:
@@ -327,7 +377,7 @@ class CO2Valve(models.Model):
     @classmethod
     def set_power_status(cls, new_status: bool):
         """
-        Function shit last sensors values
+        method shift last sensors values
         with new power status
         :param new_status:
         :return:
@@ -336,6 +386,19 @@ class CO2Valve(models.Model):
         cls(high_pressure=current_values['high_pressure'],
             low_pressure=current_values['low_pressure'],
             power_status=new_status).save()
+
+    @classmethod
+    def set_sensors(cls, new_sensors_values: dict):
+        """
+        method shift last sensors values
+        with new power status
+        :param new_sensors_values:
+        :return:
+        """
+        current_values = cls.get_status()
+        cls(high_pressure=new_sensors_values.get('high_pressure'),
+            low_pressure=new_sensors_values.get('low_pressure'),
+            power_status=current_values['power_status']).save()
 
     class Meta:
         ordering = ['created']
