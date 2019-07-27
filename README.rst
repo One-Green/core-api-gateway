@@ -7,11 +7,11 @@
    :aling: center
 
 .. image:: https://travis-ci.org/ismael001/plant-keeper.svg?branch=master
-  :target: https://travis-ci.org/ismael001/plant-keeper
+   :target: https://travis-ci.org/ismael001/plant-keeper
    :aling: center
 
 .. image:: https://img.shields.io/badge/Ask%20me-anything-1abc9c.svg
-    :target: mailto:shanmugathas.vigneswaran@outlook.fr
+   :target: mailto:shanmugathas.vigneswaran@outlook.fr
    :aling: center
 
 Summary
