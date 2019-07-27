@@ -85,15 +85,13 @@ WIP
 - Tests
 - Controller for Raspberry PI
 
-Before start
-============
+Technical & Used framework
+==========================
 
-You should have some basics knowledge :
-
-- Python OO :
-- Django Framework : https://www.djangoproject.com/
-- RESTful tutorial : https://www.restapitutorial.com/
+- Python OO - used is this project: [??]
+- Django Framework REST API server + Admin UI interface : https://www.djangoproject.com/
 - Django Rest Framework : https://www.django-rest-framework.org/
+- Swagger - API are auto documented, POST/GET with web browser OK : https://swagger.io/docs/specification/about/
 
 
 Python and Django Based Plant controller
