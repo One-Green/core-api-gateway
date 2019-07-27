@@ -88,7 +88,8 @@ WIP
 Technical & Used framework
 ==========================
 
-- Python OO - used is this project: [??]
+- SQLite for dev purpose/hobby, change to Postgres for intense usage.
+- Python OO - used is this project
 - Django Framework REST API server + Admin UI interface : https://www.djangoproject.com/
 - Django Rest Framework : https://www.django-rest-framework.org/
 - Swagger - API are auto documented, POST/GET with web browser OK : https://swagger.io/docs/specification/about/
