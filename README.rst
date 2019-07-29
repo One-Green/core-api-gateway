@@ -5,8 +5,8 @@
 .. image:: https://img.shields.io/badge/Python-3.7.4-<COLOR>.svg
    :target: https://www.python.org
 
-.. image:: https://travis-ci.org/ismael001/plant-keeper.svg?branch=master
-   :target: https://travis-ci.org/ismael001/plant-keeper
+.. image:: https://travis-ci.org/shanisma/plant-keeper.svg?branch=master
+   :target: https://travis-ci.org/shanisma/plant-keeper
 
 .. image:: https://img.shields.io/badge/Ask%20me-anything-1abc9c.svg
    :target: mailto:shanmugathas.vigneswaran@outlook.fr
