@@ -1,15 +1,14 @@
 import os
 import sys
-import time
 from typing import Union
-from datetime import datetime
+from datetime import time, datetime
 import django
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "plant_kiper.settings")
 sys.path.append(os.path.dirname(os.path.dirname(os.path.join('..', '..', os.path.dirname('__file__')))))
 django.setup()
 
-from core.controller import BaseTimeController
+from core.controller import BaseTimeRangeController
 from plant_core.models import PlantSettings
 from plant_core.models import UvLight
 
@@ -40,7 +39,7 @@ start_at = PLANT_SETTINGS['light_start']
 end_at = PLANT_SETTINGS['light_end']
 
 # Create time based controller
-uv_io_ctl = BaseTimeController(start_at, end_at)
+uv_io_ctl = BaseTimeRangeController(start_at, end_at)
 
 first_loop: bool = True
 last_action: Union[bool, None] = None
@@ -49,6 +48,8 @@ last_action: Union[bool, None] = None
 def main():
     global first_loop, last_action
 
+    # set current time
+    uv_io_ctl.set_current_time(datetime.now().time())
     # Get action
     action: bool = uv_io_ctl.action
     # init last_action for init
