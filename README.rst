@@ -210,11 +210,12 @@ Run server and open a web browser to:
 End to end test a controller
 ============================
 
-Run server with:
+Run server with in development mode:
 
 .. code-block:: shell
 
     sudo pipenv run python manage.py runserver
+    # for prod use WSGI like gunicorn  / werkzeug / bjoern
 
 Open web browser, login, and create PlantSettings entry , controller wil try to load these values.
 
