@@ -37,7 +37,7 @@ class EnclosureView(GenericAPIView):
     @csrf_exempt
     def get(self, request):
         serializer = EnclosureSerializer(Enclosure.objects.all(), many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.data[-1], status=status.HTTP_200_OK)
 
 
 class CoolerView(GenericAPIView):
@@ -53,7 +53,7 @@ class CoolerView(GenericAPIView):
     @csrf_exempt
     def get(self, request):
         serializer = CoolerSerializer(Cooler.objects.all(), many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.data[-1], status=status.HTTP_200_OK)
 
 
 class VaporGeneratorView(GenericAPIView):
@@ -69,7 +69,7 @@ class VaporGeneratorView(GenericAPIView):
     @csrf_exempt
     def get(self, request):
         serializer = VaporGeneratorSerializer(VaporGenerator.objects.all(), many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.data[-1], status=status.HTTP_200_OK)
 
 
 class WaterPumpView(GenericAPIView):
@@ -85,7 +85,7 @@ class WaterPumpView(GenericAPIView):
     @csrf_exempt
     def get(self, request):
         serializer = WaterPumpSerializer(WaterPump.objects.all(), many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.data[-1], status=status.HTTP_200_OK)
 
 
 class HeaterView(GenericAPIView):
@@ -101,7 +101,7 @@ class HeaterView(GenericAPIView):
     @csrf_exempt
     def get(self, request):
         serializer = HeaterSerializer(Heater.objects.all(), many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.data[-1], status=status.HTTP_200_OK)
 
 
 class UvLightView(GenericAPIView):
@@ -117,7 +117,7 @@ class UvLightView(GenericAPIView):
     @csrf_exempt
     def get(self, request):
         serializer = UvLightSerializer(UvLight.objects.all(), many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.data[-1], status=status.HTTP_200_OK)
 
 
 class CO2ValveView(GenericAPIView):
@@ -133,7 +133,7 @@ class CO2ValveView(GenericAPIView):
     @csrf_exempt
     def get(self, request):
         serializer = CO2ValveSerializer(CO2Valve.objects.all(), many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.data[-1], status=status.HTTP_200_OK)
 
 
 class FiltersView(GenericAPIView):
@@ -149,7 +149,7 @@ class FiltersView(GenericAPIView):
     @csrf_exempt
     def get(self, request):
         serializer = FiltersView(Filters.objects.all(), many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.data[-1], status=status.HTTP_200_OK)
 
 
 class SimpleFlapsView(GenericAPIView):
@@ -165,4 +165,4 @@ class SimpleFlapsView(GenericAPIView):
     @csrf_exempt
     def get(self, request):
         serializer = SimpleFlapsSerializer(SimpleFlaps.objects.all(), many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.data[-1], status=status.HTTP_200_OK)
