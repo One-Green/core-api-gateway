@@ -6,7 +6,7 @@ up-raspap:
 
 up-pk-api-gateway: plant_kiper/wsgi.py
 	# pipenv run python manage.py runserver 0.0.0.0:80
-	pipenv run gunicorn plant_kiper.wsgi
+	pipenv run gunicorn --workers=3 plant_kiper.wsgi
 
 up-pk-dev-ctl: controllers/run.py
 	cd controllers && pipenv run python run.py
