@@ -1,7 +1,8 @@
 import os
 import sys
 from typing import Union
-from datetime import time, datetime
+import time
+from datetime import datetime
 import django
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "plant_kiper.settings")
