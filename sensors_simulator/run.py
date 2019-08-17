@@ -6,7 +6,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.join('..', '..', os.path
 
 from core.helpers import run_parallel
 # import all controller to run in parallel
-from sensors import enclosure
+from sensors_simulator import enclosure
 
 # Run controller every  LOOP_EVERY value
 # value in second

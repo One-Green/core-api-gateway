@@ -45,9 +45,9 @@ def main():
     new_read = read_input()
     Enclosure(enclosure_temperature=new_read['enclosure_temperature'],
               enclosure_hygrometry=new_read['enclosure_hygrometry'],
-              enclosure_lightning=new_read['enclosure_lightning'],
-              enclosure_air_co2_ppm=new_read['enclosure_air_co2_ppm'],
-              enclosure_cov_ppm=new_read['enclosure_cov_ppm']).save()
+              enclosure_uv_index=new_read['enclosure_uv_index'],
+              enclosure_cov_ppm=new_read['enclosure_cov_ppm'],
+              enclosure_co2_ppm=new_read['enclosure_co2_ppm']).save()
 
     print(PRINT_TEMPLATE.format(datetime_now=datetime.now(),
                                 device=RELATED_SENSORS,
