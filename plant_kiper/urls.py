@@ -18,8 +18,8 @@ from django.urls import path, include
 from django.conf.urls import url
 from plant_core import views
 from rest_framework_swagger.views import get_swagger_view
-
-schema_view = get_swagger_view(title='Plant Keeper API')
+from .settings import __version__
+schema_view = get_swagger_view(title=f'Plant Keeper API Gateway - v{__version__}')
 
 urlpatterns = [
     url(r'^$', schema_view),
