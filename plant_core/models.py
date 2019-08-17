@@ -50,8 +50,8 @@ class Enclosure(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     enclosure_temperature = models.FloatField(blank=True, null=True)
     enclosure_hygrometry = models.FloatField(blank=True, null=True)
-    enclosure_lightning = models.FloatField(blank=True, null=True)
-    enclosure_air_co2_ppm = models.FloatField(blank=True, null=True)
+    enclosure_uv_index = models.CharField(blank=True, null=True, max_length=30)
+    enclosure_co2_ppm = models.FloatField(blank=True, null=True)
     enclosure_cov_ppm = models.FloatField(blank=True, null=True)
 
     def save(self, *args, **kwargs):
