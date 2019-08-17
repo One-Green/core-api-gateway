@@ -4,9 +4,13 @@ up-raspap:
 	# install RaspAP to create Wifi acces point for Node-Devices
 	wget -q https://git.io/voEUQ -O /tmp/raspap && bash /tmp/raspap
 
-up-pk-api-gateway: plant_kiper/wsgi.py
-	# pipenv run python manage.py runserver 0.0.0.0:80
-	pipenv run gunicorn --workers=3 plant_kiper.wsgi
+up-django: ##@dev
+	pipenv run python manage.py makemigrations plant_core
+	pipenv run python manage.py migrate
+	pipenv run python manage.py collectstatic
+
+up-pk-api-gateway: up-django plant_kiper/wsgi.py
+	pipenv run gunicorn --workers=3 --bind 0.0.0.0:80 plant_kiper.wsgi
 
 up-pk-dev-ctl: controllers/run.py
 	cd controllers && pipenv run python run.py
@@ -32,9 +36,6 @@ up-grafana:
 	# ethernet to localport 3000>3000
 	sudo iptables -t nat -A PREROUTING -p tcp --dport 3000 -j REDIRECT --to-port 3000
 
-updb: ##@dev
-	pipenv run python manage.py makemigrations
-	pipenv run python manage.py migrate
 
 create-su: ##@dev
 	-pipenv run python manage.py shell -c "from django.contrib.auth.models import User; User.objects.create_superuser('admin', 'admin@example.com', 'admin')" || echo "Error while creating admin"
