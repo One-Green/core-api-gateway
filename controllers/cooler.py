@@ -85,6 +85,7 @@ def main():
                                     temperature=t, hygrometry=hr, _action=action))
         Cooler.set_power_status(action)
 
+
 if __name__ == '__main__':
     print(f'[!] Warning: {CONTROLLED_DEVICE} device debug mode, use controller/run.py to load controller')
     while True:
