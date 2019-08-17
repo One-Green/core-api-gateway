@@ -23,6 +23,33 @@ Controller classes are included in project **core** package
 All stages of measurement, control and action are separated.
 
 
+QuickStart
+==========
+
+Tested with this configuration
+
+- Server board : Raspberry PI 3 B+
+
+- Wifi dongle for creating Wifi Access Point: TP-Link TL-WN823N
+
+
+You can download built image with this configuration:
+
+- OS: Raspbian Buster Lite
+
+- Wifi Access point GUI : RaspAP https://github.com/billz/raspap-webgui
+
+- OpenSSL 3 : https://github.com/openssl/openssl
+
+- Python 3.7.4 + Plant Keeper ready to work
+
+- Prometheus : https://github.com/prometheus/prometheus
+
+- Grafana : https://github.com/grafana/grafana
+
+Download link : https://mega.nz/#F!poomHY7Q!CAquPssQKujhjeonsXw__g
+
+
 Measurements
 ------------
 For the measurements, it is possible to feed the database either by REST API,
