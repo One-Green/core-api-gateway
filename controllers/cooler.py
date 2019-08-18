@@ -61,29 +61,30 @@ def main():
     global first_loop, last_action
 
     # Read enclosure status
-    enclosure_status = Enclosure.get_status()
-    t = enclosure_status['enclosure_temperature']
-    hr = enclosure_status['enclosure_hygrometry']
+    status = Enclosure.get_status()
+    if not status == {}:
+        t = status['enclosure_temperature']
+        hr = status['enclosure_hygrometry']
 
-    # Set values to controller
-    temperature_dec_ctl.set_sensor_value(t)
-    hygrometry_dec_ctl.set_sensor_value(hr)
+        # Set values to controller
+        temperature_dec_ctl.set_sensor_value(t)
+        hygrometry_dec_ctl.set_sensor_value(hr)
 
-    # Get aggregated action
-    action: bool = peltier_device_ctl.action
-    # init last_action for init
-    if first_loop:
-        first_loop = False
-        last_action = action
-        print(PRINT_TEMPLATE.format(datetime_now=datetime.now(), device=CONTROLLED_DEVICE,
-                                    temperature=t, hygrometry=hr, _action=action))
-        Cooler.set_power_status(action)
+        # Get aggregated action
+        action: bool = peltier_device_ctl.action
+        # init last_action for init
+        if first_loop:
+            first_loop = False
+            last_action = action
+            print(PRINT_TEMPLATE.format(datetime_now=datetime.now(), device=CONTROLLED_DEVICE,
+                                        temperature=t, hygrometry=hr, _action=action))
+            Cooler.set_power_status(action)
 
-    elif action != last_action:
-        last_action = action
-        print(PRINT_TEMPLATE.format(datetime_now=datetime.now(), device=CONTROLLED_DEVICE,
-                                    temperature=t, hygrometry=hr, _action=action))
-        Cooler.set_power_status(action)
+        elif action != last_action:
+            last_action = action
+            print(PRINT_TEMPLATE.format(datetime_now=datetime.now(), device=CONTROLLED_DEVICE,
+                                        temperature=t, hygrometry=hr, _action=action))
+            Cooler.set_power_status(action)
 
 
 if __name__ == '__main__':

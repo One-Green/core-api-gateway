@@ -53,33 +53,34 @@ last_action: Union[bool, None] = None
 def main():
     global first_loop, last_action
     # Read enclosure status
-    enclosure_status = Enclosure.get_status()
-    hr = enclosure_status['enclosure_hygrometry']
+    status = Enclosure.get_status()
+    if not status == {}:
+        hr = status['enclosure_hygrometry']
 
-    vapor_gen_status = VaporGenerator.get_status()
-    _water_level = vapor_gen_status['water_level']
+        vapor_gen_status = VaporGenerator.get_status()
+        _water_level = vapor_gen_status['water_level']
 
-    # Set values to controller
-    hygrometry_inc_ctl.set_sensor_value(hr)
-    # Get action
-    action: bool = hygrometry_inc_ctl.action
+        # Set values to controller
+        hygrometry_inc_ctl.set_sensor_value(hr)
+        # Get action
+        action: bool = hygrometry_inc_ctl.action
 
-    if _water_level < MIN_WATER_LEVEL:
-        print(PRINT_TEMPLATE.format(datetime_now=datetime.now(), device=CONTROLLED_DEVICE,
-                                    hygrometry=hr, _action='[!] Water level to low , fill water tank'))
-    # init last_action for init
-    elif first_loop:
-        first_loop = False
-        last_action = action
-        print(PRINT_TEMPLATE.format(datetime_now=datetime.now(), device=CONTROLLED_DEVICE,
-                                    hygrometry=hr, _action=action))
-        VaporGenerator.set_power_status(action)
+        if _water_level < MIN_WATER_LEVEL:
+            print(PRINT_TEMPLATE.format(datetime_now=datetime.now(), device=CONTROLLED_DEVICE,
+                                        hygrometry=hr, _action='[!] Water level to low , fill water tank'))
+        # init last_action for init
+        elif first_loop:
+            first_loop = False
+            last_action = action
+            print(PRINT_TEMPLATE.format(datetime_now=datetime.now(), device=CONTROLLED_DEVICE,
+                                        hygrometry=hr, _action=action))
+            VaporGenerator.set_power_status(action)
 
-    elif action != last_action:
-        last_action = action
-        print(PRINT_TEMPLATE.format(datetime_now=datetime.now(), device=CONTROLLED_DEVICE,
-                                    hygrometry=hr, _action=action))
-        VaporGenerator.set_power_status(action)
+        elif action != last_action:
+            last_action = action
+            print(PRINT_TEMPLATE.format(datetime_now=datetime.now(), device=CONTROLLED_DEVICE,
+                                        hygrometry=hr, _action=action))
+            VaporGenerator.set_power_status(action)
 
 
 if __name__ == '__main__':

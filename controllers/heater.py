@@ -49,25 +49,26 @@ last_action: Union[bool, None] = None
 def main():
     global first_loop, last_action
     # Read enclosure status
-    enclosure_status = Enclosure.get_status()
-    t = enclosure_status['enclosure_temperature']
-    # Set values to controller
-    temperature_inc_ctl.set_sensor_value(t)
+    status = Enclosure.get_status()
+    if not status == {}:
+        t = status['enclosure_temperature']
+        # Set values to controller
+        temperature_inc_ctl.set_sensor_value(t)
 
-    # Get action
-    action: bool = temperature_inc_ctl.action
-    # init last_action for init
-    if first_loop:
-        first_loop = False
-        last_action = action
-        print(PRINT_TEMPLATE.format(datetime_now=datetime.now(), device=CONTROLLED_DEVICE,
-                                    temperature=t, _action=action))
-        Heater.set_power_status(action)
-    elif action != last_action:
-        last_action = action
-        print(PRINT_TEMPLATE.format(datetime_now=datetime.now(), device=CONTROLLED_DEVICE,
-                                    temperature=t, _action=action))
-        Heater.set_power_status(action)
+        # Get action
+        action: bool = temperature_inc_ctl.action
+        # init last_action for init
+        if first_loop:
+            first_loop = False
+            last_action = action
+            print(PRINT_TEMPLATE.format(datetime_now=datetime.now(), device=CONTROLLED_DEVICE,
+                                        temperature=t, _action=action))
+            Heater.set_power_status(action)
+        elif action != last_action:
+            last_action = action
+            print(PRINT_TEMPLATE.format(datetime_now=datetime.now(), device=CONTROLLED_DEVICE,
+                                        temperature=t, _action=action))
+            Heater.set_power_status(action)
 
 
 if __name__ == '__main__':
