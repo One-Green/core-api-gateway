@@ -16,6 +16,7 @@ from core.uv_helpers import UV_INDEX
 
 SUB_SYS: str = 'Prometheus client'
 INFO: str = 'Server created at http://localhost:8000, ensure Prometheus Server is running'
+ERROR_INDICATOR: float = 999.
 
 # Create sensors
 enclosure_temperature = Gauge('enclosure_temperature', 'Enclosure temperature')
@@ -37,10 +38,10 @@ def main():
     :return:
     """
     while True:
-        enclosure_temperature.set(Enclosure.get_status()['enclosure_temperature'])
+        enclosure_temperature.set(Enclosure.get_status().get('enclosure_temperature', ERROR_INDICATOR))
         # devices power status
-        cooler_status.set(float(Cooler.get_status()['power_status']))
-        heater_cooler_status.set(float(Heater.get_status()['power_status']))
+        cooler_status.set(float(Cooler.get_status().get('power_status', ERROR_INDICATOR)))
+        heater_cooler_status.set(float(Heater.get_status().get('power_status', ERROR_INDICATOR)))
         time.sleep(1)
 
 
