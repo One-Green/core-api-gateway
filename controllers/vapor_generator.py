@@ -57,7 +57,7 @@ def main():
     # Read Vapor generator water level
     vapor_gen_status = VaporGenerator.get_status()
 
-    if not status == {} and vapor_gen_status == {}:
+    if not status == {} and not vapor_gen_status == {}:
         hr = status['enclosure_hygrometry']
         _water_level = vapor_gen_status['water_level']
 
