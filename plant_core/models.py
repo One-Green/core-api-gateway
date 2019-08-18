@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.exceptions import ObjectDoesNotExist
 
 
 class PlantSettings(models.Model):
@@ -71,7 +72,10 @@ class Enclosure(models.Model):
         get latest values
         :return:
         """
-        return cls.objects.values().latest('created')
+        try:
+            return cls.objects.values().latest('created')
+        except ObjectDoesNotExist:
+            return {}
 
     class Meta:
         ordering = ['created']
@@ -103,7 +107,10 @@ class Cooler(models.Model):
         get latest values
         :return:
         """
-        return cls.objects.values().latest('created')
+        try:
+            return cls.objects.values().latest('created')
+        except ObjectDoesNotExist:
+            return {}
 
     @classmethod
     def set_power_status(cls, new_status: bool):
@@ -159,7 +166,10 @@ class VaporGenerator(models.Model):
         get latest values
         :return:
         """
-        return cls.objects.values().latest('created')
+        try:
+            return cls.objects.values().latest('created')
+        except ObjectDoesNotExist:
+            return {}
 
     @classmethod
     def set_power_status(cls, new_status: bool):
@@ -214,7 +224,10 @@ class WaterPump(models.Model):
         get latest values
         :return:
         """
-        return cls.objects.values().latest('created')
+        try:
+            return cls.objects.values().latest('created')
+        except ObjectDoesNotExist:
+            return {}
 
     @classmethod
     def set_power_status(cls, new_status: bool):
@@ -271,7 +284,10 @@ class Heater(models.Model):
         get latest values
         :return:
         """
-        return cls.objects.values().latest('created')
+        try:
+            return cls.objects.values().latest('created')
+        except ObjectDoesNotExist:
+            return {}
 
     @classmethod
     def set_power_status(cls, new_status: bool):
@@ -329,7 +345,10 @@ class UvLight(models.Model):
         get latest values
         :return:
         """
-        return cls.objects.values().latest('created')
+        try:
+            return cls.objects.values().latest('created')
+        except ObjectDoesNotExist:
+            return {}
 
     @classmethod
     def set_power_status(cls, new_status: bool):
@@ -372,7 +391,10 @@ class CO2Valve(models.Model):
         get latest values
         :return:
         """
-        return cls.objects.values().latest('created')
+        try:
+            return cls.objects.values().latest('created')
+        except ObjectDoesNotExist:
+            return {}
 
     @classmethod
     def set_power_status(cls, new_status: bool):
@@ -430,7 +452,10 @@ class Filters(models.Model):
         get latest values
         :return:
         """
-        return cls.objects.values().latest('created')
+        try:
+            return cls.objects.values().latest('created')
+        except ObjectDoesNotExist:
+            return {}
 
     class Meta:
         ordering = ['created']
