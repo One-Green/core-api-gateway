@@ -121,8 +121,8 @@ class Cooler(models.Model):
         :return:
         """
         current_values = cls.get_status()
-        cls(cold_surface_temperature=current_values['cold_surface_temperature'],
-            hot_surface_temperature=current_values['hot_surface_temperature'],
+        cls(cold_surface_temperature=current_values.get('cold_surface_temperature'),
+            hot_surface_temperature=current_values.get('hot_surface_temperature'),
             power_status=new_status).save()
 
     @classmethod
@@ -180,7 +180,7 @@ class VaporGenerator(models.Model):
         :return:
         """
         current_values = cls.get_status()
-        cls(water_level=current_values['water_level'],
+        cls(water_level=current_values.get('water_level'),
             power_status=new_status).save()
 
     @classmethod
@@ -238,7 +238,7 @@ class WaterPump(models.Model):
         :return:
         """
         current_values = cls.get_status()
-        cls(water_level=current_values['water_level'],
+        cls(water_level=current_values.get('water_level'),
             power_status=new_status).save()
 
     @classmethod
@@ -298,9 +298,9 @@ class Heater(models.Model):
         :return:
         """
         current_values = cls.get_status()
-        cls(hot_surface_temperature=current_values['hot_surface_temperature'],
-            air_in_temperature=current_values['air_in_temperature'],
-            air_out_temperature=current_values['air_out_temperature'],
+        cls(hot_surface_temperature=current_values.get('hot_surface_temperature'),
+            air_in_temperature=current_values.get('air_in_temperature'),
+            air_out_temperature=current_values.get('air_out_temperature'),
             power_status=new_status).save()
 
     @classmethod
@@ -405,8 +405,8 @@ class CO2Valve(models.Model):
         :return:
         """
         current_values = cls.get_status()
-        cls(high_pressure=current_values['high_pressure'],
-            low_pressure=current_values['low_pressure'],
+        cls(high_pressure=current_values.get('high_pressure'),
+            low_pressure=current_values.get('low_pressure'),
             power_status=new_status).save()
 
     @classmethod
