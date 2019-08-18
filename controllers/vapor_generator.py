@@ -54,10 +54,11 @@ def main():
     global first_loop, last_action
     # Read enclosure status
     status = Enclosure.get_status()
-    if not status == {}:
-        hr = status['enclosure_hygrometry']
+    # Read Vapor generator water level
+    vapor_gen_status = VaporGenerator.get_status()
 
-        vapor_gen_status = VaporGenerator.get_status()
+    if not status == {} and vapor_gen_status == {}:
+        hr = status['enclosure_hygrometry']
         _water_level = vapor_gen_status['water_level']
 
         # Set values to controller
