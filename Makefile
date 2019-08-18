@@ -25,9 +25,18 @@ up-prometheus: prometheus.yml
 	wget https://github.com/prometheus/prometheus/releases/download/v2.12.0-rc.0/prometheus-2.12.0-rc.0.linux-armv7.tar.gz
 	tar xf prometheus-2.12.0-rc.0.linux-armv7.tar.gz
 	# copy current prometheus configuration
+
+up-prom-server:
 	yes | sudo cp prometheus.yml ../prometheus-2.12.0-rc.0.linux-armv7
 	# start prometheus server
 	cd .. && cd /prometheus-2.12.0-rc.0.linux-armv7 && ./prometheus --config.file="prometheus.yml"
+
+up-prometheus-local: prometheus.yml #@dev start prom server + grafana
+	# localhost:9090
+	prometheus --config.file="prometheus.yml"
+	# localhost:3000
+	brew services start grafana
+
 
 up-grafana:
 	# download and install Granafa
