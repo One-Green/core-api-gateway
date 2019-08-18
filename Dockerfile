@@ -5,8 +5,8 @@ RUN rm db.sqlite3 || echo "db.sqlite not found"
 RUN rm Pipfile.lock || echo "Pipfile.lock not found"
 RUN pip install --upgrade pip
 RUN pip install pipenv && pipenv install --skip-lock
-RUN pipenv run python manage.py makemigrations
-RUN pipenv run python manage.py makemigrations plant_core
+RUN pipenv run python manage.py makemigrations --noinput
+RUN pipenv run python manage.py makemigrations plant_core --noinput
 RUN pipenv run python manage.py migrate
 RUN pipenv run python manage.py collectstatic
 RUN pipenv run python create_plant_keeper_user.py
