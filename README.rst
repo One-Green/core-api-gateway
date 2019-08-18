@@ -23,8 +23,8 @@ Controller classes are included in project **core** package
 All stages of measurement, control and action are separated.
 
 
-QuickStart
-==========
+QuickStart : Docker way
+=======================
 
 Tested with this configuration
 
@@ -32,22 +32,46 @@ Tested with this configuration
 
 - Wifi dongle for creating Wifi Access Point: TP-Link TL-WN823N
 
+If you want use dedicated Wifi Access Point for Plant-Keeper use RaspAP https://github.com/billz/raspap-webgui.
+This is the quicker way to set and configure Wifi Access Point, you need USB Wifi Dongle.
 
-You can download built image with this configuration:
+Docker way to quick start Plant-Keeper + Prometheus + Grafana, follow steps here:
 
-- OS: Raspbian Buster Lite
+.. code-block:: shell
 
-- Wifi Access point GUI : RaspAP https://github.com/billz/raspap-webgui
+    # install docker-ce
+    curl -sSL https://get.docker.com | sh
+    sudo usermod -aG docker pi
 
-- OpenSSL 3 : https://github.com/openssl/openssl
+    # install docker-compose
+    sudo apt python-pip
+    sudo pip install docker-compose
 
-- Python 3.7.4 + Plant Keeper ready to work
+    # Run Plant keeper
+    sudo docker-compose up
 
-- Prometheus : https://github.com/prometheus/prometheus
 
-- Grafana : https://github.com/grafana/grafana
+Access to Django Admin :
+    - default credentials: login=plant/pwd=keeper
+    - Not using RaspAP: http://<RaspberryIP>:8001/admin
+    - With RaspAP: http://10.3.141.1:8001/admin
 
-Download link : https://mega.nz/#F!poomHY7Q!CAquPssQKujhjeonsXw__g
+Access to Swagger :
+    - no credentials required
+    - Not using RaspAP: http://<RaspberryIP>:8001
+    - With RaspAP :  http://10.3.141.1:8001
+
+Access to Grafana:
+    - default credentials : login=admin/pwd=admin
+    - Not using RasAP: http://<RaspberryIP>:3000
+    - With RaspAP : http://10.3.141.1:3000
+
+
+Grafana add Prometheus data source, and load default dashboard:
+    - Use Prometheus Data source
+    - Use HTTP/URL : http://prom:9090 , click on "Test and Save"
+    - Load dashboard with "Create" button, click on "Import", click on "Upload .json file" and load **grafana.json**
+
 
 
 Measurements
