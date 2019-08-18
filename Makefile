@@ -20,16 +20,17 @@ up-pk-prom-export: prometheus.py
 
 up-plant-keeper: up-pk-api-gateway up-pk-dev-ctl up-pk-prom-export
 
-up-prometheus: prometheus.yml
+dl-prometheus: prometheus.yml
 	# download and install Prometheus
 	wget https://github.com/prometheus/prometheus/releases/download/v2.12.0-rc.0/prometheus-2.12.0-rc.0.linux-armv7.tar.gz
 	tar xf prometheus-2.12.0-rc.0.linux-armv7.tar.gz
+	mv prometheus-2.12.0-rc.0.linux-armv7 prometheus
 	# copy current prometheus configuration
 
 up-prom-server:
-	yes | sudo cp prometheus.yml ../prometheus-2.12.0-rc.0.linux-armv7
+	yes | sudo cp prometheus.yml ../prometheus
 	# start prometheus server
-	cd .. && cd /prometheus-2.12.0-rc.0.linux-armv7 && ./prometheus --config.file="prometheus.yml"
+	cd /home/pi/prometheus/ && ./prometheus --config.file="prometheus.yml"
 
 up-prometheus-local: prometheus.yml #@dev start prom server + grafana
 	# localhost:9090
