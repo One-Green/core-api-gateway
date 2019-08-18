@@ -8,7 +8,7 @@ RUN pip install pipenv && pipenv install --skip-lock
 RUN pipenv run python manage.py makemigrations --noinput
 RUN pipenv run python manage.py makemigrations plant_core --noinput
 RUN pipenv run python manage.py migrate
-RUN pipenv run python manage.py collectstatic
+RUN yes | pipenv run python manage.py collectstatic
 RUN pipenv run python create_plant_keeper_user.py
 
 CMD pipenv run gunicorn --workers=3 --bind 0.0.0.0:8001 --daemon plant_kiper.wsgi  &&\
