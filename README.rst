@@ -35,6 +35,27 @@ Tested with this configuration
 If you want use dedicated Wifi Access Point for Plant-Keeper use RaspAP https://github.com/billz/raspap-webgui.
 This is the quicker way to set and configure Wifi Access Point, you need USB Wifi Dongle.
 
+From https://raw.githubusercontent.com/billz/raspap-webgui/master/README.md
+
+Install RaspAP from your RaspberryPi's shell prompt:
+
+.. code-block:: shell
+
+    sudo apt update && apt install -y wget
+    wget -q https://git.io/voEUQ -O /tmp/raspap && bash /tmp/raspap
+
+The installer will complete the steps in the manual installation (below) for you.
+
+After the reboot at the end of the installation the wireless network will be
+configured as an access point as follows:
+- IP address: 10.3.141.1
+    - Username: admin
+    - Password: secret
+- DHCP range: 10.3.141.50 to 10.3.141.255
+- SSID: **raspi-webgui**
+- Password: **ChangeMe**
+
+
 Docker way to quick start Plant-Keeper + Prometheus + Grafana, follow steps here:
 
 .. code-block:: shell
