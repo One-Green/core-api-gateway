@@ -38,6 +38,6 @@ scrape_configs:
   - job_name: 'main-docker'
     scrape_interval: 3s
     static_configs:
-      - targets: ['plant-keeper:8000']
+      - targets: ['plant-keeper-prom-client:8000']
         labels:
           group: 'prod'
