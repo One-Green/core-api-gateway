@@ -13,10 +13,6 @@ RUN pipenv run python manage.py collectstatic --noinput
 RUN pipenv run python create_plant_keeper_user.py
 RUN pipenv run python init_plant_config.py
 
-CMD pipenv run gunicorn --workers=3 --bind 0.0.0.0:8001 --daemon plant_kiper.wsgi  &&\
-    nohup pipenv run python prometheus.py &>/dev/null & && \
-    cd controllers &&  nohup pipenv run python run.py &>/dev/null &
-
 # Plant-keeper prometheus client
 EXPOSE 8000/tcp
 # Plant-keeper Rest API gateway
