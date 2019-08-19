@@ -1,14 +1,20 @@
 version: "3.7"
 
 services:
+  db:
+    image: postgres
+    restart: always
+
   plant-keeper-api-gateway:
     build:
       context: .
-    # image: plant-keeper:1
-    command: bash -c "pipenv run gunicorn --workers=3 --bind 0.0.0.0:8001 plant_kiper.wsgi"
+    command: bash -c "bash init.sh && pipenv run gunicorn --workers=3 --bind 0.0.0.0:8001 plant_kiper.wsgi"
     restart: always
     ports:
       - 8001:8001
+    depends_on:
+      - db
+
   plant-keeper-prom-client:
     build:
       context: .
@@ -16,11 +22,19 @@ services:
     restart: always
     ports:
       - 8000:8000
+    depends_on:
+      - db
+      - plant-keeper-api-gateway
+
   plant-keeper-device-ctl:
     build:
       context: .
     command: bash -c "cd controllers && pipenv run python run.py"
     restart: always
+    depends_on:
+      - db
+      - plant-keeper-api-gateway
+
   prom:
     image: prom/prometheus:latest
     restart: always
@@ -31,6 +45,7 @@ services:
      - 9090:9090
     depends_on:
       - plant-keeper-prom-client
+
   grafana:
     image: grafana/grafana:latest
     restart: always
