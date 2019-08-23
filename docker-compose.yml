@@ -1,3 +1,14 @@
+# Run all Plant keeper services
+# - Plant-keeper django REST Api Gateway
+# - Plant-keeper Prometheus client server
+# - Plant-keeper device controller
+# - Postgres database
+# - Prometheus server
+# - Grafana server
+#
+# Author : Vigneswaran Shanmugathas
+# mail : shamugathas.vigneswaran@outlook.fr
+
 version: "3.7"
 
 services:
