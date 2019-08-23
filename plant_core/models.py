@@ -86,8 +86,16 @@ class Cooler(models.Model):
     Cooling system for temperature controller
     """
     created = models.DateTimeField(auto_now_add=True)
+
+    air_in_temperature = models.FloatField(blank=True, null=True)
+    air_in_humidity = models.FloatField(blank=True, null=True)
+
+    air_out_temperature = models.FloatField(blank=True, null=True)
+    air_out_humidity = models.FloatField(blank=True, null=True)
+
     cold_surface_temperature = models.FloatField(blank=True, null=True)
     hot_surface_temperature = models.FloatField(blank=True, null=True)
+
     power_status = models.BooleanField(blank=True, null=True, default=0)
 
     def save(self, *args, **kwargs):
