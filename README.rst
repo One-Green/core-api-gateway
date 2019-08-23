@@ -68,9 +68,10 @@ Docker way to quick start Plant-Keeper + Prometheus + Grafana, follow steps here
     sudo apt python-pip
     sudo pip install docker-compose
 
-    # Run Plant keeper
+    # Run Plant keeper (will build plant-keeper only once)
     sudo docker-compose up
-
+    # Run Plant keeper (force rebuild plant-keeper : update/release)
+    sudo docker-compose up --build
 
 Access to Django Admin :
     - default credentials: login=plant/pwd=keeper
