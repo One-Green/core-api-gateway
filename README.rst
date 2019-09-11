@@ -41,7 +41,7 @@ Install RaspAP from your RaspberryPi's shell prompt:
 
 .. code-block:: shell
 
-    sudo apt update && apt install -y wget
+    sudo apt update && sudo apt install -y wget
     wget -q https://git.io/voEUQ -O /tmp/raspap && bash /tmp/raspap
 
 The installer will complete the steps in the manual installation (below) for you.
@@ -65,7 +65,7 @@ Docker way to quick start Plant-Keeper + Prometheus + Grafana, follow steps here
     sudo usermod -aG docker pi
 
     # install docker-compose
-    sudo apt python-pip
+    sudo apt install libffi-dev python-pip
     sudo pip install docker-compose
 
     # Run Plant keeper (will build plant-keeper only once)
