@@ -48,6 +48,7 @@ The installer will complete the steps in the manual installation (below) for you
 
 After the reboot at the end of the installation the wireless network will be
 configured as an access point as follows:
+
 - IP address: 10.3.141.1
     - Username: admin
     - Password: secret
@@ -65,8 +66,8 @@ Docker way to quick start Plant-Keeper + Prometheus + Grafana, follow steps here
     sudo usermod -aG docker pi
 
     # install docker-compose
-    sudo apt install libffi-dev python-pip
-    sudo pip install docker-compose
+    sudo apt install libffi-dev python-pip python-backports.ssl-match-hostname
+    # sudo pip install --upgrade docker docker-compose
 
     # Run Plant keeper (will build plant-keeper only once)
     sudo docker-compose up
