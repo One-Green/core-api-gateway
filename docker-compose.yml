@@ -15,52 +15,25 @@ services:
   db:
     image: postgres
     restart: always
-
   plant-keeper-api-gateway:
     build:
       context: .
-    command: bash -c "bash init.sh && pipenv run gunicorn --workers=3 --bind 0.0.0.0:8001 plant_kiper.wsgi"
+    command: bash -c "bash init.sh && gunicorn --workers=3 --bind 0.0.0.0:8001 plant_kiper.wsgi"
     restart: always
     ports:
       - 8001:8001
     depends_on:
       - db
-
-  plant-keeper-prom-client:
-    build:
-      context: .
-    command: bash -c "pipenv run python prometheus.py"
-    restart: always
-    ports:
-      - 8000:8000
-    depends_on:
-      - db
-      - plant-keeper-api-gateway
-
   plant-keeper-device-ctl:
     build:
       context: .
-    command: bash -c "cd controllers && pipenv run python run.py"
+    command: bash -c "cd controllers && python run.py"
     restart: always
     depends_on:
       - db
       - plant-keeper-api-gateway
-
-  prom:
-    image: prom/prometheus:latest
-    restart: always
-    volumes:
-     - ./prometheus.yml:/etc/prometheus/prometheus.yml
-    command: "--config.file=/etc/prometheus/prometheus.yml"
-    ports:
-     - 9090:9090
-    depends_on:
-      - plant-keeper-prom-client
-
   grafana:
     image: grafana/grafana:latest
     restart: always
     ports:
      - 3000:3000
-    depends_on:
-      - prom
