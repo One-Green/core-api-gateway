@@ -105,8 +105,8 @@ class Cooler(models.Model):
         :param kwargs:
         :return:
         """
-        if Cooler.objects.count() == 1000:
-            Cooler.objects[0].delete()
+        if Cooler.objects.all().count() == 1000:
+            Cooler.objects.all().order_by('created')[0].delete()
         super(Cooler, self).save(*args, **kwargs)
 
     @classmethod
@@ -164,8 +164,8 @@ class VaporGenerator(models.Model):
         :param kwargs:
         :return:
         """
-        if VaporGenerator.objects.count() == 1000:
-            VaporGenerator.objects[0].delete()
+        if VaporGenerator.objects.all().count() == 1000:
+            VaporGenerator.objects.all().order_by('created')[0].delete()
         super(VaporGenerator, self).save(*args, **kwargs)
 
     @classmethod
@@ -222,8 +222,8 @@ class WaterPump(models.Model):
         :param kwargs:
         :return:
         """
-        if WaterPump.objects.count() == 1000:
-            WaterPump.objects[0].delete()
+        if WaterPump.objects.all().count() == 1000:
+            WaterPump.objects.all().order_by('created')[0].delete()
         super(WaterPump, self).save(*args, **kwargs)
 
     @classmethod
@@ -282,8 +282,8 @@ class Heater(models.Model):
         :param kwargs:
         :return:
         """
-        if Heater.objects.count() == 1000:
-            Heater.objects[0].delete()
+        if Heater.objects.all().count() == 1000:
+            Heater.objects.all().order_by('created')[0].delete()
         super(Heater, self).save(*args, **kwargs)
 
     @classmethod
@@ -343,8 +343,8 @@ class UvLight(models.Model):
         :param kwargs:
         :return:
         """
-        if UvLight.objects.count() == 1000:
-            UvLight.objects[0].delete()
+        if UvLight.objects.all().count() == 1000:
+            UvLight.objects.all().order_by('created')[0].delete()
         super(UvLight, self).save(*args, **kwargs)
 
     @classmethod
@@ -389,8 +389,8 @@ class CO2Valve(models.Model):
         :param kwargs:
         :return:
         """
-        if CO2Valve.objects.count() == 1000:
-            CO2Valve.objects[0].delete()
+        if CO2Valve.objects.all().count() == 1000:
+            CO2Valve.objects.all().order_by('created')[0].delete()
         super(CO2Valve, self).save(*args, **kwargs)
 
     @classmethod
@@ -450,8 +450,8 @@ class Filters(models.Model):
         :param kwargs:
         :return:
         """
-        if Filters.objects.count() == 1000:
-            Filters.objects[0].delete()
+        if Filters.objects.all().count() == 1000:
+            Filters.objects.all().order_by('created')[0].delete()
         super(Filters, self).save(*args, **kwargs)
 
     @classmethod
