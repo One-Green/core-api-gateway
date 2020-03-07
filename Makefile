@@ -30,10 +30,10 @@ dl-prometheus: prometheus.yml
 up-prom-server:
 	yes | sudo cp prometheus.yml ../prometheus
 	# start prometheus server
-	cd /home/pi/prometheus/ && ./prometheus --config.file="prometheus.yml"
+	cd /home/pi/prometheus/ && ./prometheus --config.file="prometheus.yml" --log.level=error --log.format=logfmt
 
 up-prometheus-local: prometheus.yml #@dev start prom server + grafana
-	# localhost:9090
+	# localhost:9090s
 	prometheus --config.file="prometheus.yml"
 	# localhost:3000
 	brew services start grafana

@@ -57,7 +57,7 @@ configured as an access point as follows:
 - Password: **ChangeMe**
 
 
-Docker way to quick start Plant-Keeper + Prometheus + Grafana, follow steps here:
+Docker way to quick start Plant-Keeper + Postgres + Grafana, follow steps here:
 
 .. code-block:: shell
 
@@ -90,9 +90,9 @@ Access to Grafana:
     - With RaspAP : http://10.3.141.1:3000
 
 
-Grafana add Prometheus data source, and load default dashboard:
-    - Use Prometheus Data source
-    - Use HTTP/URL : http://prom:9090 , click on "Test and Save"
+Grafana add Postgres data source, and load default dashboard:
+    - Use Postgres Data source
+    - Use **host = db , database = postgres, user= postgres, ssl mode = disable** , , click on "Test and Save"
     - Load dashboard with "Create" button, click on "Import", click on "Upload .json file" and load **grafana.json**
 
 
@@ -163,7 +163,7 @@ Technical & Used framework
 ==========================
 
 - SQLite for dev purpose/hobby, change to Postgres for intense usage.
-- Python OO - used is this project
+- Python 3.7 - used is this project
 - Django Framework REST API server + Admin UI interface : https://www.djangoproject.com/
 - Django Rest Framework : https://www.django-rest-framework.org/
 - Swagger - API are auto documented, POST/GET with web browser OK : https://swagger.io/docs/specification/about/
