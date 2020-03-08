@@ -22,32 +22,33 @@ CONTROLLED_DEVICE: str = 'HEATER'
 # generic template for logging/print (for log remove datetime_now)
 PRINT_TEMPLATE = '{datetime_now};{device};{temperature};{_action}'
 
-# Example of configuration dict returned
-# by PlantSettings.get_settings()
-# {'id': x,
-# 'plant_identifier': 'my bansaï ficus',
-# 'plant_type': 'ficus',
-# 'air_temperature': 22.0,
-# 'air_hygrometry': 50.0,
-# 'air_co2_ppm': 5500.0,
-# 'soil_hygrometry': 52.0,
-# 'light_start': datetime.time(19, 10),
-# 'light_end': datetime.time(19, 30)}
-PLANT_SETTINGS: dict = PlantSettings.get_settings()
-
-# Heater increase controller
-temperature_inc_ctl = BaseController(kind='CUT_OUT',
-                                     neutral=PLANT_SETTINGS['air_temperature'],
-                                     delta_max=0,
-                                     delta_min=2,
-                                     reverse=True)
-
 first_loop: bool = True
-last_action: Union[bool, None] = None
+last_action: Union[int, None] = None
 
 
 def main():
     global first_loop, last_action
+
+    # Example of configuration dict returned
+    # by PlantSettings.get_settings()
+    # {'id': x,
+    # 'plant_identifier': 'my bansaï ficus',
+    # 'plant_type': 'ficus',
+    # 'air_temperature': 22.0,
+    # 'air_hygrometry': 50.0,
+    # 'air_co2_ppm': 5500.0,
+    # 'soil_hygrometry': 52.0,
+    # 'light_start': datetime.time(19, 10),
+    # 'light_end': datetime.time(19, 30)}
+    plant_settings: dict = PlantSettings.get_settings()
+
+    # Heater increase controller
+    temperature_inc_ctl = BaseController(kind='CUT_OUT',
+                                         neutral=plant_settings['air_temperature'],
+                                         delta_max=0,
+                                         delta_min=2,
+                                         reverse=True)
+
     # Read enclosure status
     status = Enclosure.get_status()
     if not status == {}:
@@ -56,7 +57,7 @@ def main():
         temperature_inc_ctl.set_sensor_value(t)
 
         # Get action
-        action: bool = temperature_inc_ctl.action
+        action: int = temperature_inc_ctl.action
         # init last_action for init
         if first_loop:
             first_loop = False
