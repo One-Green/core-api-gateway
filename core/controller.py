@@ -85,9 +85,6 @@ class BaseController:
             else:
                 self.state = 1
 
-    def __pid_handler(self):
-        pass
-
     @property
     def action(self) -> int:
         """
