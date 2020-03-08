@@ -1,3 +1,14 @@
+"""
+module information : collection of helper functions
+
+Author: Shanmugathas Vigneswaran
+email: shanmugathas.vigneswaran@outlook.fr
+
+Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)
+Licence:  https://creativecommons.org/licenses/by-nc/4.0/
+
+"""
+
 from multiprocessing import Process
 
 

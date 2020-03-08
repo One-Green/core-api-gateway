@@ -96,7 +96,7 @@ class Cooler(models.Model):
     cold_surface_temperature = models.FloatField(blank=True, null=True)
     hot_surface_temperature = models.FloatField(blank=True, null=True)
 
-    power_status = models.BooleanField(blank=True, null=True, default=0)
+    power_status = models.SmallIntegerField(blank=True, null=True, default=0)
 
     def save(self, *args, **kwargs):
         """
@@ -121,7 +121,7 @@ class Cooler(models.Model):
             return {}
 
     @classmethod
-    def set_power_status(cls, new_status: bool):
+    def set_power_status(cls, new_status: int):
         """
         method shift last sensors values
         with new power status
@@ -155,7 +155,7 @@ class VaporGenerator(models.Model):
     """
     created = models.DateTimeField(auto_now_add=True)
     water_level = models.FloatField(blank=True, null=True)
-    power_status = models.BooleanField(blank=True, null=True, default=0)
+    power_status = models.SmallIntegerField(blank=True, null=True, default=0)
 
     def save(self, *args, **kwargs):
         """
@@ -180,7 +180,7 @@ class VaporGenerator(models.Model):
             return {}
 
     @classmethod
-    def set_power_status(cls, new_status: bool):
+    def set_power_status(cls, new_status: int):
         """
         method shift last sensors values
         with new power status
@@ -213,7 +213,7 @@ class WaterPump(models.Model):
     """
     created = models.DateTimeField(auto_now_add=True)
     water_level = models.FloatField(blank=True, null=True)
-    power_status = models.BooleanField(blank=True, null=True, default=0)
+    power_status = models.SmallIntegerField(blank=True, null=True, default=0)
 
     def save(self, *args, **kwargs):
         """
@@ -238,7 +238,7 @@ class WaterPump(models.Model):
             return {}
 
     @classmethod
-    def set_power_status(cls, new_status: bool):
+    def set_power_status(cls, new_status: int):
         """
         method shift last sensors values
         with new power status
@@ -273,7 +273,7 @@ class Heater(models.Model):
     hot_surface_temperature = models.FloatField(blank=True, null=True)
     air_in_temperature = models.FloatField(blank=True, null=True)
     air_out_temperature = models.FloatField(blank=True, null=True)
-    power_status = models.BooleanField(blank=True, null=True, default=0)
+    power_status = models.SmallIntegerField(blank=True, null=True, default=0)
 
     def save(self, *args, **kwargs):
         """
@@ -298,7 +298,7 @@ class Heater(models.Model):
             return {}
 
     @classmethod
-    def set_power_status(cls, new_status: bool):
+    def set_power_status(cls, new_status: int):
         """
         method shift last sensors values
         with new power status
@@ -334,7 +334,7 @@ class UvLight(models.Model):
     UV light I/O enclosure
     """
     created = models.DateTimeField(auto_now_add=True)
-    power_status = models.BooleanField(blank=True, null=True, default=0)
+    power_status = models.SmallIntegerField(blank=True, null=True, default=0)
 
     def save(self, *args, **kwargs):
         """
@@ -359,7 +359,7 @@ class UvLight(models.Model):
             return {}
 
     @classmethod
-    def set_power_status(cls, new_status: bool):
+    def set_power_status(cls, new_status: int):
         """
         method shift last sensors values
         with new power status
@@ -380,7 +380,7 @@ class CO2Valve(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     high_pressure = models.FloatField(blank=True, null=True)
     low_pressure = models.FloatField(blank=True, null=True)
-    power_status = models.BooleanField(blank=True, null=True, default=0)
+    power_status = models.SmallIntegerField(blank=True, null=True, default=0)
 
     def save(self, *args, **kwargs):
         """
@@ -405,7 +405,7 @@ class CO2Valve(models.Model):
             return {}
 
     @classmethod
-    def set_power_status(cls, new_status: bool):
+    def set_power_status(cls, new_status: int):
         """
         method shift last sensors values
         with new power status

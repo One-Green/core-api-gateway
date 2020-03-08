@@ -1,7 +1,14 @@
 """
-O/I controller
-Author : Shanmugathas Vigneswaran
+module information : Device controller collection
+
+Author: Shanmugathas Vigneswaran
+email: shanmugathas.vigneswaran@outlook.fr
+
+Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)
+Licence:  https://creativecommons.org/licenses/by-nc/4.0/
+
 """
+
 from datetime import time, datetime
 
 
@@ -10,9 +17,14 @@ class BaseController:
     binary controller class
     """
 
-    def __init__(self, kind: str, neutral: float,
-                 delta_max: float = 0, delta_min: float = 0,
-                 reverse: bool = False):
+    def __init__(
+            self,
+            kind: str,
+            neutral: float,
+            delta_max: float = 0,
+            delta_min: float = 0,
+            reverse: bool = False
+    ):
         assert isinstance(kind, str)
         assert kind in ('CUT_IN', 'CUT_OUT')
         assert isinstance(float(neutral), float)
@@ -26,11 +38,14 @@ class BaseController:
         self.delta_min: float = float(delta_min)
         self.max_point = neutral + delta_max
         self.min_point = neutral - delta_min
-        self.state: bool = False
+        self.state: int = 0
         self.current_value: float = 0.0
         self.reverse = reverse
 
-    def set_sensor_value(self, current_value: float) -> None:
+    def set_sensor_value(
+            self,
+            current_value: float
+    ) -> None:
         """
         set read sensor value
         :param current_value:
@@ -46,13 +61,13 @@ class BaseController:
         # neutral point => do nothing
         # or condition can be used here (less readable)
         if self.min_point <= self.current_value <= self.max_point:
-            self.state = False
+            self.state = 0
         # mini point reached, cut in => deactivate
         if self.current_value <= self.min_point:
-            self.state = True
+            self.state = 1
         # max point reached, cut in => activate
         elif self.current_value >= self.max_point:
-            self.state = False
+            self.state = 0
 
     def __cut_out_handler(self) -> None:
         """
@@ -61,20 +76,20 @@ class BaseController:
         """
         if self.current_value <= self.min_point:
             if self.reverse:
-                self.state = True
+                self.state = 1
             else:
-                self.state = False
+                self.state = 0
         if self.current_value >= self.max_point:
             if self.reverse:
-                self.state = False
+                self.state = 0
             else:
-                self.state = True
+                self.state = 1
 
     def __pid_handler(self):
         pass
 
     @property
-    def action(self) -> bool:
+    def action(self) -> int:
         """
         get action to do
         :return:
@@ -89,7 +104,15 @@ class BaseController:
 
 
 class BaseTimeRangeController:
-    def __init__(self, start_at: time, end_at: time, reverse: bool = False):
+    """
+    Time based binary controller
+    """
+    def __init__(
+            self,
+            start_at: time,
+            end_at: time,
+            reverse: bool = False
+    ):
 
         assert isinstance(start_at, time)
         assert isinstance(end_at, time)
@@ -99,22 +122,25 @@ class BaseTimeRangeController:
         self.start_at: time = start_at
         self.end_at: time = end_at
         self.reverse: bool = reverse
-        self.state: bool = False
+        self.state: int = 0
 
-    def set_current_time(self, time_now: time):
+    def set_current_time(
+            self,
+            time_now: time
+    ):
         assert isinstance(time_now, time)
         self.time_now = time_now
 
     @property
-    def action(self) -> bool:
+    def action(self) -> int:
         if self.start_at <= self.time_now <= self.end_at:
             if self.reverse:
-                self.state = False
+                self.state = 0
             else:
-                self.state = True
+                self.state = 1
         else:
             if self.reverse:
-                self.state = True
+                self.state = 1
             else:
-                self.state = False
+                self.state = 0
         return self.state
