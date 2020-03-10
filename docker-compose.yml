@@ -16,7 +16,7 @@ services:
     image: postgres
     restart: always
     environment:
-      - POSTGRES_HOST_AUTH_METHOD="trust
+      - POSTGRES_HOST_AUTH_METHOD="trust"
   plant-keeper-api-gateway:
     build:
       context: .
