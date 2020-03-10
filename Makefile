@@ -63,3 +63,10 @@ core-unittest: core/tests/test_base_controller.py core/tests/test_base_time_rang
 	pipenv run python test_base_time_range_controller.py
 
 run-tests: core-unittest
+
+build: export TAG=0.0.1
+build:
+	docker buildx build \
+	--platform linux/amd64,linux/arm64 \
+	--tag shanisma/plant-keeper:$TAG \
+	--output type=registry .
