@@ -32,7 +32,13 @@ class EnclosureView(GenericAPIView):
         serializer = EnclosureSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-        return Response({'saved': True}, status=status.HTTP_201_CREATED)
+        return Response(
+            {
+                'type': "EnclosureView",
+                'saved': True
+            },
+            status=status.HTTP_201_CREATED
+        )
 
     @csrf_exempt
     def get(self, request):
@@ -48,7 +54,13 @@ class CoolerView(GenericAPIView):
         serializer = CoolerSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-        return Response({'saved': True}, status=status.HTTP_201_CREATED)
+        return Response(
+            {
+                'type': "CoolerView",
+                'saved': True
+            },
+            status=status.HTTP_201_CREATED
+        )
 
     @csrf_exempt
     def get(self, request):
@@ -64,7 +76,13 @@ class VaporGeneratorView(GenericAPIView):
         serializer = VaporGeneratorSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-        return Response({'saved': True}, status=status.HTTP_201_CREATED)
+        return Response(
+            {
+                'type': "VaporGeneratorView",
+                'saved': True
+            },
+            status=status.HTTP_201_CREATED
+        )
 
     @csrf_exempt
     def get(self, request):
@@ -80,7 +98,13 @@ class WaterPumpView(GenericAPIView):
         serializer = WaterPumpSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-        return Response({'saved': True}, status=status.HTTP_201_CREATED)
+        return Response(
+            {
+                'type': "WaterPumpView",
+                'saved': True
+            },
+            status=status.HTTP_201_CREATED
+        )
 
     @csrf_exempt
     def get(self, request):
@@ -96,7 +120,13 @@ class HeaterView(GenericAPIView):
         serializer = HeaterSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-        return Response({'saved': True}, status=status.HTTP_201_CREATED)
+        return Response(
+            {
+                'type': "HeaterView",
+                'saved': True
+            },
+            status=status.HTTP_201_CREATED
+        )
 
     @csrf_exempt
     def get(self, request):
@@ -112,7 +142,13 @@ class UvLightView(GenericAPIView):
         serializer = UvLightSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-        return Response({'saved': True}, status=status.HTTP_201_CREATED)
+        return Response(
+            {
+                'type': "UvLightView",
+                'saved': True
+            },
+            status=status.HTTP_201_CREATED
+        )
 
     @csrf_exempt
     def get(self, request):
@@ -128,7 +164,13 @@ class CO2ValveView(GenericAPIView):
         serializer = CO2ValveSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-        return Response({'saved': True}, status=status.HTTP_201_CREATED)
+        return Response(
+            {
+                'type': "CO2ValveView",
+                'saved': True
+            },
+            status=status.HTTP_201_CREATED
+        )
 
     @csrf_exempt
     def get(self, request):
@@ -144,7 +186,13 @@ class FiltersView(GenericAPIView):
         serializer = FiltersSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-        return Response({'saved': True}, status=status.HTTP_201_CREATED)
+        return Response(
+            {
+                'type': "FiltersView",
+                'saved': True
+            },
+            status=status.HTTP_201_CREATED
+        )
 
     @csrf_exempt
     def get(self, request):
@@ -160,7 +208,13 @@ class SimpleFlapsView(GenericAPIView):
         serializer = SimpleFlapsSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-        return Response({'saved': True}, status=status.HTTP_201_CREATED)
+        return Response(
+            {
+                'type': "SimpleFlapsView",
+                'saved': True
+            },
+            status=status.HTTP_201_CREATED
+        )
 
     @csrf_exempt
     def get(self, request):
