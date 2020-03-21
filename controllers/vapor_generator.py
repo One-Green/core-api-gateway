@@ -5,7 +5,6 @@ from typing import Union
 from datetime import datetime
 import django
 
-
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "plant_kiper.settings")
 sys.path.append(os.path.dirname(os.path.dirname(os.path.join('..', '..', os.path.dirname('__file__')))))
 django.setup()
@@ -48,42 +47,61 @@ def main():
     plant_settings: dict = PlantSettings.get_settings()
 
     # Heater increase controller
-    hygrometry_inc_ctl = BaseController(kind='CUT_OUT',
-                                        neutral=plant_settings['air_hygrometry'],
-                                        delta_max=0,
-                                        delta_min=5,
-                                        reverse=True)
+    hygrometry_inc_ctl = BaseController(
+        kind='CUT_OUT',
+        neutral=plant_settings['air_hygrometry'],
+        delta_max=0,
+        delta_min=5,
+        reverse=True
+    )
 
     # Read enclosure status
     status = Enclosure.get_status()
     # Read Vapor generator water level
     vapor_gen_status = VaporGenerator.get_status()
 
-    if not status == {} and not vapor_gen_status == {}:
-        print(f'[!] Warning: {CONTROLLED_DEVICE} status or vapor_gen_status is empty ... water level is working ??')
+    if not status == {}:
         hr = status['enclosure_hygrometry']
         _water_level = vapor_gen_status['water_level']
-
         # Set values to controller
         hygrometry_inc_ctl.set_sensor_value(hr)
         # Get action
-        action: bool = hygrometry_inc_ctl.action
+        action: int = hygrometry_inc_ctl.action
 
+        if vapor_gen_status == {}:
+            print(f'[!] Warning: {CONTROLLED_DEVICE} '
+                  f'status or vapor_gen_status '
+                  f'is empty ... water level is working ??')
         if _water_level < min_water_level:
-            print(PRINT_TEMPLATE.format(datetime_now=datetime.now(), device=CONTROLLED_DEVICE,
-                                        hygrometry=hr, _action='[!] Water level to low , fill water tank'))
+            print(
+                PRINT_TEMPLATE.format(
+                    datetime_now=datetime.now(),
+                    device=CONTROLLED_DEVICE,
+                    hygrometry=hr,
+                    _action='[!] Water level to low , fill water tank')
+            )
         # init last_action for init
-        elif first_loop:
+        if first_loop:
             first_loop = False
             last_action = action
-            print(PRINT_TEMPLATE.format(datetime_now=datetime.now(), device=CONTROLLED_DEVICE,
-                                        hygrometry=hr, _action=action))
+            print(
+                PRINT_TEMPLATE.format(
+                    datetime_now=datetime.now(),
+                    device=CONTROLLED_DEVICE,
+                    hygrometry=hr,
+                    _action=action)
+            )
             VaporGenerator.set_power_status(action)
 
         elif action != last_action:
             last_action = action
-            print(PRINT_TEMPLATE.format(datetime_now=datetime.now(), device=CONTROLLED_DEVICE,
-                                        hygrometry=hr, _action=action))
+            print(
+                PRINT_TEMPLATE.format(
+                    datetime_now=datetime.now(),
+                    device=CONTROLLED_DEVICE,
+                    hygrometry=hr,
+                    _action=action)
+            )
             VaporGenerator.set_power_status(action)
 
 
