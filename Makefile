@@ -67,6 +67,6 @@ run-tests: core-unittest
 build: export TAG=0.0.1
 build:
 	docker buildx build \
-	--platform linux/amd64,linux/arm64 \
-	--tag shanisma/plant-keeper:$TAG \
-	--output type=registry .
+	--platform linux/arm64 \
+	--tag shanisma/plant-keeper:${TAG} \
+	--push .
