@@ -17,6 +17,8 @@ services:
     restart: always
     environment:
       - POSTGRES_PASSWORD=postgres
+    ports:
+      - 5432:5432
   plant-keeper-api-gateway:
     build:
       context: .
