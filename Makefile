@@ -64,9 +64,14 @@ core-unittest: core/tests/test_base_controller.py core/tests/test_base_time_rang
 
 run-tests: core-unittest
 
-build: export TAG=0.0.1
-build:
+buildx: export TAG=0.0.1
+buildx:
 	docker buildx build \
 	--platform linux/arm64 \
 	--tag shanisma/plant-keeper:${TAG} \
 	--push .
+
+build-push-base: export TAG=0.0.1
+build-push-base:
+	docker login
+	docker build -t shanisma/plant-keeper:${TAG} .
