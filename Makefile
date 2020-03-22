@@ -74,4 +74,4 @@ buildx:
 build-push-base: export TAG=0.0.1
 build-push-base:
 	docker login
-	docker build -t shanisma/plant-keeper:${TAG} .
+	docker build -t shanisma/plant-keeper:${TAG} -f Dockerfile.base .

@@ -16,7 +16,7 @@ services:
     image: postgres
     restart: always
     environment:
-      - POSTGRES_HOST_AUTH_METHOD="trust"
+      - POSTGRES_PASSWORD=postgres
   plant-keeper-api-gateway:
     build:
       context: .
@@ -35,7 +35,7 @@ services:
       - db
       - plant-keeper-api-gateway
   grafana:
-    image: grafana/grafana:latest
+    image: grafana/grafana:6.3.4
     restart: always
     ports:
      - 3000:3000
