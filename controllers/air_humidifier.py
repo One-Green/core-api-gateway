@@ -67,7 +67,11 @@ def main():
         # Get action
         action: int = hygrometry_inc_ctl.action
 
-        _water_level = vapor_gen_status['water_level']
+        try:
+            _water_level = vapor_gen_status['water_level']
+        except KeyError:
+            _water_level = None
+
         if not _water_level:
             _water_level = 0.
             print(f'[ERROR] Controller => {CONTROLLED_DEVICE} '
