@@ -1,14 +1,13 @@
 import os
 import sys
 import django
-from controllers import cooler, heater, air_humidifier, light
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "plant_kiper.settings")
 sys.path.append(os.path.dirname(os.path.dirname(os.path.join('..', '..', os.path.dirname('__file__')))))
 django.setup()
 
 from plant_core.models import PlantSettings
-
+from controllers import cooler, heater, air_humidifier, light
 
 # Run all controllers
 while True:
@@ -29,4 +28,3 @@ while True:
     if settings['activate_soil_humidifier_controller']:
         # TODO add soil humidifier controller here
         pass
-

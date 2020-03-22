@@ -62,16 +62,19 @@ def main():
 
     if not status == {}:
         hr = status['enclosure_hygrometry']
-        _water_level = vapor_gen_status['water_level']
         # Set values to controller
         hygrometry_inc_ctl.set_sensor_value(hr)
         # Get action
         action: int = hygrometry_inc_ctl.action
 
-        if vapor_gen_status == {}:
-            print(f'[!] Warning: {CONTROLLED_DEVICE} '
+        _water_level = vapor_gen_status['water_level']
+        if not _water_level:
+            _water_level = 0.
+            print(f'[ERROR] Controller => {CONTROLLED_DEVICE} '
                   f'status or vapor_gen_status '
                   f'is empty ... water level is working ??')
+            print('[ERROR] water level set == 0.0')
+
         if _water_level < min_water_level:
             print(
                 PRINT_TEMPLATE.format(
