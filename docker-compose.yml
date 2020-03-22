@@ -37,7 +37,7 @@ services:
       - db
       - plant-keeper-api-gateway
   grafana:
-    image: grafana/grafana:6.3.4
+    image: grafana/grafana:6.7.1
     restart: always
     ports:
      - 3000:3000
