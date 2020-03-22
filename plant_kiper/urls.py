@@ -26,10 +26,10 @@ schema_view = get_schema_view(
     openapi.Info(
         title='Plant Keeper API Gateway',
         default_version=__version__,
-        description="Test description",
+        description="Still in dev",
         terms_of_service="https://www.google.com/policies/terms/",
-        contact=openapi.Contact(email="contact@snippets.local"),
-        license=openapi.License(name="BSD License"),
+        contact=openapi.Contact(email="shanmugathas.vigneswara@outlook.fr"),
+        license=openapi.License(name="Still in dev"),
     ),
     public=True,
     permission_classes=(permissions.AllowAny,),
@@ -41,10 +41,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('enclosure/', views.EnclosureView.as_view()),
     path('cooler/', views.CoolerView.as_view()),
-    path('vaporgenerator/', views.VaporGeneratorView.as_view()),
-    path('waterpump/', views.WaterPumpView.as_view()),
+    path('air-humidifier/', views.AirHumidifierView.as_view()),
+    path('water-pump/', views.WaterPumpView.as_view()),
     path('heater/', views.HeaterView.as_view()),
-    path('uvlight/', views.UvLightView.as_view()),
+    path('uv-light/', views.UvLightView.as_view()),
     path('co2valve/', views.CO2ValveView.as_view()),
     path('filters/', views.FiltersView.as_view())
 ]

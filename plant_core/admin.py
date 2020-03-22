@@ -2,7 +2,7 @@ from django.contrib import admin
 from plant_core.models import (PlantSettings,
                                Enclosure,
                                Cooler,
-                               VaporGenerator,
+                               AirHumidifier,
                                WaterPump,
                                Heater,
                                UvLight,
@@ -13,7 +13,7 @@ from plant_core.models import (PlantSettings,
 admin.site.register(PlantSettings)
 admin.site.register(Enclosure)
 admin.site.register(Cooler)
-admin.site.register(VaporGenerator)
+admin.site.register(AirHumidifier)
 admin.site.register(WaterPump)
 admin.site.register(Heater)
 admin.site.register(UvLight)

@@ -12,11 +12,11 @@ django.setup()
 from core.controller import BaseController
 from plant_core.models import PlantSettings
 from plant_core.models import (Enclosure,
-                               VaporGenerator)
+                               AirHumidifier)
 
 # give a name for controlled device
 # for printing / logging purpose
-CONTROLLED_DEVICE: str = 'VAPOR_GENERATOR'
+CONTROLLED_DEVICE: str = 'AIR_HUMIDIFIER'
 
 # Print template
 # generic template for logging/print (for log remove datetime_now)
@@ -58,7 +58,7 @@ def main():
     # Read enclosure status
     status = Enclosure.get_status()
     # Read Vapor generator water level
-    vapor_gen_status = VaporGenerator.get_status()
+    vapor_gen_status = AirHumidifier.get_status()
 
     if not status == {}:
         hr = status['enclosure_hygrometry']
@@ -91,7 +91,7 @@ def main():
                     hygrometry=hr,
                     _action=action)
             )
-            VaporGenerator.set_power_status(action)
+            AirHumidifier.set_power_status(action)
 
         elif action != last_action:
             last_action = action
@@ -102,7 +102,7 @@ def main():
                     hygrometry=hr,
                     _action=action)
             )
-            VaporGenerator.set_power_status(action)
+            AirHumidifier.set_power_status(action)
 
 
 if __name__ == '__main__':

@@ -149,9 +149,9 @@ class Cooler(models.Model):
         ordering = ['created']
 
 
-class VaporGenerator(models.Model):
+class AirHumidifier(models.Model):
     """
-    Vapor generator enclosure hygromety I/O
+    Air humidifier I/O
     """
     created = models.DateTimeField(auto_now_add=True)
     water_level = models.FloatField(blank=True, null=True)
@@ -162,11 +162,11 @@ class VaporGenerator(models.Model):
         keep only 1000 latest values
         :param args:
         :param kwargs:
-        :return:
+        :return:<
         """
-        if VaporGenerator.objects.all().count() == 1000:
-            VaporGenerator.objects.all().order_by('created')[0].delete()
-        super(VaporGenerator, self).save(*args, **kwargs)
+        if AirHumidifier.objects.all().count() == 1000:
+            AirHumidifier.objects.all().order_by('created')[0].delete()
+        super(AirHumidifier, self).save(*args, **kwargs)
 
     @classmethod
     def get_status(cls):
