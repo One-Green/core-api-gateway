@@ -20,6 +20,7 @@
   "panels": [
     {
       "cacheTimeout": null,
+      "datasource": null,
       "description": "",
       "gridPos": {
         "h": 4,
@@ -36,26 +37,21 @@
             "last"
           ],
           "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
             "mappings": [],
             "max": 1,
             "min": 0,
             "thresholds": {
-              "0": {
-                "color": "green",
-                "value": null
-              },
-              "1": {
-                "color": "red",
-                "value": 80
-              },
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "dark-blue",
+                  "color": "blue",
                   "value": null
                 },
                 {
-                  "color": "semi-dark-blue",
+                  "color": "blue",
                   "value": 0
                 },
                 {
@@ -65,14 +61,13 @@
               ]
             }
           },
-          "override": {},
           "overrides": [],
           "values": false
         },
         "orientation": "horizontal",
         "showUnfilled": true
       },
-      "pluginVersion": "6.3.4",
+      "pluginVersion": "6.7.1",
       "targets": [
         {
           "format": "time_series",
@@ -114,6 +109,7 @@
       "cacheTimeout": null,
       "dashLength": 10,
       "dashes": false,
+      "datasource": null,
       "description": "",
       "fill": 3,
       "fillGradient": 0,
@@ -223,6 +219,7 @@
     },
     {
       "cacheTimeout": null,
+      "datasource": null,
       "description": "",
       "gridPos": {
         "h": 4,
@@ -239,22 +236,17 @@
             "last"
           ],
           "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
             "mappings": [],
             "max": 1,
             "min": 0,
             "thresholds": {
-              "0": {
-                "color": "green",
-                "value": null
-              },
-              "1": {
-                "color": "red",
-                "value": 80
-              },
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "super-light-red",
+                  "color": "red",
                   "value": null
                 },
                 {
@@ -268,14 +260,13 @@
               ]
             }
           },
-          "override": {},
           "overrides": [],
           "values": false
         },
         "orientation": "auto",
         "showUnfilled": true
       },
-      "pluginVersion": "6.3.4",
+      "pluginVersion": "6.7.1",
       "targets": [
         {
           "format": "time_series",
@@ -312,6 +303,7 @@
       "type": "bargauge"
     },
     {
+      "datasource": null,
       "gridPos": {
         "h": 4,
         "w": 4,
@@ -326,30 +318,37 @@
             "last"
           ],
           "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
             "mappings": [],
             "max": 1,
             "min": 0,
-            "thresholds": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 0
-              },
-              {
-                "color": "#EAB839",
-                "value": 1
-              }
-            ]
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "light-blue",
+                  "value": null
+                },
+                {
+                  "color": "light-blue",
+                  "value": 0
+                },
+                {
+                  "color": "light-blue",
+                  "value": 1
+                }
+              ]
+            }
           },
-          "override": {},
+          "overrides": [],
           "values": false
         },
-        "orientation": "auto"
+        "orientation": "auto",
+        "showUnfilled": true
       },
-      "pluginVersion": "6.3.4",
+      "pluginVersion": "6.7.1",
       "targets": [
         {
           "format": "time_series",
@@ -382,12 +381,12 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Air Humidifier",
+      "title": "Air Humidifier Power",
       "type": "bargauge"
     }
   ],
   "refresh": "5s",
-  "schemaVersion": 19,
+  "schemaVersion": 22,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -401,5 +400,8 @@
   "timezone": "",
   "title": "in air",
   "uid": "s6CNHHWgk",
+  "variables": {
+    "list": []
+  },
   "version": 2
 }
