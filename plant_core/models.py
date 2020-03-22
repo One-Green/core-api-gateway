@@ -20,6 +20,12 @@ class PlantSettings(models.Model):
     light_start = models.TimeField(blank=True, null=True)
     light_end = models.TimeField(blank=True, null=True)
 
+    activate_cooler_controller = models.BooleanField(default=True, blank=False, null=False)
+    activate_heater_controller = models.BooleanField(default=True, blank=False, null=False)
+    activate_air_humidifier_controller = models.BooleanField(default=True, blank=False, null=False)
+    activate_uv_light_controller = models.BooleanField(default=True, blank=False, null=False)
+    activate_soil_humidifier_controller = models.BooleanField(default=True, blank=False, null=False)
+
     @property
     def lighting_duration(self):
         return self.light_end - self.light_start
