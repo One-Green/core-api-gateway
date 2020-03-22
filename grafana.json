@@ -15,173 +15,135 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 2,
+  "id": 1,
   "links": [],
   "panels": [
     {
+      "cacheTimeout": null,
       "description": "",
       "gridPos": {
-        "h": 6,
+        "h": 4,
         "w": 4,
         "x": 0,
         "y": 0
       },
-      "id": 2,
-      "options": {
-        "fieldOptions": {
-          "calcs": [
-            "mean"
-          ],
-          "defaults": {
-            "mappings": [],
-            "max": 50,
-            "min": 10,
-            "thresholds": [
-              {
-                "color": "blue",
-                "value": null
-              },
-              {
-                "color": "green",
-                "value": 15
-              },
-              {
-                "color": "#6ED0E0",
-                "value": 25
-              },
-              {
-                "color": "red",
-                "value": 50
-              }
-            ],
-            "title": "Temperature",
-            "unit": "none"
-          },
-          "override": {},
-          "values": false
-        },
-        "orientation": "auto",
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true
-      },
-      "pluginVersion": "6.3.2",
-      "repeat": null,
-      "targets": [
-        {
-          "expr": "enclosure_temperature",
-          "format": "time_series",
-          "instant": true,
-          "intervalFactor": 1,
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "",
-      "type": "gauge"
-    },
-    {
-      "cacheTimeout": null,
-      "gridPos": {
-        "h": 3,
-        "w": 3,
-        "x": 4,
-        "y": 0
-      },
-      "id": 11,
+      "id": 6,
       "links": [],
       "options": {
-        "displayMode": "gradient",
+        "displayMode": "lcd",
         "fieldOptions": {
           "calcs": [
             "last"
           ],
           "defaults": {
-            "mappings": [
-              {
-                "from": "",
-                "id": 1,
-                "operator": "",
-                "text": "OFF",
-                "to": "",
-                "type": 1,
-                "value": "0"
-              },
-              {
-                "from": "",
-                "id": 2,
-                "operator": "",
-                "text": "ON",
-                "to": "",
-                "type": 1,
-                "value": "1"
-              }
-            ],
+            "mappings": [],
             "max": 1,
             "min": 0,
-            "thresholds": [
-              {
-                "color": "blue",
+            "thresholds": {
+              "0": {
+                "color": "green",
                 "value": null
-              }
-            ],
-            "title": "Cooler"
+              },
+              "1": {
+                "color": "red",
+                "value": 80
+              },
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "dark-blue",
+                  "value": null
+                },
+                {
+                  "color": "semi-dark-blue",
+                  "value": 0
+                },
+                {
+                  "color": "blue",
+                  "value": 1
+                }
+              ]
+            }
           },
           "override": {},
+          "overrides": [],
           "values": false
         },
-        "orientation": "auto"
+        "orientation": "horizontal",
+        "showUnfilled": true
       },
-      "pluginVersion": "6.3.2",
+      "pluginVersion": "6.3.4",
       "targets": [
         {
-          "expr": "device_cooler_status",
-          "instant": false,
-          "refId": "A"
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "rawSql": "SELECT\n  created AS \"time\",\n  power_status\nFROM plant_core_cooler\nWHERE\n  $__timeFilter(created)\nORDER BY 1",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "power_status"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "plant_core_cooler",
+          "timeColumn": "created",
+          "timeColumnType": "timestamptz",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
         }
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "",
+      "title": "Air Cooler (and Dehumidifier)  Power",
       "type": "bargauge"
     },
     {
       "aliasColors": {},
       "bars": false,
+      "cacheTimeout": null,
       "dashLength": 10,
       "dashes": false,
       "description": "",
-      "fill": 7,
-      "fillGradient": 10,
+      "fill": 3,
+      "fillGradient": 0,
       "gridPos": {
-        "h": 6,
-        "w": 17,
-        "x": 7,
+        "h": 16,
+        "w": 20,
+        "x": 4,
         "y": 0
       },
-      "id": 3,
+      "hiddenSeries": false,
+      "id": 2,
       "legend": {
-        "alignAsTable": false,
         "avg": false,
         "current": false,
-        "hideEmpty": false,
         "max": false,
         "min": false,
-        "rightSide": false,
-        "show": false,
+        "show": true,
         "total": false,
         "values": false
       },
       "lines": true,
-      "linewidth": 4,
+      "linewidth": 1,
+      "links": [],
       "nullPointMode": "null",
       "options": {
         "dataLinks": []
       },
       "percentage": false,
-      "pluginVersion": "6.3.2",
-      "pointradius": 6,
+      "pluginVersion": "6.6.2",
+      "pointradius": 2,
       "points": false,
       "renderer": "flot",
       "seriesOverrides": [],
@@ -190,16 +152,39 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "enclosure_temperature",
-          "legendFormat": "",
-          "refId": "A"
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "rawSql": "SELECT\n  created AS \"time\",\n  enclosure_temperature\nFROM plant_core_enclosure\nWHERE\n  $__timeFilter(created)\nORDER BY 1",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "enclosure_temperature"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "plant_core_enclosure",
+          "timeColumn": "created",
+          "timeColumnType": "timestamptz",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
         }
       ],
       "thresholds": [],
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Enclosure temperature",
+      "title": "My Plant",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -216,7 +201,7 @@
       "yaxes": [
         {
           "format": "short",
-          "label": "Temperature",
+          "label": null,
           "logBase": 1,
           "max": null,
           "min": null,
@@ -238,346 +223,92 @@
     },
     {
       "cacheTimeout": null,
+      "description": "",
       "gridPos": {
-        "h": 3,
-        "w": 3,
-        "x": 4,
-        "y": 3
-      },
-      "id": 12,
-      "links": [],
-      "options": {
-        "displayMode": "gradient",
-        "fieldOptions": {
-          "calcs": [
-            "last"
-          ],
-          "defaults": {
-            "mappings": [
-              {
-                "from": "",
-                "id": 1,
-                "operator": "",
-                "text": "ON",
-                "to": "",
-                "type": 1,
-                "value": "1"
-              },
-              {
-                "from": "",
-                "id": 2,
-                "operator": "",
-                "text": "OFF",
-                "to": "",
-                "type": 1,
-                "value": "0"
-              }
-            ],
-            "max": 1,
-            "min": 0,
-            "thresholds": [
-              {
-                "color": "red",
-                "value": null
-              }
-            ],
-            "title": "Heater"
-          },
-          "override": {},
-          "values": false
-        },
-        "orientation": "auto"
-      },
-      "pluginVersion": "6.3.2",
-      "targets": [
-        {
-          "expr": "device_heater_status",
-          "instant": false,
-          "refId": "A"
-        }
-      ],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "",
-      "type": "bargauge"
-    },
-    {
-      "cacheTimeout": null,
-      "gridPos": {
-        "h": 6,
+        "h": 4,
         "w": 4,
         "x": 0,
-        "y": 6
+        "y": 4
       },
       "id": 5,
       "links": [],
       "options": {
+        "displayMode": "lcd",
         "fieldOptions": {
           "calcs": [
-            "mean"
+            "last"
           ],
           "defaults": {
             "mappings": [],
-            "max": 100,
+            "max": 1,
             "min": 0,
-            "thresholds": [
-              {
+            "thresholds": {
+              "0": {
                 "color": "green",
                 "value": null
               },
-              {
+              "1": {
                 "color": "red",
                 "value": 80
-              }
-            ],
-            "title": "Hygrometry"
+              },
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "super-light-red",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 0
+                },
+                {
+                  "color": "red",
+                  "value": 1
+                }
+              ]
+            }
           },
           "override": {},
+          "overrides": [],
           "values": false
         },
         "orientation": "auto",
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true
+        "showUnfilled": true
       },
-      "pluginVersion": "6.3.2",
+      "pluginVersion": "6.3.4",
       "targets": [
         {
-          "expr": "enclosure_hygrometry",
-          "instant": true,
-          "refId": "A"
-        }
-      ],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "",
-      "type": "gauge"
-    },
-    {
-      "cacheTimeout": null,
-      "gridPos": {
-        "h": 3,
-        "w": 3,
-        "x": 4,
-        "y": 6
-      },
-      "id": 13,
-      "links": [],
-      "options": {
-        "displayMode": "gradient",
-        "fieldOptions": {
-          "calcs": [
-            "last"
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "rawSql": "SELECT\n  created AS \"time\",\n  power_status\nFROM plant_core_heater\nWHERE\n  $__timeFilter(created)\nORDER BY 1",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "power_status"
+                ],
+                "type": "column"
+              }
+            ]
           ],
-          "defaults": {
-            "mappings": [
-              {
-                "from": "",
-                "id": 1,
-                "operator": "",
-                "text": "OFF",
-                "to": "",
-                "type": 1,
-                "value": "0"
-              },
-              {
-                "from": "",
-                "id": 2,
-                "operator": "",
-                "text": "ON",
-                "to": "",
-                "type": 1,
-                "value": "1"
-              }
-            ],
-            "max": 1,
-            "min": 0,
-            "thresholds": [
-              {
-                "color": "blue",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ],
-            "title": "Cooler"
-          },
-          "override": {},
-          "values": false
-        },
-        "orientation": "auto"
-      },
-      "pluginVersion": "6.3.2",
-      "targets": [
-        {
-          "expr": "device_cooler_status",
-          "instant": false,
-          "refId": "A"
+          "table": "plant_core_heater",
+          "timeColumn": "created",
+          "timeColumnType": "timestamptz",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
         }
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "",
-      "type": "bargauge"
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "description": "",
-      "fill": 7,
-      "fillGradient": 10,
-      "gridPos": {
-        "h": 6,
-        "w": 17,
-        "x": 7,
-        "y": 6
-      },
-      "id": 15,
-      "legend": {
-        "alignAsTable": false,
-        "avg": false,
-        "current": false,
-        "hideEmpty": false,
-        "max": false,
-        "min": false,
-        "rightSide": false,
-        "show": false,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 4,
-      "nullPointMode": "null",
-      "options": {
-        "dataLinks": []
-      },
-      "percentage": false,
-      "pluginVersion": "6.3.2",
-      "pointradius": 6,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "expr": "enclosure_temperature",
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "Enclosure temperature",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "short",
-          "label": "Temperature",
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "cacheTimeout": null,
-      "gridPos": {
-        "h": 3,
-        "w": 3,
-        "x": 4,
-        "y": 9
-      },
-      "id": 14,
-      "links": [],
-      "options": {
-        "displayMode": "gradient",
-        "fieldOptions": {
-          "calcs": [
-            "last"
-          ],
-          "defaults": {
-            "mappings": [
-              {
-                "from": "",
-                "id": 1,
-                "operator": "",
-                "text": "OFF",
-                "to": "",
-                "type": 1,
-                "value": "0"
-              },
-              {
-                "from": "",
-                "id": 2,
-                "operator": "",
-                "text": "ON",
-                "to": "",
-                "type": 1,
-                "value": "1"
-              }
-            ],
-            "max": 1,
-            "min": 0,
-            "thresholds": [
-              {
-                "color": "blue",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ],
-            "title": "Cooler"
-          },
-          "override": {},
-          "values": false
-        },
-        "orientation": "auto"
-      },
-      "pluginVersion": "6.3.2",
-      "targets": [
-        {
-          "expr": "device_cooler_status",
-          "instant": false,
-          "refId": "A"
-        }
-      ],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "",
+      "title": "Air Heater Power",
       "type": "bargauge"
     },
     {
@@ -585,17 +316,18 @@
         "h": 4,
         "w": 4,
         "x": 0,
-        "y": 12
+        "y": 8
       },
-      "id": 7,
+      "id": 8,
       "options": {
+        "displayMode": "lcd",
         "fieldOptions": {
           "calcs": [
-            "mean"
+            "last"
           ],
           "defaults": {
             "mappings": [],
-            "max": 100,
+            "max": 1,
             "min": 0,
             "thresholds": [
               {
@@ -604,81 +336,57 @@
               },
               {
                 "color": "red",
-                "value": 3000
-              }
-            ],
-            "title": "CO2 ppm"
-          },
-          "override": {},
-          "values": false
-        },
-        "orientation": "auto",
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true
-      },
-      "pluginVersion": "6.3.2",
-      "targets": [
-        {
-          "expr": "enclosure_co2_ppm",
-          "instant": true,
-          "refId": "A"
-        }
-      ],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "",
-      "type": "gauge"
-    },
-    {
-      "gridPos": {
-        "h": 4,
-        "w": 4,
-        "x": 0,
-        "y": 16
-      },
-      "id": 9,
-      "options": {
-        "fieldOptions": {
-          "calcs": [
-            "mean"
-          ],
-          "defaults": {
-            "mappings": [],
-            "max": 100,
-            "min": 0,
-            "thresholds": [
-              {
-                "color": "green",
-                "value": null
+                "value": 0
               },
               {
-                "color": "red",
-                "value": 8000
+                "color": "#EAB839",
+                "value": 1
               }
-            ],
-            "title": "VOC ppm"
+            ]
           },
           "override": {},
           "values": false
         },
-        "orientation": "auto",
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true
+        "orientation": "auto"
       },
-      "pluginVersion": "6.3.2",
+      "pluginVersion": "6.3.4",
       "targets": [
         {
-          "expr": "enclosure_voc_ppm",
-          "refId": "A"
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "rawSql": "SELECT\n  $__time(time_column),\n  value1\nFROM\n  metric_table\nWHERE\n  $__timeFilter(time_column)\n",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "power_status"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "plant_core_airhumidifier",
+          "timeColumn": "created",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
         }
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "",
-      "type": "gauge"
+      "title": "Air Humidifier",
+      "type": "bargauge"
     }
   ],
-  "refresh": false,
+  "refresh": "5s",
   "schemaVersion": 19,
   "style": "dark",
   "tags": [],
@@ -686,25 +394,12 @@
     "list": []
   },
   "time": {
-    "from": "now-5m",
+    "from": "now-3h",
     "to": "now"
   },
-  "timepicker": {
-    "refresh_intervals": [
-      "5s",
-      "10s",
-      "30s",
-      "1m",
-      "5m",
-      "15m",
-      "30m",
-      "1h",
-      "2h",
-      "1d"
-    ]
-  },
+  "timepicker": {},
   "timezone": "",
-  "title": "Plant-Keeper",
-  "uid": "pN8WGZOWk",
-  "version": 27
+  "title": "in air",
+  "uid": "s6CNHHWgk",
+  "version": 2
 }
