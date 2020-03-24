@@ -16,6 +16,7 @@ gunicorn = "*"
 dj-static = "*"
 psycopg2-binary = "*"
 drf-yasg = "*"
+python-logging-loki = "*"
 
 [requires]
 python_version = "3.7"

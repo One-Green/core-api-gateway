@@ -39,6 +39,7 @@ services:
   plant-keeper-api-gateway:
     build:
       context: .
+      dockerfile: ./Dockerfile
     command: bash -c "bash init.sh && gunicorn --workers=3 --bind 0.0.0.0:8001 plant_kiper.wsgi"
     restart: always
     ports:
@@ -49,6 +50,7 @@ services:
   plant-keeper-device-ctl:
     build:
       context: .
+      dockerfile: ./Dockerfile
     command: bash -c "cd controllers && python run.py"
     restart: always
     depends_on:
