@@ -192,6 +192,7 @@ class SprinklerValveView(GenericAPIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
+
 class HeaterView(GenericAPIView):
     serializer_class = HeaterSerializer
 
