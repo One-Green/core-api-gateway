@@ -1,27 +1,35 @@
+from django.forms.models import model_to_dict
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework import status
 
-from plant_core.models import (Enclosure,
-                               Cooler,
-                               AirHumidifier,
-                               WaterPump,
-                               Heater,
-                               UvLight,
-                               CO2Valve,
-                               Filters,
-                               SimpleFlaps)
+from plant_core.models import (
+    Enclosure,
+    Cooler,
+    AirHumidifier,
+    WaterPump,
+    SprinklerTag,
+    SprinklerValve,
+    Heater,
+    UvLight,
+    CO2Valve,
+    Filters,
+    SimpleFlaps
+)
 
-from plant_core.serializers import (EnclosureSerializer,
-                                    CoolerSerializer,
-                                    AirHumidifierSerializer,
-                                    WaterPumpSerializer,
-                                    HeaterSerializer,
-                                    UvLightSerializer,
-                                    CO2ValveSerializer,
-                                    FiltersSerializer,
-                                    SimpleFlapsSerializer)
+from plant_core.serializers import (
+    EnclosureSerializer,
+    CoolerSerializer,
+    AirHumidifierSerializer,
+    WaterPumpSerializer,
+    SprinklerValveSerializer,
+    HeaterSerializer,
+    UvLightSerializer,
+    CO2ValveSerializer,
+    FiltersSerializer,
+    SimpleFlapsSerializer
+)
 
 
 class EnclosureView(GenericAPIView):
@@ -111,6 +119,78 @@ class WaterPumpView(GenericAPIView):
         serializer = WaterPumpSerializer(WaterPump.objects.all(), many=True)
         return Response(serializer.data[-1], status=status.HTTP_200_OK)
 
+
+class SprinklerValveView(GenericAPIView):
+    serializer_class = SprinklerValveSerializer
+
+    @csrf_exempt
+    def post(self, request):
+        serializer = SprinklerValveSerializer(data=request.data)
+        if serializer.is_valid():
+            tag_created = False
+            try:
+                tag = SprinklerTag.objects.get(tag=request.data['tag'])
+            except SprinklerTag.DoesNotExist:
+                tag = SprinklerTag(tag=request.data['tag'])
+                tag.save()
+                tag_created = True
+            finally:
+                SprinklerValve(
+                    tag=tag,
+                    soil_hygrometry=request.data['soil_hygrometry']
+                ).save()
+
+            return Response(
+                {
+                    'type': "SprinklerValveView",
+                    'tag': tag.tag,
+                    'tag_created': tag_created,
+                    'saved': True
+                },
+                status=status.HTTP_201_CREATED
+            )
+        else:
+            return Response(
+                {
+                    'type': "SprinklerValveView",
+                    'error': True,
+                    'message': 'Missing "tag", "soil_hygrometry" to process'
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+    @csrf_exempt
+    def get(self, request):
+        serializer = SprinklerValveSerializer(data=request.data)
+        if serializer.is_valid():
+            try:
+                tag = SprinklerTag.objects.get(tag=request.data['tag'])
+            except SprinklerTag.DoesNotExist:
+                return Response(
+                    {
+                        'type': "SprinklerValveView",
+                        'tag': request.data['tag'],
+                        'error': True,
+                        'saved': False,
+                        'message': "Tag not found in database"
+                    },
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            r = model_to_dict(
+                SprinklerValve.objects.filter(
+                    tag=tag
+                ).order_by('-created')[0]
+            )
+            return Response(r, status=status.HTTP_200_OK)
+        else:
+            return Response(
+                {
+                    'type': "SprinklerValveView",
+                    'error': True,
+                    'message': 'Missing "tag" to process'
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
 class HeaterView(GenericAPIView):
     serializer_class = HeaterSerializer

@@ -43,8 +43,9 @@ urlpatterns = [
     path('cooler/', views.CoolerView.as_view()),
     path('air-humidifier/', views.AirHumidifierView.as_view()),
     path('water-pump/', views.WaterPumpView.as_view()),
+    path('sprinkler-valve/', views.SprinklerValveView.as_view()),
     path('heater/', views.HeaterView.as_view()),
     path('uv-light/', views.UvLightView.as_view()),
-    path('co2valve/', views.CO2ValveView.as_view()),
+    path('co2-valve/', views.CO2ValveView.as_view()),
     path('filters/', views.FiltersView.as_view())
 ]

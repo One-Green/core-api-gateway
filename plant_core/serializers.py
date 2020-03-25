@@ -1,13 +1,15 @@
 from rest_framework import serializers
-from plant_core.models import (Enclosure,
-                               Cooler,
-                               AirHumidifier,
-                               WaterPump,
-                               Heater,
-                               UvLight,
-                               CO2Valve,
-                               Filters,
-                               SimpleFlaps)
+from plant_core.models import (
+    Enclosure,
+    Cooler,
+    AirHumidifier,
+    WaterPump,
+    Heater,
+    UvLight,
+    CO2Valve,
+    Filters,
+    SimpleFlaps
+)
 
 
 class EnclosureSerializer(serializers.ModelSerializer):
@@ -32,6 +34,12 @@ class WaterPumpSerializer(serializers.ModelSerializer):
     class Meta:
         model = WaterPump
         fields = '__all__'
+
+
+class SprinklerValveSerializer(serializers.Serializer):
+    tag = serializers.CharField()
+    soil_hygrometry = serializers.FloatField()
+    power_status = serializers.IntegerField(read_only=True)
 
 
 class HeaterSerializer(serializers.ModelSerializer):
