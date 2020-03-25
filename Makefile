@@ -5,6 +5,7 @@ up-raspap:
 	wget -q https://git.io/voEUQ -O /tmp/raspap && bash /tmp/raspap
 
 up-django: ##@dev
+	rm -rv plant_core/migrations || true
 	pipenv run python manage.py makemigrations plant_core
 	pipenv run python manage.py migrate
 	pipenv run python manage.py collectstatic
