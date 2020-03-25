@@ -30,6 +30,9 @@ class PlantSettings(models.Model):
     def lighting_duration(self):
         return self.light_end - self.light_start
 
+    def __str__(self):
+        return "Plant Settings"
+
     def save(self, *args, **kwargs):
         """
         keep only one plant setting in database
@@ -269,6 +272,51 @@ class WaterPump(models.Model):
 
     class Meta:
         ordering = ['created']
+
+
+class SprinklerTag(models.Model):
+    created = models.DateTimeField(auto_now_add=True)
+    tag = models.CharField(max_length=30, blank=False, null=False, primary_key=True)
+
+    def __str__(self):
+        return self.tag
+
+    class Meta:
+        ordering = ['created']
+
+
+class SprinklerValve(models.Model):
+    created = models.DateTimeField(auto_now_add=True)
+    tag = models.ForeignKey(SprinklerTag, on_delete=models.CASCADE)
+    soil_hygrometry = models.FloatField(blank=True, null=True)
+    power_status = models.SmallIntegerField(blank=True, null=True, default=0)
+
+    def save(self, *args, **kwargs):
+        """
+        keep only 1000 latest values
+        :param args:
+        :param kwargs:
+        :return:
+        """
+        if SprinklerValve.objects.all().count() == 10000:
+            SprinklerValve.objects.all().order_by('created')[0].delete()
+        super(SprinklerValve, self).save(*args, **kwargs)
+
+    @classmethod
+    def get_status(cls, _tag):
+        """
+        get latest values
+        :return:
+        """
+        try:
+            return cls.objects.get(
+                tag=SprinklerTag.objects.get(
+                    tag=_tag
+                )
+            ).latest('created')
+
+        except ObjectDoesNotExist:
+            return {}
 
 
 class Heater(models.Model):
