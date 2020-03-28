@@ -92,8 +92,7 @@ def main():
             logger.error(
                 f'[ERROR] [{CONTROLLED_DEVICE}] '
                 f'status or vapor_gen_status '
-                f'is empty ... water level is working ??',
-                extra={"tags": {"service": "my-service"}},
+                f'is empty ... water level is working ??'
             )
             logger.warning(f'[WARNING] [{CONTROLLED_DEVICE}] water level set == 0.0')
 
