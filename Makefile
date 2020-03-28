@@ -10,36 +10,6 @@ up-django: ##@dev
 	pipenv run python manage.py migrate
 	pipenv run python manage.py collectstatic
 
-up-pk-api-gateway: up-django plant_kiper/wsgi.py
-	pipenv run gunicorn --workers=3 --bind 0.0.0.0:80 plant_kiper.wsgi
-
-up-pk-dev-ctl: controllers/run.py
-	cd controllers && pipenv run python run.py
-
-up-pk-prom-export: prometheus.py
-	pipenv run python prometheus.py
-
-up-plant-keeper: up-pk-api-gateway up-pk-dev-ctl up-pk-prom-export
-
-dl-prometheus: prometheus.yml
-	# download and install Prometheus
-	wget https://github.com/prometheus/prometheus/releases/download/v2.12.0-rc.0/prometheus-2.12.0-rc.0.linux-armv7.tar.gz
-	tar xf prometheus-2.12.0-rc.0.linux-armv7.tar.gz
-	mv prometheus-2.12.0-rc.0.linux-armv7 prometheus
-	# copy current prometheus configuration
-
-up-prom-server:
-	yes | sudo cp prometheus.yml ../prometheus
-	# start prometheus server
-	cd /home/pi/prometheus/ && ./prometheus --config.file="prometheus.yml" --log.level=error --log.format=logfmt
-
-up-prometheus-local: prometheus.yml #@dev start prom server + grafana
-	# localhost:9090s
-	prometheus --config.file="prometheus.yml"
-	# localhost:3000
-	brew services start grafana
-
-
 up-grafana:
 	# download and install Granafa
 	wget https://dl.grafana.com/oss/release/grafana_6.3.3_armhf.deb
@@ -76,3 +46,4 @@ build-push-base: export TAG=0.0.1
 build-push-base:
 	docker login
 	docker build -t shanisma/plant-keeper:${TAG} -f Dockerfile.base .
+	docker push shanisma/plant-keeper:${TAG}
