@@ -23,6 +23,11 @@ Controller classes are included in project **core** package
 All stages of measurement, control and action are separated.
 
 
+.. image:: static/grafana_1.png
+   :width: 600
+   :align: center
+
+
 QuickStart : Docker way
 =======================
 
