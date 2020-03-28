@@ -86,7 +86,7 @@ class AirHumidifierView(GenericAPIView):
             serializer.save()
         return Response(
             {
-                'type': "VaporGeneratorView",
+                'type': "AirHumidifierView",
                 'saved': True
             },
             status=status.HTTP_201_CREATED
