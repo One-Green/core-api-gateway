@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import logging
+import logging_loki
 
 __version__ = '0.0.1 beta'
 __current_repo__ = 'https://github.com/shanisma/plant-keeper.git'
@@ -84,8 +86,8 @@ DATABASES = {
         'PASSWORD': 'postgres',
         'HOST': 'db',
         'PORT': 5432,
-        }
     }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -125,3 +127,18 @@ STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
 STATIC_URL = '/static/'
 
 REST_FRAMEWORK = {'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'}
+
+# Distributed Loki endpoint
+LOKI_ENDPOINT = "http://loki:3100/loki/api/v1/push"
+# init loggers
+controller_logger = logging.getLogger(f'controllers-logger')
+controller_logger.setLevel(logging.DEBUG)
+controller_logger.addHandler(
+    logging.StreamHandler()
+)
+controller_logger.addHandler(
+    logging_loki.LokiHandler(
+        url=LOKI_ENDPOINT,
+        version="1"
+    )
+)
