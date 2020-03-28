@@ -30,4 +30,4 @@ while True:
         # TODO add soil humidifier controller here
         pass
 
-    time.sleep(0.1)
+    time.sleep(0.5)
