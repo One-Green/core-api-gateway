@@ -34,35 +34,39 @@
         "displayMode": "lcd",
         "fieldOptions": {
           "calcs": [
-            "last"
+            "lastNotNull"
           ],
           "defaults": {
-            "color": {
-              "mode": "thresholds"
-            },
-            "mappings": [],
+            "mappings": [
+              {
+                "id": 0,
+                "op": "=",
+                "text": "N/A",
+                "type": 1,
+                "value": "null"
+              }
+            ],
             "max": 1,
             "min": 0,
+            "nullValueMode": "connected",
             "thresholds": {
               "mode": "absolute",
               "steps": [
                 {
-                  "color": "blue",
+                  "color": "green",
                   "value": null
                 },
                 {
-                  "color": "blue",
-                  "value": 0
-                },
-                {
-                  "color": "blue",
-                  "value": 1
+                  "color": "red",
+                  "value": 80
                 }
               ]
-            }
+            },
+            "unit": "none"
           },
+          "limit": 1,
           "overrides": [],
-          "values": false
+          "values": true
         },
         "orientation": "horizontal",
         "showUnfilled": true
@@ -114,7 +118,7 @@
       "fill": 3,
       "fillGradient": 0,
       "gridPos": {
-        "h": 16,
+        "h": 12,
         "w": 20,
         "x": 4,
         "y": 0
@@ -260,8 +264,9 @@
               ]
             }
           },
+          "limit": 1,
           "overrides": [],
-          "values": false
+          "values": true
         },
         "orientation": "auto",
         "showUnfilled": true
@@ -342,8 +347,9 @@
               ]
             }
           },
+          "limit": 1,
           "overrides": [],
-          "values": false
+          "values": true
         },
         "orientation": "auto",
         "showUnfilled": true
@@ -398,10 +404,10 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "in air",
+  "title": "Dev",
   "uid": "s6CNHHWgk",
   "variables": {
     "list": []
   },
-  "version": 2
+  "version": 1
 }
