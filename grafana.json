@@ -20,65 +20,80 @@
   "panels": [
     {
       "cacheTimeout": null,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
       "datasource": null,
-      "description": "",
       "gridPos": {
         "h": 4,
         "w": 4,
         "x": 0,
         "y": 0
       },
-      "id": 6,
+      "id": 10,
       "links": [],
-      "options": {
-        "displayMode": "lcd",
-        "fieldOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "defaults": {
-            "mappings": [
-              {
-                "id": 0,
-                "op": "=",
-                "text": "N/A",
-                "type": 1,
-                "value": "null"
-              }
-            ],
-            "max": 1,
-            "min": 0,
-            "nullValueMode": "connected",
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            },
-            "unit": "none"
-          },
-          "limit": 1,
-          "overrides": [],
-          "values": true
-        },
-        "orientation": "horizontal",
-        "showUnfilled": true
-      },
       "pluginVersion": "6.7.1",
+      "polystat": {
+        "animationSpeed": 2500,
+        "columnAutoSize": true,
+        "columns": "",
+        "defaultClickThrough": "",
+        "defaultClickThroughNewTab": false,
+        "defaultClickThroughSanitize": false,
+        "displayLimit": 10,
+        "fontAutoScale": true,
+        "fontSize": 12,
+        "fontType": "Roboto",
+        "globalDecimals": 0,
+        "globalDisplayMode": "all",
+        "globalDisplayTextTriggeredEmpty": "OK",
+        "globalOperatorName": "current",
+        "globalThresholds": [
+          {
+            "color": "#FFF899",
+            "state": 0,
+            "value": 0
+          },
+          {
+            "color": "#299c46",
+            "state": 0,
+            "value": 1
+          }
+        ],
+        "globalUnitFormat": "short",
+        "gradientEnabled": true,
+        "hexagonSortByDirection": 1,
+        "hexagonSortByField": "value",
+        "maxMetrics": 0,
+        "polygonBorderColor": "black",
+        "polygonBorderSize": 2,
+        "polygonGlobalFillColor": "#73BF69",
+        "radius": "",
+        "radiusAutoSize": true,
+        "rowAutoSize": true,
+        "rows": "",
+        "shape": "hexagon_pointed_top",
+        "tooltipDisplayMode": "all",
+        "tooltipDisplayTextTriggeredEmpty": "OK",
+        "tooltipFontSize": 12,
+        "tooltipFontType": "Roboto",
+        "tooltipPrimarySortDirection": 0,
+        "tooltipPrimarySortField": "name",
+        "tooltipSecondarySortDirection": 0,
+        "tooltipSecondarySortField": "value",
+        "tooltipTimestampEnabled": false
+      },
+      "savedComposites": [],
+      "savedOverrides": [],
       "targets": [
         {
           "format": "time_series",
           "group": [],
           "metricColumn": "none",
           "rawQuery": false,
-          "rawSql": "SELECT\n  created AS \"time\",\n  power_status\nFROM plant_core_cooler\nWHERE\n  $__timeFilter(created)\nORDER BY 1",
+          "rawSql": "SELECT\n  created AS \"time\",\n  power_status AS \"humidifier\"\nFROM plant_core_airhumidifier\nWHERE\n  $__timeFilter(created)\nORDER BY 1",
           "refId": "A",
           "select": [
             [
@@ -87,6 +102,46 @@
                   "power_status"
                 ],
                 "type": "column"
+              },
+              {
+                "params": [
+                  "humidifier"
+                ],
+                "type": "alias"
+              }
+            ]
+          ],
+          "table": "plant_core_airhumidifier",
+          "timeColumn": "created",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        },
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "rawSql": "SELECT\n  created AS \"time\",\n  power_status AS \"cooler\"\nFROM plant_core_cooler\nWHERE\n  $__timeFilter(created)\nORDER BY 1",
+          "refId": "B",
+          "select": [
+            [
+              {
+                "params": [
+                  "power_status"
+                ],
+                "type": "column"
+              },
+              {
+                "params": [
+                  "cooler"
+                ],
+                "type": "alias"
               }
             ]
           ],
@@ -100,12 +155,46 @@
               "type": "macro"
             }
           ]
+        },
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "rawSql": "SELECT\n  created AS \"time\",\n  power_status AS \"heater\"\nFROM plant_core_heater\nWHERE\n  $__timeFilter(created)\nORDER BY 1",
+          "refId": "C",
+          "select": [
+            [
+              {
+                "params": [
+                  "power_status"
+                ],
+                "type": "column"
+              },
+              {
+                "params": [
+                  "heater"
+                ],
+                "type": "alias"
+              }
+            ]
+          ],
+          "table": "plant_core_heater",
+          "timeColumn": "created",
+          "timeColumnType": "timestamptz",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
         }
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Air Cooler (and Dehumidifier)  Power",
-      "type": "bargauge"
+      "title": "Power Status",
+      "type": "grafana-polystat-panel"
     },
     {
       "aliasColors": {},
@@ -220,178 +309,9 @@
         "align": false,
         "alignLevel": null
       }
-    },
-    {
-      "cacheTimeout": null,
-      "datasource": null,
-      "description": "",
-      "gridPos": {
-        "h": 4,
-        "w": 4,
-        "x": 0,
-        "y": 4
-      },
-      "id": 5,
-      "links": [],
-      "options": {
-        "displayMode": "lcd",
-        "fieldOptions": {
-          "calcs": [
-            "last"
-          ],
-          "defaults": {
-            "color": {
-              "mode": "thresholds"
-            },
-            "mappings": [],
-            "max": 1,
-            "min": 0,
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "red",
-                  "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 0
-                },
-                {
-                  "color": "red",
-                  "value": 1
-                }
-              ]
-            }
-          },
-          "limit": 1,
-          "overrides": [],
-          "values": true
-        },
-        "orientation": "auto",
-        "showUnfilled": true
-      },
-      "pluginVersion": "6.7.1",
-      "targets": [
-        {
-          "format": "time_series",
-          "group": [],
-          "metricColumn": "none",
-          "rawQuery": false,
-          "rawSql": "SELECT\n  created AS \"time\",\n  power_status\nFROM plant_core_heater\nWHERE\n  $__timeFilter(created)\nORDER BY 1",
-          "refId": "A",
-          "select": [
-            [
-              {
-                "params": [
-                  "power_status"
-                ],
-                "type": "column"
-              }
-            ]
-          ],
-          "table": "plant_core_heater",
-          "timeColumn": "created",
-          "timeColumnType": "timestamptz",
-          "where": [
-            {
-              "name": "$__timeFilter",
-              "params": [],
-              "type": "macro"
-            }
-          ]
-        }
-      ],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Air Heater Power",
-      "type": "bargauge"
-    },
-    {
-      "datasource": null,
-      "gridPos": {
-        "h": 4,
-        "w": 4,
-        "x": 0,
-        "y": 8
-      },
-      "id": 8,
-      "options": {
-        "displayMode": "lcd",
-        "fieldOptions": {
-          "calcs": [
-            "last"
-          ],
-          "defaults": {
-            "color": {
-              "mode": "thresholds"
-            },
-            "mappings": [],
-            "max": 1,
-            "min": 0,
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "light-blue",
-                  "value": null
-                },
-                {
-                  "color": "light-blue",
-                  "value": 0
-                },
-                {
-                  "color": "light-blue",
-                  "value": 1
-                }
-              ]
-            }
-          },
-          "limit": 1,
-          "overrides": [],
-          "values": true
-        },
-        "orientation": "auto",
-        "showUnfilled": true
-      },
-      "pluginVersion": "6.7.1",
-      "targets": [
-        {
-          "format": "time_series",
-          "group": [],
-          "metricColumn": "none",
-          "rawQuery": false,
-          "rawSql": "SELECT\n  $__time(time_column),\n  value1\nFROM\n  metric_table\nWHERE\n  $__timeFilter(time_column)\n",
-          "refId": "A",
-          "select": [
-            [
-              {
-                "params": [
-                  "power_status"
-                ],
-                "type": "column"
-              }
-            ]
-          ],
-          "table": "plant_core_airhumidifier",
-          "timeColumn": "created",
-          "timeColumnType": "timestamp",
-          "where": [
-            {
-              "name": "$__timeFilter",
-              "params": [],
-              "type": "macro"
-            }
-          ]
-        }
-      ],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Air Humidifier Power",
-      "type": "bargauge"
     }
   ],
-  "refresh": "5s",
+  "refresh": "10s",
   "schemaVersion": 22,
   "style": "dark",
   "tags": [],
@@ -399,7 +319,7 @@
     "list": []
   },
   "time": {
-    "from": "now-3h",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {},
