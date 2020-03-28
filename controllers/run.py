@@ -1,5 +1,6 @@
 import os
 import sys
+import time
 import django
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "plant_kiper.settings")
@@ -28,3 +29,5 @@ while True:
     if settings['activate_soil_humidifier_controller']:
         # TODO add soil humidifier controller here
         pass
+
+    time.sleep(0.1)
