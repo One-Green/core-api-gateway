@@ -60,5 +60,7 @@ services:
   grafana:
     image: grafana/grafana:6.7.1
     restart: always
+    environment:
+      - GF_INSTALL_PLUGINS=grafana-polystat-panel,jdbranham-diagram-panel,agenty-flowcharting-panel,pierosavi-imageit-panel,scadavis-synoptic-panel
     ports:
      - 3000:3000
