@@ -10,8 +10,10 @@ django.setup()
 
 from plant_kiper.settings import controller_logger
 from core.controller import BaseTimeRangeController
-from plant_core.models import PlantSettings
-from plant_core.models import UvLight
+from plant_core.models import (
+    PlantSettings,
+    UvLight
+)
 
 # give a name for controlled device
 # for printing / logging purpose

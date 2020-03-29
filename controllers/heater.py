@@ -9,8 +9,8 @@ django.setup()
 
 from plant_kiper.settings import controller_logger
 from core.controller import BaseController
-from plant_core.models import PlantSettings
 from plant_core.models import (
+    PlantSettings,
     Enclosure,
     Heater
 )
