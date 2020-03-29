@@ -20,6 +20,8 @@ class PlantSettings(models.Model):
     light_start = models.TimeField(blank=True, null=True)
     light_end = models.TimeField(blank=True, null=True)
 
+    sprinkler_setting = models.ManyToManyField('SprinklerSettings')
+
     activate_cooler_controller = models.BooleanField(default=True, blank=False, null=False)
     activate_heater_controller = models.BooleanField(default=True, blank=False, null=False)
     activate_air_humidifier_controller = models.BooleanField(default=True, blank=False, null=False)
@@ -285,11 +287,22 @@ class SprinklerTag(models.Model):
         ordering = ['created']
 
 
+class SprinklerSettings(models.Model):
+    tag = models.OneToOneField(SprinklerTag, on_delete=models.CASCADE)
+    soil_hygrometry = models.FloatField(blank=False, null=False)
+
+    def __str__(self):
+        return f'{self.tag}'
+
+
 class SprinklerValve(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     tag = models.ForeignKey(SprinklerTag, on_delete=models.CASCADE)
     soil_hygrometry = models.FloatField(blank=True, null=True)
     power_status = models.SmallIntegerField(blank=True, null=True, default=0)
+
+    def __str__(self):
+        return f'{self.tag}'
 
     def save(self, *args, **kwargs):
         """

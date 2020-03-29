@@ -6,6 +6,7 @@ from plant_core.models import (
     AirHumidifier,
     WaterPump,
     SprinklerTag,
+    SprinklerSettings,
     SprinklerValve,
     Heater,
     UvLight,
@@ -21,6 +22,7 @@ admin.site.register(Cooler)
 admin.site.register(AirHumidifier)
 admin.site.register(WaterPump)
 admin.site.register(SprinklerTag)
+admin.site.register(SprinklerSettings)
 admin.site.register(SprinklerValve)
 admin.site.register(Heater)
 admin.site.register(UvLight)
