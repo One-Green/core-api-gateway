@@ -20,7 +20,8 @@ CONTROLLED_DEVICE: str = 'water-pump'
 # Print template
 # generic template for logging/print (for log remove datetime_now)
 PRINT_TEMPLATE = (
-    '[INFO] [{device}]'
+    '[INFO] [{device}] ;'
+    ' pump status = {action}'
 )
 
 
@@ -33,10 +34,22 @@ def main():
 
     if 1 in sprinklers_request:
         WaterPump.set_power_status(1)
-        print('power on')
+        controller_logger.info(
+            PRINT_TEMPLATE.format(
+                device=CONTROLLED_DEVICE,
+                action=1
+            ),
+            extra={"tags": {"controller": CONTROLLED_DEVICE}}
+        )
     else:
         WaterPump.set_power_status(0)
-        print('power off')
+        controller_logger.info(
+            PRINT_TEMPLATE.format(
+                device=CONTROLLED_DEVICE,
+                action=0
+            ),
+            extra={"tags": {"controller": CONTROLLED_DEVICE}}
+        )
 
 
 if __name__ == '__main__':
