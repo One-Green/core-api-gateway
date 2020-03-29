@@ -8,7 +8,14 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.join('..', '..', os.path
 django.setup()
 
 from plant_core.models import PlantSettings
-from controllers import cooler, heater, air_humidifier, light
+from controllers import (
+    cooler,
+    heater,
+    air_humidifier,
+    light,
+    sprinklers,
+    water_pump
+)
 
 # Run all controllers
 while True:
@@ -27,7 +34,7 @@ while True:
         light.main()
 
     if settings['activate_soil_humidifier_controller']:
-        # TODO add soil humidifier controller here
-        pass
+        sprinklers.main()
+        water_pump.main()
 
     time.sleep(0.5)
