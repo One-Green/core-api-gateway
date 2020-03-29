@@ -174,8 +174,9 @@ class SprinklerValveView(GenericAPIView):
                         'saved': False,
                         'message': "Tag not found in database"
                     },
-                    status=status.HTTP_400_BAD_REQUEST
+                    status=status.HTTP_417_EXPECTATION_FAILED
                 )
+
             r = model_to_dict(
                 SprinklerValve.objects.filter(
                     tag=tag
@@ -187,7 +188,7 @@ class SprinklerValveView(GenericAPIView):
                 {
                     'type': "SprinklerValveView",
                     'error': True,
-                    'message': 'Missing "tag" to process'
+                    'message': 'Serializer not validated this request'
                 },
                 status=status.HTTP_400_BAD_REQUEST
             )

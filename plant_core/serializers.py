@@ -38,8 +38,9 @@ class WaterPumpSerializer(serializers.ModelSerializer):
 
 class SprinklerValveSerializer(serializers.Serializer):
     tag = serializers.CharField()
-    soil_hygrometry = serializers.FloatField()
-    power_status = serializers.IntegerField(read_only=True)
+    # TODO fix read/write mandatory field
+    # soil_hygrometry = serializers.FloatField(write_only=True)
+    # power_status = serializers.IntegerField(read_only=True)
 
 
 class HeaterSerializer(serializers.ModelSerializer):
