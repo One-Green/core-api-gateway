@@ -2,6 +2,8 @@ import requests
 from pprint import pprint
 import ray
 import random
+from water_pump import WaterPump
+from sprinkler import Sprinkler
 
 ray.init()
 
@@ -80,7 +82,9 @@ _cls = [
     Enclosure.remote(),
     AirHumidifier.remote(),
     Cooler.remote(),
-    Heater.remote()
+    Heater.remote(),
+    WaterPump.remote(),
+    Sprinkler.remote()
 ]
 
 while True:
