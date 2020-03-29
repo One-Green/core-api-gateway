@@ -12,8 +12,7 @@ from core.controller import BaseController
 from plant_core.models import (
     SprinklerTag,
     SprinklerSettings,
-    SprinklerValve,
-    WaterPump
+    SprinklerValve
 )
 
 # give a name for controlled device
@@ -52,8 +51,24 @@ def main():
                 )
                 ctl.set_sensor_value(status.soil_hygrometry)
                 SprinklerValve.set_power_status(tag, ctl.action)
-                WaterPump.set_power_status(ctl.action)
-                print('action set')
+
+                #controller_logger.info(
+                print(PRINT_TEMPLATE.format(
+                        device=CONTROLLED_DEVICE,
+                        tag=tag.tag,
+                        setting=setting.soil_hygrometry,
+                        humidity=status.soil_hygrometry,
+                        action=ctl.action
+                    )
+                )
+                #     ,
+                #     extra={
+                #         "tags": {
+                #             "controller": CONTROLLED_DEVICE,
+                #             'sprinkler-tag': tag.tag
+                #         }
+                #     }
+                # )
 
         except SprinklerSettings.DoesNotExist:
             print(f'ERROR SPRINKLER SETTING NOT DEFINED for tag={tag.tag}')
