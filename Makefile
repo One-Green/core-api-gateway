@@ -8,7 +8,18 @@ up-django: ##@dev
 	rm -rv plant_core/migrations || true
 	pipenv run python manage.py makemigrations plant_core
 	pipenv run python manage.py migrate
-	pipenv run python manage.py collectstatic
+	pipenv run python manage.py collectstatic --no-input
+	pipenv run python create_plant_keeper_user.py || true
+	pipenv run python init_plant_config.py || true
+	pipenv run python manage.py runserver 127.0.0.1:8001
+
+restart-api-gateway:
+	docker-compose up -d --no-deps --build plant-keeper-api-gateway
+
+restart-controller:
+	docker-compose up -d --no-deps --build plant-keeper-device-ctl
+
+
 
 up-grafana:
 	# download and install Granafa
@@ -16,7 +27,6 @@ up-grafana:
 	sudo dpkg -i grafana_6.3.3_armhf.deb
 	# ethernet to localport 3000>3000
 	sudo iptables -t nat -A PREROUTING -p tcp --dport 3000 -j REDIRECT --to-port 3000
-
 
 create-su: ##@dev
 	-pipenv run python manage.py shell -c "from django.contrib.auth.models import User; User.objects.create_superuser('admin', 'admin@example.com', 'admin')" || echo "Error while creating admin"
@@ -26,7 +36,6 @@ runserver-dev:
 
 dj-shell:
 	pipenv run python manage.py shell -i ipython
-
 
 core-unittest: core/tests/test_base_controller.py core/tests/test_base_time_range_controller.py
 	cd ${PWD}/core/tests ;\
