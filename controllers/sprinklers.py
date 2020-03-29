@@ -52,26 +52,39 @@ def main():
                 ctl.set_sensor_value(status.soil_hygrometry)
                 SprinklerValve.set_power_status(tag, ctl.action)
 
-                #controller_logger.info(
-                print(PRINT_TEMPLATE.format(
+                controller_logger.info(
+                    PRINT_TEMPLATE.format(
                         device=CONTROLLED_DEVICE,
                         tag=tag.tag,
                         setting=setting.soil_hygrometry,
                         humidity=status.soil_hygrometry,
                         action=ctl.action
                     )
+                    ,
+                    extra={
+                        "tags": {
+                            "controller": CONTROLLED_DEVICE,
+                            'sprinkler-tag': tag.tag
+                        }
+                    }
                 )
-                #     ,
-                #     extra={
-                #         "tags": {
-                #             "controller": CONTROLLED_DEVICE,
-                #             'sprinkler-tag': tag.tag
-                #         }
-                #     }
-                # )
 
         except SprinklerSettings.DoesNotExist:
-            print(f'ERROR SPRINKLER SETTING NOT DEFINED for tag={tag.tag}')
+            controller_logger.error(
+                (
+                    f'[ERROR] [{CONTROLLED_DEVICE}] '
+                    f'[tag={tag.tag} '
+                    f'Soil hygrometry settings '
+                    f'not done '
+                )
+                ,
+                extra={
+                    "tags": {
+                        "controller": CONTROLLED_DEVICE,
+                        'sprinkler-tag': tag.tag
+                    }
+                }
+            )
             continue
 
 
