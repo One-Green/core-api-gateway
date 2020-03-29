@@ -587,6 +587,135 @@
       "valueName": "current"
     },
     {
+      "datasource": null,
+      "gridPos": {
+        "h": 10,
+        "w": 3,
+        "x": 0,
+        "y": 4
+      },
+      "id": 19,
+      "options": {
+        "displayMode": "basic",
+        "fieldOptions": {
+          "calcs": [
+            "last"
+          ],
+          "defaults": {
+            "mappings": [
+              {
+                "from": "0",
+                "id": 1,
+                "operator": "",
+                "text": "Fill water !!",
+                "to": "10",
+                "type": 2,
+                "value": "10"
+              }
+            ],
+            "max": 100,
+            "min": 0,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "blue",
+                  "value": null
+                },
+                {
+                  "color": "dark-red",
+                  "value": 10
+                },
+                {
+                  "color": "blue",
+                  "value": 11
+                }
+              ]
+            }
+          },
+          "overrides": [],
+          "values": false
+        },
+        "orientation": "vertical",
+        "showUnfilled": false
+      },
+      "pluginVersion": "6.7.1",
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "rawSql": "SELECT\n  created AS \"time\",\n  water_level AS \"Soil\"\nFROM plant_core_waterpump\nWHERE\n  $__timeFilter(created)\nORDER BY 1",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "water_level"
+                ],
+                "type": "column"
+              },
+              {
+                "params": [
+                  "Soil"
+                ],
+                "type": "alias"
+              }
+            ]
+          ],
+          "table": "plant_core_waterpump",
+          "timeColumn": "created",
+          "timeColumnType": "timestamptz",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        },
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "rawSql": "SELECT\n  created AS \"time\",\n  water_level AS \"Air Humidifier\"\nFROM plant_core_airhumidifier\nWHERE\n  $__timeFilter(created)\nORDER BY 1",
+          "refId": "B",
+          "select": [
+            [
+              {
+                "params": [
+                  "water_level"
+                ],
+                "type": "column"
+              },
+              {
+                "params": [
+                  "Air Humidifier"
+                ],
+                "type": "alias"
+              }
+            ]
+          ],
+          "table": "plant_core_airhumidifier",
+          "timeColumn": "created",
+          "timeColumnType": "timestamptz",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Water Tanks Level",
+      "type": "bargauge"
+    },
+    {
       "cacheTimeout": null,
       "colors": [
         "#299c46",
@@ -595,9 +724,9 @@
       ],
       "datasource": null,
       "gridPos": {
-        "h": 7,
-        "w": 10,
-        "x": 0,
+        "h": 10,
+        "w": 7,
+        "x": 3,
         "y": 4
       },
       "id": 10,
@@ -631,18 +760,18 @@
           }
         ],
         "globalUnitFormat": "short",
-        "gradientEnabled": true,
-        "hexagonSortByDirection": 2,
-        "hexagonSortByField": "value",
+        "gradientEnabled": false,
+        "hexagonSortByDirection": 0,
+        "hexagonSortByField": "name",
         "maxMetrics": 0,
         "polygonBorderColor": "black",
-        "polygonBorderSize": 5,
+        "polygonBorderSize": 1,
         "polygonGlobalFillColor": "#73BF69",
         "radius": "",
         "radiusAutoSize": true,
         "rowAutoSize": true,
         "rows": "",
-        "shape": "hexagon_pointed_top",
+        "shape": "square",
         "tooltipDisplayMode": "all",
         "tooltipDisplayTextTriggeredEmpty": "OK",
         "tooltipFontSize": 12,
@@ -651,7 +780,7 @@
         "tooltipPrimarySortField": "name",
         "tooltipSecondarySortDirection": 0,
         "tooltipSecondarySortField": "value",
-        "tooltipTimestampEnabled": false
+        "tooltipTimestampEnabled": true
       },
       "savedComposites": [],
       "savedOverrides": [],
@@ -729,7 +858,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": false,
-          "rawSql": "SELECT\n  created AS \"time\",\n  power_status AS \"heater\"\nFROM plant_core_heater\nWHERE\n  $__timeFilter(created)\nORDER BY 1",
+          "rawSql": "SELECT\n  created AS \"time\",\n  power_status AS \"water pump\"\nFROM plant_core_waterpump\nWHERE\n  $__timeFilter(created)\nORDER BY 1",
           "refId": "C",
           "select": [
             [
@@ -741,13 +870,13 @@
               },
               {
                 "params": [
-                  "heater"
+                  "water pump"
                 ],
                 "type": "alias"
               }
             ]
           ],
-          "table": "plant_core_heater",
+          "table": "plant_core_waterpump",
           "timeColumn": "created",
           "timeColumnType": "timestamptz",
           "where": [
@@ -791,6 +920,260 @@
               "type": "macro"
             }
           ]
+        },
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "rawSql": "SELECT\n  created AS \"time\",\n  power_status AS \"sprinkler tag-1\"\nFROM plant_core_sprinklervalve\nWHERE\n  $__timeFilter(created) AND\n  tag_id = 'tag-1'\nORDER BY 1",
+          "refId": "E",
+          "select": [
+            [
+              {
+                "params": [
+                  "power_status"
+                ],
+                "type": "column"
+              },
+              {
+                "params": [
+                  "sprinkler tag-1"
+                ],
+                "type": "alias"
+              }
+            ]
+          ],
+          "table": "plant_core_sprinklervalve",
+          "timeColumn": "created",
+          "timeColumnType": "timestamptz",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            },
+            {
+              "datatype": "varchar",
+              "name": "",
+              "params": [
+                "tag_id",
+                "=",
+                "'tag-1'"
+              ],
+              "type": "expression"
+            }
+          ]
+        },
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "rawSql": "SELECT\n  created AS \"time\",\n  power_status AS \"sprinkler tag-2\"\nFROM plant_core_sprinklervalve\nWHERE\n  $__timeFilter(created) AND\n  tag_id = 'tag-2'\nORDER BY 1",
+          "refId": "F",
+          "select": [
+            [
+              {
+                "params": [
+                  "power_status"
+                ],
+                "type": "column"
+              },
+              {
+                "params": [
+                  "sprinkler tag-2"
+                ],
+                "type": "alias"
+              }
+            ]
+          ],
+          "table": "plant_core_sprinklervalve",
+          "timeColumn": "created",
+          "timeColumnType": "timestamptz",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            },
+            {
+              "datatype": "varchar",
+              "name": "",
+              "params": [
+                "tag_id",
+                "=",
+                "'tag-2'"
+              ],
+              "type": "expression"
+            }
+          ]
+        },
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "rawSql": "SELECT\n  created AS \"time\",\n  power_status AS \"sprinkler tag-3\"\nFROM plant_core_sprinklervalve\nWHERE\n  $__timeFilter(created) AND\n  tag_id = 'tag-3'\nORDER BY 1",
+          "refId": "G",
+          "select": [
+            [
+              {
+                "params": [
+                  "power_status"
+                ],
+                "type": "column"
+              },
+              {
+                "params": [
+                  "sprinkler tag-3"
+                ],
+                "type": "alias"
+              }
+            ]
+          ],
+          "table": "plant_core_sprinklervalve",
+          "timeColumn": "created",
+          "timeColumnType": "timestamptz",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            },
+            {
+              "datatype": "varchar",
+              "name": "",
+              "params": [
+                "tag_id",
+                "=",
+                "'tag-3'"
+              ],
+              "type": "expression"
+            }
+          ]
+        },
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "rawSql": "SELECT\n  created AS \"time\",\n  power_status AS \"sprinkler tag-4\"\nFROM plant_core_sprinklervalve\nWHERE\n  $__timeFilter(created) AND\n  tag_id = 'tag-4'\nORDER BY 1",
+          "refId": "H",
+          "select": [
+            [
+              {
+                "params": [
+                  "power_status"
+                ],
+                "type": "column"
+              },
+              {
+                "params": [
+                  "sprinkler tag-4"
+                ],
+                "type": "alias"
+              }
+            ]
+          ],
+          "table": "plant_core_sprinklervalve",
+          "timeColumn": "created",
+          "timeColumnType": "timestamptz",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            },
+            {
+              "datatype": "varchar",
+              "name": "",
+              "params": [
+                "tag_id",
+                "=",
+                "'tag-4'"
+              ],
+              "type": "expression"
+            }
+          ]
+        },
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "rawSql": "SELECT\n  created AS \"time\",\n  power_status AS \"sprinkler tag-5\"\nFROM plant_core_sprinklervalve\nWHERE\n  $__timeFilter(created) AND\n  tag_id = 'tag-5'\nORDER BY 1",
+          "refId": "I",
+          "select": [
+            [
+              {
+                "params": [
+                  "power_status"
+                ],
+                "type": "column"
+              },
+              {
+                "params": [
+                  "sprinkler tag-5"
+                ],
+                "type": "alias"
+              }
+            ]
+          ],
+          "table": "plant_core_sprinklervalve",
+          "timeColumn": "created",
+          "timeColumnType": "timestamptz",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            },
+            {
+              "datatype": "varchar",
+              "name": "",
+              "params": [
+                "tag_id",
+                "=",
+                "'tag-5'"
+              ],
+              "type": "expression"
+            }
+          ]
+        },
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "rawSql": "SELECT\n  created AS \"time\",\n  power_status AS \"heater\"\nFROM plant_core_heater\nWHERE\n  $__timeFilter(created)\nORDER BY 1",
+          "refId": "J",
+          "select": [
+            [
+              {
+                "params": [
+                  "power_status"
+                ],
+                "type": "column"
+              },
+              {
+                "params": [
+                  "heater"
+                ],
+                "type": "alias"
+              }
+            ]
+          ],
+          "table": "plant_core_heater",
+          "timeColumn": "created",
+          "timeColumnType": "timestamptz",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
         }
       ],
       "timeFrom": null,
@@ -801,10 +1184,10 @@
     {
       "datasource": "Loki",
       "gridPos": {
-        "h": 13,
+        "h": 9,
         "w": 10,
         "x": 0,
-        "y": 11
+        "y": 14
       },
       "id": 17,
       "options": {
@@ -825,7 +1208,7 @@
       "type": "logs"
     }
   ],
-  "refresh": "10s",
+  "refresh": "5s",
   "schemaVersion": 22,
   "style": "dark",
   "tags": [],
@@ -843,5 +1226,5 @@
   "variables": {
     "list": []
   },
-  "version": 7
+  "version": 1
 }
