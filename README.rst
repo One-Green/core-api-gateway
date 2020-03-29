@@ -23,7 +23,7 @@ Controller classes are included in project **core** package
 All stages of measurement, control and action are separated.
 
 
-.. image:: static/grafana_1.png
+.. image:: static/grafana_1-min.png
    :width: 600
    :align: center
 
