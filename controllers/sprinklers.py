@@ -1,8 +1,8 @@
 import os
 import sys
-from typing import Union
 import django
 import time
+
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "plant_kiper.settings")
 sys.path.append(os.path.dirname(os.path.dirname(os.path.join('..', '..', os.path.dirname('__file__')))))
 django.setup()
@@ -29,43 +29,35 @@ PRINT_TEMPLATE = (
     'controller action = {action}'
 )
 
-first_loop: bool = True
-last_action: Union[int, None] = None
-
 
 def main():
-    global first_loop, last_action
+    """
+    List all tags
+    Try to get configuration
+    Get current status
+    """
 
     for tag in SprinklerTag.objects.all():
         print(f'processing tag = {tag.tag}')
-        setting = SprinklerSettings.objects.get(tag=tag)
-        status = SprinklerValve.get_status(tag)
+        try:
+            setting = SprinklerSettings.objects.get(tag=tag)
+            status = SprinklerValve.get_status(tag)
+            if status:
+                ctl = BaseController(
+                    kind='CUT_OUT',
+                    neutral=setting.soil_hygrometry,
+                    delta_max=10,
+                    delta_min=10,
+                    reverse=True
+                )
+                ctl.set_sensor_value(status.soil_hygrometry)
+                SprinklerValve.set_power_status(tag, ctl.action)
+                WaterPump.set_power_status(ctl.action)
+                print('action set')
 
-        ctl = BaseController(
-            kind='CUT_OUT',
-            neutral=setting.soil_hygrometry,
-            delta_max=10,
-            delta_min=10,
-            reverse=True
-        )
-
-        if status:
-            ctl.set_sensor_value(
-                status.soil_hygrometry
-            )
-            action = ctl.action
-
-        if status and first_loop:
-            first_loop = False
-            last_action = action
-
-        if (
-                status
-                and action != last_action
-        ):
-            SprinklerValve.set_power_status(tag, action)
-            WaterPump.set_power_status(action)
-            last_action = action
+        except SprinklerSettings.DoesNotExist:
+            print(f'ERROR SPRINKLER SETTING NOT DEFINED for tag={tag.tag}')
+            continue
 
 
 if __name__ == '__main__':
