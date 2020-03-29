@@ -321,15 +321,33 @@ class SprinklerValve(models.Model):
         get latest values
         :return:
         """
+        assert isinstance(_tag, SprinklerTag)
+
         try:
-            return cls.objects.get(
-                tag=SprinklerTag.objects.get(
+            return cls.objects.filter(
                     tag=_tag
-                )
-            ).latest('created')
+            ).order_by('-created')[0]
 
         except ObjectDoesNotExist:
             return {}
+
+    @classmethod
+    def set_power_status(cls, tag, new_status: int):
+        """
+        method shift last sensors values
+        with new power status
+        :param tag:
+        :param new_status:
+        :return:
+        """
+        assert isinstance(tag, SprinklerTag)
+        current_values = cls.get_status(tag)
+
+        cls(
+            tag=tag,
+            soil_hygrometry=current_values.soil_hygrometry,
+            power_status=new_status
+        ).save()
 
 
 class Heater(models.Model):
