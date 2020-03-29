@@ -105,7 +105,7 @@ class WaterPumpView(GenericAPIView):
     def post(self, request):
         serializer = WaterPumpSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            WaterPump.set_sensors(request.data)
         return Response(
             {
                 'type': "WaterPumpView",
