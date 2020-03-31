@@ -324,7 +324,7 @@ class SprinklerValve(models.Model):
         assert isinstance(_tag, SprinklerTag)
 
         try:
-            return cls.objects.filter(
+            return cls.objects.values().filter(
                     tag=_tag
             ).order_by('-created')[0]
 
@@ -347,6 +347,22 @@ class SprinklerValve(models.Model):
             tag=tag,
             soil_hygrometry=current_values.soil_hygrometry,
             power_status=new_status
+        ).save()
+
+    @classmethod
+    def set_sensors(cls, tag, new_sensors_values: dict):
+        """
+        method shift last sensors values
+        with new power status
+        :param tag:
+        :param new_sensors_values:
+        :return:
+        """
+        current_values = cls.get_status(tag)
+        cls(
+            tag=tag,
+            soil_hygrometry=new_sensors_values['soil_hygrometry'],
+            power_status=current_values['power_status']
         ).save()
 
 
