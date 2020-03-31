@@ -135,10 +135,10 @@ class SprinklerValveView(GenericAPIView):
                 tag.save()
                 tag_created = True
             finally:
-                SprinklerValve(
-                    tag=tag,
-                    soil_hygrometry=request.data['soil_hygrometry']
-                ).save()
+                SprinklerValve.set_sensors(
+                    tag,
+                    request.data
+                )
 
             return Response(
                 {
