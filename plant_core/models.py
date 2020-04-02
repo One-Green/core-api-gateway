@@ -1,5 +1,7 @@
 from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
+from datetime import datetime, timedelta
+from pytz import utc
 
 
 class PlantSettings(models.Model):
@@ -324,12 +326,20 @@ class SprinklerValve(models.Model):
         assert isinstance(_tag, SprinklerTag)
 
         try:
-            return cls.objects.values().filter(
-                    tag=_tag
-            ).order_by('-created')[0]
-
+            return cls.objects.filter(
+                tag=_tag,
+                created__gte=utc.localize(
+                    datetime.now() - timedelta(seconds=5)
+                )
+            ).order_by('-created').values()[0]
+        except IndexError:
+            return {
+                'soil_hygrometry': None
+            }
         except ObjectDoesNotExist:
-            return {}
+            return {
+                'soil_hygrometry': None
+            }
 
     @classmethod
     def set_power_status(cls, tag, new_status: int):
@@ -345,7 +355,7 @@ class SprinklerValve(models.Model):
 
         cls(
             tag=tag,
-            soil_hygrometry=current_values.soil_hygrometry,
+            soil_hygrometry=current_values['soil_hygrometry'],
             power_status=new_status
         ).save()
 
@@ -361,8 +371,8 @@ class SprinklerValve(models.Model):
         current_values = cls.get_status(tag)
         cls(
             tag=tag,
-            soil_hygrometry=new_sensors_values['soil_hygrometry'],
-            power_status=current_values['power_status']
+            soil_hygrometry=new_sensors_values.get('soil_hygrometry'),
+            power_status=new_sensors_values.get('power_status')
         ).save()
 
 
@@ -609,3 +619,10 @@ class SimpleFlaps(models.Model):
     dirty_air_flap_status = models.BooleanField(blank=True, null=True, default=1)
     clean_air_flap_status = models.BooleanField(blank=True, null=True, default=1)
     mixin_air_flap_status = models.BooleanField(blank=True, null=True, default=0)
+
+
+def get_range():
+    return (
+        utc.localize(datetime.utcnow() - timedelta(seconds=5)),
+        utc.localize(datetime.utcnow())
+    )
