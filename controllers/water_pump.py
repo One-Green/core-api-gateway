@@ -29,7 +29,9 @@ def main():
     sprinklers_request = []
     for tag in SprinklerTag.objects.all():
         sprinklers_request.append(
-            SprinklerValve.get_status(tag).power_status
+            SprinklerValve.get_status(
+                tag
+            )['power_status']
         )
 
     if 1 in sprinklers_request:
