@@ -334,11 +334,13 @@ class SprinklerValve(models.Model):
             ).order_by('-created').values()[0]
         except IndexError:
             return {
-                'soil_hygrometry': None
+                'soil_hygrometry': None,
+                'power_status': 0
             }
         except ObjectDoesNotExist:
             return {
-                'soil_hygrometry': None
+                'soil_hygrometry': None,
+                'power_status': 0
             }
 
     @classmethod
