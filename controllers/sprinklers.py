@@ -36,10 +36,24 @@ def main():
         try:
             setting = SprinklerSettings.objects.get(tag=tag)
         except SprinklerSettings.DoesNotExist:
-            print('no setting for this tag set power=False')
+            controller_logger.error(
+                (
+                    f'[ERROR] [{CONTROLLED_DEVICE}] '
+                    f'[tag={tag.tag} '
+                    f'No setting for this sprinkler '
+                    f' => POWER = OFF'
+                ),
+                extra={
+                    "tags": {
+                        "controller": CONTROLLED_DEVICE,
+                        'sprinkler-tag': tag.tag,
+                        'message': loki_tag.SETTING_NOT_FOUND
+                    }
+                }
+            )
             SprinklerValve(
                 tag=tag,
-                power=False
+                power=0
             ).save()
             continue
 
@@ -63,6 +77,7 @@ def main():
                 (
                     PRINT_TEMPLATE.format(
                         device=CONTROLLED_DEVICE,
+                        tag=tag.tag,
                         min=setting.soil_humidity_min,
                         max=setting.soil_humidity_max,
                         humidity=sensor.soil_humidity,
@@ -81,7 +96,7 @@ def main():
         else:
             SprinklerValve(
                 tag=tag,
-                power=False
+                power=0
             ).save()
             controller_logger.error(
                 (
@@ -98,16 +113,12 @@ def main():
                     }
                 }
             )
-    else:
-        controller_logger.warning(
-            (
-                f'[WARNING] [{CONTROLLED_DEVICE}] '
-                f'tag not found'
-            ),
-            extra={
-                "tags": {
-                    "controller": CONTROLLED_DEVICE,
-                    'message': loki_tag.SENSOR_NOT_UPDATED
-                }
-            }
-        )
+
+
+if __name__ == '__main__':
+    print(
+        f'[WARNING] [{CONTROLLED_DEVICE}] device debug mode, '
+        f'use controller/run.py to load controller'
+    )
+    while True:
+        main()
