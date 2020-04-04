@@ -1,18 +1,19 @@
 import os
 import sys
 import django
-import time
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "plant_kiper.settings")
 sys.path.append(os.path.dirname(os.path.dirname(os.path.join('..', '..', os.path.dirname('__file__')))))
 django.setup()
 
 from plant_kiper.settings import controller_logger
+from controllers import loki_tag
 from core.controller import BaseController
 from plant_core.models import (
-    SprinklerTag,
+    SprinklerValve,
     SprinklerSettings,
-    SprinklerValve
+    SprinklerTag,
+    SprinklerSoilHumiditySensor,
 )
 
 # give a name for controlled device
@@ -23,107 +24,90 @@ CONTROLLED_DEVICE: str = 'sprinklers'
 # generic template for logging/print (for log remove datetime_now)
 PRINT_TEMPLATE = (
     '[INFO] [{device}] ; tag={tag} ; '
-    'humidity setting = {setting} ; '
+    'humidity min = {min} ; '
+    'humidity max = {max} ; '
     'humidity sensor  = {humidity} ; '
     'controller action = {action}'
 )
 
 
 def main():
-    """
-    List all tags
-    Try to get configuration
-    Get current status
-    """
-
-    # Loop in Sprinklertag model
-    #   try to get setting for this specific sprinkler for controller
-    #   if setting not found, broadcast POWER OFF
-    #   if setting found:
-    #       if sensors value in SpirnklerValve
-    #           create controller
-    #           set settings
-    #           set sensors values
-    #           get action
-    #           broadcast action to take
-    #       else
-    #           broadcast POWER OFF
-    #           Note: that suppose device not posting
-    #                 sensors value to api-gateway
     for tag in SprinklerTag.objects.all():
         try:
             setting = SprinklerSettings.objects.get(tag=tag)
         except SprinklerSettings.DoesNotExist:
-            SprinklerValve.set_power_status(tag, 0)
+            print('no setting for this tag set power=False')
+            SprinklerValve(
+                tag=tag,
+                power=False
+            ).save()
+            continue
+
+        sensor = SprinklerSoilHumiditySensor.status(tag=tag)
+        if sensor:
+            ctl = BaseController(
+                kind='CUT_OUT',
+                neutral=setting.soil_humidity_min,
+                delta_max=setting.soil_humidity_max + 5,
+                delta_min=setting.soil_humidity_min - 5,
+                reverse=True
+            )
+            ctl.set_sensor_value(
+                sensor.soil_humidity
+            )
+            SprinklerValve(
+                tag=tag,
+                power=ctl.action
+            )
+            controller_logger.info(
+                (
+                    PRINT_TEMPLATE.format(
+                        device=CONTROLLED_DEVICE,
+                        min=setting.soil_humidity_min,
+                        max=setting.soil_humidity_max,
+                        humidity=sensor.soil_humidity,
+                        action=ctl.action
+                    )
+                ),
+                extra={
+                    "tags": {
+                        "controller": CONTROLLED_DEVICE,
+                        'sprinkler-tag': tag.tag,
+                        'message': loki_tag.SENSOR_NOT_UPDATED
+                    }
+                }
+            )
+
+        else:
+            SprinklerValve(
+                tag=tag,
+                power=False
+            ).save()
             controller_logger.error(
                 (
                     f'[ERROR] [{CONTROLLED_DEVICE}] '
                     f'[tag={tag.tag} '
-                    f'Soil hygrometry settings '
-                    f'not done => device action = 0'
-                )
-                ,
+                    f'Soil humidity SENSORS NO UPDATED '
+                    f'not done => POWER = OFF'
+                ),
                 extra={
                     "tags": {
                         "controller": CONTROLLED_DEVICE,
-                        'sprinkler-tag': tag.tag
+                        'sprinkler-tag': tag.tag,
+                        'message': loki_tag.SENSOR_NOT_UPDATED
                     }
                 }
             )
-            continue
-        else:
-            sensor = SprinklerValve.get_status(tag)
-            if sensor['soil_hygrometry']:
-                ctl = BaseController(
-                    kind='CUT_OUT',
-                    neutral=setting.soil_hygrometry,
-                    delta_max=10,
-                    delta_min=10,
-                    reverse=True
-                )
-                ctl.set_sensor_value(sensor['soil_hygrometry'])
-                SprinklerValve.set_power_status(tag, ctl.action)
-
-                controller_logger.info(
-                    PRINT_TEMPLATE.format(
-                        device=CONTROLLED_DEVICE,
-                        tag=tag.tag,
-                        setting=setting.soil_hygrometry,
-                        humidity=sensor['soil_hygrometry'],
-                        action=ctl.action
-                    )
-                    ,
-                    extra={
-                        "tags": {
-                            "controller": CONTROLLED_DEVICE,
-                            'sprinkler-tag': tag.tag
-                        }
-                    }
-                )
-            else:
-                SprinklerValve.set_power_status(tag, 0)
-                controller_logger.error(
-                    (
-                        f'[ERROR] [{CONTROLLED_DEVICE}] '
-                        f'[tag={tag.tag} '
-                        f'Soil humidity SENSORS NO UPDATED '
-                        f'not done => device action = 0'
-                    )
-                    ,
-                    extra={
-                        "tags": {
-                            "controller": CONTROLLED_DEVICE,
-                            'sprinkler-tag': tag.tag
-                        }
-                    }
-                )
-
-
-if __name__ == '__main__':
-    print(
-        f'[WARNING] [{CONTROLLED_DEVICE}] device debug mode, '
-        f'use controller/run.py to load controller'
-    )
-    while True:
-        main()
-        time.sleep(1)
+    else:
+        controller_logger.warning(
+            (
+                f'[WARNING] [{CONTROLLED_DEVICE}] '
+                f'tag not found'
+            ),
+            extra={
+                "tags": {
+                    "controller": CONTROLLED_DEVICE,
+                    'message': loki_tag.SENSOR_NOT_UPDATED
+                }
+            }
+        )
