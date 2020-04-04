@@ -13,11 +13,13 @@ up-django: ##@dev
 	pipenv run python init_plant_config.py || true
 	pipenv run python manage.py runserver 127.0.0.1:8001
 
-restart-api-gateway:
+debug-api-gateway:
 	docker-compose up -d --no-deps --build plant-keeper-api-gateway
+	docker logs plant-keeper_plant-keeper-api-gateway_1 --follow
 
-restart-controller:
+debug-device-ctl:
 	docker-compose up -d --no-deps --build plant-keeper-device-ctl
+	docker logs plant-keeper_plant-keeper-device-ctl_1 --follow
 
 
 
