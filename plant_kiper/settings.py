@@ -27,7 +27,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'wyq3@l(sj&o7si==j&v%4j0@lbvaqjrmj&+anec&vimluxn0ed'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+_ = os.getenv('DEBUG', True)
+if _ in ['True', 'true', '1', 'Yes', 'yes']:
+    DEBUG = True
+elif _ in ['False', 'false', '0', 'No', 'no']:
+    DEBUG = False
+else:
+    DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
@@ -129,10 +135,15 @@ STATIC_URL = '/static/'
 REST_FRAMEWORK = {'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'}
 
 # Distributed Loki endpoint
-LOKI_ENDPOINT = "http://loki:3100/loki/api/v1/push"
+LOKI_ENDPOINT = "http://192.168.0.21:3100/loki/api/v1/push"
 # init loggers
+if DEBUG:
+    logger_level = logging.DEBUG
+else:
+    logger_level = logging.ERROR
+
 controller_logger = logging.getLogger(f'controllers-logger')
-controller_logger.setLevel(logging.DEBUG)
+controller_logger.setLevel(logger_level)
 controller_logger.addHandler(
     logging.StreamHandler()
 )
