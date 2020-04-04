@@ -88,7 +88,8 @@ class SprinklerTag(models.Model):
 
 class SprinklerSettings(models.Model):
     tag = models.OneToOneField(SprinklerTag, on_delete=models.CASCADE)
-    soil_humidity_threshold = models.FloatField(blank=False, null=False)
+    soil_humidity_min = models.FloatField(blank=False, null=False)
+    soil_humidity_max = models.FloatField(blank=False, null=False)
 
     def __str__(self):
         return f'{self.tag}-setting'
@@ -130,7 +131,8 @@ class SprinklerValve(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     tag = models.ForeignKey(SprinklerTag, on_delete=models.CASCADE)
     humidity_level = models.FloatField(null=True, blank=True)
-    soil_humidity_threshold = models.FloatField(blank=False, null=False)
+    humidity_level_max = models.FloatField(null=True, blank=True)
+    humidity_level_min = models.FloatField(null=True, blank=True)
     power = models.SmallIntegerField(
         null=False,
         blank=False,
