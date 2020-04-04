@@ -1,7 +1,6 @@
 import os
 import sys
 import django
-
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "plant_kiper.settings")
 sys.path.append(os.path.dirname(os.path.dirname(os.path.join('..', '..', os.path.dirname('__file__')))))
 django.setup()
@@ -23,10 +22,10 @@ CONTROLLED_DEVICE: str = 'sprinklers'
 # Print template
 # generic template for logging/print (for log remove datetime_now)
 PRINT_TEMPLATE = (
-    '[INFO] [{device}] ; tag={tag} ; '
-    'humidity min = {min} ; '
-    'humidity max = {max} ; '
-    'humidity sensor  = {humidity} ; '
+    '[INFO] [{device}] [tag={tag}] '
+    'humidity min = {min} '
+    'humidity max = {max} '
+    'humidity sensor = {humidity} '
     'controller action = {action}'
 )
 
@@ -39,7 +38,7 @@ def main():
             controller_logger.error(
                 (
                     f'[ERROR] [{CONTROLLED_DEVICE}] '
-                    f'[tag={tag.tag} '
+                    f'[tag={tag.tag}] '
                     f'No setting for this sprinkler '
                     f' => POWER = OFF'
                 ),
@@ -71,8 +70,12 @@ def main():
             )
             SprinklerValve(
                 tag=tag,
-                power=ctl.action
-            )
+                humidity_level=sensor.soil_humidity,
+                humidity_level_max=setting.soil_humidity_max,
+                humidity_level_min=setting.soil_humidity_min,
+                power=ctl.action,
+            ).save()
+
             controller_logger.info(
                 (
                     PRINT_TEMPLATE.format(
@@ -101,9 +104,9 @@ def main():
             controller_logger.error(
                 (
                     f'[ERROR] [{CONTROLLED_DEVICE}] '
-                    f'[tag={tag.tag} '
+                    f'[tag={tag.tag}] '
                     f'Soil humidity SENSORS NO UPDATED '
-                    f'not done => POWER = OFF'
+                    f' => POWER = OFF'
                 ),
                 extra={
                     "tags": {
