@@ -7,7 +7,7 @@ django.setup()
 
 from plant_kiper.settings import controller_logger
 from controllers import loki_tag
-from core.controller import BaseController
+from core.controller import BinaryController
 from plant_core.models import (
     SprinklerValve,
     SprinklerSettings,
@@ -58,22 +58,17 @@ def main():
 
         sensor = SprinklerSoilHumiditySensor.status(tag=tag)
         if sensor:
-            ctl = BaseController(
-                kind='CUT_OUT',
-                neutral=setting.soil_humidity_min,
-                delta_max=setting.soil_humidity_max + 5,
-                delta_min=setting.soil_humidity_min - 5,
-                reverse=True
-            )
-            ctl.set_sensor_value(
-                sensor.soil_humidity
-            )
+            signal = BinaryController(
+                setting.soil_humidity_max,
+                setting.soil_humidity_min
+            ).get_signal(sensor.soil_humidity)
+
             SprinklerValve(
                 tag=tag,
                 humidity_level=sensor.soil_humidity,
                 humidity_level_max=setting.soil_humidity_max,
                 humidity_level_min=setting.soil_humidity_min,
-                power=ctl.action,
+                power=signal,
             ).save()
 
             controller_logger.info(
@@ -84,7 +79,7 @@ def main():
                         min=setting.soil_humidity_min,
                         max=setting.soil_humidity_max,
                         humidity=sensor.soil_humidity,
-                        action=ctl.action
+                        action=signal
                     )
                 ),
                 extra={
