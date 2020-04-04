@@ -6,7 +6,7 @@ from datetime import time
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "plant_kiper.settings")
 sys.path.append(os.path.dirname(os.path.dirname(os.path.join(os.path.dirname('__file__')))))
 django.setup()
-from plant_core.models import PlantSettings, Enclosure
+from plant_core.models import PlantSettings, EnclosureSensor
 
 PlantSettings(
     plant_identifier='auto_init',
@@ -24,7 +24,7 @@ PlantSettings(
     activate_soil_humidifier_controller=True
 ).save()
 
-Enclosure(
+EnclosureSensor(
     enclosure_temperature=0,
     enclosure_hygrometry=0,
     enclosure_uv_index=0,
