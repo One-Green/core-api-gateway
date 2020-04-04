@@ -70,9 +70,6 @@ class BinaryController:
         return self.__apply_reverse(signal)
 
 
-BinaryController(21, 20).get_signal(20)
-
-
 class BaseTimeRangeController:
     """
     Time based binary controller
