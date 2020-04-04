@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MaxValueValidator, MinValueValidator
 from datetime import datetime, timedelta
 from pytz import utc
 
@@ -52,7 +53,14 @@ class WaterPump(models.Model):
 
     """
     created = models.DateTimeField(auto_now_add=True)
-    power = models.BooleanField(null=False, blank=False)
+    power = models.SmallIntegerField(
+        null=False,
+        blank=False,
+        validators=[
+            MaxValueValidator(1),
+            MinValueValidator(0)
+        ]
+    )
 
     def save(self, *args, **kwargs):
         """
@@ -122,10 +130,17 @@ class SprinklerSoilHumiditySensor(models.Model):
 class SprinklerValve(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     tag = models.ForeignKey(SprinklerTag, on_delete=models.CASCADE)
-    power = models.BooleanField(null=False, blank=False, default=False)
     humidity_level = models.FloatField(null=True, blank=True)
     humidity_level_max = models.FloatField(null=True, blank=True)
     humidity_level_min = models.FloatField(null=True, blank=True)
+    power = models.SmallIntegerField(
+        null=False,
+        blank=False,
+        validators=[
+            MaxValueValidator(1),
+            MinValueValidator(0)
+        ]
+    )
 
     def __str__(self):
         return f'{self.tag}-valve'
