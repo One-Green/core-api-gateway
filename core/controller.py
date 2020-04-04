@@ -62,6 +62,8 @@ class BinaryController:
 
         if sensor < self._min:
             signal = 1
+        elif self._min <= sensor <= self._max:
+            signal = 1
         elif sensor > self._max:
             signal = 0
 
