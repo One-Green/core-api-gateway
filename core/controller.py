@@ -19,35 +19,55 @@ class BinaryController:
 
     def __init__(
             self,
-            threshold: float = 0,
+            _max: float = 0,
+            _min: float = 0,
             reverse: bool = False
     ):
 
-        assert isinstance(float(threshold), float)
+        assert isinstance(float(_max), float)
+        assert isinstance(float(_min), float)
         assert isinstance(reverse, bool)
 
-        self.threshold = threshold
+        self._max = _max
+        self._min = _min
         self.reverse = reverse
+        self.__validate()
+        self.__swap_min_max()
 
-    def get_signal(
-            self,
-            sensor: float
-    ) -> int:
+    def __validate(self):
+        if self._min > self._max:
+            raise ValueError(f'{self._min} > {self._max}')
+        if self._min == self._max:
+            raise ValueError(f'{self._min} == {self._max}')
+
+    def __swap_min_max(self):
+        if self.reverse:
+            _max = self._min
+            _min = self._max
+            self._max = _max
+            self._min = _min
+
+    def __apply_reverse(self, signal: int):
+        if self.reverse and not signal:
+            return 1
+        elif self.reverse and signal:
+            return 0
+        else:
+            return signal
+
+    def get_signal(self, sensor: float):
 
         assert isinstance(float(sensor), float)
         signal: int = 0
 
-        if sensor <= self.threshold:
+        if sensor < self._min:
             signal = 1
-
-        elif (
-                self.threshold <= sensor
-                and
-                self.reverse
-        ):
+        elif self._min <= sensor <= self._max:
+            signal = 1
+        elif sensor > self._max:
             signal = 0
 
-        return signal
+        return self.__apply_reverse(signal)
 
 
 class BaseTimeRangeController:
