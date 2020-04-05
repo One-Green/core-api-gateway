@@ -6,11 +6,11 @@ class EnclosureSensor(models.Model):
     Enclose sensor reading values
     """
     created = models.DateTimeField(auto_now_add=True)
-    enclosure_temperature = models.FloatField(blank=True, null=True)
-    enclosure_hygrometry = models.FloatField(blank=True, null=True)
-    enclosure_uv_index = models.CharField(blank=True, null=True, max_length=30)
-    enclosure_co2_ppm = models.FloatField(blank=True, null=True)
-    enclosure_cov_ppm = models.FloatField(blank=True, null=True)
+    temperature = models.FloatField(blank=True, null=True)
+    humidity = models.FloatField(blank=True, null=True)
+    uv_index = models.CharField(blank=True, null=True, max_length=30)
+    co2_ppm = models.FloatField(blank=True, null=True)
+    cov_ppm = models.FloatField(blank=True, null=True)
 
     def save(self, *args, **kwargs):
         """

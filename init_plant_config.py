@@ -25,9 +25,9 @@ PlantSettings(
 ).save()
 
 EnclosureSensor(
-    enclosure_temperature=0,
-    enclosure_hygrometry=0,
-    enclosure_uv_index=0,
-    enclosure_co2_ppm=0,
-    enclosure_cov_ppm=0
+    temperature=0,
+    humidity=0,
+    uv_index=0,
+    co2_ppm=0,
+    cov_ppm=0
 ).save()
