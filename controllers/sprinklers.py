@@ -1,6 +1,7 @@
 import os
 import sys
 import django
+
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "plant_kiper.settings")
 sys.path.append(os.path.dirname(os.path.dirname(os.path.join('..', '..', os.path.dirname('__file__')))))
 django.setup()
@@ -28,6 +29,8 @@ PRINT_TEMPLATE = (
     'humidity sensor = {humidity} '
     'controller action = {action}'
 )
+
+ctl = BinaryController()
 
 
 def main():
@@ -58,10 +61,12 @@ def main():
 
         sensor = SprinklerSoilHumiditySensor.status(tag=tag)
         if sensor:
-            signal = BinaryController(
-                setting.soil_humidity_min,
-                setting.soil_humidity_max,
-            ).get_signal(sensor.soil_humidity)
+            ctl.set_conf(
+                _min=setting.soil_humidity_min,
+                _max=setting.soil_humidity_max,
+                reverse=False
+            )
+            signal = ctl.get_signal(sensor.soil_humidity)
 
             SprinklerValve(
                 tag=tag,
