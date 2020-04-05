@@ -59,8 +59,8 @@ def main():
         sensor = SprinklerSoilHumiditySensor.status(tag=tag)
         if sensor:
             signal = BinaryController(
+                setting.soil_humidity_min,
                 setting.soil_humidity_max,
-                setting.soil_humidity_min
             ).get_signal(sensor.soil_humidity)
 
             SprinklerValve(
