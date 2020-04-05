@@ -19,13 +19,16 @@ class BinaryController:
 
     def __init__(
             self,
+            _min: float,
             _max: float,
             reverse: bool = False
     ):
 
+        assert isinstance(float(_min), float)
         assert isinstance(float(_max), float)
         assert isinstance(reverse, bool)
 
+        self._min = _min
         self._max = _max
         self.reverse = reverse
 
@@ -42,10 +45,8 @@ class BinaryController:
         assert isinstance(float(sensor), float)
         signal: int = 0
 
-        if sensor <= self._max:
+        if self._min < sensor < self._max:
             signal = 1
-        elif sensor >= self._max:
-            signal = 0
 
         return self.__apply_reverse(signal)
 
