@@ -14,10 +14,25 @@ from datetime import time, datetime
 
 class BinaryController:
     """
-    binary controller class
+    Binary controller class
+    eg for soil humidity controller
+        settings :
+        - soil humidity minimum = 20
+        - soil humidity maximum = 70
+        - reverse = False
+        if sensor = 21  will return signal=1 until sensor reach 70
+        when reached 70, lock to return signal=0 until sensor reach 20.
+        Lock is used to reduce the rate of switch OFF/ON by minutes
+        in order to increase durability of component
     """
 
-    def __init__(
+    def __init__(self):
+        self._min = None
+        self._max = None
+        self.lock = None
+        self.reverse = None
+
+    def set_conf(
             self,
             _min: float,
             _max: float,
@@ -28,27 +43,36 @@ class BinaryController:
         assert isinstance(float(_max), float)
         assert isinstance(reverse, bool)
 
-        self._min = _min
-        self._max = _max
-        self.reverse = reverse
+        self._min: float = _min
+        self._max: float = _max
+        self.reverse: bool = reverse
 
-    def __apply_reverse(self, signal: int):
-        if self.reverse and not signal:
-            return 1
-        elif self.reverse and signal:
-            return 0
-        else:
-            return signal
+        self.lock: bool = False
 
-    def get_signal(self, sensor: float):
+    def __lock(self, sensor):
+        if sensor >= self._max:
+            self.lock = True
 
+    def __unlock(self, sensor):
+        if sensor <= self._min:
+            self.lock = False
+
+    def get_signal(self, sensor):
         assert isinstance(float(sensor), float)
-        signal: int = 0
 
-        if self._min < sensor < self._max:
-            signal = 1
+        self.__lock(sensor)
+        self.__unlock(sensor)
 
-        return self.__apply_reverse(signal)
+        if (
+                self._min < sensor <= self._max
+                and
+                not self.lock
+        ):
+            return 1
+        elif sensor <= self._min:
+            return 1
+        else:
+            return 0
 
 
 class BaseTimeRangeController:
