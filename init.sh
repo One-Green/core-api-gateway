@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+rm -rv plant_core/migrations || true
 python manage.py makemigrations --noinput
 python manage.py makemigrations plant_core --noinput
 python manage.py migrate
