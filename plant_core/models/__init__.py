@@ -7,5 +7,8 @@ from .sprinkler import (
     SprinklerTag,
     SprinklerValve,
     WaterPump,
-    WaterTankSensor
+    WaterTankSensor,
 )
+from .heater import HeaterSensor, Heater
+from .cooler import CoolerSensor, Cooler
+

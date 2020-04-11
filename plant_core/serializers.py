@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from plant_core.models import (
-    EnclosureSensor
+    EnclosureSensor,
+    HeaterSensor,
+    CoolerSensor
 )
 
 
@@ -15,3 +17,14 @@ class SprinklerSerializer(serializers.Serializer):
     soil_humidity = serializers.FloatField(write_only=True)
     power = serializers.BooleanField(read_only=True, default=False)
 
+
+class HeaterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HeaterSensor
+        fields = '__all__'
+
+
+class CoolerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CoolerSensor
+        fields = '__all__'
