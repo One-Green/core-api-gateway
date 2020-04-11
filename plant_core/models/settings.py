@@ -10,11 +10,14 @@ class PlantSettings(models.Model):
 
     plant_type = models.CharField(blank=True, null=True, max_length=300)
 
-    air_temperature = models.FloatField(blank=True, null=True)
-    air_hygrometry = models.FloatField(blank=True, null=True)
-    air_co2_ppm = models.FloatField(blank=True, null=True)
+    air_temperature_min = models.FloatField(blank=True, null=True)
+    air_temperature_max = models.FloatField(blank=True, null=True)
 
-    soil_hygrometry = models.FloatField(blank=True, null=True)
+    air_hygrometry_min = models.FloatField(blank=True, null=True)
+    air_hygrometry_max = models.FloatField(blank=True, null=True)
+
+    air_co2_ppm_min = models.FloatField(blank=True, null=True)
+    air_co2_ppm_max = models.FloatField(blank=True, null=True)
 
     light_start = models.TimeField(blank=True, null=True)
     light_end = models.TimeField(blank=True, null=True)
