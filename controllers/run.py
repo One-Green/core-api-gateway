@@ -13,8 +13,7 @@ from controllers import (
     heater,
     air_humidifier,
     light,
-    sprinklers,
-    water_pump
+    sprinklers
 )
 
 # Run all controllers
@@ -35,6 +34,5 @@ while True:
 
     if settings['activate_soil_humidifier_controller']:
         sprinklers.main()
-        water_pump.main()
 
     time.sleep(0.5)
