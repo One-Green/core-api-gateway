@@ -3,7 +3,7 @@ import sys
 import unittest
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.join('..', '..', '..', os.path.dirname('__file__')))))
-from core.controller import BaseController, BaseTimeRangeController
+from core.controller import BaseController
 
 
 class TestBaseController(unittest.TestCase):
@@ -42,13 +42,6 @@ class TestBaseController(unittest.TestCase):
         for _ in reversed(range(18, 19)):
             test_instance.set_sensor_value(_)
             self.assertTrue(test_instance.action)
-
-    def test_cut_in(self):
-        pass
-
-
-class TestTimeRangeController(unittest.TestCase):
-    pass
 
 
 if __name__ == '__main__':
