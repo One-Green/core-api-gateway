@@ -83,7 +83,7 @@ class BinaryController:
             ):
                 return 1
 
-            elif sensor >= self._max:
+            elif sensor >= self._min:
                 return 1
             else:
                 return 0
