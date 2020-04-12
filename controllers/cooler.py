@@ -60,7 +60,7 @@ def main():
             extra={
                 "tags": {
                     "controller": CONTROLLED_DEVICE,
-                    "temperature": "True",
+                    "which-request": "temperature",
                 }
             }
 
@@ -77,7 +77,7 @@ def main():
             extra={
                 "tags": {
                     "controller": CONTROLLED_DEVICE,
-                    "humidity": "True",
+                    "which-request": "temperature",
                 }
             }
 
