@@ -29,14 +29,14 @@ services:
       - "9080:9080"
 
   db:
-    image: postgres
+    image: timescale/timescaledb:latest-pg11
     restart: always
     environment:
       - POSTGRES_PASSWORD=postgres
     ports:
       - 5432:5432
 
-  plant-keeper-api-gateway:
+  api-gateway:
     build:
       context: .
       dockerfile: ./Dockerfile
@@ -48,7 +48,7 @@ services:
       - db
       - loki
 
-  plant-keeper-device-ctl:
+  device-ctl:
     build:
       context: .
       dockerfile: ./Dockerfile
@@ -69,5 +69,5 @@ services:
     depends_on:
       - db
       - loki
-      - plant-keeper-api-gateway
-      - plant-keeper-device-ctl
+      - api-gateway
+      - device-ctl
