@@ -22,7 +22,7 @@ h_ctl = BinaryController()
 
 
 def main():
-    setting: dict = PlantSettings.get_settings()
+    setting = PlantSettings.get_settings()
     sensor = CoolerSensor.get_status()
     if sensor:
         t_ctl.set_conf(
