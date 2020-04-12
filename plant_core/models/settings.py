@@ -54,4 +54,4 @@ class PlantSettings(models.Model):
 
     @classmethod
     def get_settings(cls):
-        return cls.objects.all().values()[0]
+        return cls.objects.all()[0]

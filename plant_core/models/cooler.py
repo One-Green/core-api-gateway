@@ -9,7 +9,7 @@ class CoolerSensor(models.Model):
     write by API Gateway
     read by controller
     """
-    created = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(auto_now_add=True, primary_key=True)
     air_in_temperature = models.FloatField(null=True, blank=True)
     air_out_temperature = models.FloatField(null=True, blank=True)
 
@@ -53,7 +53,7 @@ class Cooler(models.Model):
     write by controller
     read by api gateway
     """
-    created = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(auto_now_add=True, primary_key=True)
     temperature_in = models.FloatField(null=True, blank=True)
     humidity_in = models.FloatField(null=True, blank=True)
 

@@ -5,7 +5,7 @@ class EnclosureSensor(models.Model):
     """
     Enclose sensor reading values
     """
-    created = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(auto_now_add=True, primary_key=True)
     temperature = models.FloatField(blank=True, null=True)
     humidity = models.FloatField(blank=True, null=True)
     uv_index = models.CharField(blank=True, null=True, max_length=30)

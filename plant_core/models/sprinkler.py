@@ -8,7 +8,7 @@ class WaterTankSensor(models.Model):
     """
     bse model streaming value from sensor
     """
-    created = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(auto_now_add=True, primary_key=True)
     level = models.FloatField(null=True, blank=True)
 
     def save(self, *args, **kwargs):
@@ -52,7 +52,7 @@ class WaterPump(models.Model):
     """
 
     """
-    created = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(auto_now_add=True, primary_key=True)
     power = models.SmallIntegerField(
         null=False,
         blank=False,
@@ -96,7 +96,7 @@ class SprinklerSettings(models.Model):
 
 
 class SprinklerSoilHumiditySensor(models.Model):
-    created = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(auto_now_add=True, primary_key=True)
     tag = models.ForeignKey(SprinklerTag, on_delete=models.CASCADE)
     soil_humidity = models.FloatField(blank=True, null=True)
 
@@ -128,7 +128,7 @@ class SprinklerSoilHumiditySensor(models.Model):
 
 
 class SprinklerValve(models.Model):
-    created = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(auto_now_add=True, primary_key=True)
     tag = models.ForeignKey(SprinklerTag, on_delete=models.CASCADE)
     humidity_level = models.FloatField(null=True, blank=True)
     humidity_level_max = models.FloatField(null=True, blank=True)
