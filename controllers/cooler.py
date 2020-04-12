@@ -35,7 +35,7 @@ def main():
         h_ctl.set_conf(
             _min=setting.air_hygrometry_min,
             _max=setting.air_hygrometry_max,
-            reverse=False
+            reverse=True
         )
         h_signal = h_ctl.get_signal(sensor.air_in_humidity)
 
