@@ -1,6 +1,5 @@
 import os
 import sys
-from typing import Union
 import django
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "plant_kiper.settings")
@@ -8,104 +7,99 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.join('..', '..', os.path
 django.setup()
 
 from plant_kiper.settings import controller_logger
-from core.controller import BaseController
-from core.aggregator import BaseAggregator
+from controllers import loki_tag
+from core.controller import BinaryController
 from plant_core.models import (
     PlantSettings,
-    Enclosure,
+    CoolerSensor,
     Cooler
 )
 
-# give a name for controlled device
-# for printing / logging purpose
 CONTROLLED_DEVICE: str = 'cooler'
 
-# Print template
-# generic template for logging/print (for log remove datetime_now)
-PRINT_TEMPLATE = '[INFO] [{device}] ; {temperature} ; {hygrometry} ; {_action}'
-
-first_loop: bool = True
-last_action: Union[int, None] = None
+t_ctl = BinaryController()
+h_ctl = BinaryController()
 
 
 def main():
-    global first_loop, last_action
+    setting: dict = PlantSettings.get_settings()
+    sensor = CoolerSensor.get_status()
+    if sensor:
+        t_ctl.set_conf(
+            _min=setting.air_temperature_min,
+            _max=setting.air_temperature_max,
+            reverse=True
+        )
+        t_signal = t_ctl.get_signal(sensor.air_in_temperature)
 
-    # Example of configuration dict returned
-    # by PlantSettings.get_settings()
-    # {'id': x,
-    # 'plant_identifier': 'my bansaï ficus',
-    # 'plant_type': 'ficus',
-    # 'air_temperature': 22.0,
-    # 'air_hygrometry': 50.0,
-    # 'air_co2_ppm': 5500.0,
-    # 'soil_hygrometry': 52.0,
-    # 'light_start': datetime.time(19, 10),
-    # 'light_end': datetime.time(19, 30)}
-    plant_settings: dict = PlantSettings.get_settings()
+        h_ctl.set_conf(
+            _min=setting.air_hygrometry_min,
+            _max=setting.air_hygrometry_max,
+            reverse=False
+        )
+        h_signal = h_ctl.get_signal(sensor.air_in_humidity)
 
-    # Cooling decrease controller
-    temperature_dec_ctl = BaseController(
-        kind='CUT_OUT',
-        neutral=plant_settings['air_temperature'],
-        delta_max=2,
-        delta_min=0
-    )
-    # Hygrometry decrease controller
-    hygrometry_dec_ctl = BaseController(
-        kind='CUT_OUT',
-        neutral=plant_settings['air_hygrometry'],
-        delta_max=5,
-        delta_min=0
-    )
-    # Temperature + Hygrometry decrease are controlled by
-    # one device -> peltier
-    peltier_device_ctl = BaseAggregator(
-        [
-            temperature_dec_ctl,
-            hygrometry_dec_ctl
-        ]
-    )
+        Cooler(
+            temperature_in=sensor.air_in_temperature,
+            humidity_in=sensor.air_in_humidity,
+            temperature_level_min=setting.air_temperature_min,
+            temperature_level_max=setting.air_temperature_max,
+            humidity_level_min=setting.air_hygrometry_min,
+            humidity_level_max=setting.air_hygrometry_max,
+            power_temperature=t_signal,
+            power_humidity=h_signal
+        ).save()
+        controller_logger.info(
+            (
+                f'[INFO] [{CONTROLLED_DEVICE}] '
+                f't_min={round(setting.air_temperature_min)}, '
+                f't_max={round(setting.air_temperature_max)} '
+                f't_in={round(sensor.air_in_humidity)} '
+                f"action={h_signal}"
+            ),
+            extra={
+                "tags": {
+                    "controller": CONTROLLED_DEVICE,
+                    "temperature": "True",
+                }
+            }
 
-    # Read enclosure status
-    status = Enclosure.get_status()
-    if not status == {}:
-        t = status['enclosure_temperature']
-        hr = status['enclosure_hygrometry']
+        )
 
-        # Set values to controller
-        temperature_dec_ctl.set_sensor_value(t)
-        hygrometry_dec_ctl.set_sensor_value(hr)
+        controller_logger.info(
+            (
+                f'[INFO] [{CONTROLLED_DEVICE}] '
+                f'h_min={round(setting.air_hygrometry_min)}, '
+                f'h_max={round(setting.air_hygrometry_max)} '
+                f'h_in={round(sensor.air_in_temperature)} '
+                f"action={t_signal}"
+            ),
+            extra={
+                "tags": {
+                    "controller": CONTROLLED_DEVICE,
+                    "humidity": "True",
+                }
+            }
 
-        # Get aggregated action
-        action: int = peltier_device_ctl.action
-        # init last_action for init
-        if first_loop:
-            first_loop = False
-            last_action = action
-            controller_logger.info(
-                PRINT_TEMPLATE.format(
-                    device=CONTROLLED_DEVICE,
-                    temperature=t,
-                    hygrometry=hr,
-                    _action=action
-                ),
-                extra={"tags": {"controller": CONTROLLED_DEVICE}}
-            )
-            Cooler.set_power_status(action)
-
-        elif action != last_action:
-            last_action = action
-            controller_logger.info(
-                PRINT_TEMPLATE.format(
-                    device=CONTROLLED_DEVICE,
-                    temperature=t,
-                    hygrometry=hr,
-                    _action=action
-                ),
-                extra={"tags": {"controller": CONTROLLED_DEVICE}}
-            )
-            Cooler.set_power_status(action)
+        )
+    else:
+        Cooler(
+            power_temperature=0,
+            power_humidity=0
+        ).save()
+        controller_logger.error(
+            (
+                f'[ERROR] [{CONTROLLED_DEVICE}] '
+                f'SENSORS NO UPDATED '
+                f' => POWER = OFF'
+            ),
+            extra={
+                "tags": {
+                    "controller": CONTROLLED_DEVICE,
+                    'message': loki_tag.SENSOR_NOT_UPDATED
+                }
+            }
+        )
 
 
 if __name__ == '__main__':
