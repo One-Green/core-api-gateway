@@ -11,4 +11,4 @@ from .sprinkler import (
 )
 from .heater import HeaterSensor, Heater
 from .cooler import CoolerSensor, Cooler
-
+from .air_humidifer import AirHumidifierSensor, AirHumidifier
