@@ -135,7 +135,7 @@ STATIC_URL = '/static/'
 REST_FRAMEWORK = {'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'}
 
 # Distributed Loki endpoint
-LOKI_ENDPOINT = "http://192.168.0.21:3100/loki/api/v1/push"
+LOKI_ENDPOINT = "http://loki:3100/loki/api/v1/push"
 # init loggers
 if DEBUG:
     logger_level = logging.DEBUG
