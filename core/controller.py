@@ -63,16 +63,30 @@ class BinaryController:
         self.__lock(sensor)
         self.__unlock(sensor)
 
-        if (
-                self._min < sensor <= self._max
-                and
-                not self.lock
-        ):
-            return 1
-        elif sensor <= self._min:
-            return 1
-        else:
-            return 0
+        if not self.reverse:
+            if (
+                    self._min < sensor <= self._max
+                    and
+                    not self.lock
+            ):
+                return 1
+            elif sensor <= self._min:
+                return 1
+            else:
+                return 0
+
+        if self.reverse:
+            if (
+                    self._min < sensor <= self._max
+                    and
+                    not self.lock
+            ):
+                return 1
+
+            elif sensor >= self._max:
+                return 1
+            else:
+                return 0
 
 
 class BaseTimeRangeController:
