@@ -8,16 +8,18 @@ from plant_core.models import (
     SprinklerSoilHumiditySensor,
     SprinklerTag,
     SprinklerValve,
+    Cooler,
     Heater,
-    CoolerSensor, Cooler
+    AirHumidifier
 
 )
 
 from plant_core.serializers import (
     EnclosureSerializer,
     SprinklerSerializer,
+    CoolerSerializer,
     HeaterSerializer,
-    CoolerSerializer
+    AirHumidifierSerializer
 )
 
 
@@ -85,40 +87,6 @@ class SprinklerView(GenericAPIView):
             )
 
 
-class HeaterView(GenericAPIView):
-    serializer_class = HeaterSerializer
-
-    @csrf_exempt
-    def post(self, request):
-        serializer = HeaterSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            try:
-                power = Heater.objects.all()[0].power
-            except IndexError:
-                power = 0
-
-            return Response(
-                {
-                    'type': "HeaterView",
-                    'acknowledged': True,
-                    'power': power
-                },
-                status=status.HTTP_201_CREATED
-            )
-
-        else:
-            return Response(
-                {
-                    'type': "HeaterView",
-                    'error': True,
-                    'message': 'Missing mandatory key(s) to process',
-                    'power': 0
-                },
-                status=status.HTTP_400_BAD_REQUEST
-            )
-
-
 class CoolerView(GenericAPIView):
     serializer_class = CoolerSerializer
 
@@ -154,6 +122,40 @@ class CoolerView(GenericAPIView):
             return Response(
                 {
                     'type': "CoolerView",
+                    'error': True,
+                    'message': 'Missing mandatory key(s) to process',
+                    'power': 0
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+
+class HeaterView(GenericAPIView):
+    serializer_class = HeaterSerializer
+
+    @csrf_exempt
+    def post(self, request):
+        serializer = HeaterSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            try:
+                power = Heater.objects.all()[0].power
+            except IndexError:
+                power = 0
+
+            return Response(
+                {
+                    'type': "HeaterView",
+                    'acknowledged': True,
+                    'power': power
+                },
+                status=status.HTTP_201_CREATED
+            )
+
+        else:
+            return Response(
+                {
+                    'type': "HeaterView",
                     'error': True,
                     'message': 'Missing mandatory key(s) to process',
                     'power': 0
