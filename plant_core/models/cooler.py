@@ -31,7 +31,7 @@ class CoolerSensor(models.Model):
         super(CoolerSensor, self).save(*args, **kwargs)
 
     @classmethod
-    def __status(cls):
+    def get_status(cls):
         """
         get latest values
         :return:
@@ -41,15 +41,11 @@ class CoolerSensor(models.Model):
                 created__gte=utc.localize(
                     datetime.now() - timedelta(seconds=5)
                 )
-            ).order_by('-created').values()[0]
+            ).order_by('-created')[0]
         except IndexError:
             return None
         except cls.ObjectDoesNotExist:
             return None
-
-    @property
-    def status(self):
-        return self.__status()
 
 
 class Cooler(models.Model):
@@ -58,8 +54,8 @@ class Cooler(models.Model):
     read by api gateway
     """
     created = models.DateTimeField(auto_now_add=True)
-    enclosure_temperature = models.FloatField(null=True, blank=True)
-    enclosure_humidity = models.FloatField(null=True, blank=True)
+    temperature_in = models.FloatField(null=True, blank=True)
+    humidity_in = models.FloatField(null=True, blank=True)
 
     temperature_level_max = models.FloatField(null=True, blank=True)
     temperature_level_min = models.FloatField(null=True, blank=True)
@@ -67,7 +63,16 @@ class Cooler(models.Model):
     humidity_level_max = models.FloatField(null=True, blank=True)
     humidity_level_min = models.FloatField(null=True, blank=True)
 
-    power = models.SmallIntegerField(
+    power_temperature = models.SmallIntegerField(
+        null=True,
+        blank=True,
+        validators=[
+            MaxValueValidator(1),
+            MinValueValidator(0)
+        ]
+    )
+
+    power_humidity = models.SmallIntegerField(
         null=False,
         blank=False,
         validators=[
