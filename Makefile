@@ -5,7 +5,10 @@ up-raspap:
 	wget -q https://git.io/voEUQ -O /tmp/raspap && bash /tmp/raspap
 
 up-django: ##@dev
+	docker rm postgres-dev --force | true
+	docker run -d -p 5432:5432 -e POSTGRES_PASSWORD=postgres --name postgres-dev postgres
 	rm -rv plant_core/migrations || true
+	echo "sleep 10"
 	pipenv run python manage.py makemigrations plant_core
 	pipenv run python manage.py migrate
 	pipenv run python manage.py collectstatic --no-input
