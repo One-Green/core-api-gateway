@@ -6,7 +6,8 @@ from plant_core.models import (
     SprinklerValve,
     WaterPump, WaterTankSensor,
     HeaterSensor, Heater,
-    CoolerSensor, Cooler
+    CoolerSensor, Cooler,
+    AirHumidifierSensor, AirHumidifier
 )
 
 # Register your models here.
@@ -22,3 +23,5 @@ admin.site.register(HeaterSensor)
 admin.site.register(Heater)
 admin.site.register(CoolerSensor)
 admin.site.register(Cooler)
+admin.site.register(AirHumidifierSensor)
+admin.site.register(AirHumidifier)
