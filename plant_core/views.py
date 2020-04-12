@@ -128,8 +128,17 @@ class CoolerView(GenericAPIView):
         if serializer.is_valid():
             serializer.save()
             try:
-                power = Cooler.objects.all()[0].power
+                t_power = Cooler.objects.all()[0].power_temperature
             except IndexError:
+                t_power = 0
+            try:
+                h_power = Cooler.objects.all()[0].power_humidity
+            except IndexError:
+                h_power = 0
+
+            if 1 in [t_power, h_power]:
+                power = 1
+            else:
                 power = 0
 
             return Response(
