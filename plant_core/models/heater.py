@@ -31,7 +31,7 @@ class HeaterSensor(models.Model):
         super(HeaterSensor, self).save(*args, **kwargs)
 
     @classmethod
-    def __status(cls):
+    def get_status(cls):
         """
         get latest values
         :return:
@@ -41,15 +41,11 @@ class HeaterSensor(models.Model):
                 created__gte=utc.localize(
                     datetime.now() - timedelta(seconds=5)
                 )
-            ).order_by('-created').values()[0]
+            ).order_by('-created')[0]
         except IndexError:
             return None
         except cls.ObjectDoesNotExist:
             return None
-
-    @property
-    def status(self):
-        return self.__status()
 
 
 class Heater(models.Model):
@@ -58,7 +54,7 @@ class Heater(models.Model):
     read by api gateway
     """
     created = models.DateTimeField(auto_now_add=True, primary_key=True)
-    humidity_in = models.FloatField(null=True, blank=True)
+    temperature_in = models.FloatField(null=True, blank=True)
     temperature_level_max = models.FloatField(null=True, blank=True)
     temperature_level_min = models.FloatField(null=True, blank=True)
     power = models.SmallIntegerField(
