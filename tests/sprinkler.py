@@ -8,7 +8,7 @@ _list = _pickle.load(open('sign_list.pkl', 'rb'))
 
 
 class Sprinkler:
-    api = 'http://192.168.0.21:8001/sprinkler-valve/'
+    api = 'http://127.0.0.1:8001/sprinkler-valve/'
 
     @property
     def tag(self):
@@ -34,19 +34,20 @@ class Sprinkler:
 
     def post_sig(self):
         for _ in _list:
-            print(_)
             _dict = {
                 "tag": self.tag,
                 "soil_humidity": _
             }
 
-            requests.post(
-                self.api,
-                json=_dict
+            pprint(
+                requests.post(
+                    self.api,
+                    json=_dict
+                ).json()
             )
-
 
 
 if __name__ == '__main__':
     while True:
-        pprint(Sprinkler().post_sig())
+        Sprinkler().post_sig()
+        time.sleep(1)
