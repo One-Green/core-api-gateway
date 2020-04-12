@@ -162,3 +162,37 @@ class HeaterView(GenericAPIView):
                 },
                 status=status.HTTP_400_BAD_REQUEST
             )
+
+
+class AirHumidifierView(GenericAPIView):
+    serializer_class = AirHumidifierSerializer
+
+    @csrf_exempt
+    def post(self, request):
+        serializer = AirHumidifierSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            try:
+                power = AirHumidifier.objects.all()[0].power
+            except IndexError:
+                power = 0
+
+            return Response(
+                {
+                    'type': "AirHumidifierView",
+                    'acknowledged': True,
+                    'power': power
+                },
+                status=status.HTTP_201_CREATED
+            )
+
+        else:
+            return Response(
+                {
+                    'type': "AirHumidifierView",
+                    'error': True,
+                    'message': 'Missing mandatory key(s) to process',
+                    'power': 0
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )
