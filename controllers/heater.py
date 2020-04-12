@@ -1,6 +1,5 @@
 import os
 import sys
-from typing import Union
 import django
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "plant_kiper.settings")
@@ -8,83 +7,69 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.join('..', '..', os.path
 django.setup()
 
 from plant_kiper.settings import controller_logger
-from core.controller import BaseController
+from controllers import loki_tag
+from core.controller import BinaryController
 from plant_core.models import (
     PlantSettings,
-    Enclosure,
+    HeaterSensor,
     Heater
+
 )
 
 # give a name for controlled device
 # for printing / logging purpose
 CONTROLLED_DEVICE: str = 'heater'
 
-# Print template
-# generic template for logging/print (for log remove datetime_now)
-PRINT_TEMPLATE = '[INFO] [{device}] ; {temperature} ; {_action}'
-
-first_loop: bool = True
-last_action: Union[int, None] = None
+ctl = BinaryController()
 
 
 def main():
-    global first_loop, last_action
+    setting = PlantSettings.get_settings()
+    sensor = HeaterSensor.get_status()
+    if sensor:
+        ctl.set_conf(
+            _min=setting.air_temperature_min,
+            _max=setting.air_temperature_max,
+            reverse=False
+        )
+        signal = ctl.get_signal(sensor.air_in_temperature)
 
-    # Example of configuration dict returned
-    # by PlantSettings.get_settings()
-    # {'id': x,
-    # 'plant_identifier': 'my bansaï ficus',
-    # 'plant_type': 'ficus',
-    # 'air_temperature': 22.0,
-    # 'air_hygrometry': 50.0,
-    # 'air_co2_ppm': 5500.0,
-    # 'soil_hygrometry': 52.0,
-    # 'light_start': datetime.time(19, 10),
-    # 'light_end': datetime.time(19, 30)}
-    plant_settings: dict = PlantSettings.get_settings()
+        Heater(
+            temperature_in=sensor.air_in_temperature,
+            temperature_level_min=setting.air_temperature_min,
+            temperature_level_max=setting.air_temperature_max,
+            power=signal,
+        ).save()
+        controller_logger.info(
+            (
+                f'[INFO] [{CONTROLLED_DEVICE}] '
+                f't_min={round(setting.air_temperature_min)}, '
+                f't_max={round(setting.air_temperature_max)} '
+                f't_in={round(sensor.air_in_temperature)} '
+                f"action={signal}"
+            ),
+            extra={
+                "tags": {
+                    "controller": CONTROLLED_DEVICE
+                }
+            }
+        )
 
-    # Heater increase controller
-    temperature_inc_ctl = BaseController(
-        kind='CUT_OUT',
-        neutral=plant_settings['air_temperature'],
-        delta_max=0,
-        delta_min=2,
-        reverse=True
-    )
-
-    # Read enclosure status
-    status = Enclosure.get_status()
-    if not status == {}:
-        t = status['enclosure_temperature']
-        # Set values to controller
-        temperature_inc_ctl.set_sensor_value(t)
-
-        # Get action
-        action: int = temperature_inc_ctl.action
-        # init last_action for init
-        if first_loop:
-            first_loop = False
-            last_action = action
-            controller_logger.info(
-                PRINT_TEMPLATE.format(
-                    device=CONTROLLED_DEVICE,
-                    temperature=t,
-                    _action=action
-                ),
-                extra={"tags": {"controller": CONTROLLED_DEVICE}}
-            )
-            Heater.set_power_status(action)
-        elif action != last_action:
-            last_action = action
-            controller_logger.info(
-                PRINT_TEMPLATE.format(
-                    device=CONTROLLED_DEVICE,
-                    temperature=t,
-                    _action=action
-                ),
-                extra={"tags": {"controller": CONTROLLED_DEVICE}}
-            )
-            Heater.set_power_status(action)
+    else:
+        Heater(power=0).save()
+        controller_logger.error(
+            (
+                f'[ERROR] [{CONTROLLED_DEVICE}] '
+                f'SENSORS NO UPDATED '
+                f' => POWER = OFF'
+            ),
+            extra={
+                "tags": {
+                    "controller": CONTROLLED_DEVICE,
+                    'message': loki_tag.SENSOR_NOT_UPDATED
+                }
+            }
+        )
 
 
 if __name__ == '__main__':
