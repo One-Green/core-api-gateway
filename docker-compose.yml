@@ -57,7 +57,7 @@ services:
     depends_on:
       - db
       - loki
-      - plant-keeper-api-gateway
+      - api-gateway
 
   grafana:
     image: grafana/grafana:6.7.1
@@ -66,8 +66,13 @@ services:
       - GF_INSTALL_PLUGINS=grafana-polystat-panel,jdbranham-diagram-panel,agenty-flowcharting-panel,pierosavi-imageit-panel,scadavis-synoptic-panel
     ports:
      - 3000:3000
+    volumes:
+    - "grafana_data:/var/lib/grafana"
     depends_on:
       - db
       - loki
       - api-gateway
       - device-ctl
+
+volumes:
+  grafana_data:
