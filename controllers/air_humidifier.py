@@ -18,7 +18,7 @@ from plant_core.models import (
 
 # give a name for controlled device
 # for printing / logging purpose
-CONTROLLED_DEVICE: str = 'heater'
+CONTROLLED_DEVICE: str = 'air-humidifier'
 
 ctl = BinaryController()
 
