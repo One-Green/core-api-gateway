@@ -85,7 +85,7 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-    command: bash -c "cd controllers && python heater.py"
+    command: bash -c "cd controllers && python sprinklers.py"
     restart: always
     depends_on:
       - db
