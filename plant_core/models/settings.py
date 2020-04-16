@@ -28,7 +28,7 @@ class PlantSettings(models.Model):
     activate_heater_controller = models.BooleanField(default=True, blank=False, null=False)
     activate_air_humidifier_controller = models.BooleanField(default=True, blank=False, null=False)
     activate_uv_light_controller = models.BooleanField(default=True, blank=False, null=False)
-    activate_soil_humidifier_controller = models.BooleanField(default=True, blank=False, null=False)
+    activate_sprinklers_controller = models.BooleanField(default=True, blank=False, null=False)
 
     @property
     def lighting_duration(self):
