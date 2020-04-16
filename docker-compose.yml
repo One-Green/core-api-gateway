@@ -48,16 +48,50 @@ services:
       - db
       - loki
 
-  device-ctl:
+  air-humidifier-ctl:
     build:
       context: .
       dockerfile: ./Dockerfile
-    command: bash -c "cd controllers && python run.py"
+    command: bash -c "cd controllers && python air_humidifier.py"
     restart: always
     depends_on:
       - db
       - loki
       - api-gateway
+
+  cooler-ctl:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    command: bash -c "cd controllers && python  cooler.py"
+    restart: always
+    depends_on:
+      - db
+      - loki
+      - api-gateway
+
+  heater-ctl:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    command: bash -c "cd controllers && python heater.py"
+    restart: always
+    depends_on:
+      - db
+      - loki
+      - api-gateway
+
+  sprinklers-ctl:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    command: bash -c "cd controllers && python heater.py"
+    restart: always
+    depends_on:
+      - db
+      - loki
+      - api-gateway
+
 
   grafana:
     image: grafana/grafana:6.7.1
