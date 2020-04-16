@@ -1,5 +1,6 @@
 import os
 import sys
+import time
 import django
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "plant_kiper.settings")
@@ -103,10 +104,9 @@ def main():
 
 
 if __name__ == '__main__':
-    controller_logger.warning(
-        f'[WARNING] [{CONTROLLED_DEVICE}] device debug mode, '
-        f'use controller/run.py to load controller',
-        extra={"tags": {"controller": CONTROLLED_DEVICE}}
-    )
     while True:
-        main()
+        if PlantSettings.get_settings().activate_cooler_controller:
+            main()
+        else:
+            print('[INFO] COOLER DEACTIVATED')
+            time.sleep(5)
