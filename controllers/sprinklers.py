@@ -1,5 +1,6 @@
 import os
 import sys
+import time
 import django
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "plant_kiper.settings")
@@ -10,6 +11,7 @@ from plant_kiper.settings import controller_logger
 from controllers import loki_tag
 from core.controller import BinaryController
 from plant_core.models import (
+    PlantSettings,
     SprinklerValve,
     SprinklerSettings,
     SprinklerTag,
@@ -119,9 +121,10 @@ def main():
 
 
 if __name__ == '__main__':
-    print(
-        f'[WARNING] [{CONTROLLED_DEVICE}] device debug mode, '
-        f'use controller/run.py to load controller'
-    )
+
     while True:
-        main()
+        if PlantSettings.get_settings().activate_sprinklers_controller:
+            main()
+        else:
+            print('[INFO] SPRINKLERS DEACTIVATED')
+            time.sleep(5)
