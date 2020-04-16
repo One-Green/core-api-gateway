@@ -23,7 +23,7 @@ PlantSettings(
     activate_heater_controller=True,
     activate_air_humidifier_controller=True,
     activate_uv_light_controller=True,
-    activate_soil_humidifier_controller=True
+    activate_sprinklers_controller=True
 ).save()
 
 EnclosureSensor(
