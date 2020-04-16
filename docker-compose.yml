@@ -106,7 +106,6 @@ services:
       - db
       - loki
       - api-gateway
-      - device-ctl
 
 volumes:
   grafana_data:
