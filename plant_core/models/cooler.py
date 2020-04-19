@@ -16,8 +16,6 @@ class CoolerSensor(models.Model):
     air_in_humidity = models.FloatField(null=True, blank=True)
     air_out_humidity = models.FloatField(null=True, blank=True)
 
-    heater_temperature = models.FloatField(null=True, blank=True)
-
     def save(self, *args, **kwargs):
         """
         keep only 30 000 latest values
