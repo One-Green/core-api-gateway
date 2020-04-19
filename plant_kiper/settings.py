@@ -155,5 +155,6 @@ controller_logger.addHandler(
 )
 
 # Controller loop every "x" second
-# Increase this
+# Increase this value cpu/memory consumption is high
+# for a RaspBerry Pi recommended value >> CONTROLLERS_LOOP_EVERY = 2
 CONTROLLERS_LOOP_EVERY = int(os.getenv('CONTROLLERS_LOOP_EVERY', 2))
