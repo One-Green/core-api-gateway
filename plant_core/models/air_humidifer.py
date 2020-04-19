@@ -49,6 +49,7 @@ class AirHumidifier(models.Model):
     read by api gateway
     """
     created = models.DateTimeField(auto_now_add=True, primary_key=True)
+    enclosure_humidity = models.FloatField(null=True, blank=True)
     humidity_in = models.FloatField(null=True, blank=True)
     humidity_level_max = models.FloatField(null=True, blank=True)
     humidity_level_min = models.FloatField(null=True, blank=True)
