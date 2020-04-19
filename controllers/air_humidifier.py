@@ -32,7 +32,7 @@ def main():
     setting = PlantSettings.get_settings()
     enclosure = EnclosureSensor.get_status()
     sensor = AirHumidifierSensor.get_status()
-    if sensor and enclosure:
+    if enclosure and sensor:
         ctl.set_conf(
             _min=setting.air_hygrometry_min,
             _max=setting.air_hygrometry_max,
