@@ -7,7 +7,10 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "plant_kiper.settings")
 sys.path.append(os.path.dirname(os.path.dirname(os.path.join('..', '..', os.path.dirname('__file__')))))
 django.setup()
 
-from plant_kiper.settings import controller_logger
+from plant_kiper.settings import (
+    controller_logger,
+    CONTROLLERS_LOOP_EVERY
+)
 from controllers import loki_tag
 from core.controller import BinaryController
 from plant_core.models import (
@@ -118,7 +121,6 @@ def main():
                     }
                 }
             )
-            time.sleep(60)
 
 
 if __name__ == '__main__':
@@ -126,6 +128,7 @@ if __name__ == '__main__':
     while True:
         if PlantSettings.get_settings().activate_sprinklers_controller:
             main()
+            time.sleep(CONTROLLERS_LOOP_EVERY)
         else:
             print('[INFO] SPRINKLERS DEACTIVATED')
             time.sleep(5)
