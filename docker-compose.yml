@@ -53,6 +53,8 @@ services:
       context: .
       dockerfile: ./Dockerfile
     command: bash -c "cd controllers && python air_humidifier.py"
+    environment:
+      - CONTROLLERS_LOOP_EVERY=2
     restart: always
     depends_on:
       - db
@@ -64,6 +66,8 @@ services:
       context: .
       dockerfile: ./Dockerfile
     command: bash -c "cd controllers && python  cooler.py"
+    environment:
+      - CONTROLLERS_LOOP_EVERY=2
     restart: always
     depends_on:
       - db
@@ -75,6 +79,8 @@ services:
       context: .
       dockerfile: ./Dockerfile
     command: bash -c "cd controllers && python heater.py"
+    environment:
+      - CONTROLLERS_LOOP_EVERY=2
     restart: always
     depends_on:
       - db
@@ -86,6 +92,8 @@ services:
       context: .
       dockerfile: ./Dockerfile
     command: bash -c "cd controllers && python sprinklers.py"
+    environment:
+      - CONTROLLERS_LOOP_EVERY=2
     restart: always
     depends_on:
       - db
