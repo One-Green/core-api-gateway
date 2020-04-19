@@ -153,3 +153,7 @@ controller_logger.addHandler(
         version="1"
     )
 )
+
+# Controller loop every "x" second
+# Increase this
+CONTROLLERS_LOOP_EVERY = int(os.getenv('CONTROLLERS_LOOP_EVERY', 2))
