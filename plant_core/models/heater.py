@@ -54,6 +54,7 @@ class Heater(models.Model):
     read by api gateway
     """
     created = models.DateTimeField(auto_now_add=True, primary_key=True)
+    enclosure_temperature = models.FloatField(null=True, blank=True)
     temperature_in = models.FloatField(null=True, blank=True)
     temperature_level_max = models.FloatField(null=True, blank=True)
     temperature_level_min = models.FloatField(null=True, blank=True)
