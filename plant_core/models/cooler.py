@@ -10,10 +10,11 @@ class CoolerSensor(models.Model):
     read by controller
     """
     created = models.DateTimeField(auto_now_add=True, primary_key=True)
-    air_in_temperature = models.FloatField(null=True, blank=True)
-    air_out_temperature = models.FloatField(null=True, blank=True)
 
+    air_in_temperature = models.FloatField(null=True, blank=True)
     air_in_humidity = models.FloatField(null=True, blank=True)
+
+    air_out_temperature = models.FloatField(null=True, blank=True)
     air_out_humidity = models.FloatField(null=True, blank=True)
 
     def save(self, *args, **kwargs):
@@ -52,6 +53,10 @@ class Cooler(models.Model):
     read by api gateway
     """
     created = models.DateTimeField(auto_now_add=True, primary_key=True)
+
+    enclosure_temperature = models.FloatField(null=True, blank=True)
+    enclosure_humidity = models.FloatField(null=True, blank=True)
+
     temperature_in = models.FloatField(null=True, blank=True)
     humidity_in = models.FloatField(null=True, blank=True)
 
