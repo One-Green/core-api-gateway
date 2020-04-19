@@ -1,4 +1,6 @@
 from django.db import models
+from datetime import datetime, timedelta
+from pytz import utc
 
 
 class EnclosureSensor(models.Model):
@@ -24,19 +26,21 @@ class EnclosureSensor(models.Model):
         super(EnclosureSensor, self).save(*args, **kwargs)
 
     @classmethod
-    def __status(cls):
+    def get_status(cls):
         """
         get latest values
         :return:
         """
         try:
-            return cls.objects.values().latest('created')
+            return cls.objects.filter(
+                created__gte=utc.localize(
+                    datetime.now() - timedelta(seconds=5)
+                )
+            ).order_by('-created')[0]
+        except IndexError:
+            return None
         except cls.ObjectDoesNotExist:
             return None
-
-    @property
-    def status(self):
-        return self.__status()
 
     class Meta:
         ordering = ['-created']
