@@ -13,6 +13,7 @@ from plant_kiper.settings import (
 )
 from controllers import loki_tag
 from core.controller import BinaryController
+from core.utils import is_api_gateway_up
 from plant_core.models import (
     EnclosureSensor,
     PlantSettings,
