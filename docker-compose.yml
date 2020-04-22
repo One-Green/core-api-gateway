@@ -17,9 +17,8 @@ services:
     image: grafana/loki:master-89263b0
     ports:
       - "3100:3100"
-    command: -config.file=/etc/loki/config.yaml
-    volumes:
-      - ./confs/loki.yml:/etc/loki/config.yaml
+    command: -config.file=/etc/loki/local-config.yaml
+
 
   promtail:
     network_mode: host
