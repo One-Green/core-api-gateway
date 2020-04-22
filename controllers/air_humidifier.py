@@ -22,6 +22,9 @@ from plant_core.models import (
 
 )
 
+while not is_api_gateway_up():
+    time.sleep(30)
+
 # give a name for controlled device
 # for printing / logging purpose
 CONTROLLED_DEVICE: str = 'air-humidifier'
