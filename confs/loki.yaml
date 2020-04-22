@@ -51,6 +51,7 @@ table_manager:
     inactive_write_throughput: 0
     provisioned_read_throughput: 0
     provisioned_write_throughput: 0
-  retention_deletes_enabled: false
-  retention_period: 0
-
+  # keep only 2 weeks (336/24=14days)
+  # https://github.com/grafana/loki/blob/master/docs/operations/storage/table-manager.md#retention
+  retention_deletes_enabled: true
+  retention_period: 336h
