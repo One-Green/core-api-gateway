@@ -4,11 +4,7 @@ import time
 import django
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "plant_kiper.settings")
-sys.path.append(
-    os.path.dirname(
-        os.path.dirname(os.path.join("..", "..", os.path.dirname("__file__")))
-    )
-)
+sys.path.insert(0, os.path.abspath('..'))
 django.setup()
 
 from plant_kiper.settings import controller_logger, CONTROLLERS_LOOP_EVERY
@@ -22,6 +18,7 @@ from plant_core.models import (
     AirHumidifier,
 )
 
+print('module loaded')
 while not is_api_gateway_up():
     time.sleep(30)
 
