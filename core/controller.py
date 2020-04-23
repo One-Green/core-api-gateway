@@ -15,15 +15,23 @@ from datetime import time, datetime
 class BinaryController:
     """
     Binary controller class
+
     eg for soil humidity controller
-        settings :
+    settings :
+
         - soil humidity minimum = 20
+
         - soil humidity maximum = 70
+
         - reverse = False
-        if sensor = 21  will return signal=1 until sensor reach 70
-        when reached 70, lock to return signal=0 until sensor reach 20.
-        Lock is used to reduce the rate of switch OFF/ON by minutes
-        in order to increase durability of component
+
+    if sensor = 21  will return signal=1 until sensor reach 70
+
+    when reached 70, lock to return signal=0 until sensor reach 20.
+
+    Lock is used to reduce the rate of switch OFF/ON by minutes
+
+    in order to increase durability of component
     """
 
     def __init__(self):
@@ -32,8 +40,15 @@ class BinaryController:
         self.lock = None
         self.reverse = None
 
-    def set_conf(self, _min: float, _max: float, reverse: bool = False):
+    def set_conf(self, _min: float, _max: float, reverse: bool = False) -> None:
+        """
+        Set configurations
 
+        :param _min:  minimum value in neutral point
+        :param _max:  maximum value in neutral point
+        :param reverse:  reverse signal action (used for Cooler)
+        :return:
+        """
         assert isinstance(float(_min), float)
         assert isinstance(float(_max), float)
         assert isinstance(reverse, bool)
@@ -52,7 +67,13 @@ class BinaryController:
         if sensor <= self._min:
             self.lock = False
 
-    def get_signal(self, sensor):
+    def get_signal(self, sensor: float) -> int:
+        """
+        Get power signal by using sensor value
+
+        :param sensor: sensor signal value
+        :return: O= power OFF, 1= power ON
+        """
         assert isinstance(float(sensor), float)
 
         self.__lock(sensor)
