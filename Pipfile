@@ -7,6 +7,9 @@ verify_ssl = true
 ipython = "*"
 ray = "*"
 black = "*"
+pylint = "*"
+sphinx-rtd-theme = "*"
+sphinxcontrib-napoleon = "*"
 
 [packages]
 django = "*"
