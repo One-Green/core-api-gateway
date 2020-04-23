@@ -4,13 +4,14 @@ import time
 import django
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "plant_kiper.settings")
-sys.path.append(os.path.dirname(os.path.dirname(os.path.join('..', '..', os.path.dirname('__file__')))))
+sys.path.append(
+    os.path.dirname(
+        os.path.dirname(os.path.join("..", "..", os.path.dirname("__file__")))
+    )
+)
 django.setup()
 
-from plant_kiper.settings import (
-    controller_logger,
-    CONTROLLERS_LOOP_EVERY
-)
+from plant_kiper.settings import controller_logger, CONTROLLERS_LOOP_EVERY
 from controllers import loki_tag
 from core.controller import BinaryController
 from core.utils import is_api_gateway_up
@@ -18,8 +19,7 @@ from plant_core.models import (
     EnclosureSensor,
     PlantSettings,
     AirHumidifierSensor,
-    AirHumidifier
-
+    AirHumidifier,
 )
 
 while not is_api_gateway_up():
@@ -27,7 +27,7 @@ while not is_api_gateway_up():
 
 # give a name for controlled device
 # for printing / logging purpose
-CONTROLLED_DEVICE: str = 'air-humidifier'
+CONTROLLED_DEVICE: str = "air-humidifier"
 
 ctl = BinaryController()
 
@@ -40,7 +40,7 @@ def main():
         ctl.set_conf(
             _min=setting.air_hygrometry_min,
             _max=setting.air_hygrometry_max,
-            reverse=False
+            reverse=False,
         )
         signal = ctl.get_signal(enclosure.humidity)
 
@@ -53,41 +53,37 @@ def main():
         ).save()
         controller_logger.info(
             (
-                f'[INFO] [{CONTROLLED_DEVICE}] '
-                f'h_min={round(setting.air_hygrometry_min)}, '
-                f'h_max={round(setting.air_hygrometry_max)} '
-                f'h_enclosure={round(enclosure.humidity)} '
+                f"[INFO] [{CONTROLLED_DEVICE}] "
+                f"h_min={round(setting.air_hygrometry_min)}, "
+                f"h_max={round(setting.air_hygrometry_max)} "
+                f"h_enclosure={round(enclosure.humidity)} "
                 f"action={signal}"
             ),
-            extra={
-                "tags": {
-                    "controller": CONTROLLED_DEVICE
-                }
-            }
+            extra={"tags": {"controller": CONTROLLED_DEVICE}},
         )
 
     else:
         AirHumidifier(power=0).save()
         controller_logger.error(
             (
-                f'[ERROR] [{CONTROLLED_DEVICE}] '
-                f'SENSORS NO UPDATED '
-                f' => POWER = OFF'
+                f"[ERROR] [{CONTROLLED_DEVICE}] "
+                f"SENSORS NO UPDATED "
+                f" => POWER = OFF"
             ),
             extra={
                 "tags": {
                     "controller": CONTROLLED_DEVICE,
-                    'message': loki_tag.SENSOR_NOT_UPDATED
+                    "message": loki_tag.SENSOR_NOT_UPDATED,
                 }
-            }
+            },
         )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     while True:
         if PlantSettings.get_settings().activate_air_humidifier_controller:
             main()
             time.sleep(CONTROLLERS_LOOP_EVERY)
         else:
-            print('[INFO] AIR HUMIDIFIER DEACTIVATED')
+            print("[INFO] AIR HUMIDIFIER DEACTIVATED")
             time.sleep(5)

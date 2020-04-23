@@ -5,26 +5,29 @@ from datetime import datetime
 import django
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "plant_kiper.settings")
-sys.path.append(os.path.dirname(os.path.dirname(os.path.join('..', '..', os.path.dirname('__file__')))))
+sys.path.append(
+    os.path.dirname(
+        os.path.dirname(os.path.join("..", "..", os.path.dirname("__file__")))
+    )
+)
 django.setup()
 
-from plant_kiper.settings import controller_logger
+from plant_kiper.settings import controller_logger, CONTROLLERS_LOOP_EVERY
 from core.controller import BaseTimeRangeController
-from plant_core.models import (
-    PlantSettings,
-    UvLight
-)
+from plant_core.models import PlantSettings, UvLight
 
 # give a name for controlled device
 # for printing / logging purpose
-CONTROLLED_DEVICE: str = 'uv-light'
+CONTROLLED_DEVICE: str = "uv-light"
 
 # Print template
 # generic template for logging/print (for log remove datetime_now)
-PRINT_TEMPLATE = ('[INFO] [{device}] ; '
-                  'start_at={light_start_at} ; '
-                  'end_at={light_end_at} ; '
-                  '{_action}')
+PRINT_TEMPLATE = (
+    "[INFO] [{device}] ; "
+    "start_at={light_start_at} ; "
+    "end_at={light_end_at} ; "
+    "{_action}"
+)
 
 first_loop: bool = True
 last_action: Union[int, None] = None
@@ -46,14 +49,11 @@ def main():
     # 'light_end': datetime.time(19, 30)}
     plant_settings: dict = PlantSettings.get_settings()
 
-    start_at = plant_settings['light_start']
-    end_at = plant_settings['light_end']
+    start_at = plant_settings["light_start"]
+    end_at = plant_settings["light_end"]
 
     # Create time based controller
-    uv_io_ctl = BaseTimeRangeController(
-        start_at,
-        end_at
-    )
+    uv_io_ctl = BaseTimeRangeController(start_at, end_at)
 
     # set current time
     uv_io_ctl.set_current_time(datetime.now().time())
@@ -68,9 +68,9 @@ def main():
                 device=CONTROLLED_DEVICE,
                 light_start_at=start_at,
                 light_end_at=end_at,
-                _action=action
+                _action=action,
             ),
-            extra={"tags": {"controller": CONTROLLED_DEVICE}}
+            extra={"tags": {"controller": CONTROLLED_DEVICE}},
         )
         UvLight.set_power_status(action)
     elif action != last_action:
@@ -80,18 +80,18 @@ def main():
                 device=CONTROLLED_DEVICE,
                 light_start_at=start_at,
                 light_end_at=end_at,
-                _action=action
+                _action=action,
             ),
-            extra={"tags": {"controller": CONTROLLED_DEVICE}}
+            extra={"tags": {"controller": CONTROLLED_DEVICE}},
         )
         UvLight.set_power_status(action)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     controller_logger.warning(
-        f'[WARNING] [{CONTROLLED_DEVICE}] device debug mode, '
-        f'use controller/run.py to load controller',
-        extra={"tags": {"controller": CONTROLLED_DEVICE}}
+        f"[WARNING] [{CONTROLLED_DEVICE}] device debug mode, "
+        f"use controller/run.py to load controller",
+        extra={"tags": {"controller": CONTROLLED_DEVICE}},
     )
     while True:
         main()

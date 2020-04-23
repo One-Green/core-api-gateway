@@ -2,18 +2,20 @@ import os
 import sys
 import unittest
 
-sys.path.append(os.path.dirname(os.path.dirname(os.path.join('..', '..', '..', os.path.dirname('__file__')))))
+sys.path.append(
+    os.path.dirname(
+        os.path.dirname(os.path.join("..", "..", "..", os.path.dirname("__file__")))
+    )
+)
 from core.controller import BaseController
 
 
 class TestBaseController(unittest.TestCase):
-
     def test_cut_out(self):
         # test cut out controller
-        test_instance = BaseController(kind='CUT_OUT',
-                                       neutral=20,
-                                       delta_max=2,
-                                       delta_min=0)
+        test_instance = BaseController(
+            kind="CUT_OUT", neutral=20, delta_max=2, delta_min=0
+        )
 
         # test no required action conditions
         for _ in range(19, 21):
@@ -27,11 +29,9 @@ class TestBaseController(unittest.TestCase):
 
     def test_cut_out_reversed(self):
         # test cut out controller with reverser behaviour
-        test_instance = BaseController(kind='CUT_OUT',
-                                       neutral=20,
-                                       delta_max=0,
-                                       delta_min=2,
-                                       reverse=True)
+        test_instance = BaseController(
+            kind="CUT_OUT", neutral=20, delta_max=0, delta_min=2, reverse=True
+        )
 
         # test no required action conditions
         for _ in reversed(range(21, 25)):
@@ -44,5 +44,5 @@ class TestBaseController(unittest.TestCase):
             self.assertTrue(test_instance.action)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

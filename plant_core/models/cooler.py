@@ -9,6 +9,7 @@ class CoolerSensor(models.Model):
     write by API Gateway
     read by controller
     """
+
     created = models.DateTimeField(auto_now_add=True, primary_key=True)
 
     air_in_temperature = models.FloatField(null=True, blank=True)
@@ -26,7 +27,7 @@ class CoolerSensor(models.Model):
         """
 
         if CoolerSensor.objects.all().count() >= 30000:
-            CoolerSensor.objects.all().order_by('created')[0].delete()
+            CoolerSensor.objects.all().order_by("created")[0].delete()
         super(CoolerSensor, self).save(*args, **kwargs)
 
     @classmethod
@@ -37,10 +38,8 @@ class CoolerSensor(models.Model):
         """
         try:
             return cls.objects.filter(
-                created__gte=utc.localize(
-                    datetime.now() - timedelta(seconds=5)
-                )
-            ).order_by('-created')[0]
+                created__gte=utc.localize(datetime.now() - timedelta(seconds=5))
+            ).order_by("-created")[0]
         except IndexError:
             return None
         except cls.ObjectDoesNotExist:
@@ -52,6 +51,7 @@ class Cooler(models.Model):
     write by controller
     read by api gateway
     """
+
     created = models.DateTimeField(auto_now_add=True, primary_key=True)
 
     enclosure_temperature = models.FloatField(null=True, blank=True)
@@ -67,22 +67,12 @@ class Cooler(models.Model):
     humidity_level_min = models.FloatField(null=True, blank=True)
 
     power_temperature = models.SmallIntegerField(
-        null=True,
-        blank=True,
-        validators=[
-            MaxValueValidator(1),
-            MinValueValidator(0)
-        ]
+        null=True, blank=True, validators=[MaxValueValidator(1), MinValueValidator(0)]
     )
 
     power_humidity = models.SmallIntegerField(
-        null=False,
-        blank=False,
-        validators=[
-            MaxValueValidator(1),
-            MinValueValidator(0)
-        ]
+        null=False, blank=False, validators=[MaxValueValidator(1), MinValueValidator(0)]
     )
 
     class Meta:
-        ordering = ['-created']
+        ordering = ["-created"]

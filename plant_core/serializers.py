@@ -3,14 +3,14 @@ from plant_core.models import (
     EnclosureSensor,
     HeaterSensor,
     CoolerSensor,
-    AirHumidifierSensor
+    AirHumidifierSensor,
 )
 
 
 class EnclosureSerializer(serializers.ModelSerializer):
     class Meta:
         model = EnclosureSensor
-        fields = '__all__'
+        fields = "__all__"
 
 
 class SprinklerSerializer(serializers.Serializer):
@@ -22,16 +22,16 @@ class SprinklerSerializer(serializers.Serializer):
 class HeaterSerializer(serializers.ModelSerializer):
     class Meta:
         model = HeaterSensor
-        fields = '__all__'
+        fields = "__all__"
 
 
 class CoolerSerializer(serializers.ModelSerializer):
     class Meta:
         model = CoolerSensor
-        fields = '__all__'
+        fields = "__all__"
 
 
 class AirHumidifierSerializer(serializers.ModelSerializer):
     class Meta:
         model = AirHumidifierSensor
-        fields = '__all__'
+        fields = "__all__"

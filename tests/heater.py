@@ -4,11 +4,11 @@ import random
 import _pickle
 import time
 
-_list = _pickle.load(open('sign_list.pkl', 'rb'))
+_list = _pickle.load(open("sign_list.pkl", "rb"))
 
 
 class Heater:
-    api = 'http://127.0.0.1:8001/heater/'
+    api = "http://127.0.0.1:8001/heater/"
 
     def post(self):
         _dict = {
@@ -16,13 +16,10 @@ class Heater:
             "air_out_temperature": random.randint(20, 50),
             "air_in_humidity": random.randint(20, 50),
             "air_out_humidity": random.randint(20, 50),
-            "heater_temperature": random.randint(20, 50)
+            "heater_temperature": random.randint(20, 50),
         }
 
-        return requests.post(
-            self.api,
-            json=_dict
-        ).json()
+        return requests.post(self.api, json=_dict).json()
 
     def post_sig(self):
         for _ in _list:
@@ -32,13 +29,10 @@ class Heater:
                 "heater_temperature": _,
             }
 
-            pprint(requests.post(
-                self.api,
-                json=_dict
-            ).json())
+            pprint(requests.post(self.api, json=_dict).json())
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     while True:
         Heater().post_sig()
         time.sleep(0.5)

@@ -3,12 +3,15 @@ import sys
 from datetime import time
 import unittest
 
-sys.path.append(os.path.dirname(os.path.dirname(os.path.join('..', '..', '..', os.path.dirname('__file__')))))
+sys.path.append(
+    os.path.dirname(
+        os.path.dirname(os.path.join("..", "..", "..", os.path.dirname("__file__")))
+    )
+)
 from core.controller import BaseTimeRangeController
 
 
 class TestTimeRangeController(unittest.TestCase):
-
     def test_time_range(self):
         start_at = time(10, 0, 0)
         end_at = time(12, 0, 0)
@@ -23,5 +26,5 @@ class TestTimeRangeController(unittest.TestCase):
         self.assertFalse(time_range_controller.action)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

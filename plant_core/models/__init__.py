@@ -1,4 +1,3 @@
-
 from .settings import PlantSettings
 from .enclosure import EnclosureSensor
 from .sprinkler import (

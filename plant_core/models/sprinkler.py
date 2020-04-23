@@ -8,6 +8,7 @@ class WaterTankSensor(models.Model):
     """
     bse model streaming value from sensor
     """
+
     created = models.DateTimeField(auto_now_add=True, primary_key=True)
     level = models.FloatField(null=True, blank=True)
 
@@ -20,7 +21,7 @@ class WaterTankSensor(models.Model):
         """
 
         if WaterTankSensor.objects.all().count() >= 30000:
-            WaterTankSensor.objects.all().order_by('created')[0].delete()
+            WaterTankSensor.objects.all().order_by("created")[0].delete()
         super(WaterTankSensor, self).save(*args, **kwargs)
 
     @classmethod
@@ -30,11 +31,13 @@ class WaterTankSensor(models.Model):
         :return:
         """
         try:
-            return cls.objects.filter(
-                created__gte=utc.localize(
-                    datetime.now() - timedelta(seconds=5)
+            return (
+                cls.objects.filter(
+                    created__gte=utc.localize(datetime.now() - timedelta(seconds=5))
                 )
-            ).order_by('-created').values()[0]
+                .order_by("-created")
+                .values()[0]
+            )
         except IndexError:
             return None
         except cls.ObjectDoesNotExist:
@@ -45,21 +48,17 @@ class WaterTankSensor(models.Model):
         return self.__status()
 
     class Meta:
-        ordering = ['-created']
+        ordering = ["-created"]
 
 
 class WaterPump(models.Model):
     """
 
     """
+
     created = models.DateTimeField(auto_now_add=True, primary_key=True)
     power = models.SmallIntegerField(
-        null=False,
-        blank=False,
-        validators=[
-            MaxValueValidator(1),
-            MinValueValidator(0)
-        ]
+        null=False, blank=False, validators=[MaxValueValidator(1), MinValueValidator(0)]
     )
 
     def save(self, *args, **kwargs):
@@ -71,11 +70,11 @@ class WaterPump(models.Model):
         :return:
         """
         if WaterPump.objects.all().count() == 30000:
-            WaterPump.objects.all().order_by('created')[0].delete()
+            WaterPump.objects.all().order_by("created")[0].delete()
         super(WaterPump, self).save(*args, **kwargs)
 
     class Meta:
-        ordering = ['-created']
+        ordering = ["-created"]
 
 
 class SprinklerTag(models.Model):
@@ -83,7 +82,7 @@ class SprinklerTag(models.Model):
     tag = models.CharField(max_length=30, blank=False, null=False, primary_key=True)
 
     def __str__(self):
-        return f'{self.tag}-tag'
+        return f"{self.tag}-tag"
 
 
 class SprinklerSettings(models.Model):
@@ -92,7 +91,7 @@ class SprinklerSettings(models.Model):
     soil_humidity_max = models.FloatField(blank=False, null=False)
 
     def __str__(self):
-        return f'{self.tag}-setting'
+        return f"{self.tag}-setting"
 
 
 class SprinklerSoilHumiditySensor(models.Model):
@@ -101,7 +100,7 @@ class SprinklerSoilHumiditySensor(models.Model):
     soil_humidity = models.FloatField(blank=True, null=True)
 
     def __str__(self):
-        return f'{self.tag}-sensor'
+        return f"{self.tag}-sensor"
 
     @classmethod
     def status(cls, tag):
@@ -114,9 +113,7 @@ class SprinklerSoilHumiditySensor(models.Model):
         try:
             return cls.objects.filter(
                 tag=tag,
-                created__gte=utc.localize(
-                    datetime.now() - timedelta(seconds=5)
-                )
+                created__gte=utc.localize(datetime.now() - timedelta(seconds=5)),
             )[0]
         except IndexError:
             return None
@@ -124,7 +121,7 @@ class SprinklerSoilHumiditySensor(models.Model):
             return None
 
     class Meta:
-        ordering = ['-created']
+        ordering = ["-created"]
 
 
 class SprinklerValve(models.Model):
@@ -134,16 +131,11 @@ class SprinklerValve(models.Model):
     humidity_level_max = models.FloatField(null=True, blank=True)
     humidity_level_min = models.FloatField(null=True, blank=True)
     power = models.SmallIntegerField(
-        null=False,
-        blank=False,
-        validators=[
-            MaxValueValidator(1),
-            MinValueValidator(0)
-        ]
+        null=False, blank=False, validators=[MaxValueValidator(1), MinValueValidator(0)]
     )
 
     def __str__(self):
-        return f'{self.tag}-valve'
+        return f"{self.tag}-valve"
 
     class Meta:
-        ordering = ['-created']
+        ordering = ["-created"]

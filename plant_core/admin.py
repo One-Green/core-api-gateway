@@ -1,13 +1,18 @@
 from django.contrib import admin
 from plant_core.models import (
     PlantSettings,
-    SprinklerSoilHumiditySensor, SprinklerSettings,
+    SprinklerSoilHumiditySensor,
+    SprinklerSettings,
     SprinklerTag,
     SprinklerValve,
-    WaterPump, WaterTankSensor,
-    HeaterSensor, Heater,
-    CoolerSensor, Cooler,
-    AirHumidifierSensor, AirHumidifier
+    WaterPump,
+    WaterTankSensor,
+    HeaterSensor,
+    Heater,
+    CoolerSensor,
+    Cooler,
+    AirHumidifierSensor,
+    AirHumidifier,
 )
 
 # Register your models here.

@@ -32,12 +32,7 @@ class BinaryController:
         self.lock = None
         self.reverse = None
 
-    def set_conf(
-            self,
-            _min: float,
-            _max: float,
-            reverse: bool = False
-    ):
+    def set_conf(self, _min: float, _max: float, reverse: bool = False):
 
         assert isinstance(float(_min), float)
         assert isinstance(float(_max), float)
@@ -64,11 +59,7 @@ class BinaryController:
         self.__unlock(sensor)
 
         if not self.reverse:
-            if (
-                    self._min < sensor <= self._max
-                    and
-                    not self.lock
-            ):
+            if self._min < sensor <= self._max and not self.lock:
                 return 1
             elif sensor <= self._min:
                 return 1
@@ -76,11 +67,7 @@ class BinaryController:
                 return 0
 
         if self.reverse:
-            if (
-                    self._min < sensor <= self._max
-                    and
-                    not self.lock
-            ):
+            if self._min < sensor <= self._max and not self.lock:
                 return 1
 
             elif sensor >= self._min:
@@ -94,12 +81,7 @@ class BaseTimeRangeController:
     Time based binary controller
     """
 
-    def __init__(
-            self,
-            start_at: time,
-            end_at: time,
-            reverse: bool = False
-    ):
+    def __init__(self, start_at: time, end_at: time, reverse: bool = False):
 
         assert isinstance(start_at, time)
         assert isinstance(end_at, time)
@@ -111,10 +93,7 @@ class BaseTimeRangeController:
         self.reverse: bool = reverse
         self.state: int = 0
 
-    def set_current_time(
-            self,
-            time_now: time
-    ):
+    def set_current_time(self, time_now: time):
         assert isinstance(time_now, time)
         self.time_now = time_now
 

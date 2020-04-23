@@ -9,6 +9,7 @@ class AirHumidifierSensor(models.Model):
     write by API Gateway
     read by controller
     """
+
     created = models.DateTimeField(auto_now_add=True, primary_key=True)
     air_in_humidity = models.FloatField(null=True, blank=True)
     air_out_humidity = models.FloatField(null=True, blank=True)
@@ -22,7 +23,7 @@ class AirHumidifierSensor(models.Model):
         """
 
         if AirHumidifierSensor.objects.all().count() >= 30000:
-            AirHumidifierSensor.objects.all().order_by('created')[0].delete()
+            AirHumidifierSensor.objects.all().order_by("created")[0].delete()
         super(AirHumidifierSensor, self).save(*args, **kwargs)
 
     @classmethod
@@ -33,10 +34,8 @@ class AirHumidifierSensor(models.Model):
         """
         try:
             return cls.objects.filter(
-                created__gte=utc.localize(
-                    datetime.now() - timedelta(seconds=5)
-                )
-            ).order_by('-created')[0]
+                created__gte=utc.localize(datetime.now() - timedelta(seconds=5))
+            ).order_by("-created")[0]
         except IndexError:
             return None
         except cls.ObjectDoesNotExist:
@@ -48,19 +47,15 @@ class AirHumidifier(models.Model):
     write by controller
     read by api gateway
     """
+
     created = models.DateTimeField(auto_now_add=True, primary_key=True)
     enclosure_humidity = models.FloatField(null=True, blank=True)
     humidity_in = models.FloatField(null=True, blank=True)
     humidity_level_max = models.FloatField(null=True, blank=True)
     humidity_level_min = models.FloatField(null=True, blank=True)
     power = models.SmallIntegerField(
-        null=False,
-        blank=False,
-        validators=[
-            MaxValueValidator(1),
-            MinValueValidator(0)
-        ]
+        null=False, blank=False, validators=[MaxValueValidator(1), MinValueValidator(0)]
     )
 
     class Meta:
-        ordering = ['-created']
+        ordering = ["-created"]

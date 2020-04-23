@@ -7,6 +7,7 @@ class EnclosureSensor(models.Model):
     """
     Enclose sensor reading values
     """
+
     created = models.DateTimeField(auto_now_add=True, primary_key=True)
     temperature = models.FloatField(blank=True, null=True)
     humidity = models.FloatField(blank=True, null=True)
@@ -22,7 +23,7 @@ class EnclosureSensor(models.Model):
         :return:
         """
         if EnclosureSensor.objects.count() == 30000:
-            EnclosureSensor.objects.all().order_by('created')[0].delete()
+            EnclosureSensor.objects.all().order_by("created")[0].delete()
         super(EnclosureSensor, self).save(*args, **kwargs)
 
     @classmethod
@@ -33,14 +34,12 @@ class EnclosureSensor(models.Model):
         """
         try:
             return cls.objects.filter(
-                created__gte=utc.localize(
-                    datetime.now() - timedelta(seconds=5)
-                )
-            ).order_by('-created')[0]
+                created__gte=utc.localize(datetime.now() - timedelta(seconds=5))
+            ).order_by("-created")[0]
         except IndexError:
             return None
         except cls.ObjectDoesNotExist:
             return None
 
     class Meta:
-        ordering = ['-created']
+        ordering = ["-created"]

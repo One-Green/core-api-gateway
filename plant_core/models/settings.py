@@ -6,6 +6,7 @@ class PlantSettings(models.Model):
     Plant control parameter
     controller will try to keep these values
     """
+
     plant_identifier = models.CharField(blank=True, null=True, max_length=300)
 
     plant_type = models.CharField(blank=True, null=True, max_length=300)
@@ -22,13 +23,23 @@ class PlantSettings(models.Model):
     light_start = models.TimeField(blank=True, null=True)
     light_end = models.TimeField(blank=True, null=True)
 
-    sprinkler_setting = models.ManyToManyField('SprinklerSettings')
+    sprinkler_setting = models.ManyToManyField("SprinklerSettings")
 
-    activate_cooler_controller = models.BooleanField(default=True, blank=False, null=False)
-    activate_heater_controller = models.BooleanField(default=True, blank=False, null=False)
-    activate_air_humidifier_controller = models.BooleanField(default=True, blank=False, null=False)
-    activate_uv_light_controller = models.BooleanField(default=True, blank=False, null=False)
-    activate_sprinklers_controller = models.BooleanField(default=True, blank=False, null=False)
+    activate_cooler_controller = models.BooleanField(
+        default=True, blank=False, null=False
+    )
+    activate_heater_controller = models.BooleanField(
+        default=True, blank=False, null=False
+    )
+    activate_air_humidifier_controller = models.BooleanField(
+        default=True, blank=False, null=False
+    )
+    activate_uv_light_controller = models.BooleanField(
+        default=True, blank=False, null=False
+    )
+    activate_sprinklers_controller = models.BooleanField(
+        default=True, blank=False, null=False
+    )
 
     @property
     def lighting_duration(self):

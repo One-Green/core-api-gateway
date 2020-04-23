@@ -2,8 +2,11 @@
    :width: 600
    :align: center
 
-.. image:: https://img.shields.io/badge/Python-3.7.4-<COLOR>.svg
+.. image:: https://img.shields.io/badge/Python-3.8.1-<COLOR>.svg
    :target: https://www.python.org
+
+.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
+    :target: https://github.com/psf/black
 
 .. image:: https://travis-ci.org/shanisma/plant-keeper.svg?branch=master
    :target: https://travis-ci.org/shanisma/plant-keeper

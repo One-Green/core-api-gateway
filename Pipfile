@@ -6,6 +6,7 @@ verify_ssl = true
 [dev-packages]
 ipython = "*"
 ray = "*"
+black = "*"
 
 [packages]
 django = "*"
@@ -17,6 +18,7 @@ dj-static = "*"
 psycopg2-binary = "*"
 drf-yasg = "*"
 python-logging-loki = "*"
+sphinx = "*"
 
 [requires]
 python_version = "3.8"
