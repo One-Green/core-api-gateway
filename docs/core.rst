@@ -1,3 +1,0 @@
-
-.. automodule:: core.controller
-    :members:
