@@ -51,9 +51,17 @@ In another, page open Grafana
     :alt: grafana_add_dashboard
 
 
+.. figure:: ../images/grafana_add_dashboard.png
+    :height: 100
+    :width: 200
+    :scale: 300
+    :align: center
+    :alt: grafana_add_dashboard_1
+
+
 .. figure:: ../images/grafana_add_dashboard_2.png
     :height: 100
     :width: 200
     :scale: 300
     :align: center
-    :alt: grafana_add_dashboard
+    :alt: grafana_add_dashboard_2
