@@ -8,7 +8,6 @@ Components
    :caption: Components:
 
    overview
-   api_gateway
    sprinklers_controller
 
 

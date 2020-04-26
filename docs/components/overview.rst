@@ -2,9 +2,6 @@
 Overview
 ********
 
-
-.. _figure:
-
 .. figure:: ../images/flow.png
     :height: 100
     :width: 200
