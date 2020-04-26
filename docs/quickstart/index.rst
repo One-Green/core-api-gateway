@@ -10,3 +10,4 @@ Quick Start
 
    setup_master
    setup_grafana
+   play_with_grafana
