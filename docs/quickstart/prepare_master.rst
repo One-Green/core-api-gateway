@@ -40,13 +40,10 @@ Flash OS on Raspberry Pi
     with a graphical interface
 
 
-Prepare OS
+Upgrade OS
 ==========
 
-Connect to Rapbian trough SSH or start Terminal if you use desktop version
-
-Upgrade
--------
+Connect to Raspberry trough SSH or start Terminal if you use desktop version
 
 .. code-block:: shell
 
@@ -55,14 +52,16 @@ Upgrade
     sudo reboot
 
 
-Install RasAP
--------------
+Install RaspAP
+==============
 
 Full documentation :  https://raspap.com/
 
 RaspAP will create Wifi Access Point
 
 Ensure Wifi dongle is plugged in USB
+
+Connect to Raspberry trough SSH or start Terminal if you use desktop version and run :
 
 .. code-block:: shell
 
@@ -115,4 +114,82 @@ You can connect on http://10.3.141.1 with user=admin and password=secret
 .. warning::
 
     Do not skip RaspAP SSID password configuration !
+
+
+Install Docker
+==============
+
+Docker is a tool that can package an application and its dependencies in an isolated container,
+which can be run on any server
+
+Official documentation : https://docs.docker.com/engine/install/debian/
+
+Connect to Raspberry trough SSH or start Terminal if you use desktop version and run :
+
+.. code-block:: shell
+
+    curl -sSL https://get.docker.com | sh
+    sudo usermod -aG docker pi
+
+Check if Docker engine is running:
+
+.. code-block:: shell
+
+     docker info
+
+.. note::
+
+    If docker wont start, restart Raspberry Pi
+
+Install docker-compose
+======================
+
+Docker Compose is a tool for defining and running multi-container Docker applications
+
+Official documentation: https://docs.docker.com/compose/
+
+
+Connect to Raspberry trough SSH or start Terminal if you use desktop version and run :
+
+.. code-block:: shell
+
+    sudo apt install python3 python3-pip
+    pip3 install docker-compose
+
+
+Start Plant Keeper Master
+=========================
+
+Connect to Raspberry trough SSH or start Terminal if you use desktop version and run :
+
+.. code-block:: shell
+
+    git clone https://github.com/shanisma/plant-keeper
+    cd plant-keeper
+    docker-compose -d up
+
+
+Follow starting with :
+
+.. code-block::
+
+    docker-compose logs --follow
+    # use ctrl + c to stop tail logs
+
+Once Master started, you can access to:
+
+- Django Admin (plant settings) with credentials :
+
+    - user: plant
+
+    - password: keeper
+
+- Api gateway
+
+- Grafana with credentials:
+
+    - user: admin
+
+    - password: admin
+
 
