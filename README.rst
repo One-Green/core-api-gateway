@@ -5,6 +5,10 @@
 .. image:: https://img.shields.io/badge/Python-3.8.1-<COLOR>.svg
    :target: https://www.python.org
 
+.. image:: https://readthedocs.org/projects/plant-keeper/badge/?version=latest
+    :target: https://plant-keeper.readthedocs.io/en/latest/?badge=latest
+    :alt: Documentation Status
+
 .. image:: https://img.shields.io/badge/code%20style-black-000000.svg
     :target: https://github.com/psf/black
 
