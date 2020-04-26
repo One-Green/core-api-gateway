@@ -2,6 +2,9 @@
 Setup Grafana
 *************
 
+Grafana is the visualisation server for this project
+
+
 Check if Grafana is up and running :
 
 .. code-block::
@@ -21,14 +24,16 @@ Goto http://<raspberry_pi_IP>:3000/
 
 Default login : **admin** , password : **admin**
 
-Update password on the fly at first login
-
 .. figure:: ../images/grafana_login.png
     :height: 100
     :width: 200
     :scale: 300
     :align: center
     :alt: grafana_login
+
+.. note::
+
+    You can skip password change at first login, can be done later
 
 
 Add data source: Postgres (with Timescale plugin)
