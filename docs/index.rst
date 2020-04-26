@@ -12,6 +12,8 @@ Welcome to plant keeper's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   components/index
+   core/index
 
 
 Indices and tables
@@ -21,18 +23,3 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
-
-Architecture
-=============
-
-
-.. _figure:
-
-.. figure:: images/flow.png
-   :height: 100
-   :width: 200
-   :scale: 500
-   :align: center
-   :alt: flow
-
-   Current flow
