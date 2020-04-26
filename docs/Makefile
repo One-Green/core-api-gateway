@@ -20,4 +20,5 @@ help:
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
 livehtml:
+	rm -rv _build docs
 	sphinx-autobuild . docs/_build/html

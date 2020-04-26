@@ -8,6 +8,5 @@ Quick Start
    :maxdepth: 2
    :caption: Components:
 
-   prepare_master
-
-
+   setup_master
+   setup_grafana

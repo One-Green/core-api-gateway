@@ -1,6 +1,6 @@
-**************
-Prepare master
-**************
+************
+Setup master
+************
 
 For **Master**, you can use any computer, but Raspberry Pi is very suitable for this use
 
@@ -39,6 +39,43 @@ Flash OS on Raspberry Pi
     SSH communication trough local network, especially for **Raspbian Buster Lite** which does not come
     with a graphical interface
 
+Connect trough SSH
+==================
+
+Assume Raspberry Pi :
+
+- SD Card is plugged with **Rasbian Buster Lite** OS
+
+- is connected to local network thought ethernet wire
+
+- is connected to power supply and running
+
+
+.. note::
+
+    Found Raspberry Pi Ip address with:
+
+    - Windows user => AngryIp : https://angryip.org/
+
+    - Macos user => LanScan : https://www.iwaxx.com/lanscan/
+
+    - Linux/Debian user => apt install nmap -y && nmap -sP 192.168.0.0/10
+
+
+For Macos/Linux user, use Terminal emulator
+
+.. code-block:: shell
+
+    ssh pi@192.168.<??>.<??>
+    # default password for pi = raspberry
+
+For Windows user : use Putty or any Windows SSH client ,
+refer to official documentation : https://www.raspberrypi.org/documentation/remote-access/ssh/windows.md
+
+
+.. note::
+
+    Replace in IP address <??>.<??> by address found by scan
 
 Upgrade OS
 ==========
@@ -180,16 +217,25 @@ Once Master started, you can access to:
 
 - Django Admin (plant settings) with credentials :
 
+    - url : http://192.168.<??>.<??>:8001/admin
+
     - user: plant
 
     - password: keeper
 
 - Api gateway
 
+    - url : http://192.168.<??>.<??>:8001
+
 - Grafana with credentials:
+
+    - url : http://192.168.<??>.<??>:3000
 
     - user: admin
 
     - password: admin
 
+.. note::
+
+    Great ! If you are able to access to Grafana, APi
 
