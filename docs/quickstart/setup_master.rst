@@ -19,9 +19,9 @@ Flash OS on Raspberry Pi
 
 .. note::
 
-    Linux familiar download **Raspbian Buster Lite**
+    Linux familiar user download **Raspbian Buster Lite**
 
-    No Linux familiar download: **Raspbian Buster with desktop and recommended software**
+    No Linux familiar user download: **Raspbian Buster with desktop and recommended software**
 
 2) Insert your SD Card (32Gi recommended) on computer used for flashing
 
