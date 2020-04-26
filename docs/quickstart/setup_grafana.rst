@@ -67,3 +67,33 @@ Use for theses parameter for connexion :
     :align: center
     :alt: pg_datasource
 
+
+Add data source: Loki
+=====================
+
+Loki light weight, power full is distributed logs system
+
+
+
+.. figure:: ../images/grafana_add_datasource.png
+    :height: 100
+    :width: 200
+    :scale: 300
+    :align: center
+    :alt: data_source
+
+
+.. figure:: ../images/grafana_add_datasource_loki.png
+    :height: 100
+    :width: 200
+    :scale: 300
+    :align: center
+    :alt: loki_datasource
+
+
+.. figure:: ../images/grafana_loki.png
+    :height: 100
+    :width: 200
+    :scale: 300
+    :align: center
+    :alt: loki_datasource
