@@ -9,11 +9,19 @@
     :target: https://plant-keeper.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
 
-.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
-    :target: https://github.com/psf/black
+.. image:: https://pyup.io/repos/github/shanisma/plant-keeper/shield.svg
+     :target: https://pyup.io/repos/github/shanisma/plant-keeper/
+     :alt: Updates
+
+.. image:: https://pyup.io/repos/github/shanisma/plant-keeper/python-3-shield.svg
+     :target: https://pyup.io/repos/github/shanisma/plant-keeper/
+     :alt: Python 3
 
 .. image:: https://travis-ci.org/shanisma/plant-keeper.svg?branch=master
    :target: https://travis-ci.org/shanisma/plant-keeper
+
+.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
+    :target: https://github.com/psf/black
 
 .. image:: https://img.shields.io/badge/Ask%20me-anything-1abc9c.svg
    :target: mailto:shanmugathas.vigneswaran@outlook.fr
