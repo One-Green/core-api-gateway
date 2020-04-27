@@ -102,3 +102,8 @@ Loki light weight, power full is distributed logs system
     :scale: 300
     :align: center
     :alt: loki_datasource
+
+
+.. note::
+
+    You will never redo this step. Grafana data is saved on persistent volume

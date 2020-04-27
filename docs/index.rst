@@ -31,9 +31,9 @@ Repository : https://github.com/shanisma/pk-node-client
 
 Import client, select Node Type (sprinkler, water pump, cooler, heater ...)
 
-Reuse:
+You can reuse:
 
-- sensors + codes to push to **Master**
+- Sensors and codes,  to push to **Master**
 
 - Pin Out needed to be activated/deactivated
 

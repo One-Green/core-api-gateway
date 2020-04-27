@@ -237,5 +237,6 @@ Once Master started, you can access to:
 
 .. note::
 
-    Great ! If you are able to access to Grafana, APi
+    Great ! If you are able to access to Grafana, APi Gateway.
+    You will never redo this step, because docker container will restart automatically is case of crash
 
