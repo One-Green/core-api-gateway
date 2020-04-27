@@ -12,7 +12,7 @@ gunicorn==20.0.4
 idna==2.9
 inflection==0.4.0
 itypes==1.2.0
-Jinja2==2.11.1
+Jinja2==2.11.2
 Markdown==3.2.1
 MarkupSafe==1.1.1
 packaging==20.3
