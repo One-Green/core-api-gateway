@@ -26,7 +26,7 @@ services:
     network_mode: host
     image: grafana/promtail:latest
     volumes:
-      - ${PWD}/confs/promtail-docker-config.yaml:/etc/promtail/docker-config.yaml
+      - ./confs/promtail-docker-config.yaml:/etc/promtail/docker-config.yaml
     command: -config.file=/etc/promtail/docker-config.yaml
     ports:
       - "9080:9080"
@@ -36,6 +36,8 @@ services:
     restart: always
     environment:
       - POSTGRES_PASSWORD=postgres
+    volumes:
+    - ./confs/postgresql.conf:/var/lib/postgresql/data/postgresql.conf
     ports:
       - 5432:5432
 
