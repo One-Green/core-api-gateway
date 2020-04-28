@@ -42,7 +42,7 @@ class AirHumidifierSensor(models.Model):
             return None
 
 
-class AirHumidifier(models.Model):
+class AirHumidifierController(models.Model):
     """
     write by controller
     read by api gateway

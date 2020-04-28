@@ -18,10 +18,10 @@ from core.aggregator import BaseAggregator
 from plant_core.models import PlantSettings
 from plant_core.models import (
     Enclosure,
-    Cooler,
-    AirHumidifier,
-    WaterPump,
-    AirHumidifier,
+    CoolerController,
+    AirHumidifierController,
+    WaterPumpController,
+    AirHumidifierController,
     UvLight,
     CO2Valve,
     Filters,
@@ -65,5 +65,5 @@ while True:
     # Get aggregated action
     action = peltier_device_ctl.action
     print(f"T={t}, HR={hr} => Peltier status = {action}")
-    Cooler(power_status=action).save()
+    CoolerController(power_status=action).save()
     time.sleep(1)

@@ -46,7 +46,7 @@ class CoolerSensor(models.Model):
             return None
 
 
-class Cooler(models.Model):
+class CoolerController(models.Model):
     """
     write by controller
     read by api gateway

@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from pytz import utc
 
 
-class WaterTankSensor(models.Model):
+class WaterPumpSensor(models.Model):
     """
     bse model streaming value from sensor
     """
@@ -20,9 +20,9 @@ class WaterTankSensor(models.Model):
         :return:
         """
 
-        if WaterTankSensor.objects.all().count() >= 30000:
-            WaterTankSensor.objects.all().order_by("created")[0].delete()
-        super(WaterTankSensor, self).save(*args, **kwargs)
+        if WaterPumpSensor.objects.all().count() >= 30000:
+            WaterPumpSensor.objects.all().order_by("created")[0].delete()
+        super(WaterPumpSensor, self).save(*args, **kwargs)
 
     @classmethod
     def __status(cls):
@@ -51,7 +51,7 @@ class WaterTankSensor(models.Model):
         ordering = ["-created"]
 
 
-class WaterPump(models.Model):
+class WaterPumpController(models.Model):
     """
 
     """
@@ -69,9 +69,9 @@ class WaterPump(models.Model):
 
         :return:
         """
-        if WaterPump.objects.all().count() == 30000:
-            WaterPump.objects.all().order_by("created")[0].delete()
-        super(WaterPump, self).save(*args, **kwargs)
+        if WaterPumpController.objects.all().count() == 30000:
+            WaterPumpController.objects.all().order_by("created")[0].delete()
+        super(WaterPumpController, self).save(*args, **kwargs)
 
     class Meta:
         ordering = ["-created"]
@@ -94,7 +94,7 @@ class SprinklerSettings(models.Model):
         return f"{self.tag}-setting"
 
 
-class SprinklerSoilHumiditySensor(models.Model):
+class SprinklerSensor(models.Model):
     created = models.DateTimeField(auto_now_add=True, primary_key=True)
     tag = models.ForeignKey(SprinklerTag, on_delete=models.CASCADE)
     soil_humidity = models.FloatField(blank=True, null=True)
@@ -124,7 +124,7 @@ class SprinklerSoilHumiditySensor(models.Model):
         ordering = ["-created"]
 
 
-class SprinklerValve(models.Model):
+class SprinklerController(models.Model):
     created = models.DateTimeField(auto_now_add=True, primary_key=True)
     tag = models.ForeignKey(SprinklerTag, on_delete=models.CASCADE)
     humidity_level = models.FloatField(null=True, blank=True)

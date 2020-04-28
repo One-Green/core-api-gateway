@@ -15,7 +15,7 @@ from plant_core.models import (
     EnclosureSensor,
     PlantSettings,
     AirHumidifierSensor,
-    AirHumidifier,
+    AirHumidifierController,
 )
 
 print('module loaded')
@@ -41,7 +41,7 @@ def main():
         )
         signal = ctl.get_signal(enclosure.humidity)
 
-        AirHumidifier(
+        AirHumidifierController(
             enclosure_humidity=enclosure.humidity,
             humidity_in=sensor.air_in_humidity,
             humidity_level_min=setting.air_hygrometry_min,
@@ -60,7 +60,7 @@ def main():
         )
 
     else:
-        AirHumidifier(power=0).save()
+        AirHumidifierController(power=0).save()
         controller_logger.error(
             (
                 f"[ERROR] [{CONTROLLED_DEVICE}] "

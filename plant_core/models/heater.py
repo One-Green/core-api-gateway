@@ -47,7 +47,7 @@ class HeaterSensor(models.Model):
             return None
 
 
-class Heater(models.Model):
+class HeaterController(models.Model):
     """
     write by controller
     read by api gateway

@@ -1,13 +1,13 @@
 from .settings import PlantSettings
 from .enclosure import EnclosureSensor
 from .sprinkler import (
-    SprinklerSoilHumiditySensor,
+    SprinklerSensor,
     SprinklerSettings,
     SprinklerTag,
-    SprinklerValve,
-    WaterPump,
-    WaterTankSensor,
+    SprinklerController,
+    WaterPumpController,
+    WaterPumpSensor,
 )
-from .heater import HeaterSensor, Heater
-from .cooler import CoolerSensor, Cooler
-from .air_humidifer import AirHumidifierSensor, AirHumidifier
+from .heater import HeaterSensor, HeaterController
+from .cooler import CoolerSensor, CoolerController
+from .air_humidifer import AirHumidifierSensor, AirHumidifierController

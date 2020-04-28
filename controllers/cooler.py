@@ -11,7 +11,7 @@ from plant_kiper.settings import controller_logger, CONTROLLERS_LOOP_EVERY
 from controllers import loki_tag
 from core.controller import BinaryController
 from core.utils import is_api_gateway_up
-from plant_core.models import EnclosureSensor, PlantSettings, CoolerSensor, Cooler
+from plant_core.models import EnclosureSensor, PlantSettings, CoolerSensor, CoolerController
 
 while not is_api_gateway_up():
     time.sleep(30)
@@ -41,7 +41,7 @@ def main():
         )
         h_signal = h_ctl.get_signal(enclosure.humidity)
 
-        Cooler(
+        CoolerController(
             enclosure_temperature=enclosure.temperature,
             enclosure_humidity=enclosure.humidity,
             temperature_in=sensor.air_in_temperature,
@@ -82,7 +82,7 @@ def main():
             },
         )
     else:
-        Cooler(power_temperature=0, power_humidity=0).save()
+        CoolerController(power_temperature=0, power_humidity=0).save()
         controller_logger.error(
             (
                 f"[ERROR] [{CONTROLLED_DEVICE}] "

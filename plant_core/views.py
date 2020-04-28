@@ -5,12 +5,12 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from plant_core.models import (
-    SprinklerSoilHumiditySensor,
+    SprinklerSensor,
     SprinklerTag,
-    SprinklerValve,
-    Cooler,
-    Heater,
-    AirHumidifier,
+    SprinklerController,
+    CoolerController,
+    HeaterController,
+    AirHumidifierController,
 )
 
 from plant_core.serializers import (
@@ -51,11 +51,11 @@ class SprinklerView(GenericAPIView):
                 tag.save()
                 tag_created = True
             finally:
-                SprinklerSoilHumiditySensor(
+                SprinklerSensor(
                     tag=tag, soil_humidity=request.data["soil_humidity"]
                 ).save()
             try:
-                power = SprinklerValve.objects.filter(tag=tag)[0].power
+                power = SprinklerController.objects.filter(tag=tag)[0].power
             except IndexError:
                 power = 0
 
@@ -91,11 +91,11 @@ class CoolerView(GenericAPIView):
         if serializer.is_valid():
             serializer.save()
             try:
-                t_power = Cooler.objects.all()[0].power_temperature
+                t_power = CoolerController.objects.all()[0].power_temperature
             except IndexError:
                 t_power = 0
             try:
-                h_power = Cooler.objects.all()[0].power_humidity
+                h_power = CoolerController.objects.all()[0].power_humidity
             except IndexError:
                 h_power = 0
 
@@ -130,7 +130,7 @@ class HeaterView(GenericAPIView):
         if serializer.is_valid():
             serializer.save()
             try:
-                power = Heater.objects.all()[0].power
+                power = HeaterController.objects.all()[0].power
             except IndexError:
                 power = 0
 
@@ -160,7 +160,7 @@ class AirHumidifierView(GenericAPIView):
         if serializer.is_valid():
             serializer.save()
             try:
-                power = AirHumidifier.objects.all()[0].power
+                power = AirHumidifierController.objects.all()[0].power
             except IndexError:
                 power = 0
 

@@ -1,32 +1,32 @@
 from django.contrib import admin
 from plant_core.models import (
     PlantSettings,
-    SprinklerSoilHumiditySensor,
+    SprinklerSensor,
     SprinklerSettings,
     SprinklerTag,
-    SprinklerValve,
-    WaterPump,
-    WaterTankSensor,
+    SprinklerController,
+    WaterPumpController,
+    WaterPumpSensor,
     HeaterSensor,
-    Heater,
+    HeaterController,
     CoolerSensor,
-    Cooler,
+    CoolerController,
     AirHumidifierSensor,
-    AirHumidifier,
+    AirHumidifierController,
 )
 
 # Register your models here.
 
 admin.site.register(PlantSettings)
-admin.site.register(SprinklerSoilHumiditySensor)
+admin.site.register(SprinklerSensor)
 admin.site.register(SprinklerSettings)
 admin.site.register(SprinklerTag)
-admin.site.register(SprinklerValve)
-admin.site.register(WaterPump)
-admin.site.register(WaterTankSensor)
+admin.site.register(SprinklerController)
+admin.site.register(WaterPumpController)
+admin.site.register(WaterPumpSensor)
 admin.site.register(HeaterSensor)
-admin.site.register(Heater)
+admin.site.register(HeaterController)
 admin.site.register(CoolerSensor)
-admin.site.register(Cooler)
+admin.site.register(CoolerController)
 admin.site.register(AirHumidifierSensor)
-admin.site.register(AirHumidifier)
+admin.site.register(AirHumidifierController)

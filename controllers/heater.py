@@ -11,7 +11,7 @@ from plant_kiper.settings import controller_logger, CONTROLLERS_LOOP_EVERY
 from controllers import loki_tag
 from core.controller import BinaryController
 from core.utils import is_api_gateway_up
-from plant_core.models import EnclosureSensor, PlantSettings, HeaterSensor, Heater
+from plant_core.models import EnclosureSensor, PlantSettings, HeaterSensor, HeaterController
 
 while not is_api_gateway_up():
     time.sleep(30)
@@ -35,7 +35,7 @@ def main():
         )
         signal = ctl.get_signal(enclosure.temperature)
 
-        Heater(
+        HeaterController(
             enclosure_temperature=enclosure.temperature,
             temperature_in=sensor.air_in_temperature,
             temperature_level_min=setting.air_temperature_min,
@@ -54,7 +54,7 @@ def main():
         )
 
     else:
-        Heater(power=0).save()
+        HeaterController(power=0).save()
         controller_logger.error(
             (
                 f"[ERROR] [{CONTROLLED_DEVICE}] "

@@ -13,10 +13,10 @@ from core.controller import BinaryController
 from core.utils import is_api_gateway_up
 from plant_core.models import (
     PlantSettings,
-    SprinklerValve,
+    SprinklerController,
     SprinklerSettings,
     SprinklerTag,
-    SprinklerSoilHumiditySensor,
+    SprinklerSensor,
 )
 
 while not is_api_gateway_up():
@@ -59,10 +59,10 @@ def main():
                     }
                 },
             )
-            SprinklerValve(tag=tag, power=0).save()
+            SprinklerController(tag=tag, power=0).save()
             continue
 
-        sensor = SprinklerSoilHumiditySensor.status(tag=tag)
+        sensor = SprinklerSensor.status(tag=tag)
         if sensor:
             ctl.set_conf(
                 _min=setting.soil_humidity_min,
@@ -71,7 +71,7 @@ def main():
             )
             signal = ctl.get_signal(sensor.soil_humidity)
 
-            SprinklerValve(
+            SprinklerController(
                 tag=tag,
                 humidity_level=sensor.soil_humidity,
                 humidity_level_max=setting.soil_humidity_max,
@@ -100,7 +100,7 @@ def main():
             )
 
         else:
-            SprinklerValve(tag=tag, power=0).save()
+            SprinklerController(tag=tag, power=0).save()
             controller_logger.error(
                 (
                     f"[ERROR] [{CONTROLLED_DEVICE}] "
