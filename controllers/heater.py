@@ -4,14 +4,19 @@ import time
 import django
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "plant_kiper.settings")
-sys.path.insert(0, os.path.abspath('..'))
+sys.path.insert(0, os.path.abspath(".."))
 django.setup()
 
 from plant_kiper.settings import controller_logger, CONTROLLERS_LOOP_EVERY
 from controllers import loki_tag
 from core.controller import BinaryController
 from core.utils import is_api_gateway_up
-from plant_core.models import EnclosureSensor, PlantSettings, HeaterSensor, HeaterController
+from plant_core.models import (
+    EnclosureSensor,
+    PlantSettings,
+    HeaterSensor,
+    HeaterController,
+)
 
 while not is_api_gateway_up():
     time.sleep(30)

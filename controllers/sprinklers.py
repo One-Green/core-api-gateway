@@ -4,7 +4,7 @@ import time
 import django
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "plant_kiper.settings")
-sys.path.insert(0, os.path.abspath('..'))
+sys.path.insert(0, os.path.abspath(".."))
 django.setup()
 
 from plant_kiper.settings import controller_logger, CONTROLLERS_LOOP_EVERY
