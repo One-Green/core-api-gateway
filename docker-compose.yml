@@ -36,8 +36,6 @@ services:
     restart: always
     environment:
       - POSTGRES_PASSWORD=postgres
-    volumes:
-    - ./confs/postgresql.conf:/var/lib/postgresql/data/postgresql.conf
     ports:
       - 5432:5432
 
