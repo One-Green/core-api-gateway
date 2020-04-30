@@ -1,5 +1,5 @@
 .. image:: static/main_logo.png
-   :width: 400
+   :width: 200
    :align: center
 
 .. image:: https://img.shields.io/badge/Python-3.8.1-<COLOR>.svg
