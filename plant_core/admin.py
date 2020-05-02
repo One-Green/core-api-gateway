@@ -5,8 +5,8 @@ from plant_core.models import (
     SprinklerSettings,
     SprinklerTag,
     SprinklerController,
-    WaterPumpController,
-    WaterPumpSensor,
+    WaterController,
+    WaterSensor,
     HeaterSensor,
     HeaterController,
     CoolerSensor,
@@ -22,8 +22,8 @@ admin.site.register(SprinklerSensor)
 admin.site.register(SprinklerSettings)
 admin.site.register(SprinklerTag)
 admin.site.register(SprinklerController)
-admin.site.register(WaterPumpController)
-admin.site.register(WaterPumpSensor)
+admin.site.register(WaterController)
+admin.site.register(WaterSensor)
 admin.site.register(HeaterSensor)
 admin.site.register(HeaterController)
 admin.site.register(CoolerSensor)
