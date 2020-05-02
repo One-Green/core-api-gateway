@@ -21,11 +21,13 @@ PlantSettings(
     air_co2_ppm_max=5000.0,
     light_start=time(7, 0),
     light_end=time(20, 0),
+    water_tank_min_level=20,
     activate_cooler_controller=True,
     activate_heater_controller=True,
     activate_air_humidifier_controller=True,
     activate_uv_light_controller=True,
     activate_sprinklers_controller=True,
+    activate_water_controller=True
 ).save()
 
 EnclosureSensor(temperature=0, humidity=0, uv_index=0, co2_ppm=0, cov_ppm=0).save()

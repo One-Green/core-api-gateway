@@ -25,6 +25,8 @@ class PlantSettings(models.Model):
 
     sprinkler_setting = models.ManyToManyField("SprinklerSettings")
 
+    water_tank_min_level = models.FloatField(blank=True, null=True)
+
     activate_cooler_controller = models.BooleanField(
         default=True, blank=False, null=False
     )
@@ -38,6 +40,10 @@ class PlantSettings(models.Model):
         default=True, blank=False, null=False
     )
     activate_sprinklers_controller = models.BooleanField(
+        default=True, blank=False, null=False
+    )
+
+    activate_water_controller = models.BooleanField(
         default=True, blank=False, null=False
     )
 
