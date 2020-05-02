@@ -1,7 +1,7 @@
 # Run all Plant keeper services
 # - Plant-keeper django REST Api Gateway
 # - Plant-keeper Prometheus client server
-# - Plant-keeper device controller
+# - Plant-keeper devices controllers
 # - Postgres database
 # - Prometheus server
 # - Grafana server
@@ -108,6 +108,18 @@ services:
       - loki
       - api-gateway
 
+  water-ctl:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    command: bash -c "cd controllers && python water.py"
+    environment:
+      - CONTROLLERS_LOOP_EVERY=2
+    restart: always
+    depends_on:
+      - db
+      - loki
+      - api-gateway
 
   grafana:
     image: grafana/grafana:6.7.1
