@@ -25,27 +25,19 @@ class WaterSensor(models.Model):
         super(WaterSensor, self).save(*args, **kwargs)
 
     @classmethod
-    def __status(cls):
+    def get_status(cls):
         """
         get latest values
         :return:
         """
         try:
-            return (
-                cls.objects.filter(
-                    created__gte=utc.localize(datetime.now() - timedelta(seconds=5))
-                )
-                .order_by("-created")
-                .values()[0]
-            )
+            return cls.objects.filter(
+                created__gte=utc.localize(datetime.now() - timedelta(seconds=5))
+            ).order_by("-created")[0]
         except IndexError:
             return None
         except cls.ObjectDoesNotExist:
             return None
-
-    @property
-    def status(self):
-        return self.__status()
 
     class Meta:
         ordering = ["-created"]
