@@ -40,7 +40,8 @@ services:
       - 5432:5432
     volumes:
       # use this config for Raspberry Pi model A
-      # generated limiting 2 CPU and 2Gi ram / web app config
+      # use PG tune: to optimize with limiting 2 CPU and 2Gi ram / web app config / 1000 Nodes Max
+      # Source : https://pgtune.leopard.in.ua/#/
       - ./confs/postgresql_raspberry_a.conf:/etc/postgresql.conf
 
   api-gateway:
