@@ -38,7 +38,7 @@ class AirHumidifierSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class WaterSeriralizer(serializers.ModelSerializer):
+class WaterSerializer(serializers.ModelSerializer):
     class Meta:
         model = WaterSensor
         fields = "__all__"
