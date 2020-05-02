@@ -38,12 +38,16 @@ services:
       - POSTGRES_PASSWORD=postgres
     ports:
       - 5432:5432
+    volumes:
+      # use this config for Raspberry Pi model A
+      # generated limiting 2 CPU and 2Gi ram / web app config
+      - ./confs/postgresql_raspberry_a.conf:/etc/postgresql.conf
 
   api-gateway:
     build:
       context: .
       dockerfile: ./Dockerfile
-    command: bash -c "bash init.sh && gunicorn --workers=3 --bind 0.0.0.0:8001 plant_kiper.wsgi"
+    command: bash -c "bash init.sh && gunicorn --workers=4 --bind 0.0.0.0:8001 plant_kiper.wsgi"
     restart: always
     ports:
       - 8001:8001
