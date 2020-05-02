@@ -4,6 +4,7 @@ from plant_core.models import (
     HeaterSensor,
     CoolerSensor,
     AirHumidifierSensor,
+    WaterSensor
 )
 
 
@@ -34,4 +35,10 @@ class CoolerSerializer(serializers.ModelSerializer):
 class AirHumidifierSerializer(serializers.ModelSerializer):
     class Meta:
         model = AirHumidifierSensor
+        fields = "__all__"
+
+
+class WaterSeriralizer(serializers.ModelSerializer):
+    class Meta:
+        model = WaterSensor
         fields = "__all__"
