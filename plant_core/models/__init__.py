@@ -4,10 +4,9 @@ from .sprinkler import (
     SprinklerSensor,
     SprinklerSettings,
     SprinklerTag,
-    SprinklerController,
-    WaterPumpController,
-    WaterPumpSensor,
+    SprinklerController
 )
+from .water import WaterSensor, WaterController
 from .heater import HeaterSensor, HeaterController
 from .cooler import CoolerSensor, CoolerController
 from .air_humidifer import AirHumidifierSensor, AirHumidifierController
