@@ -30,7 +30,7 @@ class SprinklerSensor(models.Model):
         return f"{self.tag}-sensor"
 
     @classmethod
-    def status(cls, tag):
+    def get_status(cls, tag):
         """
         get latest values
         :return:

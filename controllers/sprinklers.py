@@ -62,7 +62,7 @@ def main():
             SprinklerController(tag=tag, power=0).save()
             continue
 
-        sensor = SprinklerSensor.status(tag=tag)
+        sensor = SprinklerSensor.get_status(tag=tag)
         if sensor:
             ctl.set_conf(
                 _min=setting.soil_humidity_min,
