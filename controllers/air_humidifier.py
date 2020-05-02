@@ -18,7 +18,6 @@ from plant_core.models import (
     AirHumidifierController,
 )
 
-print("module loaded")
 while not is_api_gateway_up():
     time.sleep(30)
 
