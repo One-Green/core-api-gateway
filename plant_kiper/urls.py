@@ -36,20 +36,13 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
-    url(
-        r"^$", schema_view.with_ui("swagger", cache_timeout=0), name="schema-swagger-ui"
-    ),
-    url(
-        r"^redoc/$", schema_view.with_ui("redoc", cache_timeout=0), name="schema-redoc"
-    ),
+    url(r"^redoc/$", schema_view.with_ui("redoc", cache_timeout=0), name="schema-redoc"),
+    path("api", schema_view.with_ui("swagger", cache_timeout=0), name="schema-swagger-ui"),
     path("admin/", admin.site.urls),
-    path("enclosure/", views.EnclosureView.as_view()),
-    path("sprinkler/", views.SprinklerView.as_view()),
-    path("water/", views.WaterView.as_view()),
-    path("heater/", views.HeaterView.as_view()),
-    path("cooler/", views.CoolerView.as_view()),
-    path("air-humidifier/", views.AirHumidifierView.as_view()),
-    # path('uv-light/', views.UvLightView.as_view()),
-    # path('co2-valve/', views.CO2ValveView.as_view()),
-    # path('filters/', views.FiltersView.as_view())
+    path("api-v1/enclosure/", views.EnclosureView.as_view()),
+    path("api-v1/sprinkler/", views.SprinklerView.as_view()),
+    path("api-v1/water/", views.WaterView.as_view()),
+    path("api-v1/heater/", views.HeaterView.as_view()),
+    path("api-v1/cooler/", views.CoolerView.as_view()),
+    path("api-v1/air-humidifier/", views.AirHumidifierView.as_view()),
 ]
