@@ -20,14 +20,14 @@ from plant_core import views
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
-from .settings import __version__
+from plant_kiper import settings
 
 schema_view = get_schema_view(
     openapi.Info(
         title="Plant Keeper API Gateway",
-        default_version=__version__,
+        default_version=settings.__version__,
         description="Still in dev",
-        terms_of_service="https://www.google.com/policies/terms/",
+        terms_of_service="https://github.com/shanisma/plant-keeper/blob/master/LICENSE",
         contact=openapi.Contact(email="shanmugathas.vigneswara@outlook.fr"),
         license=openapi.License(name="Still in dev"),
     ),
@@ -36,6 +36,7 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
+    url("^$", views.home),
     url(r"^redoc/$", schema_view.with_ui("redoc", cache_timeout=0), name="schema-redoc"),
     path("api", schema_view.with_ui("swagger", cache_timeout=0), name="schema-swagger-ui"),
     path("admin/", admin.site.urls),
