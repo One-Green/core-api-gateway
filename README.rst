@@ -1,4 +1,4 @@
-.. image:: static/main_logo.png
+.. image:: docs/images/main_logo.png
    :width: 200
    :align: center
 
@@ -63,7 +63,7 @@ sensors + codes to push to Master
 Pin Out needed to be activated/deactivated
 
 
-.. image:: static/grafana_1-min.png
+.. image:: docs/images/grafana_1-min.png
    :width: 600
    :align: center
 
