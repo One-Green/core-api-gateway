@@ -1,6 +1,15 @@
+import os
 import socket
 from django.shortcuts import render
 from plant_kiper import settings
+
+
+def get_host_ip():
+    """
+    Get env HOST_IP provided by docker-compose.yaml
+    defined in .env file  = ENV_HOST_IP
+    """
+    return os.getenv("HOST_IP", None)
 
 
 def get_ip():
@@ -22,7 +31,11 @@ def get_ip():
 
 
 def home(request):
-    ip = get_ip()
+
+    ip = get_host_ip()
+    if not ip:
+        ip = get_ip()
+
     return render(
         request,
         "home.html",
