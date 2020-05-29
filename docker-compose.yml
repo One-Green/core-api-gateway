@@ -52,6 +52,11 @@ services:
     restart: always
     ports:
       - 8001:8001
+    environment:
+        # Change host ip
+        # use this command $: ip -o route get to 8.8.8.8 | sed -n 's/.*src \([0-9.]\+\).*/\1/p'
+        # not required, only for landing page
+        HOST_IP: 192.168.0.20
     depends_on:
       - db
       - loki
