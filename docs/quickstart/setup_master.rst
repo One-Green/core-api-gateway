@@ -197,6 +197,14 @@ Connect to Raspberry trough SSH or start Terminal if you use desktop version and
 Start Plant Keeper Master
 =========================
 
+
+.. note::
+
+    Change in **docker-compose.yml**, in service  **api-gateway**, change environment variable **HOST_IP**.
+
+    By changing this variable, landing page button will point to good url
+
+
 Connect to Raspberry trough SSH or start Terminal if you use desktop version and run :
 
 .. code-block:: shell
@@ -213,7 +221,22 @@ Follow starting with :
     docker-compose logs --follow
     # use ctrl + c to stop tail logs
 
-Once Master started, you can access to:
+
+Once Master started, you can access to: http://192.168.<??>.<??>:8001
+
+
+    .. figure:: ../images/landing_page.png
+        :height: 100
+        :width: 200
+        :scale: 300
+        :align: center
+        :alt: flow
+
+
+.. note::
+
+    If you can see dancing Baby Groot dancing Api gateway is running.
+
 
 - Django Admin (plant settings) with credentials :
 
