@@ -7,7 +7,6 @@ from plant_kiper import settings
 def get_host_ip():
     """
     Get env HOST_IP provided by docker-compose.yaml
-    defined in .env file  = ENV_HOST_IP
     """
     return os.getenv("HOST_IP", None)
 
