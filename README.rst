@@ -9,14 +9,6 @@
     :target: https://plant-keeper.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
 
-.. image:: https://pyup.io/repos/github/shanisma/plant-keeper/shield.svg
-     :target: https://pyup.io/repos/github/shanisma/plant-keeper/
-     :alt: Updates
-
-.. image:: https://pyup.io/repos/github/shanisma/plant-keeper/python-3-shield.svg
-     :target: https://pyup.io/repos/github/shanisma/plant-keeper/
-     :alt: Python 3
-
 .. image:: https://travis-ci.org/shanisma/plant-keeper.svg?branch=master
    :target: https://travis-ci.org/shanisma/plant-keeper
 
