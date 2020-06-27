@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-gateway
+  labels:
+    app: api-gateway
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: api-gateway
+      labels:
+        app: api-gateway
+    spec:
+      initContainers:
+        - name: init-django
+          image: docker.io/shanisma/pk-k8s:0.0.1
+          imagePullPolicy: IfNotPresent
+          command: ["/bin/bash", "-c"]
+          args: ["bash", "init.sh"]
+      containers:
+        - name: api-gateway
+          image: docker.io/shanisma/pk-k8s:0.0.1
+          imagePullPolicy: IfNotPresent
+          command: ["/bin/bash", "-c"]
+          args: ["gunicorn --workers=1 --bind=0.0.0.0:8001 --access-logfile - --log-file - --log-level=debug plant_kiper.wsgi"]
+          ports:
+            - containerPort: 8001
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: api-gateway
