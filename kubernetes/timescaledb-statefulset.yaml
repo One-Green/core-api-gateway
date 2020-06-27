@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: tsdb
+spec:
+  selector:
+    matchLabels:
+      app: tsdb
+  serviceName: "tsdb"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: tsdb
+    spec:
+      containers:
+      - name: timescaledb
+        image: timescale/timescaledb:latest-pg11
+        env:
+          - name: POSTGRES_PASSWORD
+            value: postgres
+        ports:
+        - containerPort: 5432
+        volumeMounts:
+        - name: tsdb-conf
+          mountPath: /etc/postgresql.conf
+        - name: tsdb-data
+          mountPath: /var/lib/postgresql
+      volumes:
+        - name: tsdb-conf
+          configMap:
+            name: tsdb-conf
+  volumeClaimTemplates:
+  - metadata:
+      name: tsdb-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: "10Gi"
