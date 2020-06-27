@@ -61,3 +61,9 @@ build-push-base:
 	docker login
 	docker build -t shanisma/plant-keeper:${TAG} -f Dockerfile.base .
 	docker push shanisma/plant-keeper:${TAG}
+
+build-push-kube: export TAG=0.0.1
+build-push-kube:
+	docker login
+	docker build -t shanisma/pk-k8s:${TAG} -f Dockerfile.kube .
+	docker push shanisma/pk-k8s:${TAG}
