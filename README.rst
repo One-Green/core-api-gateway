@@ -95,7 +95,7 @@ Install tiny Kubernetes cluster on you machine (Raspberry Pi compatible): https:
     # Install MicroK8s + Helm
     snap install microk8s --classic --edge
     microk8s.enable dns dashboard storage ingress helm
-    echo "--allow-privileged=true" >> /var/snap/microk8s/current/args/kube-apiserver'
+    echo "--allow-privileged=true" >> /var/snap/microk8s/current/args/kube-apiserver
     microk8s.stop
     microk8s.start
     microk8s.helm init --upgrade
