@@ -112,10 +112,15 @@ Install tiny Kubernetes cluster on you machine (Raspberry Pi compatible): https:
 QuickStart: Kubernetes
 ======================
 
-.. code-block: shell
+Deploy Plant Keeper in Kubernetes
+
+- Helm chart for Loki and Grafana
+
+- Yaml files for TimeScaleDB , Plant-Keeper Api GateWay , Plant-Keeper Controllers
+
+.. code-block:: shell
 
     # Raspbery Pi => suppose microk8s is used
-
     kubectl create namespace plant-keeper
 
     helm repo add stable https://kubernetes-charts.storage.googleapis.com
