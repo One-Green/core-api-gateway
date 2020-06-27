@@ -78,6 +78,60 @@ Tested with this configuration
     cd plant-keeper
     docker-compose up -d
 
+QuickStart: Install MicroK8s
+============================
+
+Install tiny Kubernetes cluster on you machine (Raspberry Pi compatible): https://microk8s.io/
+
+
+.. code-block:: shell
+
+    # install snap + add snap binaries in PATH
+    apt update
+    apt install snapd
+    echo "export PATH=\$PATH:/snap/bin" >> ~/.bashrc
+    source ~/.bashrc
+
+    # Install MicroK8s + Helm
+    snap install microk8s --classic --edge
+    microk8s.enable dns dashboard storage ingress helm
+    echo "--allow-privileged=true" >> /var/snap/microk8s/current/args/kube-apiserver'
+    microk8s.stop
+    microk8s.start
+    microk8s.helm init --upgrade
+
+    # Create Aliases
+    echo "alias kubectl=microk8s.kubectl" >> ~/.bashrc
+    echo "alias k=microk8s.kubectl" >> ~/.bashrc
+
+    echo "alias helm=microk8s.helm" >> ~/.bashrc
+    echo "alias h=microk8s.helm" >> ~/.bashrc
+    source ~/.bashrc
+
+
+QuickStart: Kubernetes
+======================
+
+.. code-block: shell
+
+    # Raspbery Pi => suppose microk8s is used
+
+    kubectl create namespace plant-keeper
+
+    helm repo add stable https://kubernetes-charts.storage.googleapis.com
+    helm repo add loki https://grafana.github.io/loki/charts
+    helm repo update
+    helm upgrade --install grafana stable/grafana -n plant-keeper \
+        --set persistence.enabled=true \
+        --set persistence.type=pvc \
+        --set persistence.size=1Gi \
+        --set storageClassName=microk8s-hostpath
+
+    helm upgrade --install loki loki/loki  -n plant-keeper
+
+    # Apply manifest from this repository
+    kubectl apply -f kubernetes/ -n plant-keeper
+
 
 More
 ====
