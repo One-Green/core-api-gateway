@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: air-humidifier-controller
+spec:
+  selector:
+    matchLabels:
+      app: air-humidifier-controller
+  serviceName: "air-humidifier-controller"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: air-humidifier-controller
+    spec:
+      containers:
+      - name: air-humidifier-controller
+        image: docker.io/shanisma/pk-k8s:0.0.1
+        command: ['/bin/bash', '-c']
+        args: ['cd /app/controllers && python air_humidifier.py']
+        imagePullPolicy: IfNotPresent
