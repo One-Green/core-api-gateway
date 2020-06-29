@@ -15,9 +15,9 @@ spec:
       initContainers:
         - name: init-django
           image: docker.io/shanisma/pk-k8s:0.0.1
-          imagePullPolicy: IfNotPresent
-          command: ["/bin/bash", "-c"]
-          args: ["bash", "init.sh"]
+          imagePullPolicy: Always
+          command: ["python"]
+          args: ["init.py"]
       containers:
         - name: api-gateway
           image: docker.io/shanisma/pk-k8s:0.0.1

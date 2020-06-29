@@ -7,4 +7,5 @@ spec:
     app: api-gateway
   ports:
     - port: 8001
-  type: ClusterIP
+      nodePort: 32333
+  type: NodePort
