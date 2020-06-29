@@ -36,9 +36,9 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
-    url("^$", views.home),
+    # url("^$", views.home),
     url(r"^redoc/$", schema_view.with_ui("redoc", cache_timeout=0), name="schema-redoc"),
-    path("api", schema_view.with_ui("swagger", cache_timeout=0), name="schema-swagger-ui"),
+    path("", schema_view.with_ui("swagger", cache_timeout=0), name="schema-swagger-ui"),
     path("admin/", admin.site.urls),
     path("api-v1/enclosure/", views.EnclosureView.as_view()),
     path("api-v1/sprinkler/", views.SprinklerView.as_view()),
