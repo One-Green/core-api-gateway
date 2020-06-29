@@ -2,13 +2,27 @@ import os
 import sys
 import django
 from datetime import time
+from django.db import connections
+from django.db.utils import ProgrammingError
+from django.core.management import call_command
+from django.conf import settings
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "plant_kiper.settings")
-sys.path.append(
-    os.path.dirname(os.path.dirname(os.path.join(os.path.dirname("__file__"))))
-)
+sys.path.insert(0, os.path.abspath("."))
 django.setup()
+
+from django.contrib.auth.models import User
 from plant_core.models import PlantSettings, EnclosureSensor
+
+call_command('makemigrations', interactive=False, verbosity=2)
+call_command('makemigrations', 'plant_core', interactive=False, verbosity=2)
+call_command('migrate', interactive=False, verbosity=2)
+call_command('collectstatic', interactive=False, verbosity=2)
+
+try:
+    User.objects.create_superuser("plant", "change@me.com", "keeper")
+except django.db.utils.IntegrityError:
+    print('[WAR] User "plant" already exist')
 
 PlantSettings(
     plant_identifier="auto_init",
@@ -30,4 +44,10 @@ PlantSettings(
     activate_water_controller=True
 ).save()
 
-EnclosureSensor(temperature=0, humidity=0, uv_index=0, co2_ppm=0, cov_ppm=0).save()
+EnclosureSensor(
+    temperature=0,
+    humidity=0,
+    uv_index=0,
+    co2_ppm=0,
+    cov_ppm=0
+).save()
