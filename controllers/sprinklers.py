@@ -1,6 +1,7 @@
 import os
 import sys
 import time
+from datetime import datetime
 import django
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "plant_kiper.settings")
@@ -29,7 +30,7 @@ CONTROLLED_DEVICE: str = "sprinklers"
 # Print template
 # generic template for logging/print (for log remove datetime_now)
 PRINT_TEMPLATE = (
-    "[INFO] [{device}] [tag={tag}] "
+    "[{dt}] [INFO] [{device}] [tag={tag}] "
     "humidity min = {min} "
     "humidity max = {max} "
     "humidity sensor = {humidity} "
@@ -46,7 +47,7 @@ def main():
         except SprinklerSettings.DoesNotExist:
             controller_logger.error(
                 (
-                    f"[ERROR] [{CONTROLLED_DEVICE}] "
+                    f"[{datetime.isoformat(datetime.utcnow())}] [ERROR] [{CONTROLLED_DEVICE}] "
                     f"[tag={tag.tag}] "
                     f"No setting for this sprinkler "
                     f" => POWER = OFF"
@@ -82,6 +83,7 @@ def main():
             controller_logger.info(
                 (
                     PRINT_TEMPLATE.format(
+                        dt=datetime.isoformat(datetime.utcnow()),
                         device=CONTROLLED_DEVICE,
                         tag=tag.tag,
                         min=setting.soil_humidity_min,
@@ -103,7 +105,7 @@ def main():
             SprinklerController(tag=tag, power=0).save()
             controller_logger.error(
                 (
-                    f"[ERROR] [{CONTROLLED_DEVICE}] "
+                    f"[{datetime.isoformat(datetime.utcnow())}] [ERROR] [{CONTROLLED_DEVICE}] "
                     f"[tag={tag.tag}] "
                     f"Soil humidity SENSORS NO UPDATED "
                     f" => POWER = OFF"
@@ -125,5 +127,5 @@ if __name__ == "__main__":
             main()
             time.sleep(CONTROLLERS_LOOP_EVERY)
         else:
-            print("[INFO] SPRINKLERS DEACTIVATED")
+            print(f"[{datetime.isoformat(datetime.utcnow())}] [INFO] SPRINKLERS DEACTIVATED .. sleep 5 sec")
             time.sleep(5)

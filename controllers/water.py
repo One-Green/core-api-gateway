@@ -1,6 +1,7 @@
 import os
 import sys
 import time
+from datetime import datetime
 import django
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "plant_kiper.settings")
@@ -34,7 +35,7 @@ def main():
             WaterController(level=0, power=0).save()
             controller_logger.error(
                 (
-                    f"[ERROR] [{CONTROLLED_DEVICE}] "
+                    f"[{datetime.isoformat(datetime.utcnow())}] [ERROR] [{CONTROLLED_DEVICE}] "
                     f" WATER LEVEL TOO LOW "
                     f" => POWER = OFF"
                 ),
@@ -47,7 +48,7 @@ def main():
             )
         else:
             for tag in SprinklerTag.objects.all():
-                print(f'[INFO] Checking if {tag=} need water')
+                print(f'[{datetime.isoformat(datetime.utcnow())}] [INFO] Checking if {tag=} need water')
                 if SprinklerController.objects.filter(tag=tag)[0].power:
                     WaterController(
                         level=sensor.level,
@@ -72,7 +73,7 @@ def main():
         WaterController(level=0, power=0).save()
         controller_logger.error(
             (
-                f"[ERROR] [{CONTROLLED_DEVICE}] "
+                f"[{datetime.isoformat(datetime.utcnow())}] [ERROR] [{CONTROLLED_DEVICE}] "
                 f"SENSORS NO UPDATED "
                 f" => POWER = OFF"
             ),
@@ -91,5 +92,5 @@ if __name__ == "__main__":
             main()
             time.sleep(CONTROLLERS_LOOP_EVERY)
         else:
-            print("[INFO] AIR HUMIDIFIER DEACTIVATED")
+            print(f"[{datetime.isoformat(datetime.utcnow())}] [INFO] WATER DEACTIVATED .. sleep 5 sec")
             time.sleep(5)

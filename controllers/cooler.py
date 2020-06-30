@@ -1,6 +1,7 @@
 import os
 import sys
 import time
+from datetime import datetime
 import django
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "plant_kiper.settings")
@@ -60,7 +61,7 @@ def main():
         ).save()
         controller_logger.info(
             (
-                f"[INFO] [{CONTROLLED_DEVICE}] "
+                f"[{datetime.isoformat(datetime.utcnow())}] [INFO] [{CONTROLLED_DEVICE}] "
                 f"t_min={round(setting.air_temperature_min)}, "
                 f"t_max={round(setting.air_temperature_max)} "
                 f"t_enclosure={round(enclosure.humidity)} "
@@ -76,7 +77,7 @@ def main():
 
         controller_logger.info(
             (
-                f"[INFO] [{CONTROLLED_DEVICE}] "
+                f"[{datetime.isoformat(datetime.utcnow())}] [INFO] [{CONTROLLED_DEVICE}] "
                 f"h_min={round(setting.air_hygrometry_min)}, "
                 f"h_max={round(setting.air_hygrometry_max)} "
                 f"h_enclosure={round(enclosure.humidity)} "
@@ -90,7 +91,7 @@ def main():
         CoolerController(power_temperature=0, power_humidity=0).save()
         controller_logger.error(
             (
-                f"[ERROR] [{CONTROLLED_DEVICE}] "
+                f"[{datetime.isoformat(datetime.utcnow())}] [ERROR] [{CONTROLLED_DEVICE}] "
                 f"SENSORS NO UPDATED "
                 f" => POWER = OFF"
             ),
@@ -109,5 +110,5 @@ if __name__ == "__main__":
             main()
             time.sleep(CONTROLLERS_LOOP_EVERY)
         else:
-            print("[INFO] COOLER DEACTIVATED")
+            print(f"[{datetime.isoformat(datetime.utcnow())}] [INFO] COOLER DEACTIVATED .. sleep 5 sec")
             time.sleep(5)

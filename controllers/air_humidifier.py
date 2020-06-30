@@ -1,6 +1,7 @@
 import os
 import sys
 import time
+from datetime import datetime
 import django
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "plant_kiper.settings")
@@ -49,7 +50,7 @@ def main():
         ).save()
         controller_logger.info(
             (
-                f"[INFO] [{CONTROLLED_DEVICE}] "
+                f"[{datetime.isoformat(datetime.utcnow())}] [INFO] [{CONTROLLED_DEVICE}] "
                 f"h_min={round(setting.air_hygrometry_min)}, "
                 f"h_max={round(setting.air_hygrometry_max)} "
                 f"h_enclosure={round(enclosure.humidity)} "
@@ -62,7 +63,7 @@ def main():
         AirHumidifierController(power=0).save()
         controller_logger.error(
             (
-                f"[ERROR] [{CONTROLLED_DEVICE}] "
+                f"[{datetime.isoformat(datetime.utcnow())}] [ERROR] [{CONTROLLED_DEVICE}] "
                 f"SENSORS NO UPDATED "
                 f" => POWER = OFF"
             ),
@@ -81,5 +82,5 @@ if __name__ == "__main__":
             main()
             time.sleep(CONTROLLERS_LOOP_EVERY)
         else:
-            print("[INFO] AIR HUMIDIFIER DEACTIVATED")
+            print(f"[{datetime.isoformat(datetime.utcnow())}] [INFO] AIR HUMIDIFIER DEACTIVATED .. sleep 5 sec")
             time.sleep(5)
