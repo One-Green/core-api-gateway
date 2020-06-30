@@ -19,10 +19,13 @@ from plant_core.models import (
     CoolerController,
 )
 
-while not is_api_gateway_up():
-    time.sleep(30)
-
+# give a name for controlled device
+# for printing / logging purpose
 CONTROLLED_DEVICE: str = "cooler"
+
+while not is_api_gateway_up():
+    print(f"[{datetime.isoformat(datetime.utcnow())}] [INFO] [{CONTROLLED_DEVICE}] Waiting for Api-gateway ... ")
+    time.sleep(10)
 
 t_ctl = BinaryController()
 h_ctl = BinaryController()

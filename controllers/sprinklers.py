@@ -20,12 +20,13 @@ from plant_core.models import (
     SprinklerSensor,
 )
 
-while not is_api_gateway_up():
-    time.sleep(30)
-
 # give a name for controlled device
 # for printing / logging purpose
 CONTROLLED_DEVICE: str = "sprinklers"
+
+while not is_api_gateway_up():
+    print(f"[{datetime.isoformat(datetime.utcnow())}] [INFO] [{CONTROLLED_DEVICE}] Waiting for Api-gateway ... ")
+    time.sleep(10)
 
 # Print template
 # generic template for logging/print (for log remove datetime_now)
