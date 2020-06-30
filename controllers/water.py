@@ -57,7 +57,7 @@ def main():
 
                     controller_logger.info(
                         (
-                            f"[INFO] [{CONTROLLED_DEVICE}] "
+                            f"[{datetime.isoformat(datetime.utcnow())}] [INFO] [{CONTROLLED_DEVICE}] "
                             f"action=0"
                         ),
                         extra={"tags": {"controller": CONTROLLED_DEVICE}},
