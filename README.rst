@@ -98,14 +98,13 @@ Install tiny Kubernetes cluster on you machine (Raspberry Pi compatible): https:
     sudo microk8s.enable dns dashboard storage ingress helm3
     sudo microk8s.stop
     sudo microk8s.start
-    sudo microk8s.helm init --upgrade
 
     # Create Aliases
     echo "alias kubectl=\"sudo microk8s.kubectl\"" >> ~/.bashrc
     echo "alias k=\"sudo microk8s.kubectl\"" >> ~/.bashrc
 
-    echo "alias helm=\"sudo microk8s.helm\"" >> ~/.bashrc
-    echo "alias h=\"sudo microk8s.helm\"" >> ~/.bashrc
+    echo "alias helm=\"sudo microk8s.helm3\"" >> ~/.bashrc
+    echo "alias h=\"sudo microk8s.helm3\"" >> ~/.bashrc
     source ~/.bashrc
 
 
