@@ -87,25 +87,25 @@ Install tiny Kubernetes cluster on you machine (Raspberry Pi compatible): https:
 .. code-block:: shell
 
     # install snap + add snap binaries in PATH
-    apt update
-    apt install snapd
-    echo "export PATH=\$PATH:/snap/bin" >> ~/.bashrc
-    source ~/.bashrc
+    sudo apt update
+    sudo apt install snapd
+    sudo echo "export PATH=\$PATH:/snap/bin" >> ~/.bashrc
+    sudo source ~/.bashrc
 
     # Install MicroK8s + Helm
-    snap install microk8s --classic --edge
-    microk8s.enable dns dashboard storage ingress helm
-    echo "--allow-privileged=true" >> /var/snap/microk8s/current/args/kube-apiserver
-    microk8s.stop
-    microk8s.start
-    microk8s.helm init --upgrade
+    sudo snap install microk8s --classic
+    sudo sed -i '${s/$/ cgroup_enable=cpuset cgroup_enable=memory cgroup_memory=1/}' /boot/firmware/cmdline.txt
+    sudo microk8s.enable dns dashboard storage ingress helm3
+    sudo microk8s.stop
+    sudo microk8s.start
+    sudo microk8s.helm init --upgrade
 
     # Create Aliases
-    echo "alias kubectl=microk8s.kubectl" >> ~/.bashrc
-    echo "alias k=microk8s.kubectl" >> ~/.bashrc
+    echo "alias kubectl=\"sudo microk8s.kubectl\"" >> ~/.bashrc
+    echo "alias k=\"sudo microk8s.kubectl\"" >> ~/.bashrc
 
-    echo "alias helm=microk8s.helm" >> ~/.bashrc
-    echo "alias h=microk8s.helm" >> ~/.bashrc
+    echo "alias helm=\"sudo microk8s.helm\"" >> ~/.bashrc
+    echo "alias h=\"sudo microk8s.helm\"" >> ~/.bashrc
     source ~/.bashrc
 
 
