@@ -83,12 +83,15 @@ QuickStart: Install MicroK8s
 
 Install tiny Kubernetes cluster on you machine (Raspberry Pi compatible): https://microk8s.io/
 
+Arm guideline : https://microk8s.io/docs/install-alternatives#heading--arm
+
 
 .. code-block:: shell
 
     # install snap + add snap binaries in PATH
     sudo apt update
-    sudo apt install snapd
+    sudo apt install snapd docker.io -y
+    sudo iptables -P FORWARD ACCEPT
     sudo echo "export PATH=\$PATH:/snap/bin" >> ~/.bashrc
     sudo source ~/.bashrc
 
