@@ -14,13 +14,13 @@ spec:
     spec:
       initContainers:
         - name: init-django
-          image: docker.io/shanisma/pk-k8s:0.0.1
+          image: docker.io/shanisma/pk-k8s:0.0.2
           imagePullPolicy: Always
           command: ["python"]
           args: ["init.py"]
       containers:
         - name: api-gateway
-          image: docker.io/shanisma/pk-k8s:0.0.1
+          image: docker.io/shanisma/pk-k8s:0.0.2
           imagePullPolicy: IfNotPresent
           command: ["/bin/bash", "-c"]
           args: ["gunicorn --workers=1 --bind=0.0.0.0:8001 --access-logfile - --log-file - --log-level=debug plant_kiper.wsgi"]

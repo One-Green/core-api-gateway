@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: water-controller
-        image: docker.io/shanisma/pk-k8s:0.0.1
+        image: docker.io/shanisma/pk-k8s:0.0.2
         command: ['/bin/bash', '-c']
         args: ['cd /app/controllers && python water.py']
         imagePullPolicy: IfNotPresent
