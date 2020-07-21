@@ -138,7 +138,8 @@ Deploy Plant Keeper in Kubernetes
     helm upgrade --install loki loki/loki  -n plant-keeper
 
     # Apply manifest from this repository
-    kubectl apply -f kubernetes/ -n plant-keeper
+    git clone https://github.com/Plant-Keeper/plant-keeper-master.git
+    kubectl apply -f plant-keeper-master/kubernetes/ -n plant-keeper
 
     # Wait pod creation
     kubectl get po -n plant-keeper # --watch to refresh automatically
