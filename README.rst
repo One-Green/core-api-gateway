@@ -90,12 +90,13 @@ Arm guideline : https://microk8s.io/docs/install-alternatives#heading--arm
 
     # install snap + add snap binaries in PATH
     sudo apt update
-    sudo apt install snapd docker.io -y
+    sudo apt install snapd
     sudo iptables -P FORWARD ACCEPT
     sudo echo "export PATH=\$PATH:/snap/bin" >> ~/.bashrc
     sudo source ~/.bashrc
 
-    # Install MicroK8s + Helm
+    # Install Docker + MicroK8s + Helm3
+    sudo snap install docker
     sudo snap install microk8s --classic
     sudo sed -i '${s/$/ cgroup_enable=cpuset cgroup_enable=memory cgroup_memory=1/}' /boot/firmware/cmdline.txt
     sudo microk8s.enable dns dashboard storage ingress helm3
@@ -139,9 +140,17 @@ Deploy Plant Keeper in Kubernetes
     # Apply manifest from this repository
     kubectl apply -f kubernetes/ -n plant-keeper
 
+    # Wait pod creation
+    kubectl get po -n plant-keeper # --watch to refresh automatically
+
+One Pod are ready, open web browser :
+
+    - Api Gateway swagger:  http://<Machine external IP>:31801
+
+    - Grafana Dashboard: http://<Machine external IP>:31300
+
 
 More
 ====
-
 
 Documentations : https://plant-keeper.readthedocs.io/en/latest/?badge=latest
