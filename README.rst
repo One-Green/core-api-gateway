@@ -148,7 +148,7 @@ Deploy Plant Keeper in Kubernetes
     kubectl get secret -n plant-keeper  grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
 
 
-One Pods are ready, open web browser :
+Once Pods are ready, open web browser :
 
     - Api Gateway swagger:  http://<Machine external IP>:31801
 
