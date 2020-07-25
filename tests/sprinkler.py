@@ -8,7 +8,7 @@ _list = _pickle.load(open("sign_list.pkl", "rb"))
 
 
 class Sprinkler:
-    api = "http://127.0.0.1:8001/sprinkler-valve/"
+    api = "http://127.0.0.1:31801/api-v1/sprinkler/"
 
     @property
     def tag(self):
