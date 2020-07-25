@@ -20,7 +20,7 @@ class Sprinkler:
 
     def post_sig(self):
         for _ in _list:
-            _dict = {"tag": self.tag, "soil_humidity": _}
+            _dict = {"tag": self.tag, "soil_humidity": _ * 100}
 
             pprint(requests.post(self.api, json=_dict).json())
 
