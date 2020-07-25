@@ -88,6 +88,12 @@ Arm guideline : https://microk8s.io/docs/install-alternatives#heading--arm
 
 .. code-block:: shell
 
+    # https://microk8s.io/docs/install-alternatives#heading--arm
+    # for Arm add cgroup_enable=memory cgroup_memory=1
+    # if not applied Node will not be ready : https://github.com/ubuntu/microk8s/issues/728
+    sudo sed -i '${s/$/ cgroup_enable=memory cgroup_memory=1/}' /boot/firmware/cmdline.txt
+    reboot
+
     # install snap + add snap binaries in PATH
     sudo apt update
     sudo apt install snapd
@@ -98,7 +104,6 @@ Arm guideline : https://microk8s.io/docs/install-alternatives#heading--arm
     # Install Docker + MicroK8s + Helm3
     sudo snap install docker
     sudo snap install microk8s --classic
-    sudo sed -i '${s/$/ cgroup_enable=cpuset cgroup_enable=memory cgroup_memory=1/}' /boot/firmware/cmdline.txt
     sudo microk8s.enable dns dashboard storage ingress helm3
     sudo microk8s.stop
     sudo microk8s.start
