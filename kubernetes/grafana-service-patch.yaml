@@ -8,7 +8,7 @@ spec:
     app.kubernetes.io/name: grafana
   ports:
   - name: service
-    nodePort: 32300
+    nodePort: 31801
     port: 80
     protocol: TCP
     targetPort: 3000
