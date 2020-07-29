@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mqtt
+spec:
+  selector:
+    matchLabels:
+      app: mqtt
+  serviceName: mqtt
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mqtt
+    spec:
+      containers:
+      - name: mqtt
+        image: eclipse-mosquitto
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 9001
+          - containerPort: 1883

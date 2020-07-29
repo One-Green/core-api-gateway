@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: telegraf
+spec:
+  selector:
+    matchLabels:
+      app: telegraf
+  serviceName: telegraf
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: telegraf
+    spec:
+      containers:
+      - name: telegraf
+        imagePullPolicy: IfNotPresent
+        image: telegraf
+        volumeMounts:
+        - name: conf
+          mountPath: /etc/telegraf
+      volumes:
+        - name: conf
+          configMap:
+            name: telegraf
