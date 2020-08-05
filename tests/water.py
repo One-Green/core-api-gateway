@@ -1,25 +1,21 @@
-import requests
-from pprint import pprint
-import random
-import _pickle
 import time
+from random import randint
+import json
+import paho.mqtt.client as mqtt
+from settings import (
+    MQTT_HOST, MQTT_PORT
+)
 
-_list = _pickle.load(open("sign_list.pkl", "rb"))
+CONTROLLED_DEVICE: str = "water"
+MQTT_SENSOR_TOPIC: str = f'{CONTROLLED_DEVICE}/sensor'
+mqtt_client = mqtt.Client()
+mqtt_client.connect(MQTT_HOST, MQTT_PORT, 60)
 
-
-class Water:
-    api = "http://192.168.0.20:8001/water/"
-
-    def post_sig(self):
-        for _ in _list:
-            _dict = {
-                "level": _,
-            }
-
-            pprint(requests.post(self.api, json=_dict).json())
-
-
-if __name__ == "__main__":
-    while True:
-        Water().post_sig()
-        time.sleep(0.5)
+while True:
+    mqtt_client.publish(
+        MQTT_SENSOR_TOPIC,
+        json.dumps({
+            'test': randint(0, 100)
+        })
+    )
+    time.sleep(1)
