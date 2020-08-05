@@ -1,5 +1,5 @@
 """
-module information : Device controller collection
+Device controller collection
 
 Author: Shanmugathas Vigneswaran
 email: shanmugathas.vigneswaran@outlook.fr
