@@ -1,18 +1,17 @@
-import os
 import redis
 import time
-import pickle
+import json
 import paho.mqtt.client as mqtt
-import paho.mqtt.subscribe as subscribe
 from core.utils import get_now
-from random import randint
 from pprint import pprint
-from controller_default_config import WATER_CONTROLLER
+from core.controller_default_config import WATER_CONTROLLER
 from settings import (
     REDIS_HOST, REDIS_PORT,
     MQTT_HOST, MQTT_PORT
 )
-from registry import REDIS_SPRINKLER_REGISTRY_KEY
+from core.registry import REDIS_SPRINKLER_REGISTRY_KEY
+from core.pk_dict import WaterCtrlDict
+
 CONTROLLED_DEVICE: str = "water"
 
 REDIS_CONTROLLER_CONFIG_KEY: str = f"{CONTROLLED_DEVICE}_config"
@@ -20,6 +19,8 @@ DEFAULT_CONFIG: dict = WATER_CONTROLLER
 
 MQTT_SENSOR_TOPIC: str = f'{CONTROLLED_DEVICE}/sensor'
 MQTT_CONTROLLER_TOPIC: str = f'{CONTROLLED_DEVICE}/controller'
+
+REDIS_SPRINKLER_SIGNAL_KEY_TEMPLATE: str = 'sprinkler_tag_eq_{tag}'
 
 BONJOUR: str = f'''
 M""MMM""MMM""M MMP"""""""MM M""""""""M MM""""""""`M MM"""""""`MM          MM'""""'YMM M""""""""M M""MMMMMMMM 
@@ -33,14 +34,13 @@ MM
 MM {REDIS_HOST=}
 MM {REDIS_PORT=}
 MM {REDIS_CONTROLLER_CONFIG_KEY=}
-MM
+MM {REDIS_SPRINKLER_SIGNAL_KEY_TEMPLATE=}
 MM -------------
 MM
 MM {MQTT_HOST=}
 MM {MQTT_PORT=}
 MM {MQTT_SENSOR_TOPIC=}
 MM {MQTT_CONTROLLER_TOPIC=}
-MM
 MM ------------
 
 Controller starting 
@@ -59,19 +59,56 @@ if not controller_config:
     redis_client.get(REDIS_CONTROLLER_CONFIG_KEY)
     redis_client.set(
         REDIS_CONTROLLER_CONFIG_KEY,
-        pickle.dumps(DEFAULT_CONFIG)
+        json.dumps(DEFAULT_CONFIG)
     )
     print(
         f"[{get_now()}] [REDIS] [{CONTROLLED_DEVICE}]"
         f" Using default configuration"
     )
     pprint(
-        pickle.loads(
+        json.loads(
             redis_client.get(
                 REDIS_CONTROLLER_CONFIG_KEY
             )
         )
     )
+
+
+def get_sprinklers_tags() -> list:
+    """
+    Check if sprinkler is registered
+    :param tag:
+    :return:
+    """
+    try:
+        registry: dict = json.loads(
+            redis_client.get(
+                REDIS_SPRINKLER_REGISTRY_KEY
+            )
+        )
+        return registry['tag_list']
+    except KeyError:
+        return []
+    except TypeError:
+        return []
+
+
+def is_sprinkler_need_water() -> bool:
+    """
+    If one sprinklers based on tag require
+    water, return True to activated pump
+    :return:
+    """
+    for tag in get_sprinklers_tags():
+        if int(
+            redis_client.get(
+                REDIS_SPRINKLER_SIGNAL_KEY_TEMPLATE.format(tag=tag)
+            )
+        ):
+            break
+        return True
+    else:
+        return False
 
 
 def on_connect(client, userdata, flags, rc):
@@ -80,19 +117,26 @@ def on_connect(client, userdata, flags, rc):
 
 
 def on_message(client, userdata, msg):
-    # print(msg.topic + " " + str(msg.payload))
-    sprinkler_reg: dict = pickle.loads(
-        redis_client.get(
-            REDIS_SPRINKLER_REGISTRY_KEY
-        )
-    )
-    water_config: dict = pickle.loads(
-        redis_client.get(
-            REDIS_CONTROLLER_CONFIG_KEY
-        )
-    )
+    """
+    Water supply pump I/O  callback
+    Nutrient supply pump I/O callback
+    pH down supply pump I/O callback
+    :param client:
+    :param userdata:
+    :param msg:
+    :return:
+    """
 
-    client.publish(MQTT_CONTROLLER_TOPIC, randint(0, 100))
+    d: dict = json.loads(msg.payload)
+    pub_d: dict = WaterCtrlDict(
+        water_pump_signal=is_sprinkler_need_water(),
+        ph_down_pump_signal=False,
+        nutrient_up_pump_signal=False
+        )
+    client.publish(
+        MQTT_CONTROLLER_TOPIC,
+        json.dumps(pub_d)
+    )
 
 
 mqtt_client = mqtt.Client()
