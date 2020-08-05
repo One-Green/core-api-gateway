@@ -15,18 +15,20 @@ import pickle
 import json
 import paho.mqtt.client as mqtt
 from core.utils import get_now
-from controller_default_config import WATER_CONTROLLER
+from core.controller_default_config import WATER_CONTROLLER
 from settings import (
     REDIS_HOST, REDIS_PORT,
     MQTT_HOST, MQTT_PORT
 )
-from registry import REDIS_SPRINKLER_REGISTRY_KEY
-from controller_default_config import SPRINKLER
+from core.registry import REDIS_SPRINKLER_REGISTRY_KEY
+from core.controller_default_config import SPRINKLER
+from core.pk_dict import SprinklerCtrlDict
 from core.controller import BinaryController
 
 CONTROLLED_DEVICE: str = "sprinklers"
 
 REDIS_CONTROLLER_CONFIG_KEY: str = f"{CONTROLLED_DEVICE}_config"
+REDIS_CONTROLLER_SIGNAL_KEY_TEMPLATE: str = 'sprinkler_tag_eq_{tag}'
 DEFAULT_CONFIG: dict = WATER_CONTROLLER
 
 MQTT_SENSOR_TOPIC: str = f'{CONTROLLED_DEVICE}/sensor'
@@ -59,14 +61,16 @@ def is_tag_in_registry(tag):
     :return:
     """
     try:
-        registry: dict = pickle.loads(
+        registry: dict = json.loads(
             redis_client.get(
                 REDIS_SPRINKLER_REGISTRY_KEY
             )
         )
         if tag in registry['tag_list']:
             return True
-    except:
+    except KeyError:
+        return False
+    except TypeError:
         return False
 
 
@@ -77,7 +81,7 @@ def get_config(tag):
     :return:
     """
     try:
-        registry: dict = pickle.loads(
+        registry: dict = json.loads(
             redis_client.get(
                 REDIS_CONTROLLER_CONFIG_KEY
             )
@@ -85,6 +89,21 @@ def get_config(tag):
         return registry[tag]
     except KeyError:
         return SPRINKLER
+    except TypeError:
+        return SPRINKLER
+
+
+def persist_signal(tag: str, signal: int):
+    """
+    Persist controller signal to Redis
+    :param tag:
+    :param signal:
+    :return:
+    """
+    redis_client.set(
+        REDIS_CONTROLLER_SIGNAL_KEY_TEMPLATE.format(tag=tag),
+        signal
+    )
 
 
 def on_connect(client, userdata, flags, rc):
@@ -103,19 +122,21 @@ def on_message(client, userdata, msg):
         config: dict = get_config(tag)
         ctl = BinaryController()
         ctl.set_conf(
-            _min=config['soil_humidity_min'],
-            _max=config['soil_humidity_max'],
+            _min=config["soil_moisture"]['min_level'],
+            _max=config["soil_moisture"]['max_level'],
             reverse=False,
         )
-        signal = ctl.get_signal(d['soil_humidity'])
-        f: dict = {
-            "tag": tag,
-            "signal": signal
-        }
+        signal = ctl.get_signal(d['soil_moisture'])
         client.publish(
             MQTT_CONTROLLER_TOPIC,
-            json.dumps(f)
+            json.dumps(
+                SprinklerCtrlDict(
+                    tag=tag,
+                    signal=bool(signal)
+                )
+            )
         )
+        persist_signal(tag, signal)
 
 
 mqtt_client = mqtt.Client()
