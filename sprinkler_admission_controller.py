@@ -10,7 +10,7 @@ import json
 import pickle
 import paho.mqtt.client as mqtt
 from core.utils import get_now
-from registry import REDIS_SPRINKLER_REGISTRY_KEY
+from core.registry import REDIS_SPRINKLER_REGISTRY_KEY
 from settings import (
     REDIS_HOST, REDIS_PORT,
     MQTT_HOST, MQTT_PORT
@@ -68,12 +68,16 @@ def on_message(client, userdata, msg):
     )
 
     try:
-        registry: dict = pickle.loads(
+        registry: dict = json.loads(
             redis_client.get(
                 REDIS_SPRINKLER_REGISTRY_KEY
             )
         )
-    except:
+    except KeyError:
+        registry = {
+            'tag_list': []
+        }
+    except TypeError:
         registry = {
             'tag_list': []
         }
@@ -84,7 +88,7 @@ def on_message(client, userdata, msg):
         # 2/ Save to Redis
         redis_client.set(
             REDIS_SPRINKLER_REGISTRY_KEY,
-            pickle.dumps(registry)
+            json.dumps(registry)
         )
         # 3/ Publish (1) to topic "config/sprinkler/registry/validation/{tag}"
         client.publish(
