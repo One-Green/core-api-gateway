@@ -12,6 +12,7 @@ sphinx = "*"
 sphinx-rtd-theme = "*"
 sphinxcontrib-napoleon = "*"
 sphinx-autobuild = "*"
+numpy = "*"
 
 [packages]
 django = "*"
@@ -25,6 +26,7 @@ drf-yasg = "*"
 python-logging-loki = "*"
 paho-mqtt = "*"
 redis = "*"
+rom = "*"
 
 [requires]
 python_version = "3.8"
