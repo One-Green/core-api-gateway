@@ -8,7 +8,7 @@ import redis
 import json
 import paho.mqtt.client as mqtt
 from core.utils import get_now
-from core.pk_rom.spinkler import Sprinklers
+from core.pk_rom.sprinkler import Sprinklers
 from settings import (
     REDIS_HOST, REDIS_PORT,
     MQTT_HOST, MQTT_PORT
