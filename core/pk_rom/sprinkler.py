@@ -12,15 +12,35 @@ class SprinklerController(rom.Model):
     water_valve_signal = rom.Boolean(default=False)
 
 
+class SprinklerTagRegistry(rom.Model):
+    tag = rom.Text(required=True, unique=True)
+
+
 class Sprinklers:
 
     def __init__(self):
+
+        self.registry = SprinklerTagRegistry
+
         self.config = SprinklerConfig
         self.soil_moisture_min_level: float = 0.0
         self.soil_moisture_max_level: float = 0.0
 
         self.controller = SprinklerController
         self.water_valve_signal: bool = False
+
+    def is_tag_in_registry(self, tag: str) -> bool:
+        for _ in self.registry.query.all():
+            if _.tag == tag:
+                return True
+        return False
+
+    def add_tag_in_registry(self, tag) -> bool:
+        try:
+            self.registry(tag=tag).save()
+            return True
+        except rom.UniqueKeyViolation:
+            return False
 
     def update_config(
             self,
