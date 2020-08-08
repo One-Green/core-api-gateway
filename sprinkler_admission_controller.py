@@ -5,12 +5,10 @@ author : Shanmugathas Vigneswaran
 mail: shanmugathas.vigneswaran@outlook.fr
 """
 import redis
-import time
 import json
-import pickle
 import paho.mqtt.client as mqtt
 from core.utils import get_now
-from core.registry import REDIS_SPRINKLER_REGISTRY_KEY
+from core.pk_rom.spinkler import Sprinklers
 from settings import (
     REDIS_HOST, REDIS_PORT,
     MQTT_HOST, MQTT_PORT
@@ -35,10 +33,8 @@ MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
 '''
 
 print(BONJOUR)
-time.sleep(2)
 
 redis_client = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, db=0)
-controller_config = redis_client.get(REDIS_SPRINKLER_REGISTRY_KEY)
 
 
 def on_connect(client, userdata, flags, rc):
@@ -67,51 +63,28 @@ def on_message(client, userdata, msg):
         f"wan't to register ..."
     )
 
-    try:
-        registry: dict = json.loads(
-            redis_client.get(
-                REDIS_SPRINKLER_REGISTRY_KEY
-            )
-        )
-    except KeyError:
-        registry = {
-            'tag_list': []
-        }
-    except TypeError:
-        registry = {
-            'tag_list': []
-        }
-
-    if tag not in registry['tag_list']:
-        # 1/ Append tag
-        registry['tag_list'].append(tag)
-        # 2/ Save to Redis
-        redis_client.set(
-            REDIS_SPRINKLER_REGISTRY_KEY,
-            json.dumps(registry)
-        )
+    if Sprinklers().add_tag_in_registry(tag):
+        r = {"acknowledge": True}
         # 3/ Publish (1) to topic "config/sprinkler/registry/validation/{tag}"
         client.publish(
             MQTT_ADMISSION_VALIDATION_TOPIC_TEMPLATE.format(tag=tag),
-            1
+            json.dumps(r)
         )
-
         print(
             f"[{get_now()}] [MQTT] [OK] "
             f"New Sprinkler with {tag=} "
-            f"if registered successfully => {registry=}"
         )
     else:
+        r = {"acknowledge": False}
         # Tag is already exist
         # Publish (0) to topic "config/sprinkler/registry/validation/{tag}"
         client.publish(
             MQTT_ADMISSION_VALIDATION_TOPIC_TEMPLATE.format(tag=tag),
-            0
+            json.dumps(r)
         )
         print(
-            f"[{get_now()}] [MQTT] [ERROR] "
-            f"New Sprinkler with {tag=} "
-            f"not registered, tag already in Redis => {registry=} ! "
+            f"[{get_now()}] [MQTT] [WARNING] "
+            f"This tag {tag=} is already in registry"
         )
 
 
@@ -119,9 +92,4 @@ mqtt_client = mqtt.Client()
 mqtt_client.on_connect = on_connect
 mqtt_client.on_message = on_message
 mqtt_client.connect(MQTT_HOST, MQTT_PORT, 60)
-
-# Blocking call that processes network traffic, dispatches callbacks and
-# handles reconnecting.
-# Other loop*() functions are available that give a threaded interface and a
-# manual interface.
 mqtt_client.loop_forever()
