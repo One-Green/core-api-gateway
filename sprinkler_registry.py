@@ -6,19 +6,21 @@ mail: shanmugathas.vigneswaran@outlook.fr
 """
 import redis
 import json
+import rom
 import paho.mqtt.client as mqtt
 from core.utils import get_now
 from core.pk_rom.sprinkler import Sprinklers
 from settings import (
-    REDIS_HOST, REDIS_PORT,
-    MQTT_HOST, MQTT_PORT
+    REDIS_HOST,
+    REDIS_PORT,
+    MQTT_HOST,
+    MQTT_PORT,
+    MQTT_REGISTRY_TOPIC,
+    MQTT_REGISTRY_VALIDATION_TOPIC_TEMPLATE
 )
 
-MQTT_ADMISSION_TOPIC: str = f'config/sprinkler/admission'
-MQTT_ADMISSION_VALIDATION_TOPIC_TEMPLATE: str = 'config/sprinkler/admission/validation/{tag}'
-
 BONJOUR: str = f'''
-MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM   Sprinkler Node admission controller  MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM      Sprinkler Node registry         MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
 Purpose: Register from MQTT topic new Sprinkler TAG to Redis if not exist.
          Response 1 to Node if registered
          Response 0 to Node if TAG already exist 
@@ -28,18 +30,18 @@ MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM   Settings   MMMMMMMMMMMMMMMMMMMMMMMM
 -------------
 {MQTT_HOST=}
 {MQTT_PORT=}
-{MQTT_ADMISSION_TOPIC=} 
+{MQTT_REGISTRY_TOPIC=} 
 MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
 '''
-
 print(BONJOUR)
 
 redis_client = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, db=0)
+rom.util.set_connection_settings(host=REDIS_HOST, port=REDIS_PORT, db=0)
 
 
 def on_connect(client, userdata, flags, rc):
     print(f"[{get_now()}] [MQTT] [OK] Connected with result code {rc}")
-    client.subscribe(MQTT_ADMISSION_TOPIC)
+    client.subscribe(MQTT_REGISTRY_TOPIC)
 
 
 def on_message(client, userdata, msg):
@@ -67,7 +69,7 @@ def on_message(client, userdata, msg):
         r = {"acknowledge": True}
         # 3/ Publish (1) to topic "config/sprinkler/registry/validation/{tag}"
         client.publish(
-            MQTT_ADMISSION_VALIDATION_TOPIC_TEMPLATE.format(tag=tag),
+            MQTT_REGISTRY_VALIDATION_TOPIC_TEMPLATE.format(tag=tag),
             json.dumps(r)
         )
         print(
@@ -79,7 +81,7 @@ def on_message(client, userdata, msg):
         # Tag is already exist
         # Publish (0) to topic "config/sprinkler/registry/validation/{tag}"
         client.publish(
-            MQTT_ADMISSION_VALIDATION_TOPIC_TEMPLATE.format(tag=tag),
+            MQTT_REGISTRY_VALIDATION_TOPIC_TEMPLATE.format(tag=tag),
             json.dumps(r)
         )
         print(
