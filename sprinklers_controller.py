@@ -84,7 +84,7 @@ def on_message(client, userdata, msg):
         json.dumps(
             SprinklerCtrlDict(
                 tag=tag,
-                signal=bool(signal)
+                water_valve_signal=bool(signal)
             )
         )
     )
