@@ -15,8 +15,8 @@ from settings import (
     REDIS_PORT,
     MQTT_HOST,
     MQTT_PORT,
-    MQTT_REGISTRY_TOPIC,
-    MQTT_REGISTRY_VALIDATION_TOPIC_TEMPLATE
+    MQTT_SPRINKLER_REGISTRY_TOPIC,
+    MQTT_SPRINKLER_REGISTRY_VALIDATION_TOPIC_TEMPLATE
 )
 
 BONJOUR: str = f'''
@@ -30,7 +30,7 @@ MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM   Settings   MMMMMMMMMMMMMMMMMMMMMMMM
 -------------
 {MQTT_HOST=}
 {MQTT_PORT=}
-{MQTT_REGISTRY_TOPIC=} 
+{MQTT_SPRINKLER_REGISTRY_TOPIC=} 
 MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
 '''
 print(BONJOUR)
@@ -41,7 +41,7 @@ rom.util.set_connection_settings(host=REDIS_HOST, port=REDIS_PORT, db=0)
 
 def on_connect(client, userdata, flags, rc):
     print(f"[{get_now()}] [MQTT] [OK] Connected with result code {rc}")
-    client.subscribe(MQTT_REGISTRY_TOPIC)
+    client.subscribe(MQTT_SPRINKLER_REGISTRY_TOPIC)
 
 
 def on_message(client, userdata, msg):
@@ -69,7 +69,7 @@ def on_message(client, userdata, msg):
         r = {"acknowledge": False}
         # 3/ Publish (1) to topic "sprinkler/config/registry/validation/{tag}"
         client.publish(
-            MQTT_REGISTRY_VALIDATION_TOPIC_TEMPLATE.format(tag=tag),
+            MQTT_SPRINKLER_REGISTRY_VALIDATION_TOPIC_TEMPLATE.format(tag=tag),
             json.dumps(r)
         )
         print(
@@ -80,7 +80,7 @@ def on_message(client, userdata, msg):
         r = {"acknowledge": True}
         # Publish (0) to topic "sprinkler/config/registry/validation/{tag}"
         client.publish(
-            MQTT_REGISTRY_VALIDATION_TOPIC_TEMPLATE.format(tag=tag),
+            MQTT_SPRINKLER_REGISTRY_VALIDATION_TOPIC_TEMPLATE.format(tag=tag),
             json.dumps(r)
         )
         Sprinklers().add_tag_in_registry(tag)

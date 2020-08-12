@@ -8,5 +8,5 @@ MQTT_PORT: int = int(os.getenv('MQTT_PORT', 32500))
 
 # SPRINKLERS TOPICS
 # Sprinkler node
-MQTT_REGISTRY_TOPIC: str = f'sprinkler/config/registry'
-MQTT_REGISTRY_VALIDATION_TOPIC_TEMPLATE: str = 'sprinkler/config/registry/validation/{tag}'
+MQTT_SPRINKLER_REGISTRY_TOPIC: str = 'sprinkler/config/registry'
+MQTT_SPRINKLER_REGISTRY_VALIDATION_TOPIC_TEMPLATE: str = 'sprinkler/config/registry/validation/{tag}'
