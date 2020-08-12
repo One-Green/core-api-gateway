@@ -21,7 +21,7 @@ from core.pk_rom.sprinkler import Sprinklers
 from core.pk_dict import SprinklerCtrlDict
 from core.controller import BinaryController
 
-CONTROLLED_DEVICE: str = "sprinklers"
+CONTROLLED_DEVICE: str = "sprinkler"
 
 MQTT_SENSOR_TOPIC: str = f'{CONTROLLED_DEVICE}/sensor'
 MQTT_CONTROLLER_TOPIC: str = f'{CONTROLLED_DEVICE}/controller'
