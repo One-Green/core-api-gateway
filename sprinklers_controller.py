@@ -15,16 +15,13 @@ import paho.mqtt.client as mqtt
 from core.utils import get_now
 from settings import (
     REDIS_HOST, REDIS_PORT,
-    MQTT_HOST, MQTT_PORT
+    MQTT_HOST, MQTT_PORT,
+    MQTT_SPRINKLER_SENSOR_TOPIC, MQTT_SPRINKLER_CONTROLLER_TOPIC
 )
 from core.pk_rom.sprinkler import Sprinklers
 from core.pk_dict import SprinklerCtrlDict
 from core.controller import BinaryController
 
-CONTROLLED_DEVICE: str = "sprinkler"
-
-MQTT_SENSOR_TOPIC: str = f'{CONTROLLED_DEVICE}/sensor'
-MQTT_CONTROLLER_TOPIC: str = f'{CONTROLLED_DEVICE}/controller'
 
 BONJOUR: str = f'''
 #########################################
@@ -33,8 +30,8 @@ BONJOUR: str = f'''
 #########################################
 ## {MQTT_HOST=}
 ## {MQTT_PORT=}
-## {MQTT_SENSOR_TOPIC=}
-## {MQTT_CONTROLLER_TOPIC=}
+## {MQTT_SPRINKLER_SENSOR_TOPIC=}
+## {MQTT_SPRINKLER_CONTROLLER_TOPIC=}
 #########################################
 Controller starting 
 '''
@@ -46,11 +43,10 @@ redis_client = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, db=0)
 
 def on_connect(client, userdata, flags, rc):
     print(
-        f"[{get_now()}] [MQTT] [OK] "
-        f"[{CONTROLLED_DEVICE}] "
+        f"[{get_now()}] [MQTT] [SPRINKLER] "
         f"Connected with result code {rc}"
     )
-    client.subscribe(MQTT_SENSOR_TOPIC)
+    client.subscribe(MQTT_SPRINKLER_SENSOR_TOPIC)
 
 
 def on_message(client, userdata, msg):
@@ -80,7 +76,7 @@ def on_message(client, userdata, msg):
         water_valve_signal=bool(signal)
     )
     client.publish(
-        MQTT_CONTROLLER_TOPIC,
+        MQTT_SPRINKLER_CONTROLLER_TOPIC,
         json.dumps(
             SprinklerCtrlDict(
                 tag=tag,

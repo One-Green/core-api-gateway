@@ -6,7 +6,8 @@ REDIS_PORT: int = int(os.getenv('REDIS_PORT', 6379))
 MQTT_HOST: str = os.getenv('MQTT_HOST', 'af120153-db6a-4fdd-a81b-6d902b00e936.nodes.k8s.fr-par.scw.cloud')
 MQTT_PORT: int = int(os.getenv('MQTT_PORT', 32500))
 
-# SPRINKLERS TOPICS
-# Sprinkler node
+# SPRINKLERS TOPICS -----------------------------------
 MQTT_SPRINKLER_REGISTRY_TOPIC: str = 'sprinkler/config/registry'
 MQTT_SPRINKLER_REGISTRY_VALIDATION_TOPIC_TEMPLATE: str = 'sprinkler/config/registry/validation/{tag}'
+MQTT_SPRINKLER_SENSOR_TOPIC: str = 'sprinkler/sensor'
+MQTT_SPRINKLER_CONTROLLER_TOPIC: str = 'sprinkler/controller'
