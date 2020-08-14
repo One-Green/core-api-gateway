@@ -49,13 +49,6 @@ core-unittest: core/tests/test_base_controller.py core/tests/test_base_time_rang
 
 run-tests: core-unittest
 
-buildx: export TAG=0.0.1
-buildx:
-	docker buildx build \
-	--platform linux/arm64 \
-	--tag shanisma/plant-keeper:${TAG} \
-	--push .
-
 build-push-base: export TAG=0.0.1
 build-push-base:
 	docker login
@@ -67,3 +60,15 @@ build-push-kube:
 	sudo docker login
 	sudo docker build -t shanisma/pk-k8s:${TAG} -f Dockerfile.kube .
 	sudo docker push shanisma/pk-k8s:${TAG}
+
+build-x-reset-builder:
+	docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+	docker buildx rm builder
+	docker buildx create --name builder --driver docker-container --use
+	docker buildx inspect --bootstrap
+
+build-x: export TAG=0.0.1
+build-x:
+	docker buildx build -t docker.io/shanisma/pk-k8s:${TAG} \
+	--platform linux/amd64,linux/arm64,linux/armhf \
+	--push Dockerfile.kube
