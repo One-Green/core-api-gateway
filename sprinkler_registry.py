@@ -68,10 +68,11 @@ def on_message(client, userdata, msg):
         # Tag is already exist
         r = {"acknowledge": False}
         # 3/ Publish (1) to topic "sprinkler/config/registry/validation/{tag}"
-        client.publish(
-            MQTT_SPRINKLER_REGISTRY_VALIDATION_TOPIC_TEMPLATE.format(tag=tag),
-            json.dumps(r)
-        )
+        for _ in range(0, 20):
+            client.publish(
+                MQTT_SPRINKLER_REGISTRY_VALIDATION_TOPIC_TEMPLATE.format(tag=tag),
+                json.dumps(r)
+            )
         print(
             f"[{get_now()}] [MQTT] [WARNING] "
             f"This tag {tag=} is already in registry"
@@ -79,10 +80,11 @@ def on_message(client, userdata, msg):
     else:
         r = {"acknowledge": True}
         # Publish (0) to topic "sprinkler/config/registry/validation/{tag}"
-        client.publish(
-            MQTT_SPRINKLER_REGISTRY_VALIDATION_TOPIC_TEMPLATE.format(tag=tag),
-            json.dumps(r)
-        )
+        for _ in range(0, 20):
+            client.publish(
+                MQTT_SPRINKLER_REGISTRY_VALIDATION_TOPIC_TEMPLATE.format(tag=tag),
+                json.dumps(r)
+            )
         Sprinklers().add_tag_in_registry(tag)
         print(
             f"[{get_now()}] [MQTT] [OK] "
