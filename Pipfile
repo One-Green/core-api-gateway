@@ -4,26 +4,8 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-ipython = "*"
-traitlets = "*"
-black = "*"
-pylint = "*"
-sphinx = "*"
-sphinx-rtd-theme = "*"
-sphinxcontrib-napoleon = "*"
-sphinx-autobuild = "*"
-numpy = "*"
 
 [packages]
-django = "*"
-djangorestframework = "*"
-markdown = "*"
-django-filter = "*"
-gunicorn = "*"
-dj-static = "*"
-psycopg2-binary = "*"
-drf-yasg = "*"
-python-logging-loki = "*"
 paho-mqtt = "*"
 redis = "*"
 rom = "*"
