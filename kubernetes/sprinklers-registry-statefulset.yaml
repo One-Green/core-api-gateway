@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: sprinklers-controller
+  name: sprinklers-registry
 spec:
   selector:
     matchLabels:
-      app: sprinklers-controller
-  serviceName: "sprinklers-controller"
+      app: sprinklers-registry
+  serviceName: "sprinklers-registry"
   replicas: 1
   template:
     metadata:
       labels:
-        app: sprinklers-controller
+        app: sprinklers-registry
     spec:
       containers:
-      - name: sprinklers-controller
+      - name: sprinklers-registry
         image: docker.io/shanisma/pk-k8s:0.0.1
         command: ['/bin/bash', '-c']
-        args: ['python sprinklers_controller.py']
+        args: ['python sprinkler_registry.py']
         imagePullPolicy: IfNotPresent
         env:
           - name: REDIS_HOST
