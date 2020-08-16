@@ -1,23 +1,30 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: sprinklers-registry
+  name: api
 spec:
   selector:
     matchLabels:
-      app: sprinklers-registry
-  serviceName: "sprinklers-registry"
+      app: api
+  serviceName: "api"
   replicas: 1
   template:
     metadata:
       labels:
-        app: sprinklers-registry
+        app: api
     spec:
       containers:
-      - name: sprinklers-registry
+      - name: api
         image: docker.io/shanisma/pk-k8s:0.0.1
         command: ['/bin/bash', '-c']
-        args: ['python sprinkler_registry.py']
+        args:
+          - gunicorn
+          - --workers=1
+          - --bind=0.0.0.0:8080
+          - --access-logfile -
+          - --log-file -
+          - --log-level=debug
+          - api.wsgi
         imagePullPolicy: IfNotPresent
         env:
           - name: REDIS_HOST
@@ -28,3 +35,6 @@ spec:
             value: "mqtt"
           - name: MQTT_PORT
             value: "1883"
+        ports:
+          - containerPort: 8080
+            name: api
