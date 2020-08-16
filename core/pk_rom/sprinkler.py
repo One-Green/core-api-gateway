@@ -1,18 +1,18 @@
 import rom
 
 
-class SprinklerConfig(rom.Model):
+class Config(rom.Model):
     tag = rom.Text(required=True, unique=True)
     soil_moisture_min_level = rom.Float(required=True, default=30)
     soil_moisture_max_level = rom.Float(required=True, default=60)
 
 
-class SprinklerController(rom.Model):
+class Controller(rom.Model):
     tag = rom.Text(required=True, unique=True)
     water_valve_signal = rom.Boolean(default=False)
 
 
-class SprinklerTagRegistry(rom.Model):
+class Registry(rom.Model):
     tag = rom.Text(required=True, unique=True)
 
 
@@ -20,13 +20,13 @@ class Sprinklers:
 
     def __init__(self):
 
-        self.registry = SprinklerTagRegistry
+        self.registry = Registry
 
-        self.config = SprinklerConfig
+        self.config = Config
         self.soil_moisture_min_level: float = 0.0
         self.soil_moisture_max_level: float = 0.0
 
-        self.controller = SprinklerController
+        self.controller = Controller
         self.water_valve_signal: bool = False
 
     def is_tag_in_registry(self, tag: str) -> bool:
