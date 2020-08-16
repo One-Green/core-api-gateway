@@ -3,7 +3,7 @@ from typing import TypedDict
 
 class SprinklerCtrlDict(TypedDict):
     tag: str
-    signal: bool
+    water_valve_signal: bool
 
 
 class SprinklerSensorDict(TypedDict):
