@@ -17,14 +17,7 @@ spec:
       - name: api
         image: docker.io/shanisma/pk-k8s:0.0.1
         command: ['/bin/bash', '-c']
-        args:
-          - gunicorn
-          - --workers=1
-          - --bind=0.0.0.0:8080
-          - --access-logfile -
-          - --log-file -
-          - --log-level=debug
-          - api.wsgi
+        args: ['gunicorn --workers=1 --bind=0.0.0.0:8080 --access-logfile - --log-file - --log-level=debug api:api']
         imagePullPolicy: IfNotPresent
         env:
           - name: REDIS_HOST
