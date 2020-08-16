@@ -9,6 +9,10 @@ verify_ssl = true
 paho-mqtt = "*"
 redis = "*"
 rom = "*"
+falcon = "*"
+orjson = "*"
+gunicorn = "*"
+waitress = "*"
 
 [requires]
 python_version = "3.8"
