@@ -11,6 +11,7 @@ mail: shanmugathas.vigneswaran@outlook.fr
 """
 import redis
 import json
+import rom
 import paho.mqtt.client as mqtt
 from core.utils import get_now
 from settings import (
@@ -39,6 +40,7 @@ Controller starting
 print(BONJOUR)
 
 redis_client = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, db=0)
+rom.util.set_connection_settings(host=REDIS_HOST, port=REDIS_PORT, db=0)
 
 
 def on_connect(client, userdata, flags, rc):
