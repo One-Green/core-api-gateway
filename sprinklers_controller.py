@@ -13,12 +13,14 @@ import redis
 import json
 import rom
 import paho.mqtt.client as mqtt
+from line_protocol_parser import parse_line
 from core.utils import get_now
-from settings import (
-    REDIS_HOST, REDIS_PORT,
-    MQTT_HOST, MQTT_PORT,
-    MQTT_SPRINKLER_SENSOR_TOPIC, MQTT_SPRINKLER_CONTROLLER_TOPIC
-)
+from settings import REDIS_HOST
+from settings import REDIS_PORT
+from settings import MQTT_HOST
+from settings import MQTT_PORT
+from settings import MQTT_SPRINKLER_SENSOR_TOPIC
+from settings import MQTT_SPRINKLER_CONTROLLER_TOPIC
 from core.pk_rom.sprinkler import Sprinklers
 from core.pk_dict import SprinklerCtrlDict
 from core.controller import BinaryController
@@ -52,8 +54,8 @@ def on_connect(client, userdata, flags, rc):
 
 
 def on_message(client, userdata, msg):
-    d: dict = json.loads(msg.payload)
-    tag: str = d['tag']
+    d: dict = parse_line(msg.payload)
+    tag: str = d['tags']['tag']
     s = Sprinklers()
     ctl = BinaryController()
     try:
@@ -71,7 +73,7 @@ def on_message(client, userdata, msg):
         reverse=False
     )
     signal = ctl.get_signal(
-        d['soil_moisture']
+        d['fields']['soil_moisture']
     )
     s.update_controller(
         tag=tag,
