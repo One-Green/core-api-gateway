@@ -1,13 +1,14 @@
 import redis
 import json
 import paho.mqtt.client as mqtt
+from line_protocol_parser import parse_line
 from core.utils import get_now
 from pprint import pprint
 from core.controller_default_config import WATER_CONTROLLER
-from settings import (
-    REDIS_HOST, REDIS_PORT,
-    MQTT_HOST, MQTT_PORT
-)
+from settings import REDIS_HOST
+from settings import REDIS_PORT
+from settings import MQTT_HOST
+from settings import MQTT_PORT
 from core.pk_rom.sprinkler import Sprinklers
 from core.pk_dict import WaterCtrlDict
 
@@ -86,13 +87,13 @@ def on_message(client, userdata, msg):
     :return:
     """
 
-    d: dict = json.loads(msg.payload)
+    d: dict = parse_line(msg.payload + b' 0')
     # TODO: Nutrient controller
     # TODO: pH downer controller
     pub_d: dict = WaterCtrlDict(
         water_pump_signal=Sprinklers().is_any_require_water(),
-        ph_down_pump_signal=False,
-        nutrient_up_pump_signal=False
+        nutrient_pump_signal=False,
+        ph_downer_pump_signal=False
         )
     client.publish(
         MQTT_CONTROLLER_TOPIC,
