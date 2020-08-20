@@ -10,7 +10,7 @@ Author: Shanmugathas Vigneswara
 mail: shanmugathas.vigneswaran@outlook.fr
 """
 import redis
-import json
+import orjson as json
 import rom
 import paho.mqtt.client as mqtt
 from line_protocol_parser import parse_line
