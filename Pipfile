@@ -11,6 +11,7 @@ redis = "*"
 rom = "*"
 falcon = "*"
 orjson = "*"
+line-protocol-parser = "*"
 gunicorn = "*"
 waitress = "*"
 
