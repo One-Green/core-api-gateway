@@ -14,6 +14,11 @@ build-reset-builder:
 	docker buildx inspect --bootstrap
 
 build: export TAG=0.0.1
+build-dev:
+	docker build -t docker.io/shanisma/pk-k8s-dev:${TAG} .
+	docker push docker.io/shanisma/pk-k8s-dev:${TAG}
+
+build: export TAG=0.0.1
 build:
 	docker buildx build -t docker.io/shanisma/pk-k8s:${TAG} \
 	--platform linux/amd64,linux/arm64,linux/armhf \
