@@ -1,5 +1,6 @@
 import redis
-import json
+import orjson as json
+import rom
 import paho.mqtt.client as mqtt
 from line_protocol_parser import parse_line
 from core.utils import get_now
@@ -47,6 +48,8 @@ Controller starting
 print(BONJOUR)
 
 redis_client = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, db=0)
+rom.util.set_connection_settings(host=REDIS_HOST, port=REDIS_PORT, db=0)
+
 controller_config = redis_client.get(REDIS_CONTROLLER_CONFIG_KEY)
 if not controller_config:
     print(
