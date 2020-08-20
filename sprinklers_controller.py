@@ -54,7 +54,7 @@ def on_connect(client, userdata, flags, rc):
 
 
 def on_message(client, userdata, msg):
-    d: dict = parse_line(msg.payload)
+    d: dict = parse_line(msg.payload + b' 0')
     tag: str = d['tags']['tag']
     s = Sprinklers()
     ctl = BinaryController()
