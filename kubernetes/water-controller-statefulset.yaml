@@ -15,10 +15,10 @@ spec:
     spec:
       containers:
       - name: water-controller
-        image: docker.io/shanisma/pk-k8s:0.0.1
+        image: docker.io/shanisma/pk-k8s-dev:0.0.1
         command: ['/bin/bash', '-c']
         args: ['python water_controller.py']
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         env:
           - name: REDIS_HOST
             value: "redis"
