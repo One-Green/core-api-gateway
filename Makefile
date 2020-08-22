@@ -9,8 +9,8 @@ run-tests: core-unittest
 
 build-reset-builder:
 	docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-	docker buildx rm builder
-	docker buildx create --name builder --driver docker-container --use
+	docker buildx rm build
+	docker buildx create --use --name build --node build --driver-opt network=host
 	docker buildx inspect --bootstrap
 
 build: export TAG=0.0.1
