@@ -9,11 +9,16 @@ verify_ssl = true
 paho-mqtt = "*"
 redis = "*"
 rom = "*"
-falcon = "*"
 orjson = "*"
 line-protocol-parser = "*"
 gunicorn = "*"
 waitress = "*"
+django = "*"
+drf-yasg = "*"
+djangorestframework = "*"
+markdown = "*"
+django-filter = "*"
+drf-orjson-renderer = "*"
 
 [requires]
 python_version = "3.8"
