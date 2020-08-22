@@ -1,4 +1,5 @@
 import rom
+from datetime import datetime
 
 
 class Config(rom.Model):
@@ -16,6 +17,11 @@ class Registry(rom.Model):
     tag = rom.Text(required=True, unique=True)
 
 
+class UpdatedAt(rom.Model):
+    tag = rom.Text(required=True, unique=True)
+    dt = rom.DateTime(required=True, unique=True)
+
+
 class Sprinklers:
 
     def __init__(self):
@@ -28,6 +34,15 @@ class Sprinklers:
 
         self.controller = Controller
         self.water_valve_signal: bool = False
+
+    @staticmethod
+    def set_updated_datetime(tag: str) -> bool:
+        UpdatedAt(tag=tag, dt=datetime.utcnow()).save()
+        return True
+
+    @staticmethod
+    def get_updated_datetime(tag: str) -> datetime:
+        return UpdatedAt.get_by(tag=tag).dt
 
     def is_tag_in_registry(self, tag: str) -> bool:
         for _ in self.registry.query.all():
