@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+import os
+import rom
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
@@ -37,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -118,3 +123,17 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# DRF
+# use orjson renderer instead default json (faster)
+REST_FRAMEWORK = {
+    "DEFAULT_RENDERER_CLASSES": (
+        "drf_orjson_renderer.renderers.ORJSONRenderer",
+        "rest_framework.renderers.BrowsableAPIRenderer",
+    ),
+}
+
+# REDIS ROM
+REDIS_HOST: str = os.getenv('REDIS_HOST', 'localhost')
+REDIS_PORT: int = int(os.getenv('REDIS_PORT', 6379))
+rom.util.set_connection_settings(host=REDIS_HOST, port=REDIS_PORT, db=0)
