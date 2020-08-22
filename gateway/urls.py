@@ -15,7 +15,29 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from rest_framework import permissions
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+
+from api.views import sprinkler
+
+schema_view = get_schema_view(
+   openapi.Info(
+      title="Plant-Keeper API Gateway ",
+      default_version='v1',
+      description="Plant cultivation framework",
+      terms_of_service="https://github.com/Plant-Keeper/plant-keeper-master/blob/master/LICENSE",
+      contact=openapi.Contact(email="shanmugathas.vigneswaran@outlook.fr"),
+      license=openapi.License(name="Creative Commons Zero v1.0 Universal"),
+   ),
+   public=True,
+   permission_classes=(permissions.AllowAny,),
+)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    path('sprinkler/registry', sprinkler.RegistryView.as_view()),
+    path('sprinkler/config/<str:tag>', sprinkler.ConfigView.as_view())
 ]
