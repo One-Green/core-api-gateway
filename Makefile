@@ -1,5 +1,8 @@
 -include .env
 
+api-gateway:
+	pipenv run python manage.py runserver
+
 core-unittest: core/tests/test_base_controller.py core/tests/test_base_time_range_controller.py
 	cd ${PWD}/core/tests ;\
 	pipenv run python test_base_controller.py ;\

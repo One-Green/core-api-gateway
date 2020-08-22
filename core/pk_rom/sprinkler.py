@@ -76,10 +76,16 @@ class Sprinklers:
                 soil_moisture_max_level=soil_moisture_max_level
             ).save()
 
+        return True
+
     def get_config(self, tag: str):
         c = self.config.get_by(tag=tag)
         self.soil_moisture_min_level = c.soil_moisture_min_level
         self.soil_moisture_max_level = c.soil_moisture_max_level
+        return {
+            'soil_moisture_min_level': self.soil_moisture_min_level,
+            'soil_moisture_max_level': self.soil_moisture_max_level
+        }
 
     def update_controller(
             self,
