@@ -1,18 +1,22 @@
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
   name: api
 spec:
   selector:
     matchLabels:
       app: api
-  serviceName: "api"
-  replicas: 1
+  replicas: 2
   template:
     metadata:
       labels:
         app: api
     spec:
+      initContainers:
+        - name: initdb
+          image: docker.io/shanisma/pk-k8s:0.0.1
+          command: ['/bin/bash', '-c']
+          args: ["python init.py"]
       containers:
       - name: api
         image: docker.io/shanisma/pk-k8s:0.0.1
@@ -20,10 +24,16 @@ spec:
         args: ['gunicorn --workers=1 --bind=0.0.0.0:8080 --access-logfile - --log-file - --log-level=debug api:api']
         imagePullPolicy: IfNotPresent
         env:
-          - name: REDIS_HOST
-            value: "redis"
-          - name: REDIS_PORT
-            value: "6379"
+          - name: POSTGRES_HOST
+            value: "db"
+          - name: POSTGRES_PORT
+            value: "5432"
+          - name: POSTGRES_USER
+            value: "postgres"
+          - name: POSTGRES_PASSWORD
+            value: "postgres"
+          - name: POSTGRES_DB
+            value: "postgres"
           - name: MQTT_HOST
             value: "mqtt"
           - name: MQTT_PORT
