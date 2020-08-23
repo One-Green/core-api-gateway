@@ -1,23 +1,21 @@
-import redis
+import os
+import sys
+import django
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "project.settings")
+sys.path.insert(0, os.path.abspath(".."))
+django.setup()
+
 import orjson as json
-import rom
 import paho.mqtt.client as mqtt
 from line_protocol_parser import parse_line
 from core.utils import get_now
-from pprint import pprint
-from core.controller_default_config import WATER_CONTROLLER
-from settings import REDIS_HOST
-from settings import REDIS_PORT
-from settings import MQTT_HOST
-from settings import MQTT_PORT
-from core.pk_rom.sprinkler import Sprinklers
-from core.pk_dict import WaterCtrlDict
+from project.settings import MQTT_HOST
+from project.settings import MQTT_PORT
+from sprinkler.models import Sprinklers
+from water.dict_def import WaterCtrlDict
 
 CONTROLLED_DEVICE: str = "water"
-
-REDIS_CONTROLLER_CONFIG_KEY: str = f"{CONTROLLED_DEVICE}_config"
-DEFAULT_CONFIG: dict = WATER_CONTROLLER
-
 MQTT_SENSOR_TOPIC: str = f'{CONTROLLED_DEVICE}/sensor'
 MQTT_CONTROLLER_TOPIC: str = f'{CONTROLLED_DEVICE}/controller'
 
@@ -31,47 +29,14 @@ M  `' . '' .MM M  MMMMM  MM MMMM  MMMM MM  MMMMMMMM MM  MMMMM  M          M. `MM
 M    .d  .dMMM M  MMMMM  MM MMMM  MMMM MM        .M MM  MMMMM  M          MM.     .dM MMMM  MMMM M         M 
 MMMMMMMMMMMMMM MMMMMMMMMMMM MMMMMMMMMM MMMMMMMMMMMM MMMMMMMMMMMM          MMMMMMMMMMM MMMMMMMMMM MMMMMMMMMMM 
 MM
-MM {REDIS_HOST=}
-MM {REDIS_PORT=}
-MM {REDIS_CONTROLLER_CONFIG_KEY=}
-MM -------------
-MM
 MM {MQTT_HOST=}
 MM {MQTT_PORT=}
 MM {MQTT_SENSOR_TOPIC=}
 MM {MQTT_CONTROLLER_TOPIC=}
 MM ------------
-
 Controller starting 
 '''
-
 print(BONJOUR)
-
-redis_client = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, db=0)
-rom.util.set_connection_settings(host=REDIS_HOST, port=REDIS_PORT, db=0)
-
-controller_config = redis_client.get(REDIS_CONTROLLER_CONFIG_KEY)
-if not controller_config:
-    print(
-        f"[{get_now()}] [REDIS] [ERROR] [{CONTROLLED_DEVICE}]"
-        f" Cannot find configuration for key {REDIS_CONTROLLER_CONFIG_KEY=}"
-    )
-    redis_client.get(REDIS_CONTROLLER_CONFIG_KEY)
-    redis_client.set(
-        REDIS_CONTROLLER_CONFIG_KEY,
-        json.dumps(DEFAULT_CONFIG)
-    )
-    print(
-        f"[{get_now()}] [REDIS] [{CONTROLLED_DEVICE}]"
-        f" Using default configuration"
-    )
-    pprint(
-        json.loads(
-            redis_client.get(
-                REDIS_CONTROLLER_CONFIG_KEY
-            )
-        )
-    )
 
 
 def on_connect(client, userdata, flags, rc):
