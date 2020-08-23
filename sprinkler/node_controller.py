@@ -3,7 +3,7 @@ MQTT based sprinklers controller
 
 Purpose based on tag get confirmation from Redis
 Use binary controller take action 0/1 to fill water
-Subscribe to MQTT_SENSOR_TOPIC : excepted dict {"tag":<>, "soil_humidity":<> }
+Subscribe to MQTT_SENSOR_TOPIC : except InfluxDB line protocol format
 Publish to MQTT_CONTROLLER_TOPIC: published dict  {"tag":<>, "signal":<> }
 
 Author: Shanmugathas Vigneswara
