@@ -38,3 +38,14 @@ spec:
       resources:
         requests:
           storage: "1Gi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: db
+spec:
+  selector:
+    app: tsdb
+  ports:
+    - port: 5432
+  type: ClusterIP
