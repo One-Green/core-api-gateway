@@ -2,10 +2,10 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework import status
-from api.serializers.sprinkler import RegistrySerializer
-from api.serializers.sprinkler import ConfigSerializer
+from sprinkler.serializers import RegistrySerializer
+from sprinkler.serializers import ConfigSerializer
 from core.utils import get_now
-from core.pk_rom.sprinkler import Sprinklers
+from sprinkler.models import Sprinklers
 
 
 class RegistryView(GenericAPIView):

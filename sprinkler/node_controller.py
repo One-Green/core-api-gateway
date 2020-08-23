@@ -9,27 +9,27 @@ Publish to MQTT_CONTROLLER_TOPIC: published dict  {"tag":<>, "signal":<> }
 Author: Shanmugathas Vigneswara
 mail: shanmugathas.vigneswaran@outlook.fr
 """
-import redis
+import os
+import sys
+import django
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "project.settings")
+sys.path.insert(0, os.path.abspath(".."))
+django.setup()
+
 import orjson as json
-import rom
 import paho.mqtt.client as mqtt
 from line_protocol_parser import parse_line
 from core.utils import get_now
-from settings import REDIS_HOST
-from settings import REDIS_PORT
-from settings import MQTT_HOST
-from settings import MQTT_PORT
-from settings import MQTT_SPRINKLER_SENSOR_TOPIC
-from settings import MQTT_SPRINKLER_CONTROLLER_TOPIC
-from core.pk_rom.sprinkler import Sprinklers
-from core.pk_dict import SprinklerCtrlDict
 from core.controller import BinaryController
-
+from project.settings import MQTT_HOST
+from project.settings import MQTT_PORT
+from project.settings import MQTT_SPRINKLER_SENSOR_TOPIC
+from project.settings import MQTT_SPRINKLER_CONTROLLER_TOPIC
+from sprinkler.models import Sprinklers
+from sprinkler.dict_def import SprinklerCtrlDict
 
 BONJOUR: str = f'''
-#########################################
-## {REDIS_HOST=}
-## {REDIS_PORT=}
 #########################################
 ## {MQTT_HOST=}
 ## {MQTT_PORT=}
@@ -40,9 +40,6 @@ Controller starting
 '''
 
 print(BONJOUR)
-
-redis_client = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, db=0)
-rom.util.set_connection_settings(host=REDIS_HOST, port=REDIS_PORT, db=0)
 
 
 def on_connect(client, userdata, flags, rc):
@@ -58,6 +55,7 @@ def on_message(client, userdata, msg):
     tag: str = d['tags']['tag']
     s = Sprinklers()
     ctl = BinaryController()
+    print(d)
     try:
         s.get_config(tag)
     except AttributeError:
