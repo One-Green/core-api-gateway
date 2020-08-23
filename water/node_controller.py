@@ -12,6 +12,8 @@ from line_protocol_parser import parse_line
 from core.utils import get_now
 from project.settings import MQTT_HOST
 from project.settings import MQTT_PORT
+from project.settings import __repo__
+from project.settings import __version__
 from sprinkler.models import Sprinklers
 from water.dict_def import WaterCtrlDict
 
@@ -21,20 +23,25 @@ MQTT_CONTROLLER_TOPIC: str = f'{CONTROLLED_DEVICE}/controller'
 
 
 BONJOUR: str = f'''
-M""MMM""MMM""M MMP"""""""MM M""""""""M MM""""""""`M MM"""""""`MM          MM'""""'YMM M""""""""M M""MMMMMMMM 
-M  MMM  MMM  M M' .mmmm  MM Mmmm  mmmM MM  mmmmmmmM MM  mmmm,  M          M' .mmm. `M Mmmm  mmmM M  MMMMMMMM 
-M  MMP  MMP  M M         `M MMMM  MMMM M`      MMMM M'        .M          M  MMMMMooM MMMM  MMMM M  MMMMMMMM 
-M  MM'  MM' .M M  MMMMM  MM MMMM  MMMM MM  MMMMMMMM MM  MMMb. "M 88888888 M  MMMMMMMM MMMM  MMMM M  MMMMMMMM 
-M  `' . '' .MM M  MMMMM  MM MMMM  MMMM MM  MMMMMMMM MM  MMMMM  M          M. `MMM' .M MMMM  MMMM M  MMMMMMMM 
-M    .d  .dMMM M  MMMMM  MM MMMM  MMMM MM        .M MM  MMMMM  M          MM.     .dM MMMM  MMMM M         M 
-MMMMMMMMMMMMMM MMMMMMMMMMMM MMMMMMMMMM MMMMMMMMMMMM MMMMMMMMMMMM          MMMMMMMMMMM MMMMMMMMMM MMMMMMMMMMM 
-MM
-MM {MQTT_HOST=}
-MM {MQTT_PORT=}
-MM {MQTT_SENSOR_TOPIC=}
-MM {MQTT_CONTROLLER_TOPIC=}
-MM ------------
-Controller starting 
+#=============================================================================#
+#         wWWWw               wWWWw                          _                #
+#   vVVVv (___) wWWWw         (___)  vVVVv                  | |               #
+#   (___)  ~Y~  (___)  vVVVv   ~Y~   (___)  __      __ __ _ | |_  ___  _ __   #
+#    ~Y~   \|    ~Y~   (___)    |/    ~Y~    \ \ /\ / // _` || __|/ _ \| '__| #
+#    \|   \ |/   \| /  \~Y~/   \|    \ |/     \ V  V /| (_| || |_|  __/| |    #
+#jgs^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^   \_/\_/  \__,_| \__|\___||_|    #
+#=============================================================================#
+
+{MQTT_HOST=} 
+{MQTT_PORT=}
+INPUT={MQTT_SENSOR_TOPIC=}
+OUTPUT={MQTT_CONTROLLER_TOPIC=}
+VERSION={__version__}
+REPO={__repo__}
+Thanks to Joan G. Stark for ascii art https://www.asciiart.eu/plants/flowers
+
+Controller started
+
 '''
 print(BONJOUR)
 
