@@ -31,9 +31,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-# USE UTC instead naive
-TIME_ZONE = 'UTC'
-USE_TZ = True
 
 
 # Application definitionc
