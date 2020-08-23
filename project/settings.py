@@ -34,7 +34,7 @@ TIME_ZONE = 'UTC'
 USE_TZ = True
 
 
-# Application definition
+# Application definitionc
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -146,8 +146,11 @@ REST_FRAMEWORK = {
 # MQTT configuration
 MQTT_HOST: str = os.getenv('MQTT_HOST', 'af120153-db6a-4fdd-a81b-6d902b00e936.nodes.k8s.fr-par.scw.cloud')
 MQTT_PORT: int = int(os.getenv('MQTT_PORT', 32500))
-# SPRINKLERS TOPICS -----------------------------------
-MQTT_SPRINKLER_REGISTRY_TOPIC: str = 'sprinkler/config/registry'
-MQTT_SPRINKLER_REGISTRY_VALIDATION_TOPIC_TEMPLATE: str = 'sprinkler/config/registry/validation/{tag}'
+
+# ########## SPRINKLER APP CONFIGURATION ##########
+# SPRINKLERS TOPICS -------------------------------
 MQTT_SPRINKLER_SENSOR_TOPIC: str = 'sprinkler/sensor'
 MQTT_SPRINKLER_CONTROLLER_TOPIC: str = 'sprinkler/controller'
+# GC  -------------------------------
+# If node go down override signals to false after this timeout, value in second
+SPRINKLER_GC_CUTOFF_TIMEOUT: int = int(os.getenv('SPRINKLER_CUTOFF_TIMEOUT', 1))
