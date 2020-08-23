@@ -66,7 +66,6 @@ class Sprinklers:
         self.soil_moisture_max_level = _['soil_moisture_max_level']
         return _
 
-
     @staticmethod
     def update_controller(
             tag: str,
