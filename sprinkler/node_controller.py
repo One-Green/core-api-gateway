@@ -55,6 +55,7 @@ def on_message(client, userdata, msg):
     tag: str = d['tags']['tag']
     s = Sprinklers()
     ctl = BinaryController()
+    print(d)
     try:
         s.get_config(tag)
     except AttributeError:

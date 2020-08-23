@@ -35,7 +35,7 @@ class Sprinklers:
 
     @staticmethod
     def is_tag_in_registry(tag: str) -> bool:
-        if len(Registry.objects.filter(tag="tag")):
+        if len(Registry.objects.filter(tag=tag)):
             return True
         else:
             return False
@@ -63,7 +63,8 @@ class Sprinklers:
     def get_config(self, tag: str):
         _ = Config.objects.get(tag=tag).__dict__
         self.soil_moisture_min_level = _['soil_moisture_min_level']
-        self.soil_moisture_max_level = _['soil_moisture_maxlevel']
+        self.soil_moisture_max_level = _['soil_moisture_max_level']
+        return _
 
 
     @staticmethod
