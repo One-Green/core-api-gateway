@@ -9,9 +9,3 @@ class SprinklerCtrlDict(TypedDict):
 class SprinklerSensorDict(TypedDict):
     tag: str
     soil_moisture: float
-
-
-class WaterCtrlDict(TypedDict):
-    water_pump_signal: bool
-    nutrient_pump_signal: bool
-    ph_downer_pump_signal: bool
