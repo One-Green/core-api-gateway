@@ -17,8 +17,10 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "project.settings")
 sys.path.insert(0, os.path.abspath(".."))
 django.setup()
 
+from django.core.exceptions import ObjectDoesNotExist
 import orjson as json
 import paho.mqtt.client as mqtt
+from influxdb_client import Point
 from line_protocol_parser import parse_line
 from core.utils import get_now
 from core.controller import BinaryController
@@ -26,6 +28,7 @@ from project.settings import MQTT_HOST
 from project.settings import MQTT_PORT
 from project.settings import MQTT_SPRINKLER_SENSOR_TOPIC
 from project.settings import MQTT_SPRINKLER_CONTROLLER_TOPIC
+from project.settings import MQTT_SPRINKLER_CONTROLLER_TELEGRAF_TOPIC
 from sprinkler.models import Sprinklers
 from sprinkler.dict_def import SprinklerCtrlDict
 
@@ -57,7 +60,7 @@ def on_message(client, userdata, msg):
     ctl = BinaryController()
     try:
         s.get_config(tag)
-    except AttributeError:
+    except ObjectDoesNotExist:
         s.update_config(
             tag=tag,
             soil_moisture_min_level=30,
@@ -75,6 +78,17 @@ def on_message(client, userdata, msg):
     s.update_controller(
         tag=tag,
         water_valve_signal=bool(signal)
+    )
+    client.publish(
+        MQTT_SPRINKLER_CONTROLLER_TELEGRAF_TOPIC,
+        (
+            Point("sprinkler")
+            .tag("tag", tag)
+            .field("soil_moisture_min_level", s.soil_moisture_min_level)
+            .field("soil_moisture_max_level", s.soil_moisture_max_level)
+            .field("water_valve_signal", int(signal))
+            .to_line_protocol()
+         )
     )
     client.publish(
         MQTT_SPRINKLER_CONTROLLER_TOPIC,
