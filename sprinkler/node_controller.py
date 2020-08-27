@@ -6,7 +6,7 @@ Use binary controller take action 0/1 to fill water
 Subscribe to MQTT_SENSOR_TOPIC : except InfluxDB line protocol format
 Publish to MQTT_CONTROLLER_TOPIC: published dict  {"tag":<>, "signal":<> }
 
-Author: Shanmugathas Vigneswara
+Author: Shanmugathas Vigneswaran
 mail: shanmugathas.vigneswaran@outlook.fr
 """
 import os
