@@ -17,12 +17,28 @@ spec:
           image: docker.io/shanisma/pk-k8s:0.0.1
           command: ['/bin/bash', '-c']
           args: ["python init.py"]
+          imagePullPolicy: Always
+          env:
+            - name: POSTGRES_HOST
+              value: "db"
+            - name: POSTGRES_PORT
+              value: "5432"
+            - name: POSTGRES_USER
+              value: "postgres"
+            - name: POSTGRES_PASSWORD
+              value: "postgres"
+            - name: POSTGRES_DB
+              value: "postgres"
+            - name: MQTT_HOST
+              value: "mqtt"
+            - name: MQTT_PORT
+              value: "1883"
       containers:
       - name: api
         image: docker.io/shanisma/pk-k8s:0.0.1
         command: ['/bin/bash', '-c']
         args: ['gunicorn --workers=1 --bind=0.0.0.0:8080 --access-logfile - --log-file - --log-level=debug api:api']
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         env:
           - name: POSTGRES_HOST
             value: "db"
