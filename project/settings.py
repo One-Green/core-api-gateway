@@ -150,6 +150,7 @@ MQTT_PORT: int = int(os.getenv('MQTT_PORT', 32500))
 # SPRINKLERS TOPICS -------------------------------
 MQTT_SPRINKLER_SENSOR_TOPIC: str = 'sprinkler/sensor'
 MQTT_SPRINKLER_CONTROLLER_TOPIC: str = 'sprinkler/controller'
+MQTT_SPRINKLER_CONTROLLER_TELEGRAF_TOPIC: str = 'sprinkler/controller/telegraf'
 # GC  -------------------------------
 # If node go down override signals to false after this timeout, value in second
 SPRINKLER_GC_CUTOFF_TIMEOUT: int = int(os.getenv('SPRINKLER_CUTOFF_TIMEOUT', 1))

@@ -199,10 +199,15 @@ data:
     #   ## Topics that will be subscribed to.
        topics = [
                   "water/sensor",
+                  "water/controller/telegraf",
                   "sprinkler/sensor",
+                  "sprinkler/controller/telegraf",
                   "cooler/sensor",
+                  "cooler/controller/telegraf",
                   "heater/sensor",
+                  "heater/controller/telegraf",
                   "air_humidifier/sensor",
+                  "air_humidifier/controller/telegraf"
                 ]
     #
     #   ## The message topic will be stored in a tag specified by this value.  If set

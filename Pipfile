@@ -18,6 +18,7 @@ markdown = "*"
 django-filter = "*"
 drf-orjson-renderer = "*"
 psycopg2-binary = "*"
+influxdb-client = "*"
 
 [requires]
 python_version = "3.8"
