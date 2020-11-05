@@ -15,7 +15,7 @@ spec:
     spec:
       initContainers:
         - name: initdb
-          image: "docker.io/shanisma/k8s-one-green:lastest"
+          image: "docker.io/shanisma/k8s-one-green:latest"
           command: ['/bin/bash', '-c']
           args: ["python init.py"]
           imagePullPolicy: Always
@@ -36,7 +36,7 @@ spec:
               value: "1883"
       containers:
       - name: sprinklers-controller
-        image: "docker.io/shanisma/k8s-one-green:lastest"
+        image: "docker.io/shanisma/k8s-one-green:latest"
         command: ['/bin/bash', '-c']
         args: ['cd sprinkler && python node_controller.py']
         imagePullPolicy: Always
