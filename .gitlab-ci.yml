@@ -16,7 +16,8 @@ build-latest:
   stage: build-latest
   before_script:
     - docker info
-    - docker login -u $DOCKER_USER --password-stdin $DOCKER_PASSWORD
+    # DOCKER_USERNAME and DOCKER_PASSWORD are set in gitlab CI/CD variables
+    - docker login
   script:
     - docker build -t $DOCKER_TAG .
     - docker push $DOCKER_TAG
