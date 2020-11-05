@@ -1,0 +1,22 @@
+variables:
+  DOCKER_TLS_CERTDIR: ""
+  DOCKER_DRIVER: overlay2
+  DOCKER_HOST: tcp://docker:2375
+services:
+  - docker:19.03.0-dind
+
+stages:
+  - build-latest
+
+
+build-latest:
+  variables:
+    DOCKER_TAG: docker.io/shanisma/k8s-one-green:latest
+  image: docker:19.03.12
+  stage: build-latest
+  before_script:
+    - docker info
+    - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+  script:
+    - docker build -t $DOCKER_TAG .
+    - docker push $DOCKER_TAG
