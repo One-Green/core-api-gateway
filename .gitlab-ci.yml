@@ -16,7 +16,7 @@ build-latest:
   stage: build-latest
   before_script:
     - docker info
-    - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+    - docker login -u $DOCKER_USER --password-stdin $DOCKER_PASSWORD
   script:
     - docker build -t $DOCKER_TAG .
     - docker push $DOCKER_TAG
