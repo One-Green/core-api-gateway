@@ -95,7 +95,9 @@ def on_message(client, userdata, msg):
         json.dumps(
             SprinklerCtrlDict(
                 tag=tag,
-                water_valve_signal=bool(signal)
+                water_valve_signal=bool(signal),
+                soil_moisture_min_level=s.soil_moisture_min_level,
+                soil_moisture_max_level=s.soil_moisture_max_level,
             )
         )
     )
