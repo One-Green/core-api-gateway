@@ -16,8 +16,7 @@ build-latest:
   stage: build-latest
   before_script:
     - docker info
-    - mkdir -p /root/.docker
-    - cat $DOCKER_CONFIG > /root/.docker/config.json
+    - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD docker.io
   script:
     - docker build -t $DOCKER_TAG .
     - docker push $DOCKER_TAG
