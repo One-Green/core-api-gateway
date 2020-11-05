@@ -15,7 +15,7 @@ spec:
     spec:
       initContainers:
         - name: initdb
-          image: docker.io/shanisma/pk-k8s:0.0.1
+          image: "docker.io/shanisma/k8s-one-green:lastest"
           command: ['/bin/bash', '-c']
           args: ["python init.py"]
           imagePullPolicy: Always
@@ -34,10 +34,9 @@ spec:
               value: "mqtt"
             - name: MQTT_PORT
               value: "1883"
-
       containers:
       - name: sprinklers-controller
-        image: docker.io/shanisma/pk-k8s:0.0.1
+        image: "docker.io/shanisma/k8s-one-green:lastest"
         command: ['/bin/bash', '-c']
         args: ['cd sprinkler && python node_controller.py']
         imagePullPolicy: Always
