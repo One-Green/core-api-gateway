@@ -24,5 +24,5 @@ build-dev:
 build: export TAG=0.0.1
 build:
 	docker buildx build -t docker.io/shanisma/pk-k8s:${TAG} \
-	--platform linux/amd64,linux/arm64,linux/armhf \
+	--platform linux/amd64,linux/arm64 \
 	--push .
