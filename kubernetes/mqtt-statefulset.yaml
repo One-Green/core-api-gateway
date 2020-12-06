@@ -5,21 +5,26 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: mqtt
-  serviceName: mqtt
+      app: activemq
+  serviceName: activemq
   replicas: 1
   template:
     metadata:
       labels:
-        app: mqtt
+        app: activemq
     spec:
       containers:
-      - name: mqtt
-        image: eclipse-mosquitto
+      - name: activemq
+        image: vromero/activemq-artemis
         imagePullPolicy: IfNotPresent
+        env:
+          - name: ARTEMIS_USERNAME
+            value: "admin"
+          - name: ARTEMIS_PASSWORD
+            value: "admin"
         ports:
-          - containerPort: 9001
           - containerPort: 1883
+          - containerPort: 8161
 ---
 apiVersion: v1
 kind: Service
@@ -27,10 +32,38 @@ metadata:
   name: mqtt
 spec:
   selector:
-    app: mqtt
+    app: activemq
+  type: NodePort
   ports:
-    - name: svc
-      port: 1883
-    - name: svc-1
-      port: 9001
+    - port: 1883
+      nodePort: 30180
+      name: mqtt
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: activemq-web
+spec:
+  selector:
+    app: activemq
   type: ClusterIP
+  ports:
+    - port: 8161
+      name: webserver
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: active-mq-web
+spec:
+  rules:
+  - host: activemq.010e7d5e-3a86-4c87-a4bc-8d7a82bf5d2e.nodes.k8s.fr-par.scw.cloud
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: activemq-web
+            port:
+              number: 8161
