@@ -16,7 +16,7 @@ build-latest:
   stage: build-latest
   before_script:
     - docker info
-    - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD https://registry-1.docker.io/v2/
+    - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
   script:
     - docker build -t $DOCKER_TAG .
     - docker push $DOCKER_TAG
