@@ -16,7 +16,7 @@ spec:
       containers:
       - name: telegraf
         imagePullPolicy: IfNotPresent
-        image: telegraf
+        image: telegraf:latest
         volumeMounts:
         - name: conf
           mountPath: /etc/telegraf
