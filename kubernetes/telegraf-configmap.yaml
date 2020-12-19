@@ -6,7 +6,6 @@ data:
   # Configuration for
   # mqtt consumer to influx db sink
   # TODO: remove debug
-  # TODO: include auth for eclipse mosquitto
   telegraf.conf: |
     # Telegraf Configuration
     #
@@ -249,8 +248,8 @@ data:
     #   # client_id = ""
     #
     #   ## Username and password to connect MQTT server.
-       # username = "admin"
-       # password = "admin"
+       username = "admin"
+       password = "admin"
     #
     #   ## Optional TLS Config
     #   # tls_ca = "/etc/telegraf/ca.pem"
