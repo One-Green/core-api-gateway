@@ -195,6 +195,8 @@ data:
     #   ##            servers = ["ssl://localhost:1883"]
     #   ##            servers = ["ws://localhost:1883"]
        servers = ["tcp://mqtt:1883"]
+       username = "admin"
+       password = "admin"
     #
     #   ## Topics that will be subscribed to.
        topics = [
