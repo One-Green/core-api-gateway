@@ -155,7 +155,7 @@ data:
 
       ## HTTP Basic Auth
       username = "telegraf"
-      password = "telegraf"
+      password = "supersecretpassword"
 
       ## HTTP User-Agent
       # user_agent = "telegraf"

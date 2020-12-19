@@ -24,7 +24,7 @@ spec:
           - name: INFLUXDB_ADMIN_PASSWORD
             value: "supersecretpassword"
           - name: INFLUXDB_USER
-            value: "telegrah"
+            value: "telegraf"
           - name: INFLUXDB_USER_PASSWORD
             value: "supersecretpassword"
         ports:
