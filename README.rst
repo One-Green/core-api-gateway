@@ -133,15 +133,25 @@ Deploy Plant Keeper in Kubernetes
 
     helm repo add stable https://kubernetes-charts.storage.googleapis.com
     helm repo add loki https://grafana.github.io/loki/charts
+    helm repo add grafana https://grafana.github.io/helm-charts
     helm repo update
-    helm upgrade --install grafana stable/grafana -n plant-keeper \
+    # ----- if you are using microk8s
+    helm upgrade --install grafana grafana/grafana -n plant-keeper \
         --set persistence.enabled=true \
         --set persistence.type=pvc \
         --set persistence.size=1Gi \
         --set storageClassName=microk8s-hostpath
+    kubectl apply -f kubernetes/grafana-service-patch.yaml
+
+    # ----- if ingress available
+    helm upgrade --install grafana grafana/grafana -n default \
+        --set persistence.enabled=true \
+        --set persistence.type=pvc \
+        --set persistence.size=1Gi \
+        --set ingress.enabled=true \
+        --set ingress.hosts={grafana.<FQDN provided by cloud provider>}
 
     helm upgrade --install loki loki/loki  -n plant-keeper
-
     # Apply manifest from this repository
     git clone https://github.com/Plant-Keeper/plant-keeper-master.git
     kubectl apply -f plant-keeper-master/kubernetes/ -n plant-keeper
