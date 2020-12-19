@@ -5,6 +5,7 @@ metadata:
 data:
   # Configuration for
   # mqtt consumer to influx db sink
+  # TODO: remove debug
   telegraf.conf: |
     # Telegraf Configuration
     #
@@ -72,7 +73,7 @@ data:
       precision = ""
 
       ## Log at debug level.
-      # debug = false
+      debug = true
       ## Log only error level messages.
       # quiet = false
 
@@ -154,7 +155,7 @@ data:
       # timeout = "5s"
 
       ## HTTP Basic Auth
-      username = "telegraf"
+      username = "admin"
       password = "supersecretpassword"
 
       ## HTTP User-Agent
@@ -195,8 +196,6 @@ data:
     #   ##            servers = ["ssl://localhost:1883"]
     #   ##            servers = ["ws://localhost:1883"]
        servers = ["tcp://mqtt:1883"]
-       username = "admin"
-       password = "admin"
     #
     #   ## Topics that will be subscribed to.
        topics = [
@@ -249,8 +248,8 @@ data:
     #   # client_id = ""
     #
     #   ## Username and password to connect MQTT server.
-    #   # username = "telegraf"
-    #   # password = "metricsmetricsmetricsmetrics"
+       username = "admin"
+       password = "admin"
     #
     #   ## Optional TLS Config
     #   # tls_ca = "/etc/telegraf/ca.pem"
