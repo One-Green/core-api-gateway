@@ -16,7 +16,7 @@ spec:
       containers:
       - name: telegraf
         imagePullPolicy: IfNotPresent
-        image: telegraf:latest
+        image: telegraf:1.16.0
         env:
           - name: MQTT_HOST
             value: "mqtt"
