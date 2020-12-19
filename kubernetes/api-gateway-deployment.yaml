@@ -6,7 +6,7 @@ spec:
   selector:
     matchLabels:
       app: api
-  replicas: 2
+  replicas: 1
   template:
     metadata:
       labels:
@@ -14,7 +14,7 @@ spec:
     spec:
       initContainers:
         - name: initdb
-          image: docker.io/shanisma/pk-k8s:0.0.1
+          image: "docker.io/shanisma/k8s-one-green:latest"
           command: ['/bin/bash', '-c']
           args: ["python init.py"]
           imagePullPolicy: Always
@@ -29,13 +29,9 @@ spec:
               value: "postgres"
             - name: POSTGRES_DB
               value: "postgres"
-            - name: MQTT_HOST
-              value: "mqtt"
-            - name: MQTT_PORT
-              value: "1883"
       containers:
       - name: api
-        image: docker.io/shanisma/pk-k8s:0.0.1
+        image: "docker.io/shanisma/k8s-one-green:latest"
         command: ['/bin/bash', '-c']
         args: ['gunicorn --workers=1 --bind=0.0.0.0:8080 --access-logfile - --log-file - --log-level=debug project.wsgi']
         imagePullPolicy: Always
@@ -54,6 +50,10 @@ spec:
             value: "mqtt"
           - name: MQTT_PORT
             value: "1883"
+          - name: MQTT_USER
+            value: "admin"
+          - name: MQTT_PASSWORD
+            value: "admin"
         ports:
           - containerPort: 8080
             name: api
@@ -69,18 +69,19 @@ spec:
     - port: 8080
   type: ClusterIP
 ---
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: api
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-  - host: api.af120153-db6a-4fdd-a81b-6d902b00e936.nodes.k8s.fr-par.scw.cloud
+  - host: api.010e7d5e-3a86-4c87-a4bc-8d7a82bf5d2e.nodes.k8s.fr-par.scw.cloud
     http:
       paths:
       - path: /
+        pathType: Prefix
         backend:
-          serviceName: api
-          servicePort: 8080
+          service:
+            name: api
+            port:
+              number: 8080
