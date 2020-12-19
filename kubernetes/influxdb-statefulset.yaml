@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: influxdb
-        image: influxdb:latest
+        image: "influxdb:1.8.3"
         env:
           - name: INFLUXDB_DB
             value: "plant_keeper"
