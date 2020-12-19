@@ -15,8 +15,13 @@ spec:
     spec:
       containers:
       - name: mqtt
-        image: "eclipse-mosquitto:1.6.12"
+        image: "docker.io/shanisma/eclipse-mosquitto:1.6.12"
         imagePullPolicy: IfNotPresent
+        env:
+          - name: MOSQUITTO_USERNAME
+            value: "admin"
+          - name: MOSQUITTO_PASSWORD
+            value: "admin"
         ports:
           - containerPort: 1883
 ---
