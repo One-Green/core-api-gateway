@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: water-controller
-          image: docker.io/shanisma/pk-k8s-dev:0.0.1
+          image: "docker.io/shanisma/k8s-one-green:latest"
           command: [ '/bin/bash', '-c' ]
           args: [ 'cd water && python node_controller.py' ]
           imagePullPolicy: Always
