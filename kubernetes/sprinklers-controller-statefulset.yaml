@@ -13,11 +13,11 @@ spec:
       labels:
         app: sprinklers-controller
     spec:
-      initContainers:
-        - name: initdb
+      containers:
+        - name: sprinklers-controller
           image: "docker.io/shanisma/k8s-one-green:latest"
-          command: ['/bin/bash', '-c']
-          args: ["python init.py"]
+          command: [ '/bin/bash', '-c' ]
+          args: [ 'cd sprinkler && python node_controller.py' ]
           imagePullPolicy: Always
           env:
             - name: POSTGRES_HOST
@@ -34,24 +34,7 @@ spec:
               value: "mqtt"
             - name: MQTT_PORT
               value: "1883"
-      containers:
-      - name: sprinklers-controller
-        image: "docker.io/shanisma/k8s-one-green:latest"
-        command: ['/bin/bash', '-c']
-        args: ['cd sprinkler && python node_controller.py']
-        imagePullPolicy: Always
-        env:
-          - name: POSTGRES_HOST
-            value: "db"
-          - name: POSTGRES_PORT
-            value: "5432"
-          - name: POSTGRES_USER
-            value: "postgres"
-          - name: POSTGRES_PASSWORD
-            value: "postgres"
-          - name: POSTGRES_DB
-            value: "postgres"
-          - name: MQTT_HOST
-            value: "mqtt"
-          - name: MQTT_PORT
-            value: "1883"
+            - name: MQTT_USER
+              value: "admin"
+            - name: MQTT_PASSWORD
+              value: "admin"
