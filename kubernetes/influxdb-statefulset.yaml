@@ -3,22 +3,25 @@ kind: StatefulSet
 metadata:
   name: influxdb
 spec:
+  serviceName: influxdb
   selector:
     matchLabels:
       app: influxdb
-  serviceName: "influxdb"
   replicas: 1
   template:
     metadata:
+      name: influxdb
       labels:
         app: influxdb
     spec:
       containers:
       - name: influxdb
-        image: "influxdb"
+        image: influxdb:latest
         env:
           - name: INFLUXDB_DB
             value: "plant_keeper"
+          - name: INFLUXDB_HTTP_AUTH_ENABLED
+            value: "true"
           - name: INFLUXDB_ADMIN_USER
             value: "admin"
           - name: INFLUXDB_ADMIN_PASSWORD
@@ -27,20 +30,20 @@ spec:
             value: "telegraf"
           - name: INFLUXDB_USER_PASSWORD
             value: "supersecretpassword"
-        ports:
-          - containerPort: 8086
         volumeMounts:
           - name: data
-            mountPath: /var/lib/postgresql
+            mountPath: /var/lib/influxdb
+        ports:
+          - containerPort: 8086
   volumeClaimTemplates:
   - metadata:
       name: data
     spec:
-      accessModes: [ "ReadWriteOnce" ]
-      storageClassName: scw-bssd
+      accessModes:
+        - "ReadWriteOnce"
       resources:
         requests:
-          storage: "1Gi"
+          storage: 1Gi
 ---
 apiVersion: v1
 kind: Service
