@@ -14,15 +14,15 @@ from project.settings import MQTT_HOST
 from project.settings import MQTT_PORT
 from project.settings import MQTT_USER
 from project.settings import MQTT_PASSWORD
+from project.settings import MQTT_WATER_SENSOR_TOPIC
+from project.settings import MQTT_WATER_CONTROLLER_TOPIC
+from project.settings import MQTT_WATER_CONTROLLER_TELEGRAF_TOPIC
 from project.settings import __repo__
 from project.settings import __version__
 from sprinkler.models import Sprinklers
 from water.dict_def import WaterCtrlDict
 
 CONTROLLED_DEVICE: str = "water"
-MQTT_SENSOR_TOPIC: str = f'{CONTROLLED_DEVICE}/sensor'
-MQTT_CONTROLLER_TOPIC: str = f'{CONTROLLED_DEVICE}/controller'
-
 
 BONJOUR: str = f'''
 #=============================================================================#
@@ -36,8 +36,8 @@ BONJOUR: str = f'''
 
 {MQTT_HOST=} 
 {MQTT_PORT=}
-INPUT={MQTT_SENSOR_TOPIC=}
-OUTPUT={MQTT_CONTROLLER_TOPIC=}
+INPUT={MQTT_WATER_SENSOR_TOPIC=}
+OUTPUT={MQTT_WATER_CONTROLLER_TOPIC=}
 VERSION={__version__}
 REPO={__repo__}
 Thanks to Joan G. Stark for ascii art https://www.asciiart.eu/plants/flowers
@@ -50,7 +50,7 @@ print(BONJOUR)
 
 def on_connect(client, userdata, flags, rc):
     print(f"[{get_now()}] [MQTT] [OK] [{CONTROLLED_DEVICE}] Connected with result code {rc}")
-    client.subscribe(MQTT_SENSOR_TOPIC)
+    client.subscribe(MQTT_WATER_SENSOR_TOPIC)
 
 
 def on_message(client, userdata, msg):
@@ -71,9 +71,16 @@ def on_message(client, userdata, msg):
         water_pump_signal=Sprinklers().is_any_require_water(),
         nutrient_pump_signal=False,
         ph_downer_pump_signal=False
-        )
+    )
+    # TODO: just for testing
+    txt = 'weather,location=us-midwest temperature=82'
+    print(f"writing >> {txt} ")
     client.publish(
-        MQTT_CONTROLLER_TOPIC,
+        MQTT_WATER_CONTROLLER_TELEGRAF_TOPIC,
+        txt
+    )
+    client.publish(
+        MQTT_WATER_CONTROLLER_TOPIC,
         json.dumps(pub_d)
     )
 
