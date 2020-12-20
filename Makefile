@@ -32,3 +32,8 @@ build:
 	docker buildx build -t docker.io/shanisma/pk-k8s:${TAG} \
 	--platform linux/amd64,linux/arm64 \
 	--push .
+
+build-custom-mosquitto: export TAG=docker.io/shanisma/eclipse-mosquitto:1.6.2
+build-custom-mosquitto: dependencies/example-mosquitto-simple-auth-docker-master/Dockerfile
+	docker build -t ${TAG} -f dependencies/example-mosquitto-simple-auth-docker-master/Dockerfile
+	docker push ${TAG}
