@@ -5,7 +5,6 @@ metadata:
 data:
   # Configuration for
   # mqtt consumer to influx db sink
-  # TODO: remove debug
   telegraf.conf: |
     # Telegraf Configuration
     #
@@ -73,7 +72,7 @@ data:
       precision = ""
 
       ## Log at debug level.
-      debug = true
+      debug = false
       ## Log only error level messages.
       # quiet = false
 
