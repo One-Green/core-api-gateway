@@ -2,6 +2,7 @@ from typing import TypedDict
 
 
 class SprinklerCtrlDict(TypedDict):
+    controller_type: str
     tag: str
     water_valve_signal: bool
     soil_moisture_min_level: float

@@ -81,21 +81,12 @@ def on_message(client, userdata, msg):
         tag=tag,
         water_valve_signal=bool(signal)
     )
-    client.publish(
-        MQTT_SPRINKLER_CONTROLLER_TELEGRAF_TOPIC,
-        (
-            Point("sprinkler")
-            .tag("tag", tag)
-            .field("soil_moisture_min_level", s.soil_moisture_min_level)
-            .field("soil_moisture_max_level", s.soil_moisture_max_level)
-            .field("water_valve_signal", int(signal))
-            .to_line_protocol()
-         )
-    )
+
     client.publish(
         MQTT_SPRINKLER_CONTROLLER_TOPIC,
         json.dumps(
             SprinklerCtrlDict(
+                controller_type="sprinkler",
                 tag=tag,
                 water_valve_signal=bool(signal),
                 soil_moisture_min_level=s.soil_moisture_min_level,
