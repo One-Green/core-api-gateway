@@ -16,7 +16,6 @@ from project.settings import MQTT_USER
 from project.settings import MQTT_PASSWORD
 from project.settings import MQTT_WATER_SENSOR_TOPIC
 from project.settings import MQTT_WATER_CONTROLLER_TOPIC
-from project.settings import MQTT_WATER_CONTROLLER_TELEGRAF_TOPIC
 from project.settings import __repo__
 from project.settings import __version__
 from sprinkler.models import Sprinklers
@@ -68,16 +67,14 @@ def on_message(client, userdata, msg):
     # TODO: Nutrient controller
     # TODO: pH downer controller
     pub_d: dict = WaterCtrlDict(
-        water_pump_signal=Sprinklers().is_any_require_water(),
-        nutrient_pump_signal=False,
-        ph_downer_pump_signal=False
-    )
-    # TODO: just for testing
-    txt = 'weather,location=us-midwest temperature=82'
-    print(f"writing >> {txt} ")
-    client.publish(
-        MQTT_WATER_CONTROLLER_TELEGRAF_TOPIC,
-        txt
+        controller_type="water",
+        water_pump_signal=int(Sprinklers().is_any_require_water()),
+        nutrient_pump_signal=0,
+        ph_downer_pump_signal=0,
+        tds_max_level=0,
+        tds_min_level=0,
+        ph_max_level=0,
+        ph_min_level=0
     )
     client.publish(
         MQTT_WATER_CONTROLLER_TOPIC,
