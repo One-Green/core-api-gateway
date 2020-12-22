@@ -20,7 +20,6 @@ django.setup()
 from django.core.exceptions import ObjectDoesNotExist
 import orjson as json
 import paho.mqtt.client as mqtt
-from influxdb_client import Point
 from line_protocol_parser import parse_line
 from core.utils import get_now
 from core.controller import BinaryController
