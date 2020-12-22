@@ -30,7 +30,6 @@ from project.settings import MQTT_USER
 from project.settings import MQTT_PASSWORD
 from project.settings import MQTT_SPRINKLER_SENSOR_TOPIC
 from project.settings import MQTT_SPRINKLER_CONTROLLER_TOPIC
-from project.settings import MQTT_SPRINKLER_CONTROLLER_TELEGRAF_TOPIC
 from sprinkler.models import Sprinklers
 from sprinkler.dict_def import SprinklerCtrlDict
 
