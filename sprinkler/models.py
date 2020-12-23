@@ -26,8 +26,8 @@ class Controller(models.Model):
 class Sprinklers:
 
     def __init__(self):
-        self.soil_moisture_min_level = ""
-        self.soil_moisture_max_level = ""
+        self.soil_moisture_min_level: float = 0.0
+        self.soil_moisture_max_level: float = 0.0
 
     @staticmethod
     def get_controller_updated_datetime(tag: str) -> datetime:
