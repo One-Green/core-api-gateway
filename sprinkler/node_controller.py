@@ -75,6 +75,7 @@ def on_message(client, userdata, msg):
     signal = ctl.get_signal(
         d['fields']['soil_moisture']
     )
+
     s.update_controller(
         tag=tag,
         water_valve_signal=bool(signal)
