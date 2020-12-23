@@ -21,6 +21,7 @@ from project.settings import MQTT_WATER_CONTROLLER_TOPIC
 from project.settings import __repo__
 from project.settings import __version__
 from sprinkler.models import Sprinklers
+from water.conf_def import WATER_CONTROLLER
 from water.models import Water
 from water.dict_def import WaterCtrlDict
 
@@ -75,10 +76,10 @@ def on_message(client, userdata, msg):
         w.get_config()
     except ObjectDoesNotExist:
         w.update_config(
-            ph_min_level=0,
-            ph_max_level=0,
-            tds_min_level=0,
-            tds_max_level=0
+            ph_min_level=WATER_CONTROLLER['pH']['min_level'],
+            ph_max_level=WATER_CONTROLLER['pH']['max_level'],
+            tds_min_level=WATER_CONTROLLER['tds']['max_level'],
+            tds_max_level=WATER_CONTROLLER['tds']['max_level']
         )
         w.get_config()
 
@@ -88,7 +89,7 @@ def on_message(client, userdata, msg):
         _max=w.tds_max_level,
         reverse=False
     )
-    nutrient_signal = ph_ctl.get_signal(
+    nutrient_signal = nutrient_ctl.get_signal(
         d['fields']['tds_level']
     )
     # pH downer control -----------

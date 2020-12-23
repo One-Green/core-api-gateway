@@ -14,7 +14,7 @@ WATER_CONTROLLER: dict = {
             "min_level": 7.5,
             "max_level": 7.8
         },
-    "ec":
+    "tds":
         {
             "unit": "mV",
             "min_level": 100,
