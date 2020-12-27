@@ -103,7 +103,7 @@ def on_message(client, userdata, msg):
     )
 
     pub_d: dict = WaterCtrlDict(
-        controller_type="water",
+        tag="water",
         water_pump_signal=int(Sprinklers().is_any_require_water()),
         nutrient_pump_signal=int(nutrient_signal),
         ph_downer_pump_signal=int(ph_signal),

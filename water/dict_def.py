@@ -2,7 +2,7 @@ from typing import TypedDict
 
 
 class WaterCtrlDict(TypedDict):
-    controller_type: str
+    tag: str
     water_pump_signal: int
     nutrient_pump_signal: int
     ph_downer_pump_signal: int
