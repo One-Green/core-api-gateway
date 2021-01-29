@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 
 class RegistrySerializer(serializers.Serializer):
-    tag = serializers.CharField()
+    tag = serializers.CharField(write_only=True)
 
 
 class ConfigSerializer(serializers.Serializer):

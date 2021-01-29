@@ -5,14 +5,29 @@ from rest_framework import status
 from sprinkler.serializers import RegistrySerializer
 from sprinkler.serializers import ConfigSerializer
 from core.utils import get_now
-from sprinkler.models import Sprinklers
+from sprinkler.models import Sprinklers, Registry
 
 
 class RegistryView(GenericAPIView):
     serializer_class = RegistrySerializer
 
     @csrf_exempt
+    def get(self, request):
+        """
+        Return list of sprinkler tag available on registry
+        :param request:
+        :return:
+        """
+        r = Registry.objects.values_list('tag', flat=True)
+        return Response(r, status=status.HTTP_200_OK)
+
+    @csrf_exempt
     def post(self, request):
+        """
+        Add new sprinkler tag on registry
+        :param request:
+        :return:
+        """
         serializer = RegistrySerializer(data=request.data)
         if serializer.is_valid():
             tag = request.data['tag']
@@ -36,12 +51,32 @@ class RegistryView(GenericAPIView):
                 )
             return Response(r, status=status.HTTP_200_OK)
 
+    @csrf_exempt
+    def delete(self, request):
+        try:
+            Registry.objects.get(tag=request.data['tag']).delete()
+            return Response(
+                {"acknowledge": True},
+                status=status.HTTP_200_OK
+            )
+        except Registry.DoesNotExist:
+            return Response(
+                {"acknowledge": False},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
 
 class ConfigView(GenericAPIView):
     serializer_class = ConfigSerializer
 
     @csrf_exempt
     def get(self, request, tag):
+        """
+        Get configuration of specific sprinkler tag
+        :param request:
+        :param tag:
+        :return:
+        """
         return Response(
             Sprinklers().get_config(tag),
             status=status.HTTP_200_OK
@@ -49,6 +84,12 @@ class ConfigView(GenericAPIView):
 
     @csrf_exempt
     def post(self, request, tag):
+        """
+        Set configuration for a specific tag
+        :param request:
+        :param tag:
+        :return:
+        """
         serializer = ConfigSerializer(data=request.data)
         if serializer.is_valid():
             if Sprinklers().update_config(
