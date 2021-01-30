@@ -5,8 +5,8 @@
 .. image:: https://img.shields.io/badge/Python-3.8.1-<COLOR>.svg
    :target: https://www.python.org
 
-.. image:: https://readthedocs.org/projects/plant-keeper/badge/?version=latest
-    :target: https://plant-keeper.readthedocs.io/en/latest/?badge=latest
+.. image:: https://readthedocs.org/projects/one-green/badge/?version=latest
+    :target: https://one-green.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
 
 .. image:: https://travis-ci.org/shanisma/plant-keeper.svg?branch=master
