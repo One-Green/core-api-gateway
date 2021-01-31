@@ -3,7 +3,6 @@ from datetime import datetime
 
 
 class Config(models.Model):
-    tag = models.CharField(unique=True, null=False, blank=False, max_length=200, default="water")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     ph_min_level = models.FloatField(blank=False, null=False)
@@ -13,7 +12,6 @@ class Config(models.Model):
 
 
 class Controller(models.Model):
-    tag = models.CharField(unique=True, null=False, blank=False, max_length=200, default="water")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     water_pump_signal = models.BooleanField(blank=False, null=False)
@@ -42,7 +40,6 @@ class Water:
     ):
         Config.objects.update_or_create(
             defaults={
-                "tag": "water",
                 "ph_min_level": ph_min_level,
                 "ph_max_level": ph_max_level,
                 "tds_min_level": tds_min_level,
@@ -52,7 +49,7 @@ class Water:
         return True
 
     def get_config(self):
-        _ = Config.objects.get(tag="water").__dict__
+        _ = Config.objects.all().values()[0]
         self.ph_min_level = _['ph_min_level']
         self.ph_max_level = _['ph_max_level']
         self.tds_min_level = _['tds_min_level']
