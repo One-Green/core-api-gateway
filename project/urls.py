@@ -20,18 +20,19 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
 import sprinkler.views
+import water.views
 
 schema_view = get_schema_view(
-   openapi.Info(
-      title="Plant-Keeper API Gateway ",
-      default_version='v1',
-      description="Plant cultivation framework",
-      terms_of_service="https://github.com/Plant-Keeper/plant-keeper-master/blob/master/LICENSE",
-      contact=openapi.Contact(email="shanmugathas.vigneswaran@outlook.fr"),
-      license=openapi.License(name="Creative Commons Zero v1.0 Universal"),
-   ),
-   public=True,
-   permission_classes=(permissions.AllowAny,),
+    openapi.Info(
+        title="Plant-Keeper API Gateway ",
+        default_version='v1',
+        description="Plant cultivation framework",
+        terms_of_service="https://github.com/Plant-Keeper/plant-keeper-master/blob/master/LICENSE",
+        contact=openapi.Contact(email="shanmugathas.vigneswaran@outlook.fr"),
+        license=openapi.License(name="Creative Commons Zero v1.0 Universal"),
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
 )
 
 urlpatterns = [
@@ -42,5 +43,5 @@ urlpatterns = [
     path('sprinkler/registry', sprinkler.views.RegistryView.as_view()),
     path('sprinkler/config/<str:tag>', sprinkler.views.ConfigView.as_view()),
 
-    path('water/config', sprinkler.views.ConfigView.as_view())
+    path('water/config', water.views.ConfigView.as_view())
 ]
