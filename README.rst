@@ -1,6 +1,3 @@
-.. image:: docs/images/main_logo.png
-   :width: 200
-   :align: center
 
 .. image:: https://img.shields.io/badge/Python-3.8.1-<COLOR>.svg
    :target: https://www.python.org
