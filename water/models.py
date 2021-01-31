@@ -49,7 +49,15 @@ class Water:
         return True
 
     def get_config(self):
-        _ = Config.objects.all().values()[0]
+        try:
+            _ = Config.objects.all().values()[0]
+        except IndexError:
+            return {
+                "ph_min_level": "not_set",
+                "ph_max_level": "not_set",
+                "tds_min_level": "not_set",
+                "tds_max_level": "not_set"
+            }
         self.ph_min_level = _['ph_min_level']
         self.ph_max_level = _['ph_max_level']
         self.tds_min_level = _['tds_min_level']
