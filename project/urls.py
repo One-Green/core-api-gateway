@@ -21,6 +21,7 @@ from drf_yasg import openapi
 
 import sprinkler.views
 import water.views
+import light.views
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -43,5 +44,8 @@ urlpatterns = [
     path('sprinkler/registry', sprinkler.views.RegistryView.as_view()),
     path('sprinkler/config/<str:tag>', sprinkler.views.ConfigView.as_view()),
 
-    path('water/config', water.views.ConfigView.as_view())
+    path('water/config', water.views.ConfigView.as_view()),
+
+    path('light/registry', light.views.RegistryView.as_view()),
+    path('light/config/<str:tag>', light.views.ConfigView.as_view()),
 ]
