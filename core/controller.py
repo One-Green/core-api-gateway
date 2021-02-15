@@ -97,7 +97,7 @@ class BinaryController:
                 return 0
 
 
-class BaseTimeRangeController:
+class TimeRangeController:
     """
     Time based binary controller
     """
