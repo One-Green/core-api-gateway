@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'sprinkler',
     'water',
+    'light',
 
 ]
 
@@ -158,6 +159,9 @@ MQTT_SPRINKLER_CONTROLLER_TOPIC: str = 'sprinkler/controller'
 # WATER TOPICS ------------------------------------
 MQTT_WATER_SENSOR_TOPIC: str = 'water/sensor'
 MQTT_WATER_CONTROLLER_TOPIC: str = 'water/controller'
+# LIGHT TOPICS ------------------------------------
+MQTT_LIGHT_TOPIC: str = 'light/sensor'
+MQTT_LIGHT_CONTROLLER_TOPIC: str = 'light/controller'
 # GC  -------------------------------
 # If node go down override signals to false after this timeout, value in second
 SPRINKLER_GC_CUTOFF_TIMEOUT: int = int(os.getenv('SPRINKLER_CUTOFF_TIMEOUT', 1))
