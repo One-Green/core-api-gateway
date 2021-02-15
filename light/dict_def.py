@@ -5,5 +5,6 @@ from datetime import time
 class LightCtrlDict(TypedDict):
     controller_type: str
     tag: str
-    on_time_at: time
-    off_time_at: time
+    on_time_at: str
+    off_time_at: str
+    light_signal: bool
