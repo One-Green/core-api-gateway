@@ -59,13 +59,10 @@ class Light:
         return True
 
     def get_config(self, tag: str):
-        try:
-            _ = Config.objects.get(tag=tag).__dict__
-            self.on_time_at = _['on_time_at']
-            self.off_time_at = _['off_time_at']
-            return _
-        except Config.DoesNotExist:
-            return {}
+        _ = Config.objects.get(tag=tag).__dict__
+        self.on_time_at = _['on_time_at']
+        self.off_time_at = _['off_time_at']
+        return _
 
     @staticmethod
     def update_controller(
