@@ -19,7 +19,6 @@ __version__ = "beta"
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
@@ -30,8 +29,6 @@ SECRET_KEY = 'd#13myqgw8$g=*)z5zv0q^)^#kra!77mjtbg07zgada@pnmn0a'
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
-
-
 
 # Application definitionc
 INSTALLED_APPS = [
@@ -80,7 +77,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'project.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
@@ -91,10 +87,9 @@ DATABASES = {
         'USER': os.getenv('POSTGRES_USER', 'postgres'),
         'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'postgres'),
         'HOST': os.getenv('POSTGRES_HOST', 'localhost'),
-        'PORT':  os.getenv('POSTGRES_PORT', '5432'),
+        'PORT': os.getenv('POSTGRES_PORT', '5432'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -114,7 +109,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
@@ -127,7 +121,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
@@ -145,6 +138,13 @@ REST_FRAMEWORK = {
     ),
 }
 
+# CELERY + REDIS configuration
+BROKER_URL = 'redis://{0}:{1}'.format(os.getenv('REDIS_HOST', 'localhost'), os.getenv('REDIS_PORT', '6379'))
+CELERY_RESULT_BACKEND = 'redis://{0}:{1}'.format(os.getenv('REDIS_HOST', 'localhost'), os.getenv('REDIS_PORT', '6379'))
+CELERY_ACCEPT_CONTENT = ['application/x-python-serialize']
+CELERY_TASK_SERIALIZER = 'pickle'
+CELERY_RESULT_SERIALIZER = 'pickle'
+CELERY_TIMEZONE = 'UTC'
 
 # MQTT configuration
 MQTT_HOST: str = os.getenv('MQTT_HOST', 'af120153-db6a-4fdd-a81b-6d902b00e936.nodes.k8s.fr-par.scw.cloud')
