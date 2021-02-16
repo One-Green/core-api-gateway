@@ -20,6 +20,8 @@ drf-orjson-renderer = "*"
 psycopg2-binary = "*"
 influxdb-client = "*"
 whitenoise = "*"
+celery = "*"
+redis = "*"
 
 [requires]
 python_version = "3.8"
