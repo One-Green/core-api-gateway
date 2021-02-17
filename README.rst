@@ -1,3 +1,5 @@
+.. image:: https://github.com/One-Green/plant-keeper-master/workflows/BUILD/badge.svg
+   :target: https://github.com/One-Green/plant-keeper-master/actions?query=workflow%3ABUILD
 
 .. image:: https://img.shields.io/badge/Python-3.8.1-<COLOR>.svg
    :target: https://www.python.org
