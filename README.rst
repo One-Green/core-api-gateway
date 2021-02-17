@@ -8,9 +8,6 @@
     :target: https://one-green.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
 
-.. image:: https://travis-ci.org/shanisma/plant-keeper.svg?branch=master
-   :target: https://travis-ci.org/shanisma/plant-keeper
-
 .. image:: https://img.shields.io/badge/code%20style-black-000000.svg
     :target: https://github.com/psf/black
 
