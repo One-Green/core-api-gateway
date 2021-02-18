@@ -1,5 +1,8 @@
 -include .env
 
+start-workers:
+	pipenv run celery -A project worker -l info
+
 api-gateway:
 	pipenv run python manage.py runserver
 
