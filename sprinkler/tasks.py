@@ -21,7 +21,7 @@ mqtt_client.username_pw_set(username=MQTT_USER, password=MQTT_PASSWORD)
 mqtt_client.connect(MQTT_HOST, MQTT_PORT, 60)
 
 
-@task(name="control")
+@task(name="sprinkler_control")
 def node_controller(message):
     """
     async task : read message from mqtt,
