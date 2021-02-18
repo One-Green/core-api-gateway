@@ -78,4 +78,3 @@ def node_controller(message):
             )
         )
     )
-
