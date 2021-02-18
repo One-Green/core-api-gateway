@@ -40,10 +40,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'drf_yasg',
+    'glbl',
     'sprinkler',
     'water',
     'light',
-
 ]
 
 MIDDLEWARE = [
