@@ -10,8 +10,8 @@ class Config(models.Model):
     tag = models.CharField(unique=True, null=False, blank=False, max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    on_time_at = models.TimeField(blank=False, null=False)
-    off_time_at = models.TimeField(blank=False, null=False)
+    on_time_at = models.DateTimeField(blank=False, null=False)
+    off_time_at = models.DateTimeField(blank=False, null=False)
 
 
 class Controller(models.Model):
