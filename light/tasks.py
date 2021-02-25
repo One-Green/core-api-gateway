@@ -88,7 +88,7 @@ def node_controller(message):
                 tz=timezone,
                 on_time_at=light.on_datetime_at.strftime("%H:%M:%S"),
                 off_time_at=light.off_datetime_at.strftime("%H:%M:%S"),
-                light_signal=bool(signal),
+                light_signal=signal,
             )
         ),
     )
