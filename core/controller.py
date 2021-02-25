@@ -107,7 +107,7 @@ class TimeRangeController:
         self.start_at = start_at
         self.end_at = end_at
 
-    def set_current_datetime(self, time_now: time):
+    def set_current_datetime(self, time_now: datetime):
         self.time_now: datetime = time_now
 
     def get_signal(self) -> int:
