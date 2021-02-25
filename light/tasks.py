@@ -43,34 +43,44 @@ def node_controller(message):
     if glbl_config:
         timezone = glbl_config["timezone"]
     else:
+        callback_d: dict = LightCtrlDict(
+            controller_type="light",
+            tag=tag,
+            tz="not_set",
+            on_time_at="",
+            off_time_at="",
+            light_signal=int(0),
+        )
+
         print("[ERROR] [LIGHT] Global configuration: Timezone not set")
         mqtt_client.publish(
             MQTT_LIGHT_CONTROLLER_TOPIC,
-            json.dumps(
-                LightCtrlDict(
-                    controller_type="light",
-                    tag=tag,
-                    tz="not_set",
-                    on_time_at="",
-                    off_time_at="",
-                    light_signal=int(0),
-                )
-            ),
+            json.dumps(callback_d),
         )
-        return
+        return callback_d
 
     try:
         light.get_config(tag)
     except ObjectDoesNotExist:
+        on_datetime_at = datetime.now(tz=SYSTEM_TIME_ZONE).astimezone(
+            pytz.timezone(timezone)
+        )
+        off_datetime_at = datetime.now(tz=SYSTEM_TIME_ZONE).astimezone(
+            pytz.timezone(timezone)
+        )
+
         light.update_config(
             tag=tag,
-            on_datetime_at=datetime.now(tz=SYSTEM_TIME_ZONE).astimezone(pytz.timezone(timezone)),
-            off_datetime_at=datetime.now(tz=SYSTEM_TIME_ZONE).astimezone(pytz.timezone(timezone))
-            + timedelta(hours=5),
+            on_datetime_at=on_datetime_at,
+            off_datetime_at=off_datetime_at + timedelta(hours=5),
         )
         light.get_config(tag)
 
-    ctl.set_current_datetime(datetime.now(tz=SYSTEM_TIME_ZONE).astimezone(pytz.timezone(timezone)))
+    current_datetime: datetime = datetime.now(tz=SYSTEM_TIME_ZONE).astimezone(
+        pytz.timezone(timezone)
+    )
+    ctl.set_current_datetime(current_datetime)
+
     ctl.set_conf(
         start_at=light.on_datetime_at,
         end_at=light.off_datetime_at,
@@ -79,16 +89,16 @@ def node_controller(message):
 
     light.update_controller(tag=tag, light_signal=bool(signal))
 
+    callback_d: dict = LightCtrlDict(
+        controller_type="light",
+        tag=tag,
+        tz=timezone,
+        on_time_at=light.on_datetime_at.strftime("%H:%M:%S"),
+        off_time_at=light.off_datetime_at.strftime("%H:%M:%S"),
+        light_signal=signal,
+    )
     mqtt_client.publish(
         MQTT_LIGHT_CONTROLLER_TOPIC,
-        json.dumps(
-            LightCtrlDict(
-                controller_type="light",
-                tag=tag,
-                tz=timezone,
-                on_time_at=light.on_datetime_at.strftime("%H:%M:%S"),
-                off_time_at=light.off_datetime_at.strftime("%H:%M:%S"),
-                light_signal=signal,
-            )
-        ),
+        json.dumps(callback_d),
     )
+    return callback_d
