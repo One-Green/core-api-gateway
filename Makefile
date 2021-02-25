@@ -15,13 +15,15 @@ start-postgres:
 	docker rm postgres-dev --force || true
 	docker run --name postgres-dev -d -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres  postgres
 
-start-api-gateway:
+migrate-db:
 	find . -path "*/migrations/*.py" -not -name "__init__.py" -delete
 	find . -path "*/migrations/*.pyc"  -delete
 	pipenv run python init.py
-	pipenv run python manage.py runserver
 
-start-services: start-postgres start-mqtt start-redis start-celery-workers
+start-services: start-postgres start-mqtt start-redis migrate-db start-celery-workers
+
+start-api-gateway:
+	pipenv run python manage.py runserver
 
 core-unittest: core/tests/test_base_controller.py core/tests/test_base_time_range_controller.py
 	cd ${PWD}/core/tests ;\
