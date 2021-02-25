@@ -16,6 +16,8 @@ start-postgres:
 	docker run --name postgres-dev -d -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres  postgres
 
 start-api-gateway:
+	find . -path "*/migrations/*.py" -not -name "__init__.py" -delete
+	find . -path "*/migrations/*.pyc"  -delete
 	pipenv run python init.py
 	pipenv run python manage.py runserver
 
