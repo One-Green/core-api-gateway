@@ -1,5 +1,7 @@
 from django.db import models
 from datetime import datetime, time
+from glbl.models import GlobalConfig
+import pytz
 
 
 class Registry(models.Model):
@@ -58,9 +60,10 @@ class Light:
         return True
 
     def get_config(self, tag: str):
+        timezone = GlobalConfig().get_config()["timezone"]
         _ = Config.objects.get(tag=tag).__dict__
-        self.on_datetime_at = _["on_datetime_at"]
-        self.off_datetime_at = _["off_datetime_at"]
+        self.on_datetime_at = _["on_datetime_at"].astimezone(pytz.timezone(timezone))
+        self.off_datetime_at = _["off_datetime_at"].astimezone(pytz.timezone(timezone))
         return _
 
     @staticmethod
