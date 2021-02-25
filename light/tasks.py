@@ -17,7 +17,7 @@ import paho.mqtt.client as mqtt
 import orjson as json
 from datetime import datetime, timedelta
 from glbl.models import GlobalConfig
-import pytz
+from project.settings import SYSTEM_TIME_ZONE
 
 mqtt_client = mqtt.Client()
 mqtt_client.username_pw_set(username=MQTT_USER, password=MQTT_PASSWORD)
@@ -37,26 +37,39 @@ def node_controller(message):
     tag: str = d["tags"]["tag"]
     light = Light()
     ctl = TimeRangeController()
+    glbl_config = GlobalConfig().get_config()
 
-    try:
-        timezone = GlobalConfig().get_config()["timezone"]
-    except KeyError:
-        timezone = pytz.utc
-    except ObjectDoesNotExist:
-        timezone = pytz.utc
+    if glbl_config:
+        timezone = glbl_config["timezone"]
+    else:
+        print("[ERROR] [LIGHT] Global configuration: Timezone not set")
+        mqtt_client.publish(
+            MQTT_LIGHT_CONTROLLER_TOPIC,
+            json.dumps(
+                LightCtrlDict(
+                    controller_type="light",
+                    tag=tag,
+                    tz="not_set",
+                    on_time_at="",
+                    off_time_at="",
+                    light_signal=int(0),
+                )
+            ),
+        )
+        return
 
     try:
         light.get_config(tag)
     except ObjectDoesNotExist:
         light.update_config(
             tag=tag,
-            on_datetime_at=pytz.timezone(timezone).localize(datetime.now()),
-            off_datetime_at=pytz.timezone(timezone).localize(datetime.now())
-            + timedelta(hours=5),
+            on_datetime_at=datetime.now(tz=SYSTEM_TIME_ZONE).astimezone(timezone),
+            off_datetime_at=datetime.now(tz=SYSTEM_TIME_ZONE).astimezone(timezone)
+                            + timedelta(hours=5),
         )
         light.get_config(tag)
 
-    ctl.set_current_datetime(pytz.timezone(timezone).localize(datetime.now()))
+    ctl.set_current_datetime(datetime.now(tz=SYSTEM_TIME_ZONE).astimezone(timezone))
     ctl.set_conf(
         start_at=light.on_datetime_at,
         end_at=light.off_datetime_at,
@@ -71,8 +84,9 @@ def node_controller(message):
             LightCtrlDict(
                 controller_type="light",
                 tag=tag,
-                on_time_at="",
-                off_time_at="",
+                tz=timezone,
+                on_time_at=light.on_datetime_at.strftime("%H:%M:%S"),
+                off_time_at=light.off_datetime_at.strftime("%H:%M:%S"),
                 light_signal=bool(signal),
             )
         ),
