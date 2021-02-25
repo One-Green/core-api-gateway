@@ -9,8 +9,8 @@ class RegistrySerializer(serializers.Serializer):
 
 
 class ConfigSerializer(serializers.Serializer):
-    on_time_at = serializers.DateTimeField(write_only=True)
-    off_time_at = serializers.DateTimeField(write_only=True)
+    on_datetime_at = serializers.DateTimeField(write_only=True)
+    off_datetime_at = serializers.DateTimeField(write_only=True)
 
     class Meta:
         ref_name = "light"

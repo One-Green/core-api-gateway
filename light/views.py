@@ -87,8 +87,8 @@ class ConfigView(GenericAPIView):
         if serializer.is_valid():
             if Light().update_config(
                 tag=tag,
-                on_time_at=request.data["on_time_at"],
-                off_time_at=request.data["off_time_at"],
+                    on_datetime_at=request.data["on_datetime_at"],
+                    off_datetime_at=request.data["off_datetime_at"],
             ):
                 r = True
             else:
@@ -98,8 +98,8 @@ class ConfigView(GenericAPIView):
                     "acknowledged": r,
                     "config": {
                         "tag": tag,
-                        "on_time_at": request.data["on_time_at"],
-                        "off_time_at": request.data["off_time_at"],
+                        "on_datetime_at": request.data["on_datetime_at"],
+                        "off_datetime_at": request.data["off_datetime_at"],
                     },
                 },
                 status=status.HTTP_200_OK,
