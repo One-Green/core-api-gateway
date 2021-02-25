@@ -10,8 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
-from pathlib import Path
 import os
+from pathlib import Path
+from tzlocal import get_localzone
 
 __repo__ = "https://github.com/Plant-Keeper/plant-keeper-master"
 __version__ = "beta"
@@ -113,6 +114,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
 LANGUAGE_CODE = "en-us"
+
+SYSTEM_TIME_ZONE = get_localzone()
 
 TIME_ZONE = "UTC"
 
