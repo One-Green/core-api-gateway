@@ -18,6 +18,7 @@ import orjson as json
 from datetime import datetime, timedelta
 from glbl.models import GlobalConfig
 from project.settings import SYSTEM_TIME_ZONE
+import pytz
 
 mqtt_client = mqtt.Client()
 mqtt_client.username_pw_set(username=MQTT_USER, password=MQTT_PASSWORD)
@@ -63,13 +64,13 @@ def node_controller(message):
     except ObjectDoesNotExist:
         light.update_config(
             tag=tag,
-            on_datetime_at=datetime.now(tz=SYSTEM_TIME_ZONE).astimezone(timezone),
-            off_datetime_at=datetime.now(tz=SYSTEM_TIME_ZONE).astimezone(timezone)
-                            + timedelta(hours=5),
+            on_datetime_at=datetime.now(tz=SYSTEM_TIME_ZONE).astimezone(pytz.timezone(timezone)),
+            off_datetime_at=datetime.now(tz=SYSTEM_TIME_ZONE).astimezone(pytz.timezone(timezone))
+            + timedelta(hours=5),
         )
         light.get_config(tag)
 
-    ctl.set_current_datetime(datetime.now(tz=SYSTEM_TIME_ZONE).astimezone(timezone))
+    ctl.set_current_datetime(datetime.now(tz=SYSTEM_TIME_ZONE).astimezone(pytz.timezone(timezone)))
     ctl.set_conf(
         start_at=light.on_datetime_at,
         end_at=light.off_datetime_at,
