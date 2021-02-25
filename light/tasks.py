@@ -15,7 +15,9 @@ from project.settings import MQTT_LIGHT_CONTROLLER_TOPIC
 from celery.decorators import task
 import paho.mqtt.client as mqtt
 import orjson as json
-from datetime import time
+from datetime import datetime, timedelta
+from glbl.models import GlobalConfig
+import pytz
 
 mqtt_client = mqtt.Client()
 mqtt_client.username_pw_set(username=MQTT_USER, password=MQTT_PASSWORD)
@@ -31,29 +33,37 @@ def node_controller(message):
     :param message:
     :return:
     """
-    d: dict = parse_line(message + b' 0')
-    tag: str = d['tags']['tag']
+    d: dict = parse_line(message + b" 0")
+    tag: str = d["tags"]["tag"]
     light = Light()
     ctl = TimeRangeController()
+
+    try:
+        timezone = GlobalConfig().get_config()["timezone"]
+    except KeyError:
+        timezone = pytz.utc
+    except ObjectDoesNotExist:
+        timezone = pytz.utc
+
     try:
         light.get_config(tag)
     except ObjectDoesNotExist:
         light.update_config(
             tag=tag,
-            on_time_at=time(hour=9, minute=0, second=0),
-            off_time_at=time(hour=18, minute=0, second=0)
+            on_datetime_at=pytz.timezone(timezone).localize(datetime.now()),
+            off_datetime_at=pytz.timezone(timezone).localize(datetime.now())
+            + timedelta(hours=5),
         )
         light.get_config(tag)
+
+    ctl.set_current_datetime(pytz.timezone(timezone).localize(datetime.now()))
     ctl.set_conf(
-        start_at=light.on_time_at,
-        end_at=light.off_time_at,
+        start_at=light.on_datetime_at,
+        end_at=light.off_datetime_at,
     )
     signal = ctl.get_signal()
 
-    light.update_controller(
-        tag=tag,
-        light_signal=bool(signal)
-    )
+    light.update_controller(tag=tag, light_signal=bool(signal))
 
     mqtt_client.publish(
         MQTT_LIGHT_CONTROLLER_TOPIC,
@@ -63,7 +73,7 @@ def node_controller(message):
                 tag=tag,
                 on_time_at="",
                 off_time_at="",
-                light_signal=bool(signal)
+                light_signal=bool(signal),
             )
-        )
+        ),
     )

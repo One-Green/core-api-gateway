@@ -27,7 +27,7 @@ import light.views
 schema_view = get_schema_view(
     openapi.Info(
         title="One-Green Core API Gateway ",
-        default_version='v1',
+        default_version="v1",
         description="Plant cultivation framework",
         terms_of_service="https://github.com/Plant-Keeper/plant-keeper-master/blob/master/LICENSE",
         contact=openapi.Contact(email="shanmugathas.vigneswaran@outlook.fr"),
@@ -38,17 +38,13 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
-
-    path('global/config', glbl.views.ConfigView.as_view()),
-
-    path('sprinkler/registry', sprinkler.views.RegistryView.as_view()),
-    path('sprinkler/config/<str:tag>', sprinkler.views.ConfigView.as_view()),
-
-    path('water/config', water.views.ConfigView.as_view()),
-
-    path('light/registry', light.views.RegistryView.as_view()),
-    path('light/config/<str:tag>', light.views.ConfigView.as_view()),
+    path("admin/", admin.site.urls),
+    path("", schema_view.with_ui("swagger", cache_timeout=0), name="schema-swagger-ui"),
+    path("redoc/", schema_view.with_ui("redoc", cache_timeout=0), name="schema-redoc"),
+    path("global/config", glbl.views.ConfigView.as_view()),
+    path("sprinkler/registry", sprinkler.views.RegistryView.as_view()),
+    path("sprinkler/config/<str:tag>", sprinkler.views.ConfigView.as_view()),
+    path("water/config", water.views.ConfigView.as_view()),
+    path("light/registry", light.views.RegistryView.as_view()),
+    path("light/config/<str:tag>", light.views.ConfigView.as_view()),
 ]

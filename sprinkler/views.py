@@ -18,7 +18,7 @@ class RegistryView(GenericAPIView):
         :param request:
         :return:
         """
-        r = Registry.objects.values_list('tag', flat=True)
+        r = Registry.objects.values_list("tag", flat=True)
         return Response(r, status=status.HTTP_200_OK)
 
     @csrf_exempt
@@ -30,7 +30,7 @@ class RegistryView(GenericAPIView):
         """
         serializer = RegistrySerializer(data=request.data)
         if serializer.is_valid():
-            tag = request.data['tag']
+            tag = request.data["tag"]
             print(
                 f"[{get_now()}] [INFO] "
                 f"New Sprinkler with {tag=} "
@@ -45,25 +45,16 @@ class RegistryView(GenericAPIView):
             else:
                 r = {"acknowledge": True}
                 Sprinklers().add_tag_in_registry(tag)
-                print(
-                    f"[{get_now()}] [OK] "
-                    f"New Sprinkler with {tag=} "
-                )
+                print(f"[{get_now()}] [OK] " f"New Sprinkler with {tag=} ")
             return Response(r, status=status.HTTP_200_OK)
 
     @csrf_exempt
     def delete(self, request):
         try:
-            Registry.objects.get(tag=request.data['tag']).delete()
-            return Response(
-                {"acknowledge": True},
-                status=status.HTTP_200_OK
-            )
+            Registry.objects.get(tag=request.data["tag"]).delete()
+            return Response({"acknowledge": True}, status=status.HTTP_200_OK)
         except Registry.DoesNotExist:
-            return Response(
-                {"acknowledge": False},
-                status=status.HTTP_404_NOT_FOUND
-            )
+            return Response({"acknowledge": False}, status=status.HTTP_404_NOT_FOUND)
 
 
 class ConfigView(GenericAPIView):
@@ -77,10 +68,7 @@ class ConfigView(GenericAPIView):
         :param tag:
         :return:
         """
-        return Response(
-            Sprinklers().get_config(tag),
-            status=status.HTTP_200_OK
-        )
+        return Response(Sprinklers().get_config(tag), status=status.HTTP_200_OK)
 
     @csrf_exempt
     def post(self, request, tag):
@@ -93,9 +81,9 @@ class ConfigView(GenericAPIView):
         serializer = ConfigSerializer(data=request.data)
         if serializer.is_valid():
             if Sprinklers().update_config(
-                    tag=tag,
-                    soil_moisture_min_level=request.data['soil_moisture_min_level'],
-                    soil_moisture_max_level=request.data['soil_moisture_max_level']
+                tag=tag,
+                soil_moisture_min_level=request.data["soil_moisture_min_level"],
+                soil_moisture_max_level=request.data["soil_moisture_max_level"],
             ):
                 r = True
             else:
@@ -105,9 +93,13 @@ class ConfigView(GenericAPIView):
                     "acknowledged": r,
                     "config": {
                         "tag": tag,
-                        "soil_moisture_min_level": request.data['soil_moisture_min_level'],
-                        "soil_moisture_max_level": request.data['soil_moisture_max_level'],
-                    }
+                        "soil_moisture_min_level": request.data[
+                            "soil_moisture_min_level"
+                        ],
+                        "soil_moisture_max_level": request.data[
+                            "soil_moisture_max_level"
+                        ],
+                    },
                 },
-                status=status.HTTP_200_OK
+                status=status.HTTP_200_OK,
             )

@@ -27,7 +27,7 @@ from water.dict_def import WaterCtrlDict
 
 CONTROLLED_DEVICE: str = "water"
 
-BONJOUR: str = f'''
+BONJOUR: str = f"""
 #=============================================================================#
 #         wWWWw               wWWWw                          _                #
 #   vVVVv (___) wWWWw         (___)  vVVVv                  | |               #
@@ -47,12 +47,14 @@ Thanks to Joan G. Stark for ascii art https://www.asciiart.eu/plants/flowers
 
 Controller started
 
-'''
+"""
 print(BONJOUR)
 
 
 def on_connect(client, userdata, flags, rc):
-    print(f"[{get_now()}] [MQTT] [OK] [{CONTROLLED_DEVICE}] Connected with result code {rc}")
+    print(
+        f"[{get_now()}] [MQTT] [OK] [{CONTROLLED_DEVICE}] Connected with result code {rc}"
+    )
     client.subscribe(MQTT_WATER_SENSOR_TOPIC)
 
 
@@ -67,7 +69,7 @@ def on_message(client, userdata, msg):
     :return:
     """
 
-    d: dict = parse_line(msg.payload + b' 0')
+    d: dict = parse_line(msg.payload + b" 0")
     w = Water()
     nutrient_ctl = BinaryController()
     ph_ctl = BinaryController()
@@ -76,31 +78,19 @@ def on_message(client, userdata, msg):
         w.get_config()
     except ObjectDoesNotExist:
         w.update_config(
-            ph_min_level=WATER_CONTROLLER['pH']['min_level'],
-            ph_max_level=WATER_CONTROLLER['pH']['max_level'],
-            tds_min_level=WATER_CONTROLLER['tds']['max_level'],
-            tds_max_level=WATER_CONTROLLER['tds']['max_level']
+            ph_min_level=WATER_CONTROLLER["pH"]["min_level"],
+            ph_max_level=WATER_CONTROLLER["pH"]["max_level"],
+            tds_min_level=WATER_CONTROLLER["tds"]["max_level"],
+            tds_max_level=WATER_CONTROLLER["tds"]["max_level"],
         )
         w.get_config()
 
     # Nutrient control -----------
-    nutrient_ctl.set_conf(
-        _min=w.tds_min_level,
-        _max=w.tds_max_level,
-        reverse=False
-    )
-    nutrient_signal = nutrient_ctl.get_signal(
-        d['fields']['tds_level']
-    )
+    nutrient_ctl.set_conf(_min=w.tds_min_level, _max=w.tds_max_level, reverse=False)
+    nutrient_signal = nutrient_ctl.get_signal(d["fields"]["tds_level"])
     # pH downer control -----------
-    ph_ctl.set_conf(
-        _min=w.ph_min_level,
-        _max=w.ph_max_level,
-        reverse=False
-    )
-    ph_signal = ph_ctl.get_signal(
-        d['fields']['ph_level']
-    )
+    ph_ctl.set_conf(_min=w.ph_min_level, _max=w.ph_max_level, reverse=False)
+    ph_signal = ph_ctl.get_signal(d["fields"]["ph_level"])
 
     pub_d: dict = WaterCtrlDict(
         tag="water",
@@ -110,12 +100,9 @@ def on_message(client, userdata, msg):
         tds_max_level=w.tds_max_level,
         tds_min_level=w.tds_min_level,
         ph_max_level=w.ph_max_level,
-        ph_min_level=w.ph_min_level
+        ph_min_level=w.ph_min_level,
     )
-    client.publish(
-        MQTT_WATER_CONTROLLER_TOPIC,
-        json.dumps(pub_d)
-    )
+    client.publish(MQTT_WATER_CONTROLLER_TOPIC, json.dumps(pub_d))
 
 
 mqtt_client = mqtt.Client()

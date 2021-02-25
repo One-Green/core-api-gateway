@@ -1,10 +1,25 @@
 -include .env
 
-start-workers:
+start-celery-workers:
 	pipenv run celery -A project worker -l info
 
-api-gateway:
+start-mqtt:
+	docker rm mqtt-dev --force || true
+	docker run  --name mqtt-dev -d  -p 8883:1883  -e MOSQUITTO_USERNAME=admin -e MOSQUITTO_PASSWORD=admin docker.io/shanisma/paho-mqtt:1.6.2
+
+start-redis:
+	docker rm redis-dev --force || true
+	docker run --name redis-dev -d -p 6379:6379 redis:6.0.10-alpine
+
+start-postgres:
+	docker rm postgres-dev --force || true
+	docker run --name postgres-dev -d -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres  postgres
+
+start-api-gateway:
+	pipenv run python init.py
 	pipenv run python manage.py runserver
+
+start-services: start-postgres start-mqtt start-redis start-celery-workers
 
 core-unittest: core/tests/test_base_controller.py core/tests/test_base_time_range_controller.py
 	cd ${PWD}/core/tests ;\

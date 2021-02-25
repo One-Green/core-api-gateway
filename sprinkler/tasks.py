@@ -30,33 +30,22 @@ def node_controller(message):
     :param message:
     :return:
     """
-    d: dict = parse_line(message + b' 0')
-    tag: str = d['tags']['tag']
+    d: dict = parse_line(message + b" 0")
+    tag: str = d["tags"]["tag"]
     print(d)
     s = Sprinklers()
     ctl = BinaryController()
     try:
         s.get_config(tag)
     except ObjectDoesNotExist:
-        s.update_config(
-            tag=tag,
-            soil_moisture_min_level=30,
-            soil_moisture_max_level=70
-        )
+        s.update_config(tag=tag, soil_moisture_min_level=30, soil_moisture_max_level=70)
         s.get_config(tag)
     ctl.set_conf(
-        _min=s.soil_moisture_min_level,
-        _max=s.soil_moisture_max_level,
-        reverse=False
+        _min=s.soil_moisture_min_level, _max=s.soil_moisture_max_level, reverse=False
     )
-    signal = ctl.get_signal(
-        d['fields']['soil_moisture']
-    )
+    signal = ctl.get_signal(d["fields"]["soil_moisture"])
 
-    s.update_controller(
-        tag=tag,
-        water_valve_signal=bool(signal)
-    )
+    s.update_controller(tag=tag, water_valve_signal=bool(signal))
 
     SprinklerCtrlDict(
         controller_type="sprinkler",
@@ -76,5 +65,5 @@ def node_controller(message):
                 soil_moisture_min_level=s.soil_moisture_min_level,
                 soil_moisture_max_level=s.soil_moisture_max_level,
             )
-        )
+        ),
     )

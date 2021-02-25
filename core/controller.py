@@ -15,22 +15,15 @@ from datetime import time, datetime
 class BinaryController:
     """
     Binary controller class
-
     eg for soil humidity controller
     settings :
-
         - soil humidity minimum = 20
-
         - soil humidity maximum = 70
-
         - reverse = False
 
     if sensor = 21  will return signal=1 until sensor reach 70
-
     when reached 70, lock to return signal=0 until sensor reach 20.
-
     Lock is used to reduce the rate of switch OFF/ON by minutes
-
     in order to increase durability of component
     """
 
@@ -104,21 +97,21 @@ class TimeRangeController:
 
     def __init__(self, reverse: bool = False):
 
-        self.time_now: time = datetime.now().time()
-        self.start_at: time
-        self.end_at: time
+        self.time_now: datetime
+        self.start_at: datetime
+        self.end_at: datetime
         self.reverse: bool = reverse
         self.state: int = 0
 
     def set_conf(self, start_at, end_at):
-        self.start_at: time = start_at
-        self.end_at: time = end_at
+        self.start_at = start_at
+        self.end_at = end_at
 
-    def set_current_time(self, time_now: time):
-        self.time_now = time_now
+    def set_current_datetime(self, time_now: time):
+        self.time_now: datetime = time_now
 
     def get_signal(self) -> int:
-        if self.start_at <= self.time_now <= self.end_at:
+        if self.start_at.time() <= self.time_now.time() <= self.end_at.time():
             if self.reverse:
                 self.state = 0
             else:

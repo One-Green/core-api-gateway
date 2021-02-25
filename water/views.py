@@ -28,12 +28,9 @@ class ConfigView(GenericAPIView):
         serializer = ConfigSerializer(data=request.data)
         if serializer.is_valid():
             Water.update_config(
-                ph_min_level=request.data['ph_min_level'],
-                ph_max_level=request.data['ph_max_level'],
-                tds_min_level=request.data['tds_min_level'],
-                tds_max_level=request.data['tds_max_level']
+                ph_min_level=request.data["ph_min_level"],
+                ph_max_level=request.data["ph_max_level"],
+                tds_min_level=request.data["tds_min_level"],
+                tds_max_level=request.data["tds_max_level"],
             )
-            return Response(
-                {"acknowledge": True},
-                status=status.HTTP_200_OK
-            )
+            return Response({"acknowledge": True}, status=status.HTTP_200_OK)

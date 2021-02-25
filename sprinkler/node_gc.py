@@ -26,7 +26,7 @@ django.setup()
 from sprinkler.models import Controller
 from project.settings import SPRINKLER_GC_CUTOFF_TIMEOUT
 
-BONJOUR: str = f'''
+BONJOUR: str = f"""
 #########################################
 Sprinkler garbage collector
 Purpose: 
@@ -34,10 +34,10 @@ Purpose:
 #########################################
 
 Garbage collector started
-'''
+"""
 
 print(BONJOUR)
 while True:
-    Controller.objects.\
-        filter(updated_at__lte=timezone.now()-timedelta(seconds=SPRINKLER_GC_CUTOFF_TIMEOUT))\
-        .update(water_valve_signal=False)
+    Controller.objects.filter(
+        updated_at__lte=timezone.now() - timedelta(seconds=SPRINKLER_GC_CUTOFF_TIMEOUT)
+    ).update(water_valve_signal=False)

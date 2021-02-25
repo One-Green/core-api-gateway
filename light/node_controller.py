@@ -25,7 +25,7 @@ from project.settings import MQTT_LIGHT_TOPIC
 from project.settings import MQTT_LIGHT_CONTROLLER_TOPIC
 from tasks import node_controller
 
-BONJOUR: str = f'''
+BONJOUR: str = f"""
 #########################################
 ## {MQTT_HOST=}
 ## {MQTT_PORT=}
@@ -33,16 +33,13 @@ BONJOUR: str = f'''
 ## {MQTT_LIGHT_CONTROLLER_TOPIC=}
 #########################################
 Controller starting 
-'''
+"""
 
 print(BONJOUR)
 
 
 def on_connect(client, userdata, flags, rc):
-    print(
-        f"[{get_now()}] [MQTT] [LIGHT] "
-        f"Connected with result code {rc}"
-    )
+    print(f"[{get_now()}] [MQTT] [LIGHT] Connected with result code {rc}")
     client.subscribe(MQTT_LIGHT_TOPIC)
 
 

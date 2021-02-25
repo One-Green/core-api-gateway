@@ -24,14 +24,13 @@ class Controller(models.Model):
 
 
 class Sprinklers:
-
     def __init__(self):
         self.soil_moisture_min_level: float = 0.0
         self.soil_moisture_max_level: float = 0.0
 
     @staticmethod
     def get_controller_updated_datetime(tag: str) -> datetime:
-        return Config.objects.get(tag=tag).__dict__['updated_at']
+        return Config.objects.get(tag=tag).__dict__["updated_at"]
 
     @staticmethod
     def is_tag_in_registry(tag: str) -> bool:
@@ -47,34 +46,32 @@ class Sprinklers:
 
     @staticmethod
     def update_config(
-            tag: str,
-            soil_moisture_min_level: float,
-            soil_moisture_max_level: float,
+        tag: str,
+        soil_moisture_min_level: float,
+        soil_moisture_max_level: float,
     ):
         Config.objects.update_or_create(
             tag=tag,
             defaults={
                 "soil_moisture_min_level": soil_moisture_min_level,
-                "soil_moisture_max_level": soil_moisture_max_level
-            }
+                "soil_moisture_max_level": soil_moisture_max_level,
+            },
         )
         return True
 
     def get_config(self, tag: str):
         _ = Config.objects.get(tag=tag).__dict__
-        self.soil_moisture_min_level = _['soil_moisture_min_level']
-        self.soil_moisture_max_level = _['soil_moisture_max_level']
+        self.soil_moisture_min_level = _["soil_moisture_min_level"]
+        self.soil_moisture_max_level = _["soil_moisture_max_level"]
         return _
 
     @staticmethod
-    def update_controller(
-            tag: str,
-            water_valve_signal: bool):
+    def update_controller(tag: str, water_valve_signal: bool):
         Controller.objects.update_or_create(
             tag=tag,
             defaults={
                 "water_valve_signal": water_valve_signal,
-            }
+            },
         )
 
     @staticmethod

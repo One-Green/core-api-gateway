@@ -13,7 +13,7 @@ click-repl==0.1.6
 coreapi==2.3.3
 coreschema==0.0.4
 decorator==4.4.2
-Django==3.1.6
+Django==3.1.7
 django-filter==2.4.0
 djangorestframework==3.12.2
 drf-orjson-renderer==1.1.4
@@ -29,9 +29,9 @@ jedi==0.17.2
 Jinja2==2.11.3
 kombu==5.0.2
 line-protocol-parser==1.1.0
-Markdown==3.3.3
+Markdown==3.3.4
 MarkupSafe==1.1.1
-orjson==3.4.8
+orjson==3.5.0
 packaging==20.9
 paho-mqtt==1.5.1
 parso==0.7.1
@@ -52,6 +52,7 @@ Rx==3.1.1
 six==1.15.0
 sqlparse==0.4.1
 traitlets==5.0.5
+tzlocal==2.1
 uritemplate==3.0.1
 urllib3==1.26.3
 vine==5.0.0

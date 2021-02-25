@@ -27,23 +27,21 @@ from project.settings import MQTT_SPRINKLER_SENSOR_TOPIC
 from project.settings import MQTT_SPRINKLER_CONTROLLER_TOPIC
 from tasks import node_controller
 
-BONJOUR: str = f'''#########################################
+BONJOUR: str = f"""
+#########################################
 ## {MQTT_HOST=}
 ## {MQTT_PORT=}
 ## {MQTT_SPRINKLER_SENSOR_TOPIC=}
 ## {MQTT_SPRINKLER_CONTROLLER_TOPIC=}
 #########################################
 Controller starting 
-'''
+"""
 
 print(BONJOUR)
 
 
 def on_connect(client, userdata, flags, rc):
-    print(
-        f"[{get_now()}] [MQTT] [SPRINKLER] "
-        f"Connected with result code {rc}"
-    )
+    print(f"[{get_now()}] [MQTT] [SPRINKLER] " f"Connected with result code {rc}")
     client.subscribe(MQTT_SPRINKLER_SENSOR_TOPIC)
 
 

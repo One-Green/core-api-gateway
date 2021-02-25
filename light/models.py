@@ -10,8 +10,8 @@ class Config(models.Model):
     tag = models.CharField(unique=True, null=False, blank=False, max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    on_time_at = models.DateTimeField(blank=False, null=False)
-    off_time_at = models.DateTimeField(blank=False, null=False)
+    on_datetime_at = models.DateTimeField(blank=False, null=False)
+    off_datetime_at = models.DateTimeField(blank=False, null=False)
 
 
 class Controller(models.Model):
@@ -22,14 +22,13 @@ class Controller(models.Model):
 
 
 class Light:
-
     def __init__(self):
         self.on_time_at: time
         self.off_time_at: time
 
     @staticmethod
     def get_controller_updated_datetime(tag: str) -> datetime:
-        return Config.objects.get(tag=tag).__dict__['updated_at']
+        return Config.objects.get(tag=tag).__dict__["updated_at"]
 
     @staticmethod
     def is_tag_in_registry(tag: str) -> bool:
@@ -45,32 +44,30 @@ class Light:
 
     @staticmethod
     def update_config(
-            tag: str,
-            on_time_at: time,
-            off_time_at: time,
+        tag: str,
+        on_datetime_at: datetime,
+        off_datetime_at: datetime,
     ):
         Config.objects.update_or_create(
             tag=tag,
             defaults={
-                "on_time_at": on_time_at,
-                "off_time_at": off_time_at
-            }
+                "on_datetime_at": on_datetime_at,
+                "off_datetime_at": off_datetime_at,
+            },
         )
         return True
 
     def get_config(self, tag: str):
         _ = Config.objects.get(tag=tag).__dict__
-        self.on_time_at = _['on_time_at']
-        self.off_time_at = _['off_time_at']
+        self.on_datetime_at = _["on_datetime_at"]
+        self.off_datetime_at = _["off_datetime_at"]
         return _
 
     @staticmethod
-    def update_controller(
-            tag: str,
-            light_signal: bool):
+    def update_controller(tag: str, light_signal: bool):
         Controller.objects.update_or_create(
             tag=tag,
             defaults={
                 "light_signal": light_signal,
-            }
+            },
         )

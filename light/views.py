@@ -18,7 +18,7 @@ class RegistryView(GenericAPIView):
         :param request:
         :return:
         """
-        r = Registry.objects.values_list('tag', flat=True)
+        r = Registry.objects.values_list("tag", flat=True)
         return Response(r, status=status.HTTP_200_OK)
 
     @csrf_exempt
@@ -30,7 +30,7 @@ class RegistryView(GenericAPIView):
         """
         serializer = RegistrySerializer(data=request.data)
         if serializer.is_valid():
-            tag = request.data['tag']
+            tag = request.data["tag"]
             print(f"[{get_now()}] [INFO] New Light with {tag=} want to register ...")
             if Light().is_tag_in_registry(tag):
                 r = {"acknowledge": False}
@@ -42,26 +42,17 @@ class RegistryView(GenericAPIView):
             return Response(r, status=status.HTTP_200_OK)
         else:
             return Response(
-                {
-                    "acknowledged": False,
-                    "message": "Input data invalid"
-                },
-                status=status.HTTP_400_BAD_REQUEST
+                {"acknowledged": False, "message": "Input data invalid"},
+                status=status.HTTP_400_BAD_REQUEST,
             )
 
     @csrf_exempt
     def delete(self, request):
         try:
-            Registry.objects.get(tag=request.data['tag']).delete()
-            return Response(
-                {"acknowledge": True},
-                status=status.HTTP_200_OK
-            )
+            Registry.objects.get(tag=request.data["tag"]).delete()
+            return Response({"acknowledge": True}, status=status.HTTP_200_OK)
         except Registry.DoesNotExist:
-            return Response(
-                {"acknowledge": False},
-                status=status.HTTP_404_NOT_FOUND
-            )
+            return Response({"acknowledge": False}, status=status.HTTP_404_NOT_FOUND)
 
 
 class ConfigView(GenericAPIView):
@@ -77,14 +68,11 @@ class ConfigView(GenericAPIView):
         """
         r = Light().get_config(tag)
         if r:
-            return Response(
-                r,
-                status=status.HTTP_200_OK
-            )
+            return Response(r, status=status.HTTP_200_OK)
         else:
             return Response(
                 {"message": f"Configuration for {tag=} not found"},
-                status=status.HTTP_404_NOT_FOUND
+                status=status.HTTP_404_NOT_FOUND,
             )
 
     @csrf_exempt
@@ -98,9 +86,9 @@ class ConfigView(GenericAPIView):
         serializer = ConfigSerializer(data=request.data)
         if serializer.is_valid():
             if Light().update_config(
-                    tag=tag,
-                    on_time_at=request.data['on_time_at'],
-                    off_time_at=request.data['off_time_at']
+                tag=tag,
+                on_time_at=request.data["on_time_at"],
+                off_time_at=request.data["off_time_at"],
             ):
                 r = True
             else:
@@ -110,17 +98,14 @@ class ConfigView(GenericAPIView):
                     "acknowledged": r,
                     "config": {
                         "tag": tag,
-                        "on_time_at": request.data['on_time_at'],
-                        "off_time_at": request.data['off_time_at'],
-                    }
+                        "on_time_at": request.data["on_time_at"],
+                        "off_time_at": request.data["off_time_at"],
+                    },
                 },
-                status=status.HTTP_200_OK
+                status=status.HTTP_200_OK,
             )
         else:
             return Response(
-                {
-                    "acknowledged": False,
-                    "message": "Input data invalid"
-                },
-                status=status.HTTP_400_BAD_REQUEST
+                {"acknowledged": False, "message": "Input data invalid"},
+                status=status.HTTP_400_BAD_REQUEST,
             )
