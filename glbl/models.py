@@ -41,4 +41,6 @@ class GlobalConfig:
             r = Config.objects.all().values()[0]
         except Config.DoesNotExist:
             pass
+        except IndexError:
+            pass
         return r
