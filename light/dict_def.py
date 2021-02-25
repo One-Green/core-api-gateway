@@ -6,4 +6,4 @@ class LightCtrlDict(TypedDict):
     tag: str
     on_time_at: str
     off_time_at: str
-    light_signal: bool
+    light_signal: int
