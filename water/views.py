@@ -2,7 +2,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework import status
-from water.models import Water, ForceController
+from water.models import Water
 from water.serializers import ConfigSerializer, ForceControllerSerializer
 
 
