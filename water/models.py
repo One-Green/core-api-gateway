@@ -19,6 +19,17 @@ class Controller(models.Model):
     ph_downer_pump_signal = models.BooleanField(blank=False, null=False)
 
 
+class ForceController(models.Model):
+    tag = models.CharField(unique=True, null=False, blank=False, max_length=200, default="water")
+    updated_at = models.DateTimeField(auto_now=True)
+    force_water_pump_signal = models.BooleanField(blank=False, null=False)
+    force_nutrient_pump_signal = models.BooleanField(blank=False, null=False)
+    force_ph_downer_pump_signal = models.BooleanField(blank=False, null=False)
+    water_pump_signal = models.BooleanField(blank=False, null=False)
+    nutrient_pump_signal = models.BooleanField(blank=False, null=False)
+    ph_downer_pump_signal = models.BooleanField(blank=False, null=False)
+
+
 class Water:
     def __init__(self):
         self.ph_min_level = 0.0
@@ -32,10 +43,10 @@ class Water:
 
     @staticmethod
     def update_config(
-        ph_min_level: float,
-        ph_max_level: float,
-        tds_min_level: float,
-        tds_max_level: float,
+            ph_min_level: float,
+            ph_max_level: float,
+            tds_min_level: float,
+            tds_max_level: float,
     ):
         Config.objects.update_or_create(
             defaults={
@@ -61,4 +72,40 @@ class Water:
         self.ph_max_level = _["ph_max_level"]
         self.tds_min_level = _["tds_min_level"]
         self.tds_max_level = _["tds_max_level"]
+        return _
+
+    @staticmethod
+    def update_controller_force(
+            force_water_pump_signal: bool,
+            force_nutrient_pump_signal: bool,
+            force_ph_downer_pump_signal: bool,
+            water_pump_signal: bool,
+            nutrient_pump_signal: bool,
+            ph_downer_pump_signal: bool,
+    ):
+        ForceController.objects.update_or_create(
+            defaults={
+                "force_water_pump_signal": force_water_pump_signal,
+                "force_nutrient_pump_signal": force_nutrient_pump_signal,
+                "force_ph_downer_pump_signal": force_ph_downer_pump_signal,
+                "water_pump_signal": water_pump_signal,
+                "nutrient_pump_signal": nutrient_pump_signal,
+                "ph_downer_pump_signal": ph_downer_pump_signal,
+            }
+        )
+        return True
+
+    @staticmethod
+    def get_controller_force():
+        try:
+            _ = ForceController.objects.all().values()[0]
+        except IndexError:
+            return {
+                "force_water_pump_signal": False,
+                "force_nutrient_pump_signal": False,
+                "force_ph_downer_pump_signal": False,
+                "water_pump_signal": False,
+                "nutrient_pump_signal": False,
+                "ph_downer_pump_signal": False,
+            }
         return _
