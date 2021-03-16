@@ -135,6 +135,6 @@ class ForceControllerView(GenericAPIView):
             Sprinklers().update_controller_force(
                 tag=tag,
                 force_water_valve_signal=request.data["force_water_valve_signal"],
-                water_valve_signal=request.data["force_water_valve_signal"],
+                water_valve_signal=request.data["water_valve_signal"],
             )
             return Response({"acknowledge": True}, status=status.HTTP_200_OK)
