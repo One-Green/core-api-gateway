@@ -44,7 +44,9 @@ urlpatterns = [
     path("global/config", glbl.views.ConfigView.as_view()),
     path("sprinkler/registry", sprinkler.views.RegistryView.as_view()),
     path("sprinkler/config/<str:tag>", sprinkler.views.ConfigView.as_view()),
+    path("sprinkler/controller/force/<str:tag>", sprinkler.views.ForceControllerView.as_view()),
     path("water/config", water.views.ConfigView.as_view()),
+    path("water/controller/force", water.views.ForceControllerView.as_view()),
     path("light/registry", light.views.RegistryView.as_view()),
     path("light/config/<str:tag>", light.views.ConfigView.as_view()),
 ]
