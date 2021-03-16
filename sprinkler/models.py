@@ -23,6 +23,13 @@ class Controller(models.Model):
     water_valve_signal = models.BooleanField(blank=False, null=False)
 
 
+class ForceController(models.Model):
+    tag = models.CharField(unique=True, null=False, blank=False, max_length=200)
+    updated_at = models.DateTimeField(auto_now=True)
+    force_water_valve_signal = models.BooleanField(blank=False, null=False)
+    water_valve_signal = models.BooleanField(blank=False, null=False)
+
+
 class Sprinklers:
     def __init__(self):
         self.soil_moisture_min_level: float = 0.0
@@ -46,9 +53,9 @@ class Sprinklers:
 
     @staticmethod
     def update_config(
-        tag: str,
-        soil_moisture_min_level: float,
-        soil_moisture_max_level: float,
+            tag: str,
+            soil_moisture_min_level: float,
+            soil_moisture_max_level: float,
     ):
         Config.objects.update_or_create(
             tag=tag,
@@ -85,3 +92,30 @@ class Sprinklers:
                 return True
 
         return False
+
+    @staticmethod
+    def update_controller_force(
+            tag: str,
+            force_water_valve_signal: bool,
+            water_valve_signal: bool,
+    ):
+        ForceController.objects.update_or_create(
+            defaults={
+                "tag": tag,
+                "force_water_valve_signal": force_water_valve_signal,
+                "water_valve_signal": water_valve_signal,
+            }
+        )
+        return True
+
+    @staticmethod
+    def get_controller_force(tag):
+        try:
+            _ = ForceController.objects.get(tag=tag).__dict__
+        except ForceController.DoesNotExist:
+            _ = {
+                "tag": tag,
+                "force_water_valve_signal": False,
+                "water_valve_signal": False
+            }
+        return _

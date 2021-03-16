@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from sprinkler.serializers import RegistrySerializer
 from sprinkler.serializers import ConfigSerializer
+from sprinkler.serializers import ForceControllerSerializer
 from core.utils import get_now
 from sprinkler.models import Sprinklers, Registry
 
@@ -81,9 +82,9 @@ class ConfigView(GenericAPIView):
         serializer = ConfigSerializer(data=request.data)
         if serializer.is_valid():
             if Sprinklers().update_config(
-                tag=tag,
-                soil_moisture_min_level=request.data["soil_moisture_min_level"],
-                soil_moisture_max_level=request.data["soil_moisture_max_level"],
+                    tag=tag,
+                    soil_moisture_min_level=request.data["soil_moisture_min_level"],
+                    soil_moisture_max_level=request.data["soil_moisture_max_level"],
             ):
                 r = True
             else:
@@ -103,3 +104,37 @@ class ConfigView(GenericAPIView):
                 },
                 status=status.HTTP_200_OK,
             )
+
+
+class ForceControllerView(GenericAPIView):
+    """
+    For debug only, force actuator status
+    """
+    serializer_class = ForceControllerSerializer
+
+    @csrf_exempt
+    def get(self, request, tag):
+        """
+        Get controller force status
+        :param tag:
+        :param request:
+        :return:
+        """
+        return Response(Sprinklers().get_controller_force(tag), status=status.HTTP_200_OK)
+
+    @csrf_exempt
+    def post(self, request, tag):
+        """
+        Force pump off/on
+        :param tag:
+        :param request:
+        :return:
+        """
+        serializer = ForceControllerSerializer(data=request.data)
+        if serializer.is_valid():
+            Sprinklers().update_controller_force(
+                tag=tag,
+                force_water_valve_signal=request.data["force_water_valve_signal"],
+                water_valve_signal=request.data["force_water_valve_signal"],
+            )
+            return Response({"acknowledge": True}, status=status.HTTP_200_OK)
