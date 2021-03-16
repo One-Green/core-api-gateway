@@ -64,8 +64,10 @@ class ForceControllerView(GenericAPIView):
                 force_water_pump_signal=request.data["force_water_pump_signal"],
                 force_nutrient_pump_signal=request.data["force_nutrient_pump_signal"],
                 force_ph_downer_pump_signal=request.data["force_ph_downer_pump_signal"],
+                force_mixer_pump_signal=request.data["force_mixer_pump_signal"],
                 water_pump_signal=request.data["water_pump_signal"],
                 nutrient_pump_signal=request.data["nutrient_pump_signal"],
                 ph_downer_pump_signal=request.data["ph_downer_pump_signal"],
+                mixer_pump_signal=request.data["mixer_pump_signal"],
             )
             return Response({"acknowledge": True}, status=status.HTTP_200_OK)
