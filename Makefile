@@ -14,7 +14,6 @@ start-redis:
 start-postgres:
 	docker rm postgres-dev --force || true
 	docker run --name postgres-dev -d -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres  postgres
-	sleep 5
 
 migrate-db:
 	find . -path "*/migrations/*.py" -not -name "__init__.py" -delete
