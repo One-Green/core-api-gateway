@@ -23,6 +23,7 @@ whitenoise = "*"
 celery = "*"
 redis = "*"
 tzlocal = "*"
+influx-line-protocol = "*"
 
 [requires]
 python_version = "3.8"
