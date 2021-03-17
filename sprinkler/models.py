@@ -100,8 +100,8 @@ class Sprinklers:
             water_valve_signal: bool,
     ):
         ForceController.objects.update_or_create(
+            tag=tag,
             defaults={
-                "tag": tag,
                 "force_water_valve_signal": force_water_valve_signal,
                 "water_valve_signal": water_valve_signal,
             }
