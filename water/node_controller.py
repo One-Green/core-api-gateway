@@ -85,18 +85,33 @@ def on_message(client, userdata, msg):
         )
         w.get_config()
 
+    # Get actuator force configuration
+    force_controller = Water().get_controller_force()
     # Nutrient control -----------
     nutrient_ctl.set_conf(_min=w.tds_min_level, _max=w.tds_max_level, reverse=False)
     nutrient_signal = nutrient_ctl.get_signal(d["fields"]["tds_level"])
+    if force_controller["force_nutrient_pump_signal"]:
+        nutrient_signal = int(force_controller["nutrient_pump_signal"])
     # pH downer control -----------
     ph_ctl.set_conf(_min=w.ph_min_level, _max=w.ph_max_level, reverse=False)
     ph_signal = ph_ctl.get_signal(d["fields"]["ph_level"])
+    if force_controller["force_ph_downer_pump_signal"]:
+        ph_signal = int(force_controller["ph_downer_pump_signal"])
+    # water pump control ----------
+    water_signal = int(Sprinklers().is_any_require_water())
+    if force_controller["force_water_pump_signal"]:
+        water_signal = int(force_controller["water_pump_signal"])
+    # mixer pump control ----------
+    mixer_signal = 0
+    if force_controller["force_mixer_pump_signal"]:
+        mixer_signal = int(force_controller["mixer_pump_signal"])
 
     pub_d: dict = WaterCtrlDict(
         tag="water",
-        water_pump_signal=int(Sprinklers().is_any_require_water()),
+        water_pump_signal=water_signal,
         nutrient_pump_signal=int(nutrient_signal),
         ph_downer_pump_signal=int(ph_signal),
+        mixer_pump_signal=mixer_signal,
         tds_max_level=w.tds_max_level,
         tds_min_level=w.tds_min_level,
         ph_max_level=w.ph_max_level,
