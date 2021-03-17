@@ -43,17 +43,15 @@ def node_controller(message):
     ctl.set_conf(
         _min=s.soil_moisture_min_level, _max=s.soil_moisture_max_level, reverse=False
     )
-    signal = ctl.get_signal(d["fields"]["soil_moisture"])
 
-    s.update_controller(tag=tag, water_valve_signal=bool(signal))
+    # ---- actuator control
+    force_controller = Sprinklers().get_controller_force(tag)
+    if force_controller["force_water_valve_signal"]:
+        water_valve_signal = int(force_controller["water_valve_signal"])
+    else:
+        water_valve_signal = int(ctl.get_signal(d["fields"]["soil_moisture"]))
 
-    SprinklerCtrlDict(
-        controller_type="sprinkler",
-        tag=tag,
-        water_valve_signal=bool(signal),
-        soil_moisture_min_level=s.soil_moisture_min_level,
-        soil_moisture_max_level=s.soil_moisture_max_level,
-    )
+    s.update_controller(tag=tag, water_valve_signal=bool(water_valve_signal))
 
     mqtt_client.publish(
         MQTT_SPRINKLER_CONTROLLER_TOPIC,
@@ -61,7 +59,7 @@ def node_controller(message):
             SprinklerCtrlDict(
                 controller_type="sprinkler",
                 tag=tag,
-                water_valve_signal=bool(signal),
+                water_valve_signal=water_valve_signal,
                 soil_moisture_min_level=s.soil_moisture_min_level,
                 soil_moisture_max_level=s.soil_moisture_max_level,
             )
