@@ -23,6 +23,12 @@ class Controller(models.Model):
     light_signal = models.BooleanField(blank=False, null=False)
 
 
+class ForceController(models.Model):
+    tag = models.CharField(unique=True, null=False, blank=False, max_length=200)
+    force_light_signal = models.BooleanField(blank=False, null=False)
+    light_signal = models.BooleanField(blank=False, null=False)
+
+
 class Light:
     def __init__(self):
         self.on_time_at: time
