@@ -31,9 +31,6 @@ def node_controller(message):
     :return:
     """
 
-    if not mqtt_client.is_connected():
-        raise ConnectionError(f"Can not connect to MQTT client {MQTT_HOST=} / {MQTT_PORT=} ")
-
     d: dict = parse_line(message + b" 0")
     tag: str = d["tags"]["tag"]
     print(d)
@@ -57,7 +54,7 @@ def node_controller(message):
 
     s.update_controller(tag=tag, water_valve_signal=bool(water_valve_signal))
 
-    mqtt_client.publish(
+    r = mqtt_client.publish(
         MQTT_SPRINKLER_CONTROLLER_TOPIC,
         json.dumps(
             SprinklerCtrlDict(
@@ -69,3 +66,6 @@ def node_controller(message):
             )
         ),
     )
+    # r.wait_for_publish()
+    # if not r.is_published():
+    #    pass
