@@ -30,6 +30,10 @@ def node_controller(message):
     :param message:
     :return:
     """
+
+    if not mqtt_client.is_connected():
+        raise ConnectionError(f"Can not connect to MQTT client {MQTT_HOST=} / {MQTT_PORT=} ")
+
     d: dict = parse_line(message + b" 0")
     tag: str = d["tags"]["tag"]
     print(d)
