@@ -30,6 +30,7 @@ def node_controller(message):
     :param message:
     :return:
     """
+    mqtt_client.reconnect()
 
     d: dict = parse_line(message + b" 0")
     tag: str = d["tags"]["tag"]
@@ -54,7 +55,7 @@ def node_controller(message):
 
     s.update_controller(tag=tag, water_valve_signal=bool(water_valve_signal))
 
-    r = mqtt_client.publish(
+    mqtt_client.publish(
         MQTT_SPRINKLER_CONTROLLER_TOPIC,
         json.dumps(
             SprinklerCtrlDict(
@@ -66,6 +67,3 @@ def node_controller(message):
             )
         ),
     )
-    # r.wait_for_publish()
-    # if not r.is_published():
-    #    pass
