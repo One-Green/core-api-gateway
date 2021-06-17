@@ -31,8 +31,8 @@ class ForceController(models.Model):
 
 class Light:
     def __init__(self):
-        self.on_time_at: time
-        self.off_time_at: time
+        self.on_datetime_at: datetime
+        self.off_datetime_at: datetime
 
     @staticmethod
     def get_controller_updated_datetime(tag: str) -> datetime:
