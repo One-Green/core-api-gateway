@@ -30,6 +30,7 @@ def node_controller(message):
     :param message:
     :return:
     """
+
     mqtt_client.reconnect()
 
     d: dict = parse_line(message + b" 0")
