@@ -67,3 +67,28 @@ class SprinklerTests(APITestCase):
         # Count and assert if all Tags are removed
         cnt = (len(self.client.get(REGISTRY_URL).data))
         self.assertEqual(cnt, 0)
+
+    def test_force_controller(self):
+        """
+        Test override controller action
+        :return:
+        """
+        # Create Tag in registry
+        for _ in TAGS:
+            r = self.client.post(REGISTRY_URL, _, format='json')
+            self.assertEqual(r.status_code, status.HTTP_200_OK)
+
+        for _ in TAGS:
+            url = reverse("sprinkler-force", args=[_["tag"]])
+            data = {
+                "force_water_valve_signal": randint(0, 1),
+                "water_valve_signal": randint(0, 1)
+            }
+            # Post configuration
+            r = self.client.post(url, data, format="json")
+            self.assertEqual(r.status_code, status.HTTP_200_OK)
+            # Get configuration
+            r = self.client.get(url, data, format="json")
+            self.assertEqual(r.status_code, status.HTTP_200_OK)
+            self.assertEqual(data["force_water_valve_signal"], r.data["force_water_valve_signal"])
+            self.assertEqual(data["water_valve_signal"], r.data["water_valve_signal"])
