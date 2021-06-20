@@ -54,4 +54,5 @@ urlpatterns = [
     # WIP
     path("light/registry", light.views.RegistryView.as_view(), name="light-registry"),
     path("light/config/<str:tag>", light.views.ConfigView.as_view(), name="light-config"),
+    path("light/controller/force/<str:tag>", light.views.ForceControllerView.as_view(), name="light-force"),
 ]
