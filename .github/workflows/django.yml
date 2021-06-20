@@ -47,3 +47,7 @@ jobs:
       - name: Sprinkler tests
         run: |
           python manage.py test sprinkler
+
+      - name: Light tests
+        run: |
+          python manage.py test light
