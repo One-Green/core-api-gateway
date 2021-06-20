@@ -1,6 +1,5 @@
-name: "Django tests"
-on:
-  - push
+name: Django tests
+on: [ push ]
 
 jobs:
   build:

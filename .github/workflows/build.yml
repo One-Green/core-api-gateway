@@ -2,8 +2,8 @@ name: Build docker
 on:
   workflow_run:
     workflows: ["Django tests"]
-    type:
-      - complete
+    types:
+      - completed
 jobs:
   docker:
     runs-on: ubuntu-latest
