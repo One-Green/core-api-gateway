@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from light.serializers import RegistrySerializer
 from light.serializers import ConfigSerializer
+from light.serializers import ForceControllerSerializer
 from core.utils import get_now
 from light.models import Light, Registry
 
@@ -109,3 +110,37 @@ class ConfigView(GenericAPIView):
                 {"acknowledged": False, "message": "Input data invalid"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
+
+
+class ForceControllerView(GenericAPIView):
+    """
+    For debug only, force actuator status
+    """
+    serializer_class = ForceControllerSerializer
+
+    @csrf_exempt
+    def get(self, request, tag):
+        """
+        Get controller force status
+        :param tag:
+        :param request:
+        :return:
+        """
+        return Response(Light().get_controller_force(tag), status=status.HTTP_200_OK)
+
+    @csrf_exempt
+    def post(self, request, tag):
+        """
+        Force light off/on
+        :param tag:
+        :param request:
+        :return:
+        """
+        serializer = ForceControllerSerializer(data=request.data)
+        if serializer.is_valid():
+            Light().update_controller_force(
+                tag=tag,
+                force_light_signal=request.data["force_light_signal"],
+                light_signal=request.data["light_signal"],
+            )
+            return Response({"acknowledge": True}, status=status.HTTP_200_OK)
