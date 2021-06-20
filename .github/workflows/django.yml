@@ -43,3 +43,7 @@ jobs:
       - name: Global configuration tests
         run: |
           python manage.py test glbl
+
+      - name: Sprinkler tests
+        run: |
+          python manage.py test sprinkler
