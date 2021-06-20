@@ -2,6 +2,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 from django.urls import reverse
 from datetime import datetime
+from random import randint
 import pytz
 
 tz = pytz.timezone("Europe/Paris")
@@ -83,3 +84,28 @@ class LightTests(APITestCase):
         # Count and assert if all Tags are removed
         cnt = (len(self.client.get(REGISTRY_URL).data))
         self.assertEqual(cnt, 0)
+
+    def test_force_controller(self):
+        """
+        Test override controller action
+        :return:
+        """
+        # Create Tag in registry
+        for _ in TAGS:
+            r = self.client.post(REGISTRY_URL, _, format='json')
+            self.assertEqual(r.status_code, status.HTTP_200_OK)
+
+        for _ in TAGS:
+            url = reverse("light-force", args=[_["tag"]])
+            data = {
+                "force_light_signal": randint(0, 1),
+                "light_signal": randint(0, 1)
+            }
+            # Post configuration
+            r = self.client.post(url, data, format="json")
+            self.assertEqual(r.status_code, status.HTTP_200_OK)
+            # Get configuration
+            r = self.client.get(url, data, format="json")
+            self.assertEqual(r.status_code, status.HTTP_200_OK)
+            self.assertEqual(data["force_light_signal"], r.data["force_light_signal"])
+            self.assertEqual(data["light_signal"], r.data["light_signal"])
