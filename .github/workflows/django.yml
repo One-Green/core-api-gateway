@@ -39,3 +39,7 @@ jobs:
       - name: Init django db
         run: |
           python init.py
+
+      - name: Global configuration tests
+        run: |
+          python manage.py test glbl
