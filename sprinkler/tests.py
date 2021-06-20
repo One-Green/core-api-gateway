@@ -23,7 +23,7 @@ class SprinklerTests(APITestCase):
         for i, _ in enumerate(TAGS):
             r = self.client.post(REGISTRY_URL, _, format='json')
             self.assertEqual(r.status_code, status.HTTP_200_OK)
-            cnt = (len(self.client.get(REGISTRY_URL, _, format='json').data))
+            cnt = (len(self.client.get(REGISTRY_URL).data))
             self.assertEqual(cnt, i + 1)
 
     def test_configuration(self):
@@ -52,3 +52,18 @@ class SprinklerTests(APITestCase):
             self.assertEqual(r.status_code, status.HTTP_200_OK)
             self.assertEqual(data["soil_moisture_min_level"], r.data["soil_moisture_min_level"])
             self.assertEqual(data["soil_moisture_min_level"], r.data["soil_moisture_min_level"])
+
+    def test_delete(self):
+        # Create Tag in registry
+        for _ in TAGS:
+            r = self.client.post(REGISTRY_URL, _, format='json')
+            self.assertEqual(r.status_code, status.HTTP_200_OK)
+
+        # Delete Tag in registry
+        for _ in TAGS:
+            r = self.client.delete(REGISTRY_URL, _, format='json')
+            self.assertEqual(r.status_code, status.HTTP_200_OK)
+
+        # Count and assert if all Tags are removed
+        cnt = (len(self.client.get(REGISTRY_URL).data))
+        self.assertEqual(cnt, 0)
