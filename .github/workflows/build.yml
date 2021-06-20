@@ -1,10 +1,11 @@
-name: BUILD
+name: Build docker
 on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
-
+  workflow_run:
+    workflows: ["Django tests"]
+    branches:
+      - main
+    types:
+      - completed
 jobs:
   docker:
     runs-on: ubuntu-latest
