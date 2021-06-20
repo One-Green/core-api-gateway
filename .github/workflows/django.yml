@@ -44,6 +44,10 @@ jobs:
         run: |
           python manage.py test glbl
 
+      - name: Water tests
+        run: |
+          python manage.py test water
+
       - name: Sprinkler tests
         run: |
           python manage.py test sprinkler
