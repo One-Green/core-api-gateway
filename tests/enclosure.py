@@ -17,7 +17,7 @@ class Enclosure:
                 "humidity": random.randint(20, 50),
                 "uv_index": "string",
                 "co2_ppm": random.randint(20, 50),
-                "cov_ppm": random.randint(20, 50)
+                "cov_ppm": random.randint(20, 50),
             }
         }
 
@@ -26,12 +26,12 @@ class Enclosure:
     def post_sig(self):
         for _ in _list:
             _dict = {
-                    "temperature": random.randint(20, 50),
-                    "humidity": random.randint(20, 50),
-                    "uv_index": "string",
-                    "co2_ppm": random.randint(20, 50),
-                    "cov_ppm": random.randint(20, 50)
-                }
+                "temperature": random.randint(20, 50),
+                "humidity": random.randint(20, 50),
+                "uv_index": "string",
+                "co2_ppm": random.randint(20, 50),
+                "cov_ppm": random.randint(20, 50),
+            }
 
             pprint(requests.post(self.api, json=_dict).json())
 

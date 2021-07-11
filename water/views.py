@@ -40,6 +40,7 @@ class ForceControllerView(GenericAPIView):
     """
     For debug only, force actuator status
     """
+
     serializer_class = ForceControllerSerializer
 
     @csrf_exempt

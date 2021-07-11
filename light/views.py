@@ -88,8 +88,8 @@ class ConfigView(GenericAPIView):
         if serializer.is_valid():
             if Light().update_config(
                 tag=tag,
-                    on_datetime_at=request.data["on_datetime_at"],
-                    off_datetime_at=request.data["off_datetime_at"],
+                on_datetime_at=request.data["on_datetime_at"],
+                off_datetime_at=request.data["off_datetime_at"],
             ):
                 r = True
             else:
@@ -116,6 +116,7 @@ class ForceControllerView(GenericAPIView):
     """
     For debug only, force actuator status
     """
+
     serializer_class = ForceControllerSerializer
 
     @csrf_exempt

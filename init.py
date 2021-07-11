@@ -20,7 +20,7 @@ con = psycopg2.connect(
     port=POSTGRES_PORT,
     database="postgres",
     user=POSTGRES_USER,
-    password=POSTGRES_PASSWORD
+    password=POSTGRES_PASSWORD,
 )
 
 con.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)

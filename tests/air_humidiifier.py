@@ -11,10 +11,7 @@ class AirHumidifier:
     api = ""
 
     def post(self):
-        _dict = {
-            "air_in_humidity": 0,
-            "air_out_humidity": 0
-        }
+        _dict = {"air_in_humidity": 0, "air_out_humidity": 0}
 
         return requests.post(self.api, json=_dict).json()
 

@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class GlobalConfig(AppConfig):
-    name = 'glbl'
+    name = "glbl"

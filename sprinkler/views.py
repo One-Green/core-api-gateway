@@ -82,9 +82,9 @@ class ConfigView(GenericAPIView):
         serializer = ConfigSerializer(data=request.data)
         if serializer.is_valid():
             if Sprinklers().update_config(
-                    tag=tag,
-                    soil_moisture_min_level=request.data["soil_moisture_min_level"],
-                    soil_moisture_max_level=request.data["soil_moisture_max_level"],
+                tag=tag,
+                soil_moisture_min_level=request.data["soil_moisture_min_level"],
+                soil_moisture_max_level=request.data["soil_moisture_max_level"],
             ):
                 r = True
             else:
@@ -110,6 +110,7 @@ class ForceControllerView(GenericAPIView):
     """
     For debug only, force actuator status
     """
+
     serializer_class = ForceControllerSerializer
 
     @csrf_exempt
@@ -120,7 +121,9 @@ class ForceControllerView(GenericAPIView):
         :param request:
         :return:
         """
-        return Response(Sprinklers().get_controller_force(tag), status=status.HTTP_200_OK)
+        return Response(
+            Sprinklers().get_controller_force(tag), status=status.HTTP_200_OK
+        )
 
     @csrf_exempt
     def post(self, request, tag):

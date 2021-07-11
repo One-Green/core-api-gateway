@@ -8,13 +8,12 @@ FORCE_URL = reverse("water-force")
 
 
 class WaterTest(APITestCase):
-
     def test_configuration(self):
         data = {
             "ph_min_level": randint(1, 100),
             "ph_max_level": randint(1, 100),
             "tds_min_level": randint(1, 100),
-            "tds_max_level": randint(1, 100)
+            "tds_max_level": randint(1, 100),
         }
         # Post configuration
         r = self.client.post(CONFIG_URL, data, format="json")
@@ -37,7 +36,7 @@ class WaterTest(APITestCase):
             "water_pump_signal": randint(0, 1),
             "nutrient_pump_signal": randint(0, 1),
             "ph_downer_pump_signal": randint(0, 1),
-            "mixer_pump_signal": randint(0, 1)
+            "mixer_pump_signal": randint(0, 1),
         }
         # Post force configuration
         r = self.client.post(FORCE_URL, data, format="json")
@@ -46,10 +45,18 @@ class WaterTest(APITestCase):
         r = self.client.get(FORCE_URL, data, format="json")
         self.assertEqual(r.status_code, status.HTTP_200_OK)
 
-        self.assertEqual(data["force_water_pump_signal"], r.data["force_water_pump_signal"])
-        self.assertEqual(data["force_nutrient_pump_signal"], r.data["force_nutrient_pump_signal"])
-        self.assertEqual(data["force_ph_downer_pump_signal"], r.data["force_ph_downer_pump_signal"])
-        self.assertEqual(data["force_mixer_pump_signal"], r.data["force_mixer_pump_signal"])
+        self.assertEqual(
+            data["force_water_pump_signal"], r.data["force_water_pump_signal"]
+        )
+        self.assertEqual(
+            data["force_nutrient_pump_signal"], r.data["force_nutrient_pump_signal"]
+        )
+        self.assertEqual(
+            data["force_ph_downer_pump_signal"], r.data["force_ph_downer_pump_signal"]
+        )
+        self.assertEqual(
+            data["force_mixer_pump_signal"], r.data["force_mixer_pump_signal"]
+        )
         self.assertEqual(data["water_pump_signal"], r.data["water_pump_signal"])
         self.assertEqual(data["nutrient_pump_signal"], r.data["nutrient_pump_signal"])
         self.assertEqual(data["ph_downer_pump_signal"], r.data["ph_downer_pump_signal"])

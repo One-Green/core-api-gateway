@@ -21,7 +21,9 @@ class Controller(models.Model):
 
 
 class ForceController(models.Model):
-    tag = models.CharField(unique=True, null=False, blank=False, max_length=200, default="water")
+    tag = models.CharField(
+        unique=True, null=False, blank=False, max_length=200, default="water"
+    )
     updated_at = models.DateTimeField(auto_now=True)
     force_water_pump_signal = models.BooleanField(blank=False, null=False)
     force_nutrient_pump_signal = models.BooleanField(blank=False, null=False)
@@ -46,10 +48,10 @@ class Water:
 
     @staticmethod
     def update_config(
-            ph_min_level: float,
-            ph_max_level: float,
-            tds_min_level: float,
-            tds_max_level: float,
+        ph_min_level: float,
+        ph_max_level: float,
+        tds_min_level: float,
+        tds_max_level: float,
     ):
         Config.objects.update_or_create(
             defaults={
@@ -79,14 +81,14 @@ class Water:
 
     @staticmethod
     def update_controller_force(
-            force_water_pump_signal: bool,
-            force_nutrient_pump_signal: bool,
-            force_ph_downer_pump_signal: bool,
-            force_mixer_pump_signal: bool,
-            water_pump_signal: bool,
-            nutrient_pump_signal: bool,
-            ph_downer_pump_signal: bool,
-            mixer_pump_signal: bool
+        force_water_pump_signal: bool,
+        force_nutrient_pump_signal: bool,
+        force_ph_downer_pump_signal: bool,
+        force_mixer_pump_signal: bool,
+        water_pump_signal: bool,
+        nutrient_pump_signal: bool,
+        ph_downer_pump_signal: bool,
+        mixer_pump_signal: bool,
     ):
         ForceController.objects.update_or_create(
             defaults={
@@ -97,7 +99,7 @@ class Water:
                 "water_pump_signal": water_pump_signal,
                 "nutrient_pump_signal": nutrient_pump_signal,
                 "ph_downer_pump_signal": ph_downer_pump_signal,
-                "mixer_pump_signal": mixer_pump_signal
+                "mixer_pump_signal": mixer_pump_signal,
             }
         )
         return True
@@ -115,6 +117,6 @@ class Water:
                 "water_pump_signal": False,
                 "nutrient_pump_signal": False,
                 "ph_downer_pump_signal": False,
-                "mixer_pump_signal": False
+                "mixer_pump_signal": False,
             }
         return _

@@ -6,12 +6,7 @@ class ConfigSerializer(serializers.ModelSerializer):
     class Meta:
         ref_name = "water"
         model = Config
-        fields = [
-            "ph_min_level",
-            "ph_max_level",
-            "tds_min_level",
-            "tds_max_level"
-        ]
+        fields = ["ph_min_level", "ph_max_level", "tds_min_level", "tds_max_level"]
 
 
 class ForceControllerSerializer(serializers.ModelSerializer):
@@ -26,5 +21,5 @@ class ForceControllerSerializer(serializers.ModelSerializer):
             "water_pump_signal",
             "nutrient_pump_signal",
             "ph_downer_pump_signal",
-            "mixer_pump_signal"
+            "mixer_pump_signal",
         ]

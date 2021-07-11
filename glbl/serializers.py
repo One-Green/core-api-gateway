@@ -5,4 +5,4 @@ class ConfigSerializer(serializers.Serializer):
     timezone = serializers.CharField(write_only=True)
 
     class Meta:
-        ref_name = 'global_config'
+        ref_name = "global_config"

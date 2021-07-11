@@ -53,9 +53,9 @@ class Sprinklers:
 
     @staticmethod
     def update_config(
-            tag: str,
-            soil_moisture_min_level: float,
-            soil_moisture_max_level: float,
+        tag: str,
+        soil_moisture_min_level: float,
+        soil_moisture_max_level: float,
     ):
         Config.objects.update_or_create(
             tag=tag,
@@ -95,16 +95,16 @@ class Sprinklers:
 
     @staticmethod
     def update_controller_force(
-            tag: str,
-            force_water_valve_signal: bool,
-            water_valve_signal: bool,
+        tag: str,
+        force_water_valve_signal: bool,
+        water_valve_signal: bool,
     ):
         ForceController.objects.update_or_create(
             tag=tag,
             defaults={
                 "force_water_valve_signal": force_water_valve_signal,
                 "water_valve_signal": water_valve_signal,
-            }
+            },
         )
         return True
 
@@ -116,6 +116,6 @@ class Sprinklers:
             _ = {
                 "tag": tag,
                 "force_water_valve_signal": False,
-                "water_valve_signal": False
+                "water_valve_signal": False,
             }
         return _

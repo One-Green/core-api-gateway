@@ -83,16 +83,16 @@ class Light:
 
     @staticmethod
     def update_controller_force(
-            tag: str,
-            force_light_signal: bool,
-            light_signal: bool,
+        tag: str,
+        force_light_signal: bool,
+        light_signal: bool,
     ):
         ForceController.objects.update_or_create(
             tag=tag,
             defaults={
                 "force_light_signal": force_light_signal,
                 "light_signal": light_signal,
-            }
+            },
         )
         return True
 
@@ -101,9 +101,5 @@ class Light:
         try:
             _ = ForceController.objects.get(tag=tag).__dict__
         except ForceController.DoesNotExist:
-            _ = {
-                "tag": tag,
-                "force_light_signal": False,
-                "light_signal": False
-            }
+            _ = {"tag": tag, "force_light_signal": False, "light_signal": False}
         return _

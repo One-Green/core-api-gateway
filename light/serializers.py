@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from light.models import ForceController
 
+
 class RegistrySerializer(serializers.Serializer):
     tag = serializers.CharField(write_only=True)
 
