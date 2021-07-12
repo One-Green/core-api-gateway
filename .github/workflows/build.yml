@@ -30,7 +30,7 @@ jobs:
           context: .
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: docker.io/shanisma/og-core:dev-1010
+          tags: docker.io/shanisma/og-core:latest
       -
         name: Build and push paho-mqtt
         uses: docker/build-push-action@v2
