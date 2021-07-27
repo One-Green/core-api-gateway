@@ -5,7 +5,7 @@ start-celery-workers:
 
 start-mqtt:
 	docker rm mqtt-dev --force || true
-	docker run  --name mqtt-dev -d  -p 8883:1883  -e MOSQUITTO_USERNAME=admin -e MOSQUITTO_PASSWORD=admin docker.io/shanisma/paho-mqtt:1.6.2
+	docker run  --name mqtt-dev -d  -p 1883:1883  -e MOSQUITTO_USERNAME=admin -e MOSQUITTO_PASSWORD=admin docker.io/shanisma/paho-mqtt:1.6.2
 
 start-redis:
 	docker rm redis-dev --force || true
