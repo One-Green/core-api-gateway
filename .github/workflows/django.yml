@@ -51,6 +51,8 @@ jobs:
           python manage.py test glbl
 
       - name: Water tests
+        env:
+          MQTT_HOST: mqtt
         run: |
           python manage.py test water
 
