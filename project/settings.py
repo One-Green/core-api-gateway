@@ -156,9 +156,9 @@ CELERY_TIMEZONE = "UTC"
 
 # MQTT configuration
 MQTT_HOST: str = os.getenv(
-    "MQTT_HOST", "af120153-db6a-4fdd-a81b-6d902b00e936.nodes.k8s.fr-par.scw.cloud"
+    "MQTT_HOST", "127.0.0.1"
 )
-MQTT_PORT: int = int(os.getenv("MQTT_PORT", 32500))
+MQTT_PORT: int = int(os.getenv("MQTT_PORT", 1883))
 MQTT_USER: str = os.getenv("MQTT_USER", "admin")
 MQTT_PASSWORD: str = os.getenv("MQTT_PASSWORD", "admin")
 
