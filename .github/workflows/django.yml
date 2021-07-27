@@ -14,13 +14,6 @@ jobs:
         ports:
           - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-      mqtt:
-        image: docker.io/shanisma/paho-mqtt:1.6.2
-        env:
-          MOSQUITTO_USERNAME: admin
-          MOSQUITTO_PASSWORD: admin
-        ports:
-          - 1833:1833
     strategy:
       matrix:
         python-version:
@@ -51,8 +44,6 @@ jobs:
           python manage.py test glbl
 
       - name: Water tests
-        env:
-          MQTT_HOST: mqtt
         run: |
           python manage.py test water
 
