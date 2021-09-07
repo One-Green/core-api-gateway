@@ -59,3 +59,9 @@ build-custom-mosquitto: export TAG=docker.io/shanisma/eclipse-mosquitto:1.6.2
 build-custom-mosquitto: dependencies/example-mosquitto-simple-auth-docker-master/Dockerfile
 	docker build -t ${TAG} -f dependencies/example-mosquitto-simple-auth-docker-master/Dockerfile
 	docker push ${TAG}
+
+build-custom-telegraf: export VERSION=1.19.4
+build-custom-telegraf: export TAG=docker.io/shanisma/telegraf:$[{VERSION}
+build-custom-telegraf: dependencies/telegraf/Dockerfile
+	docker build -t ${TAG} -f dependencies/telegraf/Dockerfile .
+	docker push ${TAG}
