@@ -4,6 +4,7 @@ import requests
 from datetime import datetime
 import paho.mqtt.client as mqtt
 import psycopg2
+from redis.client import Redis
 
 # Define health check type (can be all / or comma seperated string with
 # services to check
@@ -22,7 +23,12 @@ POSTGRES_HOST = os.getenv("POSTGRES_HOST", "localhost")
 POSTGRES_PORT = int(os.getenv("POSTGRES_PORT", 5432))
 
 INFLUXDB_HOST = os.getenv("INFLUXDB_HOST", "localhost")
-INFLUXDB_PORT = os.getenv("INFLUXDB_PORT", 8086)
+INFLUXDB_PORT = int(os.getenv("INFLUXDB_PORT", 8086))
+
+REDIS_HOST = os.getenv("REDIS_HOST", "localhost")
+REDIS_PORT = int(os.getenv("REDIS_PORT", 6379))
+REDIS_USER = os.getenv("REDIS_USER")
+REDIS_PASSWORD = os.getenv("REDIS_PASSWORD")
 
 
 def is_mqtt_up():
@@ -61,11 +67,26 @@ def is_influxdb_up():
     print("Influx db is ok")
 
 
+def is_redis_up():
+    print("Testing Redis")
+    if REDIS_USER and REDIS_PASSWORD:
+        Redis(
+            host=REDIS_HOST,
+            port=REDIS_PORT,
+            username=REDIS_USER,
+            password=REDIS_PASSWORD,
+            socket_connect_timeout=1
+        ).ping()
+    Redis(host=REDIS_HOST, port=REDIS_PORT, socket_connect_timeout=1).ping()
+    print("Redis is ok")
+
+
 if __name__ == "__main__":
     if HEALTH_CHECK_TYPE.lower().strip() == "all":
         is_mqtt_up()
         is_pg_up()
         is_influxdb_up()
+        is_redis_up()
     else:
         for _ in HEALTH_CHECK_TYPE.lower().split(","):
             if "mqtt" in _:
@@ -74,3 +95,5 @@ if __name__ == "__main__":
                 is_pg_up()
             if "influxdb" in _:
                 is_influxdb_up()
+            if "redis" in _:
+                is_redis_up()
