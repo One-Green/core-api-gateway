@@ -1,6 +1,5 @@
 import os
 import json
-import requests
 from datetime import datetime
 
 # Define health check type (can be all / or comma seperated string with
@@ -21,6 +20,9 @@ POSTGRES_PORT = int(os.getenv("POSTGRES_PORT", 5432))
 
 INFLUXDB_HOST = os.getenv("INFLUXDB_HOST", "localhost")
 INFLUXDB_PORT = int(os.getenv("INFLUXDB_PORT", 8086))
+DOCKER_INFLUXDB_INIT_ORG = os.getenv("DOCKER_INFLUXDB_INIT_ORG")
+DOCKER_INFLUXDB_INIT_BUCKET = os.getenv("DOCKER_INFLUXDB_INIT_BUCKET")
+DOCKER_INFLUXDB_INIT_TOKEN = os.getenv("DOCKER_INFLUXDB_INIT_TOKEN")
 
 REDIS_HOST = os.getenv("REDIS_HOST", "localhost")
 REDIS_PORT = int(os.getenv("REDIS_PORT", 6379))
@@ -61,8 +63,12 @@ def is_pg_up():
 
 
 def is_influxdb_up():
+    from influxdb_client import InfluxDBClient
     print("Testing Influxdb")
-    r = requests.get(f"http://{INFLUXDB_HOST}:{INFLUXDB_PORT}", timeout=1)
+    InfluxDBClient(
+        url=f"http://{INFLUXDB_HOST}:{INFLUXDB_PORT}",
+        token=DOCKER_INFLUXDB_INIT_TOKEN,
+        org=DOCKER_INFLUXDB_INIT_ORG).ready()
     print("Influx db is ok")
 
 
