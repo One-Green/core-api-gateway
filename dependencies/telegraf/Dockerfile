@@ -1,7 +1,7 @@
 FROM telegraf:1.19.3
 
-COPY health_check.py /tools/health_check.py
+COPY health_check.py health_check.py
 
-RUN apk add python python-pip
+RUN apt update && apt install libpq-dev python python-pip -y
 RUN pip install psycopg2 paho-mqtt
 
