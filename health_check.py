@@ -2,9 +2,6 @@ import os
 import json
 import requests
 from datetime import datetime
-import paho.mqtt.client as mqtt
-import psycopg2
-from redis.client import Redis
 
 # Define health check type (can be all / or comma seperated string with
 # services to check
@@ -32,6 +29,7 @@ REDIS_PASSWORD = os.getenv("REDIS_PASSWORD")
 
 
 def is_mqtt_up():
+    import paho.mqtt.client as mqtt
     print("Testing MQTT connexion")
     mqtt_client = mqtt.Client()
     mqtt_client.username_pw_set(username=MQTT_USER, password=MQTT_PASSWORD)
@@ -49,6 +47,7 @@ def is_mqtt_up():
 
 
 def is_pg_up():
+    import psycopg2
     print("testing Postgresql connexion")
     con = psycopg2.connect(
         host=POSTGRES_HOST,
@@ -68,6 +67,7 @@ def is_influxdb_up():
 
 
 def is_redis_up():
+    from redis.client import Redis
     print("Testing Redis")
     if REDIS_USER and REDIS_PASSWORD:
         Redis(
