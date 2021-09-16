@@ -22,7 +22,8 @@ INFLUXDB_HOST = os.getenv("INFLUXDB_HOST", "localhost")
 INFLUXDB_PORT = int(os.getenv("INFLUXDB_PORT", 8086))
 DOCKER_INFLUXDB_INIT_ORG = os.getenv("DOCKER_INFLUXDB_INIT_ORG")
 DOCKER_INFLUXDB_INIT_BUCKET = os.getenv("DOCKER_INFLUXDB_INIT_BUCKET")
-DOCKER_INFLUXDB_INIT_TOKEN = os.getenv("DOCKER_INFLUXDB_INIT_TOKEN")
+DOCKER_INFLUXDB_INIT_ADMIN_TOKEN = os.getenv("DOCKER_INFLUXDB_INIT_ADMIN_TOKEN")
+INFLUXDB_URL = f"http://{INFLUXDB_HOST}:{INFLUXDB_PORT}"
 
 REDIS_HOST = os.getenv("REDIS_HOST", "localhost")
 REDIS_PORT = int(os.getenv("REDIS_PORT", 6379))
@@ -51,7 +52,7 @@ def is_mqtt_up():
 def is_pg_up():
     import psycopg2
     print("testing Postgresql connexion")
-    con = psycopg2.connect(
+    psycopg2.connect(
         host=POSTGRES_HOST,
         port=POSTGRES_PORT,
         database="postgres",
@@ -64,12 +65,13 @@ def is_pg_up():
 
 def is_influxdb_up():
     from influxdb_client import InfluxDBClient
-    print("Testing Influxdb")
+    print("Testing InfluxDB")
     InfluxDBClient(
-        url=f"http://{INFLUXDB_HOST}:{INFLUXDB_PORT}",
-        token=DOCKER_INFLUXDB_INIT_TOKEN,
-        org=DOCKER_INFLUXDB_INIT_ORG).ready()
-    print("Influx db is ok")
+        url=INFLUXDB_URL,
+        token=DOCKER_INFLUXDB_INIT_ADMIN_TOKEN,
+        org=DOCKER_INFLUXDB_INIT_ORG
+    ).ready()
+    print("InfluxDB is ok")
 
 
 def is_redis_up():
