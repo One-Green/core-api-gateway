@@ -9,7 +9,7 @@ django.setup()
 import paho.mqtt.client as mqtt
 from project.settings import MQTT_HOST
 from project.settings import MQTT_PORT
-from project.settings import MQTT_USER
+from project.settings import MQTT_USERNAME
 from project.settings import MQTT_PASSWORD
 from project.settings import MQTT_SPRINKLER_SENSOR_TOPIC
 import time
@@ -19,7 +19,7 @@ from influx_line_protocol import Metric
 from sprinkler.views import RegistryView
 
 mqtt_client = mqtt.Client()
-mqtt_client.username_pw_set(username=MQTT_USER, password=MQTT_PASSWORD)
+mqtt_client.username_pw_set(username=MQTT_USERNAME, password=MQTT_PASSWORD)
 mqtt_client.connect(MQTT_HOST, MQTT_PORT, 60)
 
 sprinklers = ["tomato", "eggplant", "watermelon", "potato"]

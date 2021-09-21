@@ -9,7 +9,7 @@ from sprinkler.models import Sprinklers
 from sprinkler.dict_def import SprinklerCtrlDict
 from project.settings import MQTT_HOST
 from project.settings import MQTT_PORT
-from project.settings import MQTT_USER
+from project.settings import MQTT_USERNAME
 from project.settings import MQTT_PASSWORD
 from project.settings import MQTT_SPRINKLER_CONTROLLER_TOPIC
 from celery.decorators import task
@@ -17,7 +17,7 @@ import paho.mqtt.client as mqtt
 import orjson as json
 
 mqtt_client = mqtt.Client()
-mqtt_client.username_pw_set(username=MQTT_USER, password=MQTT_PASSWORD)
+mqtt_client.username_pw_set(username=MQTT_USERNAME, password=MQTT_PASSWORD)
 mqtt_client.connect(MQTT_HOST, MQTT_PORT, 60)
 
 

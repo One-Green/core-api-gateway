@@ -159,8 +159,8 @@ MQTT_HOST: str = os.getenv(
     "MQTT_HOST", "127.0.0.1"
 )
 MQTT_PORT: int = int(os.getenv("MQTT_PORT", 1883))
-MQTT_USER: str = os.getenv("MQTT_USER", "admin")
-MQTT_PASSWORD: str = os.getenv("MQTT_PASSWORD", "admin")
+MQTT_USERNAME: str = os.getenv("MQTT_USERNAME")
+MQTT_PASSWORD: str = os.getenv("MQTT_PASSWORD")
 
 # ########## SPRINKLER APP CONFIGURATION ##########
 # SPRINKLERS TOPICS -------------------------------
@@ -172,6 +172,3 @@ MQTT_WATER_CONTROLLER_TOPIC: str = "water/controller"
 # LIGHT TOPICS ------------------------------------
 MQTT_LIGHT_TOPIC: str = "light/sensor"
 MQTT_LIGHT_CONTROLLER_TOPIC: str = "light/controller"
-# GC  -------------------------------
-# If node go down override signals to false after this timeout, value in second
-SPRINKLER_GC_CUTOFF_TIMEOUT: int = int(os.getenv("SPRINKLER_CUTOFF_TIMEOUT", 1))

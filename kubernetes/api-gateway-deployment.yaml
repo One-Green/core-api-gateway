@@ -33,7 +33,7 @@ spec:
               value: "mqtt"
             - name: MQTT_PORT
               value: "1883"
-            - name: MQTT_USER
+            - name: MQTT_USERNAME
               value: "admin"
             - name: MQTT_PASSWORD
               value: "admin"
@@ -58,7 +58,7 @@ spec:
             value: "mqtt"
           - name: MQTT_PORT
             value: "1883"
-          - name: MQTT_USER
+          - name: MQTT_USERNAME
             value: "admin"
           - name: MQTT_PASSWORD
             value: "admin"

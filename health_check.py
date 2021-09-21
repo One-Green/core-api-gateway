@@ -8,7 +8,7 @@ HEALTH_CHECK_TYPE = os.getenv("HEALTH_CHECK_TYPE", "all")
 
 MQTT_HOST = os.getenv("MQTT_HOST", "localhost")
 MQTT_PORT = int(os.getenv("MQTT_PORT", 1883))
-MQTT_USER = os.getenv("MQTT_USER", "mqtt")
+MQTT_USERNAME = os.getenv("MQTT_USERNAME", "mqtt")
 MQTT_PASSWORD = os.getenv("MQTT_PASSWORD", "anyrandompassword")
 MQTT_HEALTH_CHECK_TOPIC = os.getenv("MQTT_HEALTH_CHECK_TOPIC", "health/check")
 
@@ -35,7 +35,7 @@ def is_mqtt_up():
     import paho.mqtt.client as mqtt
     print("Testing MQTT connexion")
     mqtt_client = mqtt.Client()
-    mqtt_client.username_pw_set(username=MQTT_USER, password=MQTT_PASSWORD)
+    mqtt_client.username_pw_set(username=MQTT_USERNAME, password=MQTT_PASSWORD)
     mqtt_client.connect(MQTT_HOST, MQTT_PORT, 1)
     mqtt_client.publish(
         MQTT_HEALTH_CHECK_TOPIC,
