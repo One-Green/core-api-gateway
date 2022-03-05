@@ -12,17 +12,20 @@ start-redis:
 	docker run --name redis-dev -d -p 6379:6379 redis:6.0.10-alpine
 
 start-postgres:
-	docker rm postgres-dev --force || true
-	docker run --name postgres-dev -d -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres  postgres
+	sudo docker rm postgres-dev --force || true
+	sudo docker run --name postgres-dev -d -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres  postgres
 
-migrate-db:
+migrate-db: start-postgres
+	sleep 3s
 	find . -path "*/migrations/*.py" -not -name "__init__.py" -delete
 	find . -path "*/migrations/*.pyc"  -delete
 	pipenv run python init.py
+	pipenv run python manage.py shell -c "from django.contrib.auth.models import User; User.objects.create_superuser('admin', 'admin@example.com', 'admin')"
+
 
 start-services: start-postgres start-mqtt start-redis migrate-db start-celery-workers
 
-start-api-gateway:
+start-api-gateway: migrate-db
 	pipenv run python manage.py runserver
 
 core-unittest: core/tests/test_base_controller.py core/tests/test_base_time_range_controller.py

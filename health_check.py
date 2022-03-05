@@ -33,24 +33,21 @@ REDIS_PASSWORD = os.getenv("REDIS_PASSWORD")
 
 def is_mqtt_up():
     import paho.mqtt.client as mqtt
+
     print("Testing MQTT connexion")
     mqtt_client = mqtt.Client()
     mqtt_client.username_pw_set(username=MQTT_USERNAME, password=MQTT_PASSWORD)
     mqtt_client.connect(MQTT_HOST, MQTT_PORT, 1)
     mqtt_client.publish(
         MQTT_HEALTH_CHECK_TOPIC,
-        json.dumps(
-            {
-                "status": "ok",
-                "utc_datetime": str(datetime.utcnow())
-            }
-                   )
+        json.dumps({"status": "ok", "utc_datetime": str(datetime.utcnow())}),
     )
     print("MQTT is ok")
 
 
 def is_pg_up():
     import psycopg2
+
     print("testing Postgresql connexion")
     psycopg2.connect(
         host=POSTGRES_HOST,
@@ -58,24 +55,26 @@ def is_pg_up():
         database="postgres",
         user=POSTGRES_USER,
         password=POSTGRES_PASSWORD,
-        connect_timeout=1
+        connect_timeout=1,
     )
     print("Postgresql is ok")
 
 
 def is_influxdb_up():
     from influxdb_client import InfluxDBClient
+
     print("Testing InfluxDB")
     InfluxDBClient(
         url=INFLUXDB_URL,
         token=DOCKER_INFLUXDB_INIT_ADMIN_TOKEN,
-        org=DOCKER_INFLUXDB_INIT_ORG
+        org=DOCKER_INFLUXDB_INIT_ORG,
     ).ready()
     print("InfluxDB is ok")
 
 
 def is_redis_up():
     from redis.client import Redis
+
     print("Testing Redis")
     if REDIS_USER and REDIS_PASSWORD:
         Redis(
@@ -83,7 +82,7 @@ def is_redis_up():
             port=REDIS_PORT,
             username=REDIS_USER,
             password=REDIS_PASSWORD,
-            socket_connect_timeout=1
+            socket_connect_timeout=1,
         ).ping()
     Redis(host=REDIS_HOST, port=REDIS_PORT, socket_connect_timeout=1).ping()
     print("Redis is ok")

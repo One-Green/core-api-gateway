@@ -29,7 +29,7 @@ schema_view = get_schema_view(
         title="One-Green Core API Gateway ",
         default_version="v1",
         description="Plant cultivation framework",
-        terms_of_service="https://github.com/Plant-Keeper/plant-keeper-master/blob/master/LICENSE",
+        terms_of_service="https://github.com/One-Green/core-api-gateway/blob/master/LICENSE",
         contact=openapi.Contact(email="shanmugathas.vigneswaran@outlook.fr"),
         license=openapi.License(name="Creative Commons Zero v1.0 Universal"),
     ),
@@ -46,8 +46,8 @@ urlpatterns = [
     path("global/config", glbl.views.ConfigView.as_view(), name="global-config"),
     # Sprinklers views
     path(
-        "sprinkler/registry",
-        sprinkler.views.RegistryView.as_view(),
+        "sprinkler/device",
+        sprinkler.views.DeviceView.as_view(),
         name="sprinkler-registry",
     ),
     path(
@@ -61,12 +61,14 @@ urlpatterns = [
         name="sprinkler-force",
     ),
     path(
-        "water/registry",
-        water.views.RegistryView.as_view(),
+        "water/device",
+        water.views.DeviceView.as_view(),
         name="water-registry",
     ),
     # Water views
-    path("water/config/<str:tag>", water.views.ConfigView.as_view(), name="water-config"),
+    path(
+        "water/config/<str:tag>", water.views.ConfigView.as_view(), name="water-config"
+    ),
     path(
         "water/controller/force/<str:tag>",
         water.views.ForceControllerView.as_view(),

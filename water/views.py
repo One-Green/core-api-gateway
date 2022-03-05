@@ -3,12 +3,16 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework import status
 from core.utils import get_now
-from water.models import Water, Registry
-from water.serializers import ConfigSerializer, ForceControllerSerializer, RegistrySerializer
+from water.models import Water, Device
+from water.serializers import (
+    ConfigSerializer,
+    ForceControllerSerializer,
+    DeviceSerializer,
+)
 
 
-class RegistryView(GenericAPIView):
-    serializer_class = RegistrySerializer
+class DeviceView(GenericAPIView):
+    serializer_class = DeviceSerializer
 
     @csrf_exempt
     def get(self, request):
@@ -17,7 +21,7 @@ class RegistryView(GenericAPIView):
         :param request:
         :return:
         """
-        r = Registry.objects.values_list("tag", flat=True)
+        r = Device.objects.values_list("tag", flat=True)
         return Response(r, status=status.HTTP_200_OK)
 
     @csrf_exempt
@@ -27,7 +31,7 @@ class RegistryView(GenericAPIView):
         :param request:
         :return:
         """
-        serializer = RegistrySerializer(data=request.data)
+        serializer = DeviceSerializer(data=request.data)
         if serializer.is_valid():
             tag = request.data["tag"]
             print(
@@ -50,11 +54,10 @@ class RegistryView(GenericAPIView):
     @csrf_exempt
     def delete(self, request):
         try:
-            Registry.objects.get(tag=request.data["tag"]).delete()
+            Device.objects.get(tag=request.data["tag"]).delete()
             return Response({"acknowledge": True}, status=status.HTTP_200_OK)
-        except Registry.DoesNotExist:
+        except Device.DoesNotExist:
             return Response({"acknowledge": False}, status=status.HTTP_404_NOT_FOUND)
-
 
 
 class ConfigView(GenericAPIView):

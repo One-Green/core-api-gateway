@@ -83,11 +83,16 @@ class WaterTest(APITestCase):
                 data["force_nutrient_pump_signal"], r.data["force_nutrient_pump_signal"]
             )
             self.assertEqual(
-                data["force_ph_downer_pump_signal"], r.data["force_ph_downer_pump_signal"]
+                data["force_ph_downer_pump_signal"],
+                r.data["force_ph_downer_pump_signal"],
             )
             self.assertEqual(
                 data["force_mixer_pump_signal"], r.data["force_mixer_pump_signal"]
             )
             self.assertEqual(data["water_pump_signal"], r.data["water_pump_signal"])
-            self.assertEqual(data["nutrient_pump_signal"], r.data["nutrient_pump_signal"])
-            self.assertEqual(data["ph_downer_pump_signal"], r.data["ph_downer_pump_signal"])
+            self.assertEqual(
+                data["nutrient_pump_signal"], r.data["nutrient_pump_signal"]
+            )
+            self.assertEqual(
+                data["ph_downer_pump_signal"], r.data["ph_downer_pump_signal"]
+            )

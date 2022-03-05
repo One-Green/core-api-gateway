@@ -1,12 +1,12 @@
 from rest_framework import serializers
-from water.models import Config, ForceController
+from water.models import ForceController
 
 
-class RegistrySerializer(serializers.Serializer):
+class DeviceSerializer(serializers.Serializer):
     tag = serializers.CharField(write_only=True)
 
     class Meta:
-        ref_name = "water_registry"
+        ref_name = "water_device"
 
 
 class ConfigSerializer(serializers.Serializer):
