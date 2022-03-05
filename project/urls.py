@@ -60,10 +60,15 @@ urlpatterns = [
         sprinkler.views.ForceControllerView.as_view(),
         name="sprinkler-force",
     ),
-    # Water views
-    path("water/config", water.views.ConfigView.as_view(), name="water-config"),
     path(
-        "water/controller/force",
+        "water/registry",
+        water.views.RegistryView.as_view(),
+        name="water-registry",
+    ),
+    # Water views
+    path("water/config/<str:tag>", water.views.ConfigView.as_view(), name="water-config"),
+    path(
+        "water/controller/force/<str:tag>",
         water.views.ForceControllerView.as_view(),
         name="water-force",
     ),

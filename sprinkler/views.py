@@ -35,7 +35,7 @@ class RegistryView(GenericAPIView):
             print(
                 f"[{get_now()}] [INFO] "
                 f"New Sprinkler with {tag=} "
-                f"wan't to register ..."
+                f"want to register ..."
             )
             if Sprinklers().is_tag_in_registry(tag):
                 r = {"acknowledge": False}

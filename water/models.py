@@ -2,7 +2,12 @@ from django.db import models
 from datetime import datetime
 
 
+class Registry(models.Model):
+    tag = models.CharField(unique=True, null=False, blank=False, max_length=200)
+
+
 class Config(models.Model):
+    tag = models.CharField(unique=True, null=False, blank=False, max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     ph_min_level = models.FloatField(blank=False, null=False)
@@ -12,6 +17,7 @@ class Config(models.Model):
 
 
 class Controller(models.Model):
+    tag = models.CharField(unique=True, null=False, blank=False, max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     water_pump_signal = models.BooleanField(blank=False, null=False)
@@ -22,7 +28,7 @@ class Controller(models.Model):
 
 class ForceController(models.Model):
     tag = models.CharField(
-        unique=True, null=False, blank=False, max_length=200, default="water"
+        unique=True, null=False, blank=False, max_length=200
     )
     updated_at = models.DateTimeField(auto_now=True)
     force_water_pump_signal = models.BooleanField(blank=False, null=False)
@@ -43,17 +49,31 @@ class Water:
         self.tds_max_level = 0.0
 
     @staticmethod
-    def get_controller_updated_datetime() -> datetime:
-        return Config.objects.get(tag="water").__dict__["updated_at"]
+    def get_controller_updated_datetime(tag: str) -> datetime:
+        return Config.objects.get(tag=tag).__dict__["updated_at"]
+
+    @staticmethod
+    def is_tag_in_registry(tag: str) -> bool:
+        if len(Registry.objects.filter(tag=tag)):
+            return True
+        else:
+            return False
+
+    @staticmethod
+    def add_tag_in_registry(tag: str) -> bool:
+        v, c = Registry.objects.update_or_create(tag=tag)
+        return c
 
     @staticmethod
     def update_config(
-        ph_min_level: float,
-        ph_max_level: float,
-        tds_min_level: float,
-        tds_max_level: float,
+            tag: str,
+            ph_min_level: float,
+            ph_max_level: float,
+            tds_min_level: float,
+            tds_max_level: float,
     ):
         Config.objects.update_or_create(
+            tag=tag,
             defaults={
                 "ph_min_level": ph_min_level,
                 "ph_max_level": ph_max_level,
@@ -63,9 +83,9 @@ class Water:
         )
         return True
 
-    def get_config(self):
+    def get_config(self, tag: str):
         try:
-            _ = Config.objects.all().values()[0]
+            _ = Config.objects.get(tag=tag).__dict__
         except IndexError:
             return {
                 "ph_min_level": "not_set",
@@ -81,16 +101,18 @@ class Water:
 
     @staticmethod
     def update_controller_force(
-        force_water_pump_signal: bool,
-        force_nutrient_pump_signal: bool,
-        force_ph_downer_pump_signal: bool,
-        force_mixer_pump_signal: bool,
-        water_pump_signal: bool,
-        nutrient_pump_signal: bool,
-        ph_downer_pump_signal: bool,
-        mixer_pump_signal: bool,
+            tag: str,
+            force_water_pump_signal: bool,
+            force_nutrient_pump_signal: bool,
+            force_ph_downer_pump_signal: bool,
+            force_mixer_pump_signal: bool,
+            water_pump_signal: bool,
+            nutrient_pump_signal: bool,
+            ph_downer_pump_signal: bool,
+            mixer_pump_signal: bool,
     ):
         ForceController.objects.update_or_create(
+            tag=tag,
             defaults={
                 "force_water_pump_signal": force_water_pump_signal,
                 "force_nutrient_pump_signal": force_nutrient_pump_signal,
@@ -105,9 +127,9 @@ class Water:
         return True
 
     @staticmethod
-    def get_controller_force():
+    def get_controller_force(tag):
         try:
-            _ = ForceController.objects.all().values()[0]
+            _ = ForceController.objects.get(tag=tag).__dict__
         except IndexError:
             return {
                 "force_water_pump_signal": False,
