@@ -11,6 +11,7 @@ class Config(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    water_tag_link = models.CharField(unique=True, null=False, blank=False, max_length=200)
     soil_moisture_min_level = models.FloatField(blank=False, null=False)
     soil_moisture_max_level = models.FloatField(blank=False, null=False)
 
@@ -32,6 +33,7 @@ class ForceController(models.Model):
 
 class Sprinklers:
     def __init__(self):
+        self.water_tag_link = "not_linked_to_water"
         self.soil_moisture_min_level: float = 0.0
         self.soil_moisture_max_level: float = 0.0
 
@@ -54,12 +56,14 @@ class Sprinklers:
     @staticmethod
     def update_config(
         tag: str,
+        water_tag_link: str,
         soil_moisture_min_level: float,
         soil_moisture_max_level: float,
     ):
         Config.objects.update_or_create(
             tag=tag,
             defaults={
+                "water_tag_link": water_tag_link,
                 "soil_moisture_min_level": soil_moisture_min_level,
                 "soil_moisture_max_level": soil_moisture_max_level,
             },
@@ -68,6 +72,7 @@ class Sprinklers:
 
     def get_config(self, tag: str):
         _ = Config.objects.get(tag=tag).__dict__
+        self.water_tag_link = _["water_tag_link"]
         self.soil_moisture_min_level = _["soil_moisture_min_level"]
         self.soil_moisture_max_level = _["soil_moisture_max_level"]
         return _

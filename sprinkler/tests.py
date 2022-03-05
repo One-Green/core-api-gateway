@@ -5,11 +5,11 @@ from random import randint
 
 REGISTRY_URL = reverse("sprinkler-registry")
 TAGS = [
-    {"tag": "test1"},
-    {"tag": "test2"},
-    {"tag": "test3"},
-    {"tag": "test4"},
-    {"tag": "test5"},
+    {"tag": "test1", "water_tag_link": "water-test1"},
+    {"tag": "test2", "water_tag_link": "water-test2"},
+    {"tag": "test3", "water_tag_link": "water-test3"},
+    {"tag": "test4", "water_tag_link": "water-test4"},
+    {"tag": "test5", "water_tag_link": "water-test5"},
 ]
 
 
@@ -42,6 +42,7 @@ class SprinklerTests(APITestCase):
             data = {
                 "soil_moisture_min_level": randint(10, 30),
                 "soil_moisture_max_level": randint(50, 100),
+                "water_tag_link": _["water_tag_link"],
             }
             # Post configuration
             r = self.client.post(url, data, format="json")
@@ -86,6 +87,7 @@ class SprinklerTests(APITestCase):
             data = {
                 "force_water_valve_signal": randint(0, 1),
                 "water_valve_signal": randint(0, 1),
+                "water_tag_link": _["water_tag_link"],
             }
             # Post configuration
             r = self.client.post(url, data, format="json")

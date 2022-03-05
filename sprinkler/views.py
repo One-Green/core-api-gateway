@@ -83,6 +83,7 @@ class ConfigView(GenericAPIView):
         if serializer.is_valid():
             if Sprinklers().update_config(
                 tag=tag,
+                water_tag_link=request.data["water_tag_link"],
                 soil_moisture_min_level=request.data["soil_moisture_min_level"],
                 soil_moisture_max_level=request.data["soil_moisture_max_level"],
             ):
@@ -100,6 +101,7 @@ class ConfigView(GenericAPIView):
                         "soil_moisture_max_level": request.data[
                             "soil_moisture_max_level"
                         ],
+                        "water_tag_link": request.data["water_tag_link"]
                     },
                 },
                 status=status.HTTP_200_OK,
