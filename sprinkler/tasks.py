@@ -12,7 +12,7 @@ from project.settings import MQTT_PORT
 from project.settings import MQTT_USERNAME
 from project.settings import MQTT_PASSWORD
 from project.settings import MQTT_SPRINKLER_CONTROLLER_TOPIC
-from celery.decorators import task
+from celery import shared_task
 import paho.mqtt.client as mqtt
 import orjson as json
 
@@ -21,7 +21,7 @@ mqtt_client.username_pw_set(username=MQTT_USERNAME, password=MQTT_PASSWORD)
 mqtt_client.connect(MQTT_HOST, MQTT_PORT, 60)
 
 
-@task(name="sprinkler_control")
+@shared_task(name="sprinkler_control")
 def node_controller(message):
     """
     async task : read message from mqtt,

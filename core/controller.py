@@ -97,6 +97,9 @@ class TimeRangeController:
 
     def __init__(self, reverse: bool = False):
 
+        self.end_at = None
+        self.start_at = None
+        self.time_now = None
         self.time_now: datetime
         self.start_at: datetime
         self.end_at: datetime

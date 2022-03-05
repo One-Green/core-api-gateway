@@ -15,7 +15,7 @@ from sprinkler.models import Sprinklers
 from water.conf_def import WATER_CONTROLLER
 from water.models import Water
 from water.dict_def import WaterCtrlDict
-from celery.decorators import task
+from celery import shared_task
 
 CONTROLLED_DEVICE: str = "water"
 
@@ -25,7 +25,7 @@ mqtt_client.username_pw_set(username=MQTT_USERNAME, password=MQTT_PASSWORD)
 mqtt_client.connect(MQTT_HOST, MQTT_PORT, 60)
 
 
-@task(name="water_control")
+@shared_task(name="water_control")
 def node_controller(message):
     """
     async task : read message from mqtt,
