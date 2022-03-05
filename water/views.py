@@ -64,6 +64,7 @@ class ConfigView(GenericAPIView):
     def get(self, request, tag):
         """
         Return list of sprinkler tag available on registry
+        :param tag:
         :param request:
         :return:
         """
@@ -73,6 +74,7 @@ class ConfigView(GenericAPIView):
     def post(self, request, tag):
         """
         Change water configuration
+        :param tag:
         :param request:
         :return:
         """
@@ -99,6 +101,7 @@ class ForceControllerView(GenericAPIView):
     def get(self, request, tag):
         """
         Return list of sprinkler tag available on registry
+        :param tag:
         :param request:
         :return:
         """
@@ -108,6 +111,7 @@ class ForceControllerView(GenericAPIView):
     def post(self, request, tag):
         """
         Change water configuration
+        :param tag:
         :param request:
         :return:
         """
