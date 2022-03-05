@@ -15,7 +15,7 @@ from sprinkler.models import Sprinklers
 from water.conf_def import WATER_CONTROLLER
 from water.models import Water
 from water.dict_def import WaterCtrlDict
-from celery.decorators import task
+from celery import shared_task
 
 CONTROLLED_DEVICE: str = "water"
 
@@ -25,7 +25,7 @@ mqtt_client.username_pw_set(username=MQTT_USERNAME, password=MQTT_PASSWORD)
 mqtt_client.connect(MQTT_HOST, MQTT_PORT, 60)
 
 
-@task(name="water_control")
+@shared_task(name="water_control")
 def node_controller(message):
     """
     async task : read message from mqtt,
@@ -38,23 +38,25 @@ def node_controller(message):
     mqtt_client.reconnect()
 
     d: dict = parse_line(message + b" 0")
+    tag: str = d["tags"]["tag"]
     w = Water()
     nutrient_ctl = BinaryController()
     ph_ctl = BinaryController()
 
     try:
-        w.get_config()
+        w.get_config(tag)
     except ObjectDoesNotExist:
         w.update_config(
+            tag=tag,
             ph_min_level=WATER_CONTROLLER["pH"]["min_level"],
             ph_max_level=WATER_CONTROLLER["pH"]["max_level"],
             tds_min_level=WATER_CONTROLLER["tds"]["max_level"],
             tds_max_level=WATER_CONTROLLER["tds"]["max_level"],
         )
-        w.get_config()
+        w.get_config(tag)
 
     # Get actuator force configuration
-    force_controller = Water().get_controller_force()
+    force_controller = Water().get_controller_force(tag)
     # Nutrient control -----------
     nutrient_ctl.set_conf(_min=w.tds_min_level, _max=w.tds_max_level, reverse=False)
     nutrient_signal = nutrient_ctl.get_signal(d["fields"]["tds_level"])
@@ -75,7 +77,7 @@ def node_controller(message):
         mixer_signal = int(force_controller["mixer_pump_signal"])
 
     pub_d: dict = WaterCtrlDict(
-        tag="water",
+        tag=tag,
         water_pump_signal=water_signal,
         nutrient_pump_signal=int(nutrient_signal),
         ph_downer_pump_signal=int(ph_signal),

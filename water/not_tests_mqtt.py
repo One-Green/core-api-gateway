@@ -34,11 +34,8 @@ def on_connect(client, userdata, flags, rc):
         mqtt_client.publish(
             MQTT_WATER_SENSOR_TOPIC,
             influx_template.format(
-                nutrient_level_cm=12,
-                ph_downer_level_cm=20,
-                ph_level=10,
-                tds_level=1000
-            )
+                nutrient_level_cm=12, ph_downer_level_cm=20, ph_level=10, tds_level=1000
+            ),
         )
 
 

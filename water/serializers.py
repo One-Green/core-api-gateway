@@ -1,12 +1,22 @@
 from rest_framework import serializers
-from water.models import Config, ForceController
+from water.models import ForceController
 
 
-class ConfigSerializer(serializers.ModelSerializer):
+class DeviceSerializer(serializers.Serializer):
+    tag = serializers.CharField(write_only=True)
+
     class Meta:
-        ref_name = "water"
-        model = Config
-        fields = ["ph_min_level", "ph_max_level", "tds_min_level", "tds_max_level"]
+        ref_name = "water_device"
+
+
+class ConfigSerializer(serializers.Serializer):
+    ph_min_level = serializers.FloatField(write_only=True)
+    ph_max_level = serializers.FloatField(write_only=True)
+    tds_min_level = serializers.FloatField(write_only=True)
+    tds_max_level = serializers.FloatField(write_only=True)
+
+    class Meta:
+        ref_name = "water_config"
 
 
 class ForceControllerSerializer(serializers.ModelSerializer):

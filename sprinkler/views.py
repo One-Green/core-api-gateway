@@ -2,15 +2,15 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework import status
-from sprinkler.serializers import RegistrySerializer
+from sprinkler.serializers import DeviceSerializer
 from sprinkler.serializers import ConfigSerializer
 from sprinkler.serializers import ForceControllerSerializer
 from core.utils import get_now
-from sprinkler.models import Sprinklers, Registry
+from sprinkler.models import Sprinklers, Device
 
 
-class RegistryView(GenericAPIView):
-    serializer_class = RegistrySerializer
+class DeviceView(GenericAPIView):
+    serializer_class = DeviceSerializer
 
     @csrf_exempt
     def get(self, request):
@@ -19,7 +19,7 @@ class RegistryView(GenericAPIView):
         :param request:
         :return:
         """
-        r = Registry.objects.values_list("tag", flat=True)
+        r = Device.objects.values_list("tag", flat=True)
         return Response(r, status=status.HTTP_200_OK)
 
     @csrf_exempt
@@ -29,13 +29,13 @@ class RegistryView(GenericAPIView):
         :param request:
         :return:
         """
-        serializer = RegistrySerializer(data=request.data)
+        serializer = DeviceSerializer(data=request.data)
         if serializer.is_valid():
             tag = request.data["tag"]
             print(
                 f"[{get_now()}] [INFO] "
                 f"New Sprinkler with {tag=} "
-                f"wan't to register ..."
+                f"want to register ..."
             )
             if Sprinklers().is_tag_in_registry(tag):
                 r = {"acknowledge": False}
@@ -52,9 +52,9 @@ class RegistryView(GenericAPIView):
     @csrf_exempt
     def delete(self, request):
         try:
-            Registry.objects.get(tag=request.data["tag"]).delete()
+            Device.objects.get(tag=request.data["tag"]).delete()
             return Response({"acknowledge": True}, status=status.HTTP_200_OK)
-        except Registry.DoesNotExist:
+        except Device.DoesNotExist:
             return Response({"acknowledge": False}, status=status.HTTP_404_NOT_FOUND)
 
 
@@ -83,6 +83,7 @@ class ConfigView(GenericAPIView):
         if serializer.is_valid():
             if Sprinklers().update_config(
                 tag=tag,
+                water_tag_link=request.data["water_tag_link"],
                 soil_moisture_min_level=request.data["soil_moisture_min_level"],
                 soil_moisture_max_level=request.data["soil_moisture_max_level"],
             ):
@@ -100,6 +101,7 @@ class ConfigView(GenericAPIView):
                         "soil_moisture_max_level": request.data[
                             "soil_moisture_max_level"
                         ],
+                        "water_tag_link": request.data["water_tag_link"],
                     },
                 },
                 status=status.HTTP_200_OK,

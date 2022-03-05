@@ -155,9 +155,7 @@ CELERY_RESULT_SERIALIZER = "pickle"
 CELERY_TIMEZONE = "UTC"
 
 # MQTT configuration
-MQTT_HOST: str = os.getenv(
-    "MQTT_HOST", "127.0.0.1"
-)
+MQTT_HOST: str = os.getenv("MQTT_HOST", "127.0.0.1")
 MQTT_PORT: int = int(os.getenv("MQTT_PORT", 1883))
 MQTT_USERNAME: str = os.getenv("MQTT_USERNAME")
 MQTT_PASSWORD: str = os.getenv("MQTT_PASSWORD")
