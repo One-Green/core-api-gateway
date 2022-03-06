@@ -11,7 +11,7 @@ class Device(models.Model):
 
 
 class Config(models.Model):
-    tag = models.ForeignKey(
+    tag = models.OneToOneField(
         Device, on_delete=models.CASCADE, related_name="sprinkler_Config_tag"
     )
     water_tag_link = models.ForeignKey(WaterDevice, on_delete=models.CASCADE)
@@ -27,7 +27,7 @@ class Config(models.Model):
 
 
 class Controller(models.Model):
-    tag = models.ForeignKey(
+    tag = models.OneToOneField(
         Device, on_delete=models.CASCADE, related_name="sprinkler_Controller_tag"
     )
     created_at = models.DateTimeField(auto_now_add=True)
@@ -40,7 +40,7 @@ class Controller(models.Model):
 
 
 class ForceController(models.Model):
-    tag = models.ForeignKey(
+    tag = models.OneToOneField(
         Device, on_delete=models.CASCADE, related_name="sprinkler_ForceController_tag"
     )
     updated_at = models.DateTimeField(auto_now=True)

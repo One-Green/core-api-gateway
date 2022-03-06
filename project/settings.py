@@ -172,4 +172,4 @@ MQTT_LIGHT_TOPIC: str = "light/sensor"
 MQTT_LIGHT_CONTROLLER_TOPIC: str = "light/controller"
 
 # Default values
-DEFAULT_WATER_DEVICE = "trap-water"
+DEFAULT_WATER_DEVICE = "tap-water"
