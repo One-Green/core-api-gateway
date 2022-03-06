@@ -16,6 +16,7 @@ from water.conf_def import WATER_CONTROLLER
 from water.models import Water
 from water.dict_def import WaterCtrlDict
 from celery import shared_task
+from posixpath import join
 
 CONTROLLED_DEVICE: str = "water"
 
@@ -42,7 +43,7 @@ def node_controller(message):
     w = Water()
     nutrient_ctl = BinaryController()
     ph_ctl = BinaryController()
-
+    w.add_tag_in_registry(tag)
     try:
         w.get_config(tag)
     except ObjectDoesNotExist:
@@ -68,7 +69,7 @@ def node_controller(message):
     if force_controller["force_ph_downer_pump_signal"]:
         ph_signal = int(force_controller["ph_downer_pump_signal"])
     # water pump control ----------
-    water_signal = int(Sprinklers().is_any_require_water())
+    water_signal = int(Sprinklers().is_any_require_water(water_tag_link=tag))
     if force_controller["force_water_pump_signal"]:
         water_signal = int(force_controller["water_pump_signal"])
     # mixer pump control ----------
@@ -87,4 +88,4 @@ def node_controller(message):
         ph_max_level=w.ph_max_level,
         ph_min_level=w.ph_min_level,
     )
-    mqtt_client.publish(MQTT_WATER_CONTROLLER_TOPIC, json.dumps(pub_d))
+    mqtt_client.publish(join(MQTT_WATER_CONTROLLER_TOPIC, tag), json.dumps(pub_d))
