@@ -101,15 +101,7 @@ class Water:
         return True
 
     def get_config(self, tag: str):
-        try:
-            _ = Config.objects.get(tag=Device.objects.get(tag=tag)).__dict__
-        except IndexError:
-            return {
-                "ph_min_level": "not_set",
-                "ph_max_level": "not_set",
-                "tds_min_level": "not_set",
-                "tds_max_level": "not_set",
-            }
+        _ = Config.objects.get(tag=Device.objects.get(tag=tag)).__dict__
         self.ph_min_level = _["ph_min_level"]
         self.ph_max_level = _["ph_max_level"]
         self.tds_min_level = _["tds_min_level"]
@@ -147,7 +139,7 @@ class Water:
     def get_controller_force(tag):
         try:
             _ = ForceController.objects.get(tag=Device.objects.get(tag=tag)).__dict__
-        except IndexError:
+        except ForceController.DoesNotExist:
             return {
                 "force_water_pump_signal": False,
                 "force_nutrient_pump_signal": False,
