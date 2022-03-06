@@ -21,25 +21,20 @@ from water.tasks import node_controller
 CONTROLLED_DEVICE: str = "water"
 
 BONJOUR: str = f"""
-#=============================================================================#
-#         wWWWw               wWWWw                          _                #
-#   vVVVv (___) wWWWw         (___)  vVVVv                  | |               #
-#   (___)  ~Y~  (___)  vVVVv   ~Y~   (___)  __      __ __ _ | |_  ___  _ __   #
-#    ~Y~   \|    ~Y~   (___)    |/    ~Y~    \ \ /\ / // _` || __|/ _ \| '__| #
-#    \|   \ |/   \| /  \~Y~/   \|    \ |/     \ V  V /| (_| || |_|  __/| |    #
-#jgs^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^   \_/\_/  \__,_| \__|\___||_|    #
-#=============================================================================#
-
+  ___  _ __   ___        __ _ _ __ ___  ___ _ __   (_) ___  
+ / _ \| '_ \ / _ \_____ / _` | '__/ _ \/ _ \ '_ \  | |/ _ \ 
+| (_) | | | |  __/_____| (_| | | |  __/  __/ | | |_| | (_) |
+ \___/|_| |_|\___|      \__, |_|  \___|\___|_| |_(_)_|\___/ 
+                        |___/                               
 {MQTT_HOST=} 
 {MQTT_PORT=}
-INPUT={MQTT_WATER_SENSOR_TOPIC=}
-OUTPUT={MQTT_WATER_CONTROLLER_TOPIC=}
+{MQTT_WATER_SENSOR_TOPIC=}
+{MQTT_WATER_CONTROLLER_TOPIC=}/<water-tag>
 VERSION={__version__}
 REPO={__repo__}
-Thanks to Joan G. Stark for ascii art https://www.asciiart.eu/plants/flowers
-
-Controller started
-
+---------------------------------------------
+Starting controller {CONTROLLED_DEVICE} ...
+---------------------------------------------
 """
 print(BONJOUR)
 

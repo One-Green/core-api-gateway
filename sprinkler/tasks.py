@@ -12,9 +12,11 @@ from project.settings import MQTT_PORT
 from project.settings import MQTT_USERNAME
 from project.settings import MQTT_PASSWORD
 from project.settings import MQTT_SPRINKLER_CONTROLLER_TOPIC
+from project.settings import DEFAULT_WATER_DEVICE
 from celery import shared_task
 import paho.mqtt.client as mqtt
 import orjson as json
+from posixpath import join
 
 mqtt_client = mqtt.Client()
 mqtt_client.username_pw_set(username=MQTT_USERNAME, password=MQTT_PASSWORD)
@@ -38,10 +40,16 @@ def node_controller(message):
     print(d)
     s = Sprinklers()
     ctl = BinaryController()
+    s.add_tag_in_registry(tag)
     try:
         s.get_config(tag)
     except ObjectDoesNotExist:
-        s.update_config(tag=tag, soil_moisture_min_level=30, soil_moisture_max_level=70)
+        s.update_config(
+            tag=tag,
+            soil_moisture_min_level=30,
+            soil_moisture_max_level=70,
+            water_tag_link=DEFAULT_WATER_DEVICE,
+        )
         s.get_config(tag)
     ctl.set_conf(
         _min=s.soil_moisture_min_level, _max=s.soil_moisture_max_level, reverse=False
@@ -57,7 +65,7 @@ def node_controller(message):
     s.update_controller(tag=tag, water_valve_signal=bool(water_valve_signal))
 
     mqtt_client.publish(
-        MQTT_SPRINKLER_CONTROLLER_TOPIC,
+        join(MQTT_SPRINKLER_CONTROLLER_TOPIC, tag),
         json.dumps(
             SprinklerCtrlDict(
                 controller_type="sprinkler",
