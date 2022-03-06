@@ -9,6 +9,8 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "project.settings")
 sys.path.insert(0, os.path.abspath("."))
 django.setup()
 
+from water.models import Device as WaterDevice
+
 POSTGRES_DB = os.getenv("POSTGRES_DB", "postgres")
 POSTGRES_USER = os.getenv("POSTGRES_USER", "postgres")
 POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD", "postgres")
@@ -38,3 +40,7 @@ call_command("makemigrations", "sprinkler", interactive=False, verbosity=2)
 call_command("makemigrations", "water", interactive=False, verbosity=2)
 call_command("makemigrations", "light", interactive=False, verbosity=2)
 call_command("migrate", interactive=False, verbosity=2)
+
+# Water devices
+# Creating default device
+WaterDevice(tag="tap-water").save()
