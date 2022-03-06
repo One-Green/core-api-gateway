@@ -27,16 +27,21 @@ from project.settings import MQTT_SPRINKLER_SENSOR_TOPIC
 from project.settings import MQTT_SPRINKLER_CONTROLLER_TOPIC
 from tasks import node_controller
 
+CONTROLLED_DEVICE = "sprinkler"
 BONJOUR: str = f"""
-#########################################
-## {MQTT_HOST=}
-## {MQTT_PORT=}
-## {MQTT_SPRINKLER_SENSOR_TOPIC=}
-## {MQTT_SPRINKLER_CONTROLLER_TOPIC=}
-#########################################
-Controller starting 
+  ___  _ __   ___        __ _ _ __ ___  ___ _ __   (_) ___  
+ / _ \| '_ \ / _ \_____ / _` | '__/ _ \/ _ \ '_ \  | |/ _ \ 
+| (_) | | | |  __/_____| (_| | | |  __/  __/ | | |_| | (_) |
+ \___/|_| |_|\___|      \__, |_|  \___|\___|_| |_(_)_|\___/ 
+                        |___/                               
+{MQTT_HOST=} 
+{MQTT_PORT=}
+{MQTT_SPRINKLER_SENSOR_TOPIC=}
+{MQTT_SPRINKLER_CONTROLLER_TOPIC=}/<sprinkler-tag>
+---------------------------------------------
+Starting controller {CONTROLLED_DEVICE} ...
+---------------------------------------------
 """
-
 print(BONJOUR)
 
 
