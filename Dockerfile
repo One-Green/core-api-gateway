@@ -15,9 +15,5 @@ COPY . /app
 COPY --from=builder /py-dependencies /py-dependencies
 ENV PYTHONPATH="${PYTHONPATH}:/py-dependencies"
 
-RUN pip3 --no-cache-dir install --upgrade pip \
-    && pip3 install psycopg2-binary --target=/py-dependencies \
-    && apk --no-cache add tzdata
-
 CMD []
 ENTRYPOINT []
