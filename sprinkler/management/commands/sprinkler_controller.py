@@ -28,8 +28,10 @@ print(BONJOUR)
 
 
 class Command(BaseCommand):
-    help = ('Start Sprinkler controller '
-            '(consume sensor MQTT topic > rules management > Produce into controller MQTT topic')
+    help = (
+        "Start Sprinkler controller "
+        "(consume sensor MQTT topic > rules management > Produce into controller MQTT topic"
+    )
 
     def on_connect(self, client, userdata, flags, rc):
         print(

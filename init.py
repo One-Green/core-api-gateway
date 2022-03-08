@@ -54,9 +54,7 @@ except django.db.IntegrityError:
 # Admin user creation
 try:
     User.objects.create_superuser(
-        DJANGO_ADMIN_USERNAME,
-        'cre@ted-by-helm-chart.com',
-        DJANGO_ADMIN_PASSWORD
+        DJANGO_ADMIN_USERNAME, "cre@ted-by-helm-chart.com", DJANGO_ADMIN_PASSWORD
     )
 except django.db.IntegrityError:
     pass

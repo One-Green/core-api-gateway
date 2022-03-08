@@ -33,7 +33,7 @@ print(BONJOUR)
 
 
 class Command(BaseCommand):
-    help = 'Start Water controller (consume sensor MQTT topic > rules management > Produce into controller MQTT topic'
+    help = "Start Water controller (consume sensor MQTT topic > rules management > Produce into controller MQTT topic"
 
     def on_connect(self, client, userdata, flags, rc):
         print(

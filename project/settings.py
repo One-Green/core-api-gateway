@@ -14,8 +14,8 @@ import os
 from pathlib import Path
 from tzlocal import get_localzone
 
-__repo__ = "https://github.com/Plant-Keeper/plant-keeper-master"
-__version__ = "beta"
+__repo__ = "https://github.com/One-Green/core-api-gateway"
+__version__ = "0.0.4"
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
@@ -27,11 +27,20 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 SECRET_KEY = "d#13myqgw8$g=*)z5zv0q^)^#kra!77mjtbg07zgada@pnmn0a"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+try:
+    if os.getenv("DEBUG").lower() == "true":
+        DEBUG = True
+    elif os.getenv("DEBUG").lower() == "false":
+        DEBUG = False
+except AttributeError:
+    DEBUG = False
 
 ALLOWED_HOSTS = ["*"]
+CSRF_TRUSTED_ORIGINS = [
+    os.getenv("CSRF_TRUSTED_ORIGINS", "csrf-trusted-origins-not-set"),
+]
 
-# Application definitionc
+# Application definition
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
