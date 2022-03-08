@@ -10,12 +10,15 @@ sys.path.insert(0, os.path.abspath("."))
 django.setup()
 
 from water.models import Device as WaterDevice
+from django.contrib.auth.models import User
 
 POSTGRES_DB = os.getenv("POSTGRES_DB", "postgres")
 POSTGRES_USER = os.getenv("POSTGRES_USER", "postgres")
 POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD", "postgres")
 POSTGRES_HOST = os.getenv("POSTGRES_HOST", "localhost")
 POSTGRES_PORT = os.getenv("POSTGRES_PORT", "5432")
+DJANGO_ADMIN_USERNAME = os.getenv("DJANGO_ADMIN_USERNAME")
+DJANGO_ADMIN_PASSWORD = os.getenv("DJANGO_ADMIN_PASSWORD")
 
 con = psycopg2.connect(
     host=POSTGRES_HOST,
@@ -45,5 +48,15 @@ call_command("migrate", interactive=False, verbosity=2)
 # Creating default device
 try:
     WaterDevice(tag="tap-water").save()
+except django.db.IntegrityError:
+    pass
+
+# Admin user creation
+try:
+    User.objects.create_superuser(
+        DJANGO_ADMIN_USERNAME,
+        'cre@ted-by-helm-chart.com',
+        DJANGO_ADMIN_PASSWORD
+    )
 except django.db.IntegrityError:
     pass
