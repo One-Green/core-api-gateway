@@ -38,6 +38,9 @@ jobs:
       - name: Init django db
         run: |
           python init.py
+        env:
+          DJANGO_ADMIN_USERNAME: admin
+          DJANGO_ADMIN_PASSWORD: admin
 
       - name: Global configuration tests
         run: |

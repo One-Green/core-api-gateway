@@ -37,7 +37,7 @@ except AttributeError:
 
 ALLOWED_HOSTS = ["*"]
 CSRF_TRUSTED_ORIGINS = [
-    os.getenv("CSRF_TRUSTED_ORIGINS", "csrf-trusted-origins-not-set"),
+    os.getenv("CSRF_TRUSTED_ORIGINS", "https://csrf-trusted-origins-not-set"),
 ]
 
 # Application definition
