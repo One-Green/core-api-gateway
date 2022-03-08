@@ -43,4 +43,7 @@ call_command("migrate", interactive=False, verbosity=2)
 
 # Water devices
 # Creating default device
-WaterDevice(tag="tap-water").save()
+try:
+    WaterDevice(tag="tap-water").save()
+except django.db.IntegrityError:
+    pass
