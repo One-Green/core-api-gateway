@@ -41,19 +41,28 @@ jobs:
         env:
           DJANGO_ADMIN_USERNAME: admin
           DJANGO_ADMIN_PASSWORD: admin
+          DEBUG: true
 
       - name: Global configuration tests
         run: |
           python manage.py test glbl
+        env:
+          DEBUG: true
 
       - name: Water tests
         run: |
           python manage.py test water
+        env:
+          DEBUG: true
 
       - name: Sprinkler tests
         run: |
           python manage.py test sprinkler
+        env:
+          DEBUG: true
 
       - name: Light tests
         run: |
           python manage.py test light
+        env:
+          DEBUG: true

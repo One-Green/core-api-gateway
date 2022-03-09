@@ -27,22 +27,17 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 SECRET_KEY = "d#13myqgw8$g=*)z5zv0q^)^#kra!77mjtbg07zgada@pnmn0a"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-try:
-    if os.getenv("DEBUG").lower() == "true":
-        DEBUG = True
-        ALLOWED_HOSTS = ["*"]
-    elif os.getenv("DEBUG").lower() == "false":
-        DEBUG = False
-        ALLOWED_HOSTS = [
-            os.getenv("ALLOWED_HOSTS", "allowed-hosts-not-set"),
-        ]
-except AttributeError:
-    DEBUG = False
+if os.getenv("DEBUG").lower() == "true":
+    DEBUG = True
     ALLOWED_HOSTS = ["*"]
-
-CSRF_TRUSTED_ORIGINS = [
-    os.getenv("CSRF_TRUSTED_ORIGINS", "https://csrf-trusted-origins-not-set"),
-]
+elif os.getenv("DEBUG").lower() == "false":
+    DEBUG = False
+    ALLOWED_HOSTS = [
+        os.getenv("ALLOWED_HOSTS"),
+    ]
+    CSRF_TRUSTED_ORIGINS = [
+        os.getenv("CSRF_TRUSTED_ORIGINS"),
+    ]
 
 # Application definition
 INSTALLED_APPS = [
