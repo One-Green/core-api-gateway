@@ -6,7 +6,7 @@ COPY requirements.txt requirements.txt
 
 RUN apk --no-cache add g++ cargo patchelf
 RUN pip3 --no-cache-dir install --upgrade pip
-RUN pip3 --no-cache-dir install -r /app/requirements.txt --target=/py-dependencies
+RUN pip3 --no-cache-dir install -r /app/requirements.txt --target=/py-dependencies --no-dependencies
 
 FROM python:3.10.2-alpine3.15 as run
 WORKDIR /app
