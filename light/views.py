@@ -2,15 +2,15 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework import status
-from light.serializers import RegistrySerializer
+from light.serializers import DeviceSerializer
 from light.serializers import ConfigSerializer
 from light.serializers import ForceControllerSerializer
 from core.utils import get_now
-from light.models import Light, Registry
+from light.models import Light, Device
 
 
-class RegistryView(GenericAPIView):
-    serializer_class = RegistrySerializer
+class DeviceView(GenericAPIView):
+    serializer_class = DeviceSerializer
 
     @csrf_exempt
     def get(self, request):
@@ -19,7 +19,7 @@ class RegistryView(GenericAPIView):
         :param request:
         :return:
         """
-        r = Registry.objects.values_list("tag", flat=True)
+        r = Device.objects.values_list("tag", flat=True)
         return Response(r, status=status.HTTP_200_OK)
 
     @csrf_exempt
@@ -29,7 +29,7 @@ class RegistryView(GenericAPIView):
         :param request:
         :return:
         """
-        serializer = RegistrySerializer(data=request.data)
+        serializer = DeviceSerializer(data=request.data)
         if serializer.is_valid():
             tag = request.data["tag"]
             print(f"[{get_now()}] [INFO] New Light with {tag=} want to register ...")
@@ -50,9 +50,9 @@ class RegistryView(GenericAPIView):
     @csrf_exempt
     def delete(self, request):
         try:
-            Registry.objects.get(tag=request.data["tag"]).delete()
+            Device.objects.get(tag=request.data["tag"]).delete()
             return Response({"acknowledge": True}, status=status.HTTP_200_OK)
-        except Registry.DoesNotExist:
+        except Device.DoesNotExist:
             return Response({"acknowledge": False}, status=status.HTTP_404_NOT_FOUND)
 
 

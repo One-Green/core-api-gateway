@@ -85,7 +85,7 @@ urlpatterns = [
         name="water-force",
     ),
     # WIP
-    path("light/registry", light.views.RegistryView.as_view(), name="light-registry"),
+    path("light/device", light.views.DeviceView.as_view(), name="light-registry"),
     path(
         "light/config/<str:tag>", light.views.ConfigView.as_view(), name="light-config"
     ),

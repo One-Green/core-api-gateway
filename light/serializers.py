@@ -2,11 +2,11 @@ from rest_framework import serializers
 from light.models import ForceController
 
 
-class RegistrySerializer(serializers.Serializer):
+class DeviceSerializer(serializers.Serializer):
     tag = serializers.CharField(write_only=True)
 
     class Meta:
-        ref_name = "light_registry"
+        ref_name = "light_device"
 
 
 class ConfigSerializer(serializers.Serializer):

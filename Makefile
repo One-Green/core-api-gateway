@@ -16,11 +16,10 @@ start-postgres:
 	sudo docker run --name postgres-dev -d -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres  postgres
 
 migrate-db: start-postgres
-	sleep 3s
+	sleep 5
 	find . -path "*/migrations/*.py" -not -name "__init__.py" -delete
 	find . -path "*/migrations/*.pyc"  -delete
-	pipenv run python init.py
-	pipenv run python manage.py shell -c "from django.contrib.auth.models import User; User.objects.create_superuser('admin', 'admin@example.com', 'admin')"
+	python init.py
 
 
 start-services: start-postgres start-mqtt start-redis migrate-db start-celery-workers
