@@ -31,11 +31,37 @@ class DailyTimeRange(models.Model):
             raise ValueError(
                 f"{self.off_at=} <= {self.on_at=}. "
                 f"ON time must be lower than OFF time"
-                             )
+            )
         super(DailyTimeRange, self).save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.name}"
+
+
+class CalendarRange(models.Model):
+    name = models.CharField(unique=True, null=False, blank=False, max_length=200)
+    start_date_at = models.DateField(blank=False, null=False)
+    end_date_at = models.DateField(blank=False, null=False)
+    on_time_at = models.TimeField(blank=False, null=False)
+    off_time_at = models.TimeField(blank=False, null=False)
+
+    def save(self, *args, **kwargs):
+        # check time coherence before commit
+        if self.off_time_at < self.on_time_at:
+            raise ValueError(
+                f"{self.off_time_at=} < {self.on_time_at=}. "
+                f"ON time must be lower than OFF time"
+            )
+        if self.end_date_at < self.start_date_at:
+            raise ValueError(
+                f"{self.end_date_at=} < {self.start_date_at=}. "
+                f"START date must be lower than START date"
+            )
+        super(CalendarRange, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.name}"
+
 
 class Config(models.Model):
     tag = models.OneToOneField(
@@ -44,8 +70,18 @@ class Config(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    use_default_config = models.BooleanField(blank=False, null=False)
+    use_default_config = models.BooleanField(blank=False, null=False, default=True)
     default_config = models.OneToOneField(DailyTimeRange, on_delete=models.CASCADE)
+
+    use_planner_config = models.BooleanField(blank=False, null=True, default=False)
+    planner = models.ManyToManyField(CalendarRange, blank=True)
+
+    def save(self, *args, **kwargs):
+        if self.use_default_config and self.use_planner_config:
+            raise ValueError(
+                "You can not use default config and planner config at same time, check only one"
+            )
+        super(Config, self).save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.tag}"
@@ -98,9 +134,9 @@ class Light:
 
     @staticmethod
     def update_config(
-            tag: str,
-            on_datetime_at: datetime,
-            off_datetime_at: datetime,
+        tag: str,
+        on_datetime_at: datetime,
+        off_datetime_at: datetime,
     ):
         Config.objects.update_or_create(
             tag=Device.objects.get(tag=tag),
@@ -129,9 +165,9 @@ class Light:
 
     @staticmethod
     def update_controller_force(
-            tag: str,
-            force_light_signal: bool,
-            light_signal: bool,
+        tag: str,
+        force_light_signal: bool,
+        light_signal: bool,
     ):
         ForceController.objects.update_or_create(
             tag=Device.objects.get(tag=tag),
