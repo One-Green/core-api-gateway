@@ -35,9 +35,6 @@ class ConfigSerializer(serializers.ModelSerializer):
         ref_name = "light_configuration"
         model = Config
         fields = "__all__"
-        related_fields = ["tag"]
-
-    tag = serializers.IntegerField(source="light_config_tag")
 
 
 class ControllerSerializer(serializers.ModelSerializer):
@@ -45,9 +42,6 @@ class ControllerSerializer(serializers.ModelSerializer):
         ref_name = "light_controller"
         model = Controller
         fields = "__all__"
-        related_fields = ["tag"]
-
-    tag = serializers.IntegerField(source="light_controller_tag")
 
 
 class ForceControllerSerializer(serializers.ModelSerializer):
@@ -55,6 +49,3 @@ class ForceControllerSerializer(serializers.ModelSerializer):
         ref_name = "light_force_controller"
         model = ForceController
         fields = "__all__"
-        related_fields = ["tag"]
-
-    tag = serializers.IntegerField(source="light_force_controller_tag")
