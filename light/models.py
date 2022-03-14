@@ -1,7 +1,4 @@
-import pytz
 from django.db import models
-from datetime import datetime
-from glbl.models import GlobalConfig
 
 
 class Device(models.Model):
@@ -65,16 +62,22 @@ class CalendarRange(models.Model):
 
 class Config(models.Model):
     tag = models.OneToOneField(
-        Device, on_delete=models.CASCADE, related_name="light_Config_tag"
+        Device, on_delete=models.CASCADE, related_name="light_config_tag"
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     use_default_config = models.BooleanField(blank=False, null=False, default=True)
-    default_config = models.OneToOneField(DailyTimeRange, on_delete=models.CASCADE)
+    default_config = models.OneToOneField(
+        DailyTimeRange,
+        on_delete=models.CASCADE,
+        related_name="light_config_default_config",
+    )
 
     use_planner_config = models.BooleanField(blank=False, null=True, default=False)
-    planner = models.ManyToManyField(CalendarRange, blank=True)
+    planner_configs = models.ManyToManyField(
+        CalendarRange, blank=True, related_query_name="light_config_planner_configs"
+    )
 
     def save(self, *args, **kwargs):
         if self.use_default_config and self.use_planner_config:
@@ -89,7 +92,7 @@ class Config(models.Model):
 
 class Controller(models.Model):
     tag = models.OneToOneField(
-        Device, on_delete=models.CASCADE, related_name="light_Controller_tag"
+        Device, on_delete=models.CASCADE, related_name="light_controller_tag"
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -101,87 +104,10 @@ class Controller(models.Model):
 
 class ForceController(models.Model):
     tag = models.OneToOneField(
-        Device, on_delete=models.CASCADE, related_name="light_ForceController_tag"
+        Device, on_delete=models.CASCADE, related_name="light_force_controller_tag"
     )
     force_light_signal = models.BooleanField(blank=False, null=False)
     light_signal = models.BooleanField(blank=False, null=False)
 
     def __str__(self):
         return f"{self.tag}"
-
-
-class Light:
-    def __init__(self):
-        self.on_datetime_at: datetime
-        self.off_datetime_at: datetime
-
-    @staticmethod
-    def get_controller_updated_datetime(tag: str) -> datetime:
-        return Config.objects.get(tag=Device.objects.get(tag=tag)).updated_at
-
-    @staticmethod
-    def is_tag_in_registry(tag: str) -> bool:
-        try:
-            Device.objects.get(tag=tag)
-            return True
-        except Device.DoesNotExist:
-            return False
-
-    @staticmethod
-    def add_tag_in_registry(tag) -> bool:
-        v, c = Device.objects.update_or_create(tag=tag)
-        return c
-
-    @staticmethod
-    def update_config(
-        tag: str,
-        on_datetime_at: datetime,
-        off_datetime_at: datetime,
-    ):
-        Config.objects.update_or_create(
-            tag=Device.objects.get(tag=tag),
-            defaults={
-                "on_datetime_at": on_datetime_at,
-                "off_datetime_at": off_datetime_at,
-            },
-        )
-        return True
-
-    def get_config(self, tag: str):
-        timezone = GlobalConfig().get_config()["timezone"]
-        _ = Config.objects.get(tag=Device.objects.get(tag=tag)).__dict__
-        self.on_datetime_at = _["on_datetime_at"].astimezone(pytz.timezone(timezone))
-        self.off_datetime_at = _["off_datetime_at"].astimezone(pytz.timezone(timezone))
-        return _
-
-    @staticmethod
-    def update_controller(tag: str, light_signal: bool):
-        Controller.objects.update_or_create(
-            tag=Device.objects.get(tag=tag),
-            defaults={
-                "light_signal": light_signal,
-            },
-        )
-
-    @staticmethod
-    def update_controller_force(
-        tag: str,
-        force_light_signal: bool,
-        light_signal: bool,
-    ):
-        ForceController.objects.update_or_create(
-            tag=Device.objects.get(tag=tag),
-            defaults={
-                "force_light_signal": force_light_signal,
-                "light_signal": light_signal,
-            },
-        )
-        return True
-
-    @staticmethod
-    def get_controller_force(tag):
-        try:
-            _ = ForceController.objects.get(tag=Device.objects.get(tag=tag)).__dict__
-        except ForceController.DoesNotExist:
-            _ = {"tag": tag, "force_light_signal": False, "light_signal": False}
-        return _
