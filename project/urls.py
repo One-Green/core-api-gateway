@@ -83,5 +83,5 @@ urlpatterns = [
         water.views.ForceControllerView.as_view(),
         name="water-force",
     ),
-    path("light/", include("light.urls")),
+    path("light/", include(("light.urls", "light"), namespace="light")),
 ]
