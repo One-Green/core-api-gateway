@@ -16,7 +16,6 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import permissions
-from rest_framework import routers
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from drf_yasg.generators import OpenAPISchemaGenerator
@@ -24,12 +23,6 @@ from drf_yasg.generators import OpenAPISchemaGenerator
 import glbl.views
 import sprinkler.views
 import water.views
-
-from light.urls import router as light_router
-
-
-router = routers.DefaultRouter()
-router.registry.extend(light_router.registry)
 
 
 class BothHttpAndHttpsSchemaGenerator(OpenAPISchemaGenerator):
@@ -90,5 +83,5 @@ urlpatterns = [
         water.views.ForceControllerView.as_view(),
         name="water-force",
     ),
-    path("light/", include(router.urls)),
+    path("light/", include("light.urls")),
 ]

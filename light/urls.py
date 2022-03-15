@@ -15,3 +15,5 @@ router.register("config-daily", DailyTimeRangeView)
 router.register("config-calendar", CalendarRangeView)
 router.register("controller", ControllerView)
 router.register("controller-force", ForceControllerView)
+
+urlpatterns = router.urls
