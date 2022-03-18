@@ -153,6 +153,8 @@ REST_FRAMEWORK = {
         "django_filters.rest_framework.DjangoFilterBackend",
         "rest_framework.filters.SearchFilter",
     ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10
 }
 
 # CELERY + REDIS configuration
@@ -181,7 +183,7 @@ MQTT_SPRINKLER_CONTROLLER_TOPIC: str = "sprinkler/controller"
 MQTT_WATER_SENSOR_TOPIC: str = "water/sensor"
 MQTT_WATER_CONTROLLER_TOPIC: str = "water/controller"
 # LIGHT TOPICS ------------------------------------
-MQTT_LIGHT_TOPIC: str = "light/sensor"
+MQTT_LIGHT_SENSOR_TOPIC: str = "light/sensor"
 MQTT_LIGHT_CONTROLLER_TOPIC: str = "light/controller"
 
 # Default values

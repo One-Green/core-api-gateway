@@ -1,11 +1,17 @@
 """
 Celery + Redis async tasks
 """
-
+import os.path
 from line_protocol_parser import parse_line
-from django.core.exceptions import ObjectDoesNotExist
-from core.controller import TimeRangeController
-from light.models import Light
+from light.models import (
+    Device,
+    Sensor,
+    ConfigType,
+    DailyTimeRange,
+    CalendarRange,
+    Controller,
+    ForceController
+)
 from light.dict_def import LightCtrlDict
 from project.settings import MQTT_HOST
 from project.settings import MQTT_PORT
@@ -15,10 +21,8 @@ from project.settings import MQTT_LIGHT_CONTROLLER_TOPIC
 from celery import shared_task
 import paho.mqtt.client as mqtt
 import orjson as json
-from datetime import datetime, timedelta
-from glbl.models import GlobalConfig
-from project.settings import SYSTEM_TIME_ZONE
-import pytz
+
+
 
 mqtt_client = mqtt.Client()
 mqtt_client.username_pw_set(username=MQTT_USERNAME, password=MQTT_PASSWORD)
@@ -36,72 +40,39 @@ def node_controller(message):
     """
 
     mqtt_client.reconnect()
-
     d: dict = parse_line(message + b" 0")
     tag: str = d["tags"]["tag"]
-    light = Light()
-    ctl = TimeRangeController()
-    glbl_config = GlobalConfig().get_config()
 
-    if glbl_config:
-        timezone = glbl_config["timezone"]
-    else:
-        callback_d: dict = LightCtrlDict(
-            controller_type="light",
-            tag=tag,
-            tz="not_set",
-            on_time_at="",
-            off_time_at="",
-            light_signal=int(0),
-        )
+    Device.objects.update_or_create(tag=tag)
 
-        print("[ERROR] [LIGHT] Global configuration: Timezone not set")
-        mqtt_client.publish(
-            MQTT_LIGHT_CONTROLLER_TOPIC,
-            json.dumps(callback_d),
-        )
-        return callback_d
-
-    try:
-        light.get_config(tag)
-    except ObjectDoesNotExist:
-        on_datetime_at = datetime.now(tz=SYSTEM_TIME_ZONE).astimezone(
-            pytz.timezone(timezone)
-        )
-        off_datetime_at = datetime.now(tz=SYSTEM_TIME_ZONE).astimezone(
-            pytz.timezone(timezone)
-        )
-
-        light.update_config(
-            tag=tag,
-            on_datetime_at=on_datetime_at,
-            off_datetime_at=off_datetime_at + timedelta(hours=5),
-        )
-        light.get_config(tag)
-
-    current_datetime: datetime = datetime.now(tz=SYSTEM_TIME_ZONE).astimezone(
-        pytz.timezone(timezone)
+    Sensor.objects.update_or_create(
+        tag=Device.objects.get(tag=tag),
+        defaults={
+            "lux_lvl": d["fields"]["lux_lvl"],
+            "photo_resistor_raw": d["fields"]["photo_res_raw"],
+            "photo_resistor_percent": d["fields"]["photo_res_perc"]
+        }
     )
-    ctl.set_current_datetime(current_datetime)
+    # TODO:
+    #   - get config type
+    #   - if not config use default daily conf
+    #   - depends on dail/calendar based
+    #       retrieve on_at + off_at
+    #       if in range  (on_at < x < off_att) > signal = true
+    #       if force > signal = true
+    #   - update controller model status
 
-    ctl.set_conf(
-        start_at=light.on_datetime_at,
-        end_at=light.off_datetime_at,
-    )
-    signal = ctl.get_signal()
-
-    light.update_controller(tag=tag, light_signal=bool(signal))
-
+    # TODO use good values
+    #  on_at=on_datetime_at.strftime("%H:%M:%S"),
+    #  off_at=light.off_datetime_at.strftime("%H:%M:%S"),
     callback_d: dict = LightCtrlDict(
-        controller_type="light",
-        tag=tag,
-        tz=timezone,
-        on_time_at=light.on_datetime_at.strftime("%H:%M:%S"),
-        off_time_at=light.off_datetime_at.strftime("%H:%M:%S"),
-        light_signal=signal,
+        cfg_type="planner",
+        on_at="12:30:30",
+        off_at="16:30:30",
+        light_signal=0,
+        force_signal=1
     )
     mqtt_client.publish(
-        MQTT_LIGHT_CONTROLLER_TOPIC,
+        os.path.join(MQTT_LIGHT_CONTROLLER_TOPIC, tag),
         json.dumps(callback_d),
     )
-    return callback_d
