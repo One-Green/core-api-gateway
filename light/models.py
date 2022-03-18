@@ -60,6 +60,18 @@ class CalendarRange(models.Model):
         return f"{self.name}"
 
 
+class ConfigType(models.Model):
+    """
+    init.py fill which kind of light off/on amplification to use :
+        - daily
+        - planner
+    """
+    name = models.CharField(unique=True, max_length=20, blank=False, null=False)
+
+    def __str__(self):
+        return f"{self.name}"
+
+
 class Config(models.Model):
     tag = models.OneToOneField(
         Device, on_delete=models.CASCADE, related_name="light_config_tag"
@@ -67,24 +79,31 @@ class Config(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    use_default_config = models.BooleanField(blank=False, null=False, default=True)
-    default_config = models.OneToOneField(
-        DailyTimeRange,
-        on_delete=models.CASCADE,
-        related_name="light_config_default_config",
-    )
+    config_type = models.ForeignKey(ConfigType, on_delete=models.CASCADE, related_query_name="light_config_type")
 
-    use_planner_config = models.BooleanField(blank=False, null=True, default=False)
+    daily_config = models.ForeignKey(
+        DailyTimeRange,
+        related_name="light_config_default_config",
+        on_delete=models.CASCADE,
+    )
     planner_configs = models.ManyToManyField(
         CalendarRange, blank=True, related_query_name="light_config_planner_configs"
     )
 
-    def save(self, *args, **kwargs):
-        if self.use_default_config and self.use_planner_config:
-            raise ValueError(
-                "You can not use default config and planner config at same time, check only one"
-            )
-        super(Config, self).save(*args, **kwargs)
+    def __str__(self):
+        return f"{self.tag}"
+
+
+class Sensor(models.Model):
+    tag = models.OneToOneField(
+        Device, on_delete=models.CASCADE, related_name="light_sensor_tag"
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    lux_lvl = models.FloatField(blank=False, null=False)
+    photo_resistor_raw = models.IntegerField(blank=False, null=False)
+    photo_resistor_percent = models.IntegerField(blank=False, null=False)
 
     def __str__(self):
         return f"{self.tag}"

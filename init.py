@@ -10,6 +10,7 @@ sys.path.insert(0, os.path.abspath("."))
 django.setup()
 
 from water.models import Device as WaterDevice
+from light.models import ConfigType
 from django.contrib.auth.models import User
 
 POSTGRES_DB = os.getenv("POSTGRES_DB", "postgres")
@@ -51,6 +52,16 @@ try:
 except django.db.IntegrityError:
     pass
 
+# Light default configuration creation
+try:
+    ConfigType(name="daily").save()
+except django.db.IntegrityError:
+    pass
+try:
+    ConfigType(name="planner").save()
+except django.db.IntegrityError:
+    pass
+
 # Admin user creation
 try:
     User.objects.create_superuser(
@@ -58,3 +69,4 @@ try:
     )
 except django.db.IntegrityError:
     pass
+
