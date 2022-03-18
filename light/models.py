@@ -66,6 +66,7 @@ class ConfigType(models.Model):
         - daily
         - planner
     """
+
     name = models.CharField(unique=True, max_length=20, blank=False, null=False)
 
     def __str__(self):
@@ -79,7 +80,9 @@ class Config(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    config_type = models.ForeignKey(ConfigType, on_delete=models.CASCADE, related_query_name="light_config_type")
+    config_type = models.ForeignKey(
+        ConfigType, on_delete=models.CASCADE, related_query_name="light_config_type"
+    )
 
     daily_config = models.ForeignKey(
         DailyTimeRange,

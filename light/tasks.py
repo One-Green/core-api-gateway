@@ -10,7 +10,7 @@ from light.models import (
     DailyTimeRange,
     CalendarRange,
     Controller,
-    ForceController
+    ForceController,
 )
 from light.dict_def import LightCtrlDict
 from project.settings import MQTT_HOST
@@ -21,8 +21,6 @@ from project.settings import MQTT_LIGHT_CONTROLLER_TOPIC
 from celery import shared_task
 import paho.mqtt.client as mqtt
 import orjson as json
-
-
 
 mqtt_client = mqtt.Client()
 mqtt_client.username_pw_set(username=MQTT_USERNAME, password=MQTT_PASSWORD)
@@ -50,8 +48,8 @@ def node_controller(message):
         defaults={
             "lux_lvl": d["fields"]["lux_lvl"],
             "photo_resistor_raw": d["fields"]["photo_res_raw"],
-            "photo_resistor_percent": d["fields"]["photo_res_perc"]
-        }
+            "photo_resistor_percent": d["fields"]["photo_res_perc"],
+        },
     )
     # TODO:
     #   - get config type
@@ -70,7 +68,7 @@ def node_controller(message):
         on_at="12:30:30",
         off_at="16:30:30",
         light_signal=0,
-        force_signal=1
+        force_signal=1,
     )
     mqtt_client.publish(
         os.path.join(MQTT_LIGHT_CONTROLLER_TOPIC, tag),

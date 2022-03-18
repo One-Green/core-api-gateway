@@ -69,4 +69,3 @@ try:
     )
 except django.db.IntegrityError:
     pass
-

@@ -46,7 +46,6 @@ from light.models import (
 
 
 class LightTests(APITestCase):
-
     def test_create_device(self):
         """
         Ensure we can create a new device
@@ -70,7 +69,7 @@ class LightTests(APITestCase):
             "on_thursday": True,
             "on_friday": True,
             "on_saturday": True,
-            "on_sunday": True
+            "on_sunday": True,
         }
         response = self.client.post(url, data, format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -84,7 +83,7 @@ class LightTests(APITestCase):
             "start_date_at": "2022-03-15",
             "end_date_at": "2022-03-15",
             "on_time_at": "12:30",
-            "off_time_at": "12:40"
+            "off_time_at": "12:40",
         }
         response = self.client.post(url, data, format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -114,7 +113,7 @@ class LightTests(APITestCase):
             "on_thursday": True,
             "on_friday": True,
             "on_saturday": True,
-            "on_sunday": True
+            "on_sunday": True,
         }
         default_config_id = self.client.post(url, data, format="json").json()["id"]
 
@@ -125,7 +124,7 @@ class LightTests(APITestCase):
             "start_date_at": "2022-03-15",
             "end_date_at": "2022-03-15",
             "on_time_at": "12:30",
-            "off_time_at": "12:40"
+            "off_time_at": "12:40",
         }
         planner_config_id = self.client.post(url, data, format="json").json()["id"]
 
@@ -136,9 +135,7 @@ class LightTests(APITestCase):
             "use_planner_config": False,
             "tag": device_id,
             "default_config": default_config_id,
-            "planner_configs": [
-                planner_config_id
-            ]
+            "planner_configs": [planner_config_id],
         }
         response = self.client.post(url, data, format="json")
         config_id = response.json()["id"]
