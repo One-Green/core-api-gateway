@@ -1,6 +1,7 @@
 from rest_framework.viewsets import ModelViewSet
 from light.serializers import (
     DeviceSerializer,
+    SensorSerializer,
     ConfigSerializer,
     DailyTimeRangeSerializer,
     CalendarRangeSerializer,
@@ -9,6 +10,7 @@ from light.serializers import (
 )
 from light.models import (
     Device,
+    Sensor,
     Config,
     DailyTimeRange,
     CalendarRange,
@@ -23,10 +25,16 @@ class DeviceView(ModelViewSet):
     search_fields = ["tag"]
 
 
+class SensorView(ModelViewSet):
+    queryset = Sensor.objects.all()
+    serializer_class = SensorSerializer
+    search_fields = ["tag__tag"]
+
+
 class ConfigView(ModelViewSet):
     queryset = Config.objects.all()
     serializer_class = ConfigSerializer
-    search_fields = ["tag"]
+    search_fields = ["tag__tag"]
 
 
 class DailyTimeRangeView(ModelViewSet):
@@ -44,10 +52,10 @@ class CalendarRangeView(ModelViewSet):
 class ControllerView(ModelViewSet):
     queryset = Controller.objects.all()
     serializer_class = ControllerSerializer
-    search_fields = ["tag"]
+    search_fields = ["tag__tag"]
 
 
 class ForceControllerView(ModelViewSet):
     queryset = ForceController.objects.all()
     serializer_class = ForceControllerSerializer
-    search_fields = ["tag"]
+    search_fields = ["tag__tag"]

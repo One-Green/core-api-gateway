@@ -2,6 +2,7 @@ from rest_framework import serializers
 from light.models import (
     Device,
     Config,
+    Sensor,
     DailyTimeRange,
     CalendarRange,
     Controller,
@@ -13,6 +14,13 @@ class DeviceSerializer(serializers.ModelSerializer):
     class Meta:
         ref_name = "light_device"
         model = Device
+        fields = "__all__"
+
+
+class SensorSerializer(serializers.ModelSerializer):
+    class Meta:
+        ref_name = "light_sensor"
+        model = Sensor
         fields = "__all__"
 
 
