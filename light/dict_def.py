@@ -2,9 +2,8 @@ from typing import TypedDict
 
 
 class LightCtrlDict(TypedDict):
-    controller_type: str
-    tag: str
-    tz: str
-    on_time_at: str
-    off_time_at: str
+    cfg_type: str
+    on_at: str
+    off_at: str
     light_signal: int
+    force_signal: int

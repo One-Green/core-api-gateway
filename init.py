@@ -10,6 +10,7 @@ sys.path.insert(0, os.path.abspath("."))
 django.setup()
 
 from water.models import Device as WaterDevice
+from light.models import ConfigType
 from django.contrib.auth.models import User
 
 POSTGRES_DB = os.getenv("POSTGRES_DB", "postgres")
@@ -48,6 +49,16 @@ call_command("migrate", interactive=False, verbosity=2)
 # Creating default device
 try:
     WaterDevice(tag="tap-water").save()
+except django.db.IntegrityError:
+    pass
+
+# Light default configuration creation
+try:
+    ConfigType(name="daily").save()
+except django.db.IntegrityError:
+    pass
+try:
+    ConfigType(name="planner").save()
 except django.db.IntegrityError:
     pass
 

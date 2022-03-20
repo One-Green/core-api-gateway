@@ -1,27 +1,67 @@
 from rest_framework import serializers
-from light.models import ForceController
+from light.models import (
+    Device,
+    Sensor,
+    Config,
+    ConfigType,
+    DailyTimeRange,
+    CalendarRange,
+    Controller,
+    ForceController,
+)
 
 
-class RegistrySerializer(serializers.Serializer):
-    tag = serializers.CharField(write_only=True)
-
+class DeviceSerializer(serializers.ModelSerializer):
     class Meta:
-        ref_name = "light_registry"
+        ref_name = "light_device"
+        model = Device
+        fields = "__all__"
 
 
-class ConfigSerializer(serializers.Serializer):
-    on_datetime_at = serializers.DateTimeField(write_only=True)
-    off_datetime_at = serializers.DateTimeField(write_only=True)
+class SensorSerializer(serializers.ModelSerializer):
+    class Meta:
+        ref_name = "light_sensor"
+        model = Sensor
+        fields = "__all__"
 
+
+class DailyTimeRangeSerializer(serializers.ModelSerializer):
+    class Meta:
+        ref_name = "light_configuration_daily_time_range"
+        model = DailyTimeRange
+        fields = "__all__"
+
+
+class CalendarRangeSerializer(serializers.ModelSerializer):
+    class Meta:
+        ref_name = "light_configuration_calendar_range"
+        model = CalendarRange
+        fields = "__all__"
+
+
+class ConfigSerializer(serializers.ModelSerializer):
     class Meta:
         ref_name = "light_configuration"
+        model = Config
+        fields = "__all__"
+
+
+class ConfigTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        ref_name = "light_configuration_type"
+        model = ConfigType
+        fields = "__all__"
+
+
+class ControllerSerializer(serializers.ModelSerializer):
+    class Meta:
+        ref_name = "light_controller"
+        model = Controller
+        fields = "__all__"
 
 
 class ForceControllerSerializer(serializers.ModelSerializer):
     class Meta:
         ref_name = "light_force_controller"
         model = ForceController
-        fields = [
-            "force_light_signal",
-            "light_signal",
-        ]
+        fields = "__all__"

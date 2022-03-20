@@ -1,107 +1,150 @@
+"""
+Light Api tests cases
+
+from pprint import pprint
+<run light.urls> and retrieve router urls
+pprint(router.get_urls())
+[<URLPattern '^device/$' [name='device-list']>,
+ <URLPattern '^device\.(?P<format>[a-z0-9]+)/?$' [name='device-list']>,
+ <URLPattern '^device/(?P<pk>[^/.]+)/$' [name='device-detail']>,
+ <URLPattern '^device/(?P<pk>[^/.]+)\.(?P<format>[a-z0-9]+)/?$' [name='device-detail']>,
+ <URLPattern '^config/$' [name='config-list']>,
+ <URLPattern '^config\.(?P<format>[a-z0-9]+)/?$' [name='config-list']>,
+ <URLPattern '^config/(?P<pk>[^/.]+)/$' [name='config-detail']>,
+ <URLPattern '^config/(?P<pk>[^/.]+)\.(?P<format>[a-z0-9]+)/?$' [name='config-detail']>,
+ <URLPattern '^config-daily/$' [name='dailytimerange-list']>,
+ <URLPattern '^config-daily\.(?P<format>[a-z0-9]+)/?$' [name='dailytimerange-list']>,
+ <URLPattern '^config-daily/(?P<pk>[^/.]+)/$' [name='dailytimerange-detail']>,
+ <URLPattern '^config-daily/(?P<pk>[^/.]+)\.(?P<format>[a-z0-9]+)/?$' [name='dailytimerange-detail']>,
+ <URLPattern '^config-calendar/$' [name='calendarrange-list']>,
+ <URLPattern '^config-calendar\.(?P<format>[a-z0-9]+)/?$' [name='calendarrange-list']>,
+ <URLPattern '^config-calendar/(?P<pk>[^/.]+)/$' [name='calendarrange-detail']>,
+ <URLPattern '^config-calendar/(?P<pk>[^/.]+)\.(?P<format>[a-z0-9]+)/?$' [name='calendarrange-detail']>,
+ <URLPattern '^controller/$' [name='controller-list']>,
+ <URLPattern '^controller\.(?P<format>[a-z0-9]+)/?$' [name='controller-list']>,
+ <URLPattern '^controller/(?P<pk>[^/.]+)/$' [name='controller-detail']>,
+ <URLPattern '^controller/(?P<pk>[^/.]+)\.(?P<format>[a-z0-9]+)/?$' [name='controller-detail']>,
+ <URLPattern '^controller-force/$' [name='forcecontroller-list']>,
+ <URLPattern '^controller-force\.(?P<format>[a-z0-9]+)/?$' [name='forcecontroller-list']>,
+ <URLPattern '^controller-force/(?P<pk>[^/.]+)/$' [name='forcecontroller-detail']>,
+ <URLPattern '^controller-force/(?P<pk>[^/.]+)\.(?P<format>[a-z0-9]+)/?$' [name='forcecontroller-detail']>,
+ <URLPattern '^$' [name='api-root']>,
+ <URLPattern '^\.(?P<format>[a-z0-9]+)/?$' [name='api-root']>]
+"""
+
 from rest_framework import status
-from rest_framework.test import APITestCase
 from django.urls import reverse
-from datetime import datetime
-from random import randint
-import pytz
-
-tz = pytz.timezone("Europe/Paris")
-
-REGISTRY_URL = reverse("light-registry")
-TAGS = [
-    {"tag": "test1"},
-    {"tag": "test2"},
-    {"tag": "test3"},
-    {"tag": "test4"},
-    {"tag": "test5"},
-]
+from rest_framework.test import APITestCase
+from light.models import (
+    Device,
+    DailyTimeRange,
+    CalendarRange,
+    Config,
+    Controller,
+    ForceController,
+)
+from pprint import pprint
 
 
 class LightTests(APITestCase):
-    def __set_global_configuration(self):
+    def test_create_device(self):
         """
-        Private method to set global configuration
-        "data" need to be aligned with "glbl" apps
-        :return:
+        Ensure we can create a new device
         """
-        url = reverse("global-config")
-        data = {"timezone": "Europe/Paris"}
+        url = reverse("light:device-list")
+        data = {"tag": "tag-test"}
         response = self.client.post(url, data, format="json")
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(Device.objects.count(), 1)
+        self.assertEqual(Device.objects.get().tag, "tag-test")
 
-    def test_tag_registration(self):
-        """
-        Test new tag registration
-        :return:
-        """
-        for i, _ in enumerate(TAGS):
-            r = self.client.post(REGISTRY_URL, _, format="json")
-            self.assertEqual(r.status_code, status.HTTP_200_OK)
-            cnt = len(self.client.get(REGISTRY_URL).data)
-            self.assertEqual(cnt, i + 1)
+    def test_daily_time_range_config(self):
+        url = reverse("light:dailytimerange-list")
+        data = {
+            "name": "test-daily-config",
+            "on_at": "12:30",
+            "off_at": "14:30",
+            "on_monday": True,
+            "on_tuesday": True,
+            "on_wednesday": True,
+            "on_thursday": True,
+            "on_friday": True,
+            "on_saturday": True,
+            "on_sunday": True,
+        }
+        response = self.client.post(url, data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(DailyTimeRange.objects.count(), 1)
+        self.assertEqual(DailyTimeRange.objects.get().name, "test-daily-config")
 
-    def test_configuration(self):
-        """
-        Test tag configuration
-        :return:
-        """
-        self.__set_global_configuration()
-        # Create Tag in registry
-        for _ in TAGS:
-            r = self.client.post(REGISTRY_URL, _, format="json")
-            self.assertEqual(r.status_code, status.HTTP_200_OK)
+    def test_calendar_config(self):
+        url = reverse("light:calendarrange-list")
+        data = {
+            "name": "test-calendar-config",
+            "start_date_at": "2022-03-15",
+            "end_date_at": "2022-03-15",
+            "on_time_at": "12:30",
+            "off_time_at": "12:40",
+        }
+        response = self.client.post(url, data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(CalendarRange.objects.count(), 1)
+        self.assertEqual(CalendarRange.objects.get().name, "test-calendar-config")
 
-        # Configure sprinklers
-        for _ in TAGS:
-            url = reverse("light-config", args=[_["tag"]])
-            data = {
-                "on_datetime_at": tz.localize(datetime.utcnow()).isoformat(),
-                "off_datetime_at": tz.localize(datetime.utcnow()).isoformat(),
-            }
-            # Post configuration
-            r = self.client.post(url, data, format="json")
-            self.assertEqual(r.status_code, status.HTTP_200_OK)
-            # Get configuration
-            r = self.client.get(url, data, format="json")
-            self.assertEqual(r.status_code, status.HTTP_200_OK)
-
-    def test_delete(self):
+    def test_link_device_config(self):
         """
-        Create and delete tags
-        :return:
+        ensure device, default config, planner config can be created,
+        then linked to device config
         """
-        # Create Tag in registry
-        for _ in TAGS:
-            r = self.client.post(REGISTRY_URL, _, format="json")
-            self.assertEqual(r.status_code, status.HTTP_200_OK)
 
-        # Delete Tag in registry
-        for _ in TAGS:
-            r = self.client.delete(REGISTRY_URL, _, format="json")
-            self.assertEqual(r.status_code, status.HTTP_200_OK)
+        # create device
+        url = reverse("light:device-list")
+        data = {"tag": "tag-test"}
+        device_id = self.client.post(url, data, format="json").json()["id"]
 
-        # Count and assert if all Tags are removed
-        cnt = len(self.client.get(REGISTRY_URL).data)
-        self.assertEqual(cnt, 0)
+        # create daily config
+        url = reverse("light:dailytimerange-list")
+        data = {
+            "name": "test-daily-config",
+            "on_at": "12:30",
+            "off_at": "14:30",
+            "on_monday": True,
+            "on_tuesday": True,
+            "on_wednesday": True,
+            "on_thursday": True,
+            "on_friday": True,
+            "on_saturday": True,
+            "on_sunday": True,
+        }
+        default_config_id = self.client.post(url, data, format="json").json()["id"]
 
-    def test_force_controller(self):
-        """
-        Test override controller action
-        :return:
-        """
-        # Create Tag in registry
-        for _ in TAGS:
-            r = self.client.post(REGISTRY_URL, _, format="json")
-            self.assertEqual(r.status_code, status.HTTP_200_OK)
+        # create calendar config
+        url = reverse("light:calendarrange-list")
+        data = {
+            "name": "test-calendar-config",
+            "start_date_at": "2022-03-15",
+            "end_date_at": "2022-03-15",
+            "on_time_at": "12:30",
+            "off_time_at": "12:40",
+        }
+        planner_config_id = self.client.post(url, data, format="json").json()["id"]
 
-        for _ in TAGS:
-            url = reverse("light-force", args=[_["tag"]])
-            data = {"force_light_signal": randint(0, 1), "light_signal": randint(0, 1)}
-            # Post configuration
-            r = self.client.post(url, data, format="json")
-            self.assertEqual(r.status_code, status.HTTP_200_OK)
-            # Get configuration
-            r = self.client.get(url, data, format="json")
-            self.assertEqual(r.status_code, status.HTTP_200_OK)
-            self.assertEqual(data["force_light_signal"], r.data["force_light_signal"])
-            self.assertEqual(data["light_signal"], r.data["light_signal"])
+        # create config type
+        url = reverse("light:configtype-list")
+        data = {"name": "daily"}
+        config_type_id = self.client.post(url, data, format="json").json()["id"]
+
+
+        # link them all into device config
+        url = reverse("light:config-list")
+        data = {
+            "config_type": config_type_id,
+            "daily_config": default_config_id,
+            "tag": device_id,
+            "planner_configs": [planner_config_id],
+        }
+        response = self.client.post(url, data, format="json")
+        config_id = response.json()["id"]
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(Config.objects.count(), 1)
+        self.assertEqual(Config.objects.get().id, config_id)

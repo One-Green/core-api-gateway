@@ -1,0 +1,83 @@
+# https://taskfile.dev
+
+version: '3'
+
+dotenv: ['.env']
+
+tasks:
+
+  default:
+    desc: print task list
+    cmds:
+      - task --list-all
+
+  mqtt:
+    desc: start mqtt server
+    cmds:
+      - docker rm mqtt-dev --force || true
+      - docker run  --name mqtt-dev -d  -p 1883:1883  -e MOSQUITTO_USERNAME=admin -e MOSQUITTO_PASSWORD=admin docker.io/shanisma/paho-mqtt:1.6.2
+
+  redis:
+    desc: start redis server
+    cmds:
+      - docker rm redis-dev --force || true
+      - docker run --name redis-dev -d -p 6379:6379 redis:6.0.10-alpine
+  pg:
+    desc: start postgres
+    cmds:
+      - docker rm postgres-dev --force || true
+      - docker run --name postgres-dev -d -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres  postgres
+
+  celery:
+    desc: start celery worker
+    cmds:
+      - celery -A project worker -l info
+
+  up-db:
+    desc: run db initialization
+    cmds:
+      - task pg
+      - sleep 5
+      - find . -path "*/migrations/*.py" -not -name "__init__.py" -delete
+      - find . -path "*/migrations/*.pyc"  -delete
+      - python init.py
+
+  build-dev:
+    desc: build docker image dev
+    cmds:
+      - docker build -t {{.IMAGE}}:{{.TAG}} .
+      - docker push {{.IMAGE}}:{{.TAG}}
+    vars:
+      IMAGE: docker.io/shanisma/og-core
+      TAG: dev-1
+
+  start-api:
+    desc: start api
+    cmds:
+      - task up-db
+      - python manage.py runserver
+
+  test-core:
+    desc: run /core/tests py files
+    cmds:
+     - python ${PWD}/core/tests/test_base_controller.py
+     - python ${PWD}/core/tests/test_base_time_range_controller.py
+
+  test-api:
+    desc: test apis
+    cmds:
+      - python manage.py test sprinkler
+      - python manage.py test water
+      - python manage.py test light
+
+  test:
+    desc: run all test
+    cmds:
+      - task up-db
+      - test-core
+      - test-api
+
+  pf:
+    desc: freeze Python requirements.txt
+    cmds:
+      - pipenv run pip freeze > requirements.txt

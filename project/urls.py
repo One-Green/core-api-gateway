@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
@@ -23,7 +23,6 @@ from drf_yasg.generators import OpenAPISchemaGenerator
 import glbl.views
 import sprinkler.views
 import water.views
-import light.views
 
 
 class BothHttpAndHttpsSchemaGenerator(OpenAPISchemaGenerator):
@@ -84,14 +83,5 @@ urlpatterns = [
         water.views.ForceControllerView.as_view(),
         name="water-force",
     ),
-    # WIP
-    path("light/registry", light.views.RegistryView.as_view(), name="light-registry"),
-    path(
-        "light/config/<str:tag>", light.views.ConfigView.as_view(), name="light-config"
-    ),
-    path(
-        "light/controller/force/<str:tag>",
-        light.views.ForceControllerView.as_view(),
-        name="light-force",
-    ),
+    path("light/", include(("light.urls", "light"), namespace="light")),
 ]
