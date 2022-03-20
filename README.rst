@@ -11,7 +11,7 @@
 .. image:: https://img.shields.io/badge/code%20style-black-000000.svg
     :target: https://github.com/psf/black
 
-.. image:: https://img.shields.io/badge/CC-BY--SA%204.0-lightgrey
+.. image:: https://img.shields.io/badge/Licence-CC--BY--SA%204.0-lightgrey
    :target: https://creativecommons.org/licenses/by-nc/4.0/
 
 .. image:: https://img.shields.io/badge/Ask%20me-anything-1abc9c.svg
