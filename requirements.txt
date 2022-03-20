@@ -18,13 +18,13 @@ Django==4.0.2
 django-filter==21.1
 djangorestframework==3.13.1
 drf-orjson-renderer==1.6.0
-drf-yasg==1.20.0
+drf-yasg @ git+https://github.com/axnsan12/drf-yasg@d9700dbf8cc80d725a7db485c2d4446c19c29840
 executing==0.8.3
 gunicorn==20.1.0
 idna==3.3
 inflection==0.5.1
 influx-line-protocol==0.1.4
-influxdb-client==1.26.0
+influxdb-client==1.27.0
 ipython==8.1.1
 itypes==1.2.0
 jedi==0.18.1
@@ -32,7 +32,7 @@ Jinja2==3.0.3
 kombu==5.2.4
 line-protocol-parser==1.1.1
 Markdown==3.3.6
-MarkupSafe==2.1.0
+MarkupSafe==2.1.1
 matplotlib-inline==0.1.3
 orjson==3.6.7
 packaging==21.3
@@ -47,7 +47,7 @@ pure-eval==0.2.2
 Pygments==2.11.2
 pyparsing==3.0.7
 python-dateutil==2.8.2
-pytz==2021.3
+pytz==2022.1
 pytz-deprecation-shim==0.1.0.post0
 redis==4.1.4
 requests==2.27.1
@@ -58,12 +58,12 @@ six==1.16.0
 sqlparse==0.4.2
 stack-data==0.2.0
 traitlets==5.1.1
-tzdata==2021.5
+tzdata==2022.1
 tzlocal==4.1
 uritemplate==4.1.1
-urllib3==1.26.8
+urllib3==1.26.9
 vine==5.0.0
-waitress==2.1.0
+waitress==2.1.1
 wcwidth==0.2.5
 whitenoise==6.0.0
-wrapt==1.13.3
+wrapt==1.14.0

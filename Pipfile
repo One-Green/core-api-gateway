@@ -13,7 +13,9 @@ line-protocol-parser = "*"
 gunicorn = "*"
 waitress = "*"
 django = "*"
-drf-yasg = "*"
+# workaround for drf-yasg+dj4
+# https://github.com/axnsan12/drf-yasg/issues/761
+drf-yasg = {git = "https://github.com/axnsan12/drf-yasg"}
 djangorestframework = "*"
 markdown = "*"
 django-filter = "*"
