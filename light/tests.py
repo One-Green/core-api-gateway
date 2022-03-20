@@ -43,6 +43,7 @@ from light.models import (
     Controller,
     ForceController,
 )
+from pprint import pprint
 
 
 class LightTests(APITestCase):
@@ -128,13 +129,18 @@ class LightTests(APITestCase):
         }
         planner_config_id = self.client.post(url, data, format="json").json()["id"]
 
+        # create config type
+        url = reverse("light:configtype-list")
+        data = {"name": "daily"}
+        config_type_id = self.client.post(url, data, format="json").json()["id"]
+
+
         # link them all into device config
         url = reverse("light:config-list")
         data = {
-            "use_default_config": True,
-            "use_planner_config": False,
+            "config_type": config_type_id,
+            "daily_config": default_config_id,
             "tag": device_id,
-            "default_config": default_config_id,
             "planner_configs": [planner_config_id],
         }
         response = self.client.post(url, data, format="json")
