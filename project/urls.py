@@ -21,7 +21,6 @@ from drf_yasg import openapi
 from drf_yasg.generators import OpenAPISchemaGenerator
 
 import glbl.views
-import sprinkler.views
 import water.views
 
 
@@ -53,27 +52,6 @@ urlpatterns = [
     path("redoc/", schema_view.with_ui("redoc", cache_timeout=0), name="schema-redoc"),
     # Global views
     path("global/config", glbl.views.ConfigView.as_view(), name="global-config"),
-    # Sprinklers views
-    path(
-        "sprinkler/device",
-        sprinkler.views.DeviceView.as_view(),
-        name="sprinkler-registry",
-    ),
-    path(
-        "sprinkler/config/<str:tag>",
-        sprinkler.views.ConfigView.as_view(),
-        name="sprinkler-config",
-    ),
-    path(
-        "sprinkler/controller/force/<str:tag>",
-        sprinkler.views.ForceControllerView.as_view(),
-        name="sprinkler-force",
-    ),
-    path(
-        "water/device",
-        water.views.DeviceView.as_view(),
-        name="water-registry",
-    ),
     # Water views
     path(
         "water/config/<str:tag>", water.views.ConfigView.as_view(), name="water-config"
@@ -83,5 +61,7 @@ urlpatterns = [
         water.views.ForceControllerView.as_view(),
         name="water-force",
     ),
+    path("sprinkler/", include(("sprinkler.urls", "sprinkler"), namespace="sprinkler")),
     path("light/", include(("light.urls", "light"), namespace="light")),
+
 ]

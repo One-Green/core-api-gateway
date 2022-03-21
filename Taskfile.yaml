@@ -14,19 +14,19 @@ tasks:
   mqtt:
     desc: start mqtt server
     cmds:
-      - docker rm mqtt-dev --force || true
-      - docker run  --name mqtt-dev -d  -p 1883:1883  -e MOSQUITTO_USERNAME=admin -e MOSQUITTO_PASSWORD=admin docker.io/shanisma/paho-mqtt:1.6.2
+      - sudo docker rm mqtt-dev --force || true
+      - sudo docker run  --name mqtt-dev -d  -p 1883:1883  -e MOSQUITTO_USERNAME=admin -e MOSQUITTO_PASSWORD=admin docker.io/shanisma/paho-mqtt:1.6.2
 
   redis:
     desc: start redis server
     cmds:
-      - docker rm redis-dev --force || true
-      - docker run --name redis-dev -d -p 6379:6379 redis:6.0.10-alpine
+      - sudo docker rm redis-dev --force || true
+      - sudo docker run --name redis-dev -d -p 6379:6379 redis:6.0.10-alpine
   pg:
     desc: start postgres
     cmds:
-      - docker rm postgres-dev --force || true
-      - docker run --name postgres-dev -d -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres  postgres
+      - sudo docker rm postgres-dev --force || true
+      - sudo docker run --name postgres-dev -d -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres  postgres
 
   celery:
     desc: start celery worker
@@ -45,8 +45,8 @@ tasks:
   build-dev:
     desc: build docker image dev
     cmds:
-      - docker build -t {{.IMAGE}}:{{.TAG}} .
-      - docker push {{.IMAGE}}:{{.TAG}}
+      - sudo docker build -t {{.IMAGE}}:{{.TAG}} .
+      - sudo docker push {{.IMAGE}}:{{.TAG}}
     vars:
       IMAGE: docker.io/shanisma/og-core
       TAG: dev-1
