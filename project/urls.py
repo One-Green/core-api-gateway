@@ -63,5 +63,4 @@ urlpatterns = [
     ),
     path("sprinkler/", include(("sprinkler.urls", "sprinkler"), namespace="sprinkler")),
     path("light/", include(("light.urls", "light"), namespace="light")),
-
 ]

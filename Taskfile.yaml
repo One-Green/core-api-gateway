@@ -81,3 +81,9 @@ tasks:
     desc: freeze Python requirements.txt
     cmds:
       - pipenv run pip freeze > requirements.txt
+
+  r:
+    desc: get urls for reverse usage
+    cmds:
+      - task up-db
+      - python get_routes.py

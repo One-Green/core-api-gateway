@@ -3,6 +3,7 @@ from project.settings import DEFAULT_WATER_DEVICE
 from sprinkler.models import Device, Config
 from water.models import Device as WaterDevice
 
+
 def set_default_config(tag):
     try:
         Config.objects.create(
