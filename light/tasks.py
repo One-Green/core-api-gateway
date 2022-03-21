@@ -127,7 +127,6 @@ def node_controller(message):
         light_signal=light_signal,
         force_signal=fctl.force_light_signal,
     )
-    print(callback_d)
     mqtt_client.publish(
         join(MQTT_LIGHT_CONTROLLER_TOPIC, tag),
         json.dumps(callback_d),
