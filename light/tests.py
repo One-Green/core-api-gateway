@@ -134,7 +134,6 @@ class LightTests(APITestCase):
         data = {"name": "daily"}
         config_type_id = self.client.post(url, data, format="json").json()["id"]
 
-
         # link them all into device config
         url = reverse("light:config-list")
         data = {

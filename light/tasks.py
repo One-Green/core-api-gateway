@@ -60,7 +60,6 @@ def node_controller(message):
     )
     # Get or create default config then get config
     # --------------------------
-
     try:
         cfg = Config.objects.get(tag=Device.objects.get(tag=tag))
     except Config.DoesNotExist:
