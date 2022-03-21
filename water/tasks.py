@@ -11,8 +11,8 @@ from project.settings import MQTT_PORT
 from project.settings import MQTT_USERNAME
 from project.settings import MQTT_PASSWORD
 from project.settings import MQTT_WATER_CONTROLLER_TOPIC
-from sprinkler.models import Sprinklers
-from water.conf_def import WATER_CONTROLLER
+from water.helpers import is_any_require_water
+from water.config import WATER_CONTROLLER
 from water.models import Water
 from water.dict_def import WaterCtrlDict
 from celery import shared_task
@@ -68,8 +68,10 @@ def node_controller(message):
     ph_signal = ph_ctl.get_signal(d["fields"]["ph_level"])
     if force_controller["force_ph_downer_pump_signal"]:
         ph_signal = int(force_controller["ph_downer_pump_signal"])
+
     # water pump control ----------
-    water_signal = int(Sprinklers().is_any_require_water(water_tag_link=tag))
+    water_signal = is_any_require_water(water_tag_link=tag)
+
     if force_controller["force_water_pump_signal"]:
         water_signal = int(force_controller["water_pump_signal"])
     # mixer pump control ----------

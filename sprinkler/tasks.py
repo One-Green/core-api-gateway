@@ -16,6 +16,7 @@ import paho.mqtt.client as mqtt
 import orjson as json
 from posixpath import join
 from sprinkler.models import Device, Sensor, Config, Controller, ForceController
+from water.models import Device as WaterDevice
 
 mqtt_client = mqtt.Client()
 mqtt_client.username_pw_set(username=MQTT_USERNAME, password=MQTT_PASSWORD)
@@ -85,7 +86,13 @@ def node_controller(message):
         if fctl.force_water_valve_signal:
             water_valve_signal = fctl.water_valve_signal
     except ForceController.DoesNotExist:
-        pass
+        # create class to add force_light_signal attribute to mock
+        # if ForceController object not found
+        class A:
+            pass
+
+        fctl = A()
+        fctl.force_water_valve_signal = False
 
     mqtt_client.publish(
         join(MQTT_SPRINKLER_CONTROLLER_TOPIC, tag),
@@ -93,6 +100,7 @@ def node_controller(message):
             SprinklerCtrlDict(
                 controller_type="sprinkler",
                 tag=tag,
+                water_tag_link=WaterDevice.objects.get(tag=cfg.water_tag_link).tag,
                 water_valve_signal=water_valve_signal,
                 force_water_valve_signal=fctl.force_water_valve_signal,
                 soil_moisture_min_level=cfg.soil_moisture_min_level,
