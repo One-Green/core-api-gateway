@@ -1,8 +1,6 @@
 """
 Celery + Redis async tasks
 """
-import os.path
-import time
 from datetime import datetime
 from line_protocol_parser import parse_line
 from light.models import (
@@ -24,6 +22,7 @@ from project.settings import MQTT_LIGHT_CONTROLLER_TOPIC
 from celery import shared_task
 import paho.mqtt.client as mqtt
 import orjson as json
+from posixpath import join
 
 mqtt_client = mqtt.Client()
 mqtt_client.username_pw_set(username=MQTT_USERNAME, password=MQTT_PASSWORD)
@@ -130,6 +129,6 @@ def node_controller(message):
     )
     print(callback_d)
     mqtt_client.publish(
-        os.path.join(MQTT_LIGHT_CONTROLLER_TOPIC, tag),
+        join(MQTT_LIGHT_CONTROLLER_TOPIC, tag),
         json.dumps(callback_d),
     )
