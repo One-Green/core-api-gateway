@@ -122,16 +122,16 @@ def node_controller(message):
 
     # generate JSON
     # --------------------------
-    pub_d: dict = WaterCtrlDict(
+    callback_d: dict = WaterCtrlDict(
         tag=tag,
-        water_pump_signal=water_pump_signal,
-        nutrient_pump_signal=nutrient_pump_signal,
-        ph_downer_pump_signal=ph_downer_pump_signal,
-        mixer_pump_signal=mixer_pump_signal,
-        force_water_pump_signal=fctl.force_water_pump_signal,
-        force_nutrient_pump_signal=fctl.force_nutrient_pump_signal,
-        force_ph_downer_pump_signal=fctl.force_ph_downer_pump_signal,
-        force_mixer_pump_signal=fctl.force_mixer_pump_signal,
+        water_pump_signal=int(water_pump_signal),
+        nutrient_pump_signal=int(nutrient_pump_signal),
+        ph_downer_pump_signal=int(ph_downer_pump_signal),
+        mixer_pump_signal=int(mixer_pump_signal),
+        force_water_pump_signal=int(fctl.force_water_pump_signal),
+        force_nutrient_pump_signal=int(fctl.force_nutrient_pump_signal),
+        force_ph_downer_pump_signal=int(fctl.force_ph_downer_pump_signal),
+        force_mixer_pump_signal=int(fctl.force_mixer_pump_signal),
         tds_max_level=cfg.tds_max_level,
         tds_min_level=cfg.tds_min_level,
         ph_max_level=cfg.ph_max_level,
@@ -140,4 +140,4 @@ def node_controller(message):
 
     # Publish JSON to MQTT
     # --------------------------
-    mqtt_client.publish(join(MQTT_WATER_CONTROLLER_TOPIC, tag), json.dumps(pub_d))
+    mqtt_client.publish(join(MQTT_WATER_CONTROLLER_TOPIC, tag), json.dumps(callback_d))

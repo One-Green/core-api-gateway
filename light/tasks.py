@@ -126,8 +126,8 @@ def node_controller(message):
         cfg_type=ConfigType.objects.get(id=cfg.config_type_id).name,
         on_at=on_at,
         off_at=off_at,
-        light_signal=light_signal,
-        force_signal=fctl.force_light_signal,
+        light_signal=int(light_signal),
+        force_signal=int(fctl.force_light_signal),
     )
 
     # Publish JSON to MQTT

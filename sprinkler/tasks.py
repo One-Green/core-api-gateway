@@ -98,8 +98,8 @@ def node_controller(message):
     # --------------------------
     callback_d: dict = SprinklerCtrlDict(
         water_tag_link=WaterDevice.objects.get(tag=cfg.water_tag_link).tag,
-        water_valve_signal=water_valve_signal,
-        force_water_valve_signal=fctl.force_water_valve_signal,
+        water_valve_signal=int(water_valve_signal),
+        force_water_valve_signal=int(fctl.force_water_valve_signal),
         soil_moisture_min_level=cfg.soil_moisture_min_level,
         soil_moisture_max_level=cfg.soil_moisture_max_level,
     )
