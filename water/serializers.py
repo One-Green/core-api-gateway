@@ -1,35 +1,43 @@
 from rest_framework import serializers
-from water.models import ForceController
+from water.models import (
+    Device,
+    Sensor,
+    Config,
+    Controller,
+    ForceController,
+)
 
 
-class DeviceSerializer(serializers.Serializer):
-    tag = serializers.CharField(write_only=True)
-
+class DeviceSerializer(serializers.ModelSerializer):
     class Meta:
         ref_name = "water_device"
+        model = Device
+        fields = "__all__"
 
 
-class ConfigSerializer(serializers.Serializer):
-    ph_min_level = serializers.FloatField(write_only=True)
-    ph_max_level = serializers.FloatField(write_only=True)
-    tds_min_level = serializers.FloatField(write_only=True)
-    tds_max_level = serializers.FloatField(write_only=True)
-
+class SensorSerializer(serializers.ModelSerializer):
     class Meta:
-        ref_name = "water_config"
+        ref_name = "water_sensor"
+        model = Sensor
+        fields = "__all__"
+
+
+class ConfigSerializer(serializers.ModelSerializer):
+    class Meta:
+        ref_name = "water_configuration"
+        model = Config
+        fields = "__all__"
+
+
+class ControllerSerializer(serializers.ModelSerializer):
+    class Meta:
+        ref_name = "water_controller"
+        model = Controller
+        fields = "__all__"
 
 
 class ForceControllerSerializer(serializers.ModelSerializer):
     class Meta:
         ref_name = "water_force_controller"
         model = ForceController
-        fields = [
-            "force_water_pump_signal",
-            "force_nutrient_pump_signal",
-            "force_ph_downer_pump_signal",
-            "force_mixer_pump_signal",
-            "water_pump_signal",
-            "nutrient_pump_signal",
-            "ph_downer_pump_signal",
-            "mixer_pump_signal",
-        ]
+        fields = "__all__"

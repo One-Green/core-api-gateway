@@ -1,35 +1,6 @@
 """
 Light Api tests cases
 
-from pprint import pprint
-<run light.urls> and retrieve router urls
-pprint(router.get_urls())
-[<URLPattern '^device/$' [name='device-list']>,
- <URLPattern '^device\.(?P<format>[a-z0-9]+)/?$' [name='device-list']>,
- <URLPattern '^device/(?P<pk>[^/.]+)/$' [name='device-detail']>,
- <URLPattern '^device/(?P<pk>[^/.]+)\.(?P<format>[a-z0-9]+)/?$' [name='device-detail']>,
- <URLPattern '^config/$' [name='config-list']>,
- <URLPattern '^config\.(?P<format>[a-z0-9]+)/?$' [name='config-list']>,
- <URLPattern '^config/(?P<pk>[^/.]+)/$' [name='config-detail']>,
- <URLPattern '^config/(?P<pk>[^/.]+)\.(?P<format>[a-z0-9]+)/?$' [name='config-detail']>,
- <URLPattern '^config-daily/$' [name='dailytimerange-list']>,
- <URLPattern '^config-daily\.(?P<format>[a-z0-9]+)/?$' [name='dailytimerange-list']>,
- <URLPattern '^config-daily/(?P<pk>[^/.]+)/$' [name='dailytimerange-detail']>,
- <URLPattern '^config-daily/(?P<pk>[^/.]+)\.(?P<format>[a-z0-9]+)/?$' [name='dailytimerange-detail']>,
- <URLPattern '^config-calendar/$' [name='calendarrange-list']>,
- <URLPattern '^config-calendar\.(?P<format>[a-z0-9]+)/?$' [name='calendarrange-list']>,
- <URLPattern '^config-calendar/(?P<pk>[^/.]+)/$' [name='calendarrange-detail']>,
- <URLPattern '^config-calendar/(?P<pk>[^/.]+)\.(?P<format>[a-z0-9]+)/?$' [name='calendarrange-detail']>,
- <URLPattern '^controller/$' [name='controller-list']>,
- <URLPattern '^controller\.(?P<format>[a-z0-9]+)/?$' [name='controller-list']>,
- <URLPattern '^controller/(?P<pk>[^/.]+)/$' [name='controller-detail']>,
- <URLPattern '^controller/(?P<pk>[^/.]+)\.(?P<format>[a-z0-9]+)/?$' [name='controller-detail']>,
- <URLPattern '^controller-force/$' [name='forcecontroller-list']>,
- <URLPattern '^controller-force\.(?P<format>[a-z0-9]+)/?$' [name='forcecontroller-list']>,
- <URLPattern '^controller-force/(?P<pk>[^/.]+)/$' [name='forcecontroller-detail']>,
- <URLPattern '^controller-force/(?P<pk>[^/.]+)\.(?P<format>[a-z0-9]+)/?$' [name='forcecontroller-detail']>,
- <URLPattern '^$' [name='api-root']>,
- <URLPattern '^\.(?P<format>[a-z0-9]+)/?$' [name='api-root']>]
 """
 
 from rest_framework import status
@@ -40,10 +11,7 @@ from light.models import (
     DailyTimeRange,
     CalendarRange,
     Config,
-    Controller,
-    ForceController,
 )
-from pprint import pprint
 
 
 class LightTests(APITestCase):
@@ -133,7 +101,6 @@ class LightTests(APITestCase):
         url = reverse("light:configtype-list")
         data = {"name": "daily"}
         config_type_id = self.client.post(url, data, format="json").json()["id"]
-
 
         # link them all into device config
         url = reverse("light:config-list")

@@ -1,28 +1,43 @@
 from rest_framework import serializers
-from sprinkler.models import ForceController
+from sprinkler.models import (
+    Device,
+    Sensor,
+    Config,
+    Controller,
+    ForceController,
+)
 
 
-class DeviceSerializer(serializers.Serializer):
-    tag = serializers.CharField(write_only=True)
-
+class DeviceSerializer(serializers.ModelSerializer):
     class Meta:
         ref_name = "sprinkler_device"
+        model = Device
+        fields = "__all__"
 
 
-class ConfigSerializer(serializers.Serializer):
-    soil_moisture_min_level = serializers.FloatField(write_only=True)
-    soil_moisture_max_level = serializers.FloatField(write_only=True)
-    water_tag_link = serializers.CharField(write_only=True, max_length=200)
-
+class SensorSerializer(serializers.ModelSerializer):
     class Meta:
-        ref_name = "sprinkler_config"
+        ref_name = "sprinkler_sensor"
+        model = Sensor
+        fields = "__all__"
+
+
+class ConfigSerializer(serializers.ModelSerializer):
+    class Meta:
+        ref_name = "sprinkler_configuration"
+        model = Config
+        fields = "__all__"
+
+
+class ControllerSerializer(serializers.ModelSerializer):
+    class Meta:
+        ref_name = "sprinkler_controller"
+        model = Controller
+        fields = "__all__"
 
 
 class ForceControllerSerializer(serializers.ModelSerializer):
     class Meta:
         ref_name = "sprinkler_force_controller"
         model = ForceController
-        fields = [
-            "force_water_valve_signal",
-            "water_valve_signal",
-        ]
+        fields = "__all__"

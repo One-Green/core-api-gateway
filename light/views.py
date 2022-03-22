@@ -32,6 +32,7 @@ class SensorView(ModelViewSet):
     IoT tag based sensors live values
     only get because always updated by IoT
     """
+
     queryset = Sensor.objects.all()
     serializer_class = SensorSerializer
     http_method_names = ["get"]
@@ -67,6 +68,7 @@ class ControllerView(ModelViewSet):
     Iot tag based controller live action to take
     only get because always updated by Iot Controller
     """
+
     queryset = Controller.objects.all()
     serializer_class = ControllerSerializer
     http_method_names = ["get"]

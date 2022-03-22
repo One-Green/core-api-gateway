@@ -1,8 +1,6 @@
 """
 Celery + Redis async tasks
 """
-import os.path
-import time
 from datetime import datetime
 from line_protocol_parser import parse_line
 from light.models import (
@@ -24,6 +22,7 @@ from project.settings import MQTT_LIGHT_CONTROLLER_TOPIC
 from celery import shared_task
 import paho.mqtt.client as mqtt
 import orjson as json
+from posixpath import join
 
 mqtt_client = mqtt.Client()
 mqtt_client.username_pw_set(username=MQTT_USERNAME, password=MQTT_PASSWORD)
@@ -60,7 +59,6 @@ def node_controller(message):
     )
     # Get or create default config then get config
     # --------------------------
-
     try:
         cfg = Config.objects.get(tag=Device.objects.get(tag=tag))
     except Config.DoesNotExist:
@@ -122,6 +120,8 @@ def node_controller(message):
         defaults={"light_signal": light_signal},
     )
 
+    # generate JSON
+    # --------------------------
     callback_d: dict = LightCtrlDict(
         cfg_type=ConfigType.objects.get(id=cfg.config_type_id).name,
         on_at=on_at,
@@ -129,8 +129,10 @@ def node_controller(message):
         light_signal=light_signal,
         force_signal=fctl.force_light_signal,
     )
-    print(callback_d)
+
+    # Publish JSON to MQTT
+    # --------------------------
     mqtt_client.publish(
-        os.path.join(MQTT_LIGHT_CONTROLLER_TOPIC, tag),
+        join(MQTT_LIGHT_CONTROLLER_TOPIC, tag),
         json.dumps(callback_d),
     )

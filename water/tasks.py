@@ -1,7 +1,6 @@
 """
 Celery + Redis async tasks
 """
-from django.core.exceptions import ObjectDoesNotExist
 import orjson as json
 import paho.mqtt.client as mqtt
 from line_protocol_parser import parse_line
@@ -11,15 +10,14 @@ from project.settings import MQTT_PORT
 from project.settings import MQTT_USERNAME
 from project.settings import MQTT_PASSWORD
 from project.settings import MQTT_WATER_CONTROLLER_TOPIC
-from sprinkler.models import Sprinklers
-from water.conf_def import WATER_CONTROLLER
-from water.models import Water
+from water.helpers import is_any_require_water
+from water.config import set_default_config
 from water.dict_def import WaterCtrlDict
 from celery import shared_task
 from posixpath import join
+from water.models import Device, Sensor, Config, Controller, ForceController
 
 CONTROLLED_DEVICE: str = "water"
-
 
 mqtt_client = mqtt.Client()
 mqtt_client.username_pw_set(username=MQTT_USERNAME, password=MQTT_PASSWORD)
@@ -40,52 +38,106 @@ def node_controller(message):
 
     d: dict = parse_line(message + b" 0")
     tag: str = d["tags"]["tag"]
-    w = Water()
-    nutrient_ctl = BinaryController()
-    ph_ctl = BinaryController()
-    w.add_tag_in_registry(tag)
+
+    # Create device based on tag
+    # --------------------------
+    Device.objects.update_or_create(tag=tag)
+
+    # Save sensor status
+    # --------------------------
+    Sensor.objects.update_or_create(
+        tag=Device.objects.get(tag=tag),
+        defaults={
+            "ph_voltage": d["fields"]["ph_voltage"],
+            "tds_voltage": d["fields"]["tds_voltage"],
+            "ph_level": d["fields"]["ph_level"],
+            "tds_level": d["fields"]["tds_level"],
+            "water_tk_lvl": d["fields"]["water_tk_lvl"],
+            "nutrient_tk_lvl": d["fields"]["nutrient_tk_lvl"],
+            "ph_downer_tk_lvl": d["fields"]["ph_downer_tk_lvl"],
+        },
+    )
+
+    # Get or create default config then get config
+    # --------------------------
     try:
-        w.get_config(tag)
-    except ObjectDoesNotExist:
-        w.update_config(
-            tag=tag,
-            ph_min_level=WATER_CONTROLLER["pH"]["min_level"],
-            ph_max_level=WATER_CONTROLLER["pH"]["max_level"],
-            tds_min_level=WATER_CONTROLLER["tds"]["max_level"],
-            tds_max_level=WATER_CONTROLLER["tds"]["max_level"],
-        )
-        w.get_config(tag)
+        cfg = Config.objects.get(tag=Device.objects.get(tag=tag))
+    except Config.DoesNotExist:
+        set_default_config(tag=tag)
+    finally:
+        cfg = Config.objects.get(tag=Device.objects.get(tag=tag))
 
-    # Get actuator force configuration
-    force_controller = Water().get_controller_force(tag)
-    # Nutrient control -----------
-    nutrient_ctl.set_conf(_min=w.tds_min_level, _max=w.tds_max_level, reverse=False)
-    nutrient_signal = nutrient_ctl.get_signal(d["fields"]["tds_level"])
-    if force_controller["force_nutrient_pump_signal"]:
-        nutrient_signal = int(force_controller["nutrient_pump_signal"])
-    # pH downer control -----------
-    ph_ctl.set_conf(_min=w.ph_min_level, _max=w.ph_max_level, reverse=False)
-    ph_signal = ph_ctl.get_signal(d["fields"]["ph_level"])
-    if force_controller["force_ph_downer_pump_signal"]:
-        ph_signal = int(force_controller["ph_downer_pump_signal"])
-    # water pump control ----------
-    water_signal = int(Sprinklers().is_any_require_water(water_tag_link=tag))
-    if force_controller["force_water_pump_signal"]:
-        water_signal = int(force_controller["water_pump_signal"])
-    # mixer pump control ----------
-    mixer_signal = 0
-    if force_controller["force_mixer_pump_signal"]:
-        mixer_signal = int(force_controller["mixer_pump_signal"])
+    # check if :
+    #       - water pump can start
+    #       - nutrient pump can start
+    #       - pH downer pump can start
+    #       - mixer pump can start
+    # --------------------------
+    water_pump_signal: bool = is_any_require_water(tag=tag)
+    nutrient_pump_signal: bool
+    ph_downer_pump_signal: bool
+    mixer_pump_signal: bool = False
 
+    nutrient_ctl = BinaryController()
+    nutrient_ctl.set_conf(_min=cfg.tds_min_level, _max=cfg.tds_max_level, reverse=False)
+    nutrient_pump_signal = nutrient_ctl.get_signal(d["fields"]["tds_level"])
+
+    ph_ctl = BinaryController()
+    ph_ctl.set_conf(_min=cfg.ph_min_level, _max=cfg.ph_max_level, reverse=False)
+    ph_downer_pump_signal = ph_ctl.get_signal(d["fields"]["ph_level"])
+
+    # check if force signal
+    # --------------------------
+    class A:
+        pass
+
+    try:
+        fctl = ForceController.objects.get(tag=Device.objects.get(tag=tag))
+        if fctl.force_water_pump_signal:
+            water_pump_signal = fctl.water_pump_signal
+        if fctl.force_nutrient_pump_signal:
+            nutrient_pump_signal = fctl.nutrient_pump_signal
+        if fctl.force_ph_downer_pump_signal:
+            ph_downer_pump_signal = fctl.ph_downer_pump_signal
+        if fctl.force_mixer_pump_signal:
+            mixer_pump_signal = fctl.mixer_pump_signal
+    except ForceController.DoesNotExist:
+        fctl = A()
+        fctl.force_water_pump_signal = False
+        fctl.force_nutrient_pump_signal = False
+        fctl.force_ph_downer_pump_signal = False
+        fctl.force_mixer_pump_signal = False
+
+    # save controller  status
+    # --------------------------
+    Controller.objects.update_or_create(
+        tag=Device.objects.get(tag=tag),
+        defaults={
+            "water_pump_signal": water_pump_signal,
+            "nutrient_pump_signal": nutrient_pump_signal,
+            "ph_downer_pump_signal": ph_downer_pump_signal,
+            "mixer_pump_signal": mixer_pump_signal,
+        },
+    )
+
+    # generate JSON
+    # --------------------------
     pub_d: dict = WaterCtrlDict(
         tag=tag,
-        water_pump_signal=water_signal,
-        nutrient_pump_signal=int(nutrient_signal),
-        ph_downer_pump_signal=int(ph_signal),
-        mixer_pump_signal=mixer_signal,
-        tds_max_level=w.tds_max_level,
-        tds_min_level=w.tds_min_level,
-        ph_max_level=w.ph_max_level,
-        ph_min_level=w.ph_min_level,
+        water_pump_signal=water_pump_signal,
+        nutrient_pump_signal=nutrient_pump_signal,
+        ph_downer_pump_signal=ph_downer_pump_signal,
+        mixer_pump_signal=mixer_pump_signal,
+        force_water_pump_signal=fctl.force_water_pump_signal,
+        force_nutrient_pump_signal=fctl.force_nutrient_pump_signal,
+        force_ph_downer_pump_signal=fctl.force_ph_downer_pump_signal,
+        force_mixer_pump_signal=fctl.force_mixer_pump_signal,
+        tds_max_level=cfg.tds_max_level,
+        tds_min_level=cfg.tds_min_level,
+        ph_max_level=cfg.ph_max_level,
+        ph_min_level=cfg.ph_min_level,
     )
+
+    # Publish JSON to MQTT
+    # --------------------------
     mqtt_client.publish(join(MQTT_WATER_CONTROLLER_TOPIC, tag), json.dumps(pub_d))

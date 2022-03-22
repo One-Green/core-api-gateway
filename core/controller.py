@@ -60,7 +60,7 @@ class BinaryController:
         if sensor <= self._min:
             self.lock = False
 
-    def get_signal(self, sensor: float) -> int:
+    def get_signal(self, sensor: float) -> bool:
         """
         Get power signal by using sensor value
 
@@ -74,20 +74,20 @@ class BinaryController:
 
         if not self.reverse:
             if self._min < sensor <= self._max and not self.lock:
-                return 1
+                return True
             elif sensor <= self._min:
-                return 1
+                return True
             else:
-                return 0
+                return False
 
         if self.reverse:
             if self._min < sensor <= self._max and not self.lock:
-                return 1
+                return True
 
             elif sensor >= self._min:
-                return 1
+                return True
             else:
-                return 0
+                return False
 
 
 class TimeRangeController:

@@ -1,145 +1,51 @@
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework.generics import GenericAPIView
-from rest_framework.response import Response
-from rest_framework import status
-from sprinkler.serializers import DeviceSerializer
-from sprinkler.serializers import ConfigSerializer
-from sprinkler.serializers import ForceControllerSerializer
-from core.utils import get_now
-from sprinkler.models import Sprinklers, Device
+from rest_framework.viewsets import ModelViewSet
+from sprinkler.serializers import (
+    DeviceSerializer,
+    SensorSerializer,
+    ConfigSerializer,
+    ControllerSerializer,
+    ForceControllerSerializer,
+)
+from sprinkler.models import Device, Sensor, Config, Controller, ForceController
 
 
-class DeviceView(GenericAPIView):
+class DeviceView(ModelViewSet):
+    queryset = Device.objects.all()
     serializer_class = DeviceSerializer
-
-    @csrf_exempt
-    def get(self, request):
-        """
-        Return list of sprinkler tag available on registry
-        :param request:
-        :return:
-        """
-        r = Device.objects.values_list("tag", flat=True)
-        return Response(r, status=status.HTTP_200_OK)
-
-    @csrf_exempt
-    def post(self, request):
-        """
-        Add new sprinkler tag on registry
-        :param request:
-        :return:
-        """
-        serializer = DeviceSerializer(data=request.data)
-        if serializer.is_valid():
-            tag = request.data["tag"]
-            print(
-                f"[{get_now()}] [INFO] "
-                f"New Sprinkler with {tag=} "
-                f"want to register ..."
-            )
-            if Sprinklers().is_tag_in_registry(tag):
-                r = {"acknowledge": False}
-                print(
-                    f"[{get_now()}] [WARNING] "
-                    f"This tag {tag=} is already in registry"
-                )
-            else:
-                r = {"acknowledge": True}
-                Sprinklers().add_tag_in_registry(tag)
-                print(f"[{get_now()}] [OK] " f"New Sprinkler with {tag=} ")
-            return Response(r, status=status.HTTP_200_OK)
-
-    @csrf_exempt
-    def delete(self, request):
-        try:
-            Device.objects.get(tag=request.data["tag"]).delete()
-            return Response({"acknowledge": True}, status=status.HTTP_200_OK)
-        except Device.DoesNotExist:
-            return Response({"acknowledge": False}, status=status.HTTP_404_NOT_FOUND)
+    search_fields = ["tag"]
 
 
-class ConfigView(GenericAPIView):
+class SensorView(ModelViewSet):
+    """
+    IoT tag based sensors live values
+    only get because always updated by IoT
+    """
+
+    queryset = Sensor.objects.all()
+    serializer_class = SensorSerializer
+    http_method_names = ["get"]
+    search_fields = ["tag__tag"]
+
+
+class ConfigView(ModelViewSet):
+    queryset = Config.objects.all()
     serializer_class = ConfigSerializer
-
-    @csrf_exempt
-    def get(self, request, tag):
-        """
-        Get configuration of specific sprinkler tag
-        :param request:
-        :param tag:
-        :return:
-        """
-        return Response(Sprinklers().get_config(tag), status=status.HTTP_200_OK)
-
-    @csrf_exempt
-    def post(self, request, tag):
-        """
-        Set configuration for a specific tag
-        :param request:
-        :param tag:
-        :return:
-        """
-        serializer = ConfigSerializer(data=request.data)
-        if serializer.is_valid():
-            if Sprinklers().update_config(
-                tag=tag,
-                water_tag_link=request.data["water_tag_link"],
-                soil_moisture_min_level=request.data["soil_moisture_min_level"],
-                soil_moisture_max_level=request.data["soil_moisture_max_level"],
-            ):
-                r = True
-            else:
-                r = False
-            return Response(
-                {
-                    "acknowledged": r,
-                    "config": {
-                        "tag": tag,
-                        "soil_moisture_min_level": request.data[
-                            "soil_moisture_min_level"
-                        ],
-                        "soil_moisture_max_level": request.data[
-                            "soil_moisture_max_level"
-                        ],
-                        "water_tag_link": request.data["water_tag_link"],
-                    },
-                },
-                status=status.HTTP_200_OK,
-            )
+    search_fields = ["tag__tag"]
 
 
-class ForceControllerView(GenericAPIView):
+class ControllerView(ModelViewSet):
     """
-    For debug only, force actuator status
+    Iot tag based controller live action to take
+    only get because always updated by Iot Controller
     """
 
+    queryset = Controller.objects.all()
+    serializer_class = ControllerSerializer
+    http_method_names = ["get"]
+    search_fields = ["tag__tag"]
+
+
+class ForceControllerView(ModelViewSet):
+    queryset = ForceController.objects.all()
     serializer_class = ForceControllerSerializer
-
-    @csrf_exempt
-    def get(self, request, tag):
-        """
-        Get controller force status
-        :param tag:
-        :param request:
-        :return:
-        """
-        return Response(
-            Sprinklers().get_controller_force(tag), status=status.HTTP_200_OK
-        )
-
-    @csrf_exempt
-    def post(self, request, tag):
-        """
-        Force pump off/on
-        :param tag:
-        :param request:
-        :return:
-        """
-        serializer = ForceControllerSerializer(data=request.data)
-        if serializer.is_valid():
-            Sprinklers().update_controller_force(
-                tag=tag,
-                force_water_valve_signal=request.data["force_water_valve_signal"],
-                water_valve_signal=request.data["water_valve_signal"],
-            )
-            return Response({"acknowledge": True}, status=status.HTTP_200_OK)
+    search_fields = ["tag__tag"]
