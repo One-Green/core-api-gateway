@@ -52,15 +52,7 @@ urlpatterns = [
     path("redoc/", schema_view.with_ui("redoc", cache_timeout=0), name="schema-redoc"),
     # Global views
     path("global/config", glbl.views.ConfigView.as_view(), name="global-config"),
-    # Water views
-    path(
-        "water/config/<str:tag>", water.views.ConfigView.as_view(), name="water-config"
-    ),
-    path(
-        "water/controller/force/<str:tag>",
-        water.views.ForceControllerView.as_view(),
-        name="water-force",
-    ),
     path("sprinkler/", include(("sprinkler.urls", "sprinkler"), namespace="sprinkler")),
+    path("water/", include(("water.urls", "water"), namespace="water")),
     path("light/", include(("light.urls", "light"), namespace="light")),
 ]
