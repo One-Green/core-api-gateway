@@ -130,7 +130,7 @@ def node_controller(message):
         fp1=int(fctl.force_water_pump_signal),
         fp2=int(fctl.force_nutrient_pump_signal),
         fp3=int(fctl.force_ph_downer_pump_signal),
-        fp5=int(fctl.force_mixer_pump_signal),
+        fp4=int(fctl.force_mixer_pump_signal),
         tmax=cfg.tds_max_level,
         tmin=cfg.tds_min_level,
         pmax=cfg.ph_max_level,
