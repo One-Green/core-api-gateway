@@ -10,7 +10,7 @@ from project.settings import MQTT_PORT
 from project.settings import MQTT_USERNAME
 from project.settings import MQTT_PASSWORD
 from project.settings import MQTT_WATER_CONTROLLER_TOPIC
-from water.helpers import is_any_require_water
+from water.helpers import is_any_require_water, count_linked_sprinkler
 from water.config import set_default_config
 from water.dict_def import WaterCtrlDict
 from celery import shared_task
@@ -123,19 +123,19 @@ def node_controller(message):
     # generate JSON
     # --------------------------
     callback_d: dict = WaterCtrlDict(
-        tag=tag,
-        water_pump_signal=int(water_pump_signal),
-        nutrient_pump_signal=int(nutrient_pump_signal),
-        ph_downer_pump_signal=int(ph_downer_pump_signal),
-        mixer_pump_signal=int(mixer_pump_signal),
-        force_water_pump_signal=int(fctl.force_water_pump_signal),
-        force_nutrient_pump_signal=int(fctl.force_nutrient_pump_signal),
-        force_ph_downer_pump_signal=int(fctl.force_ph_downer_pump_signal),
-        force_mixer_pump_signal=int(fctl.force_mixer_pump_signal),
-        tds_max_level=cfg.tds_max_level,
-        tds_min_level=cfg.tds_min_level,
-        ph_max_level=cfg.ph_max_level,
-        ph_min_level=cfg.ph_min_level,
+        p1=int(water_pump_signal),
+        p2=int(nutrient_pump_signal),
+        p3=int(ph_downer_pump_signal),
+        p5=int(mixer_pump_signal),
+        fp1=int(fctl.force_water_pump_signal),
+        fp2=int(fctl.force_nutrient_pump_signal),
+        fp3=int(fctl.force_ph_downer_pump_signal),
+        fp5=int(fctl.force_mixer_pump_signal),
+        tmax=cfg.tds_max_level,
+        tmin=cfg.tds_min_level,
+        pmax=cfg.ph_max_level,
+        pmin=cfg.ph_min_level,
+        spc=count_linked_sprinkler(tag)
     )
 
     # Publish JSON to MQTT

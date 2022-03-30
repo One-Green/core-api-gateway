@@ -15,3 +15,14 @@ def is_any_require_water(tag: str) -> bool:
         ).values_list("id")
     ).values_list("water_valve_signal", flat=True)
     return True if True in r else False
+
+
+def count_linked_sprinkler(tag: str) -> int:
+    """
+    return number of sprinkler linked with water tank
+    :param tag:
+    :return:
+    """
+    return Config.objects.filter(
+        water_tag_link=Device.objects.get(tag=tag)
+    ).count()
