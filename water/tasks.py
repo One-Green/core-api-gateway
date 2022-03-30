@@ -126,7 +126,7 @@ def node_controller(message):
         p1=int(water_pump_signal),
         p2=int(nutrient_pump_signal),
         p3=int(ph_downer_pump_signal),
-        p5=int(mixer_pump_signal),
+        p4=int(mixer_pump_signal),
         fp1=int(fctl.force_water_pump_signal),
         fp2=int(fctl.force_nutrient_pump_signal),
         fp3=int(fctl.force_ph_downer_pump_signal),
