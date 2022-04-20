@@ -83,25 +83,24 @@ def node_controller(message):
     # --------------------------
     try:
         fctl = ForceController.objects.get(tag=Device.objects.get(tag=tag))
-        if fctl.force_water_valve_signal:
-            water_valve_signal = fctl.water_valve_signal
     except ForceController.DoesNotExist:
         # create class to add force_light_signal attribute to mock
         # if ForceController object not found
         class A:
             pass
-
         fctl = A()
         fctl.force_water_valve_signal = False
+        fctl.water_valve_signal = False
 
     # generate JSON
     # --------------------------
     callback_d: dict = SprinklerCtrlDict(
-        water_tag_link=WaterDevice.objects.get(tag=cfg.water_tag_link).tag,
-        water_valve_signal=int(water_valve_signal),
-        force_water_valve_signal=int(fctl.force_water_valve_signal),
-        soil_moisture_min_level=cfg.soil_moisture_min_level,
-        soil_moisture_max_level=cfg.soil_moisture_max_level,
+        wtl=WaterDevice.objects.get(tag=cfg.water_tag_link).tag,
+        wvs=int(water_valve_signal),
+        fwv=int(fctl.water_valve_signal),
+        fwvs=int(fctl.force_water_valve_signal),
+        hmin=cfg.soil_moisture_min_level,
+        hmax=cfg.soil_moisture_max_level
     )
 
     # Publish JSON to MQTT
