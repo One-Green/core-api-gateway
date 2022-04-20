@@ -2,8 +2,9 @@ from typing import TypedDict
 
 
 class SprinklerCtrlDict(TypedDict):
-    water_tag_link: str
-    water_valve_signal: int
-    force_water_valve_signal: int
-    soil_moisture_min_level: float
-    soil_moisture_max_level: float
+    wtl: str  # water tag link
+    wvs: int  # water_valve_signal
+    fwv: int  # force_water_valve
+    fwvs: int  # force_water_valve_signal
+    hmin: float  # soil_moisture_min_level
+    hmax: float  # soil_moisture_max_level
