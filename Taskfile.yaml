@@ -46,7 +46,9 @@ tasks:
     desc: build docker image dev
     cmds:
       - sudo docker build -t {{.IMAGE}}:{{.TAG}} .
+      - sudo docker tag {{.IMAGE}}:{{.TAG}} {{.IMAGE}}:latest
       - sudo docker push {{.IMAGE}}:{{.TAG}}
+      - sudo docker push {{.IMAGE}}:latest
     vars:
       IMAGE: docker.io/shanisma/og-core
       TAG: 0.0.8

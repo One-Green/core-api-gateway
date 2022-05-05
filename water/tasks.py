@@ -4,7 +4,6 @@ Celery + Redis async tasks
 import orjson as json
 import paho.mqtt.client as mqtt
 from line_protocol_parser import parse_line
-from core.controller import BinaryController
 from project.settings import MQTT_HOST
 from project.settings import MQTT_PORT
 from project.settings import MQTT_USERNAME
@@ -67,70 +66,39 @@ def node_controller(message):
     finally:
         cfg = Config.objects.get(tag=Device.objects.get(tag=tag))
 
-    # check if :
-    #       - water pump can start
-    #       - nutrient pump can start
-    #       - pH downer pump can start
-    #       - mixer pump can start
+    # check if  water pump must start
     # --------------------------
     water_pump_signal: bool = is_any_require_water(tag=tag)
-    nutrient_pump_signal: bool
-    ph_downer_pump_signal: bool
-    mixer_pump_signal: bool = False
-
-    nutrient_ctl = BinaryController()
-    nutrient_ctl.set_conf(_min=cfg.tds_min_level, _max=cfg.tds_max_level, reverse=False)
-    nutrient_pump_signal = nutrient_ctl.get_signal(d["fields"]["tds_level"])
-
-    ph_ctl = BinaryController()
-    ph_ctl.set_conf(_min=cfg.ph_min_level, _max=cfg.ph_max_level, reverse=False)
-    ph_downer_pump_signal = ph_ctl.get_signal(d["fields"]["ph_level"])
 
     # check if force signal
     # --------------------------
-    class A:
-        pass
-
     try:
         fctl = ForceController.objects.get(tag=Device.objects.get(tag=tag))
-        if fctl.force_water_pump_signal:
-            water_pump_signal = fctl.water_pump_signal
-        if fctl.force_nutrient_pump_signal:
-            nutrient_pump_signal = fctl.nutrient_pump_signal
-        if fctl.force_ph_downer_pump_signal:
-            ph_downer_pump_signal = fctl.ph_downer_pump_signal
-        if fctl.force_mixer_pump_signal:
-            mixer_pump_signal = fctl.mixer_pump_signal
     except ForceController.DoesNotExist:
+        class A:
+            pass
         fctl = A()
+        fctl.water_pump_signal = False
+        fctl.nutrient_pump_signal = False
+        fctl.ph_downer_pump_signal = False
+        fctl.mixer_pump_signal = False
         fctl.force_water_pump_signal = False
         fctl.force_nutrient_pump_signal = False
         fctl.force_ph_downer_pump_signal = False
         fctl.force_mixer_pump_signal = False
 
-    # save controller  status
-    # --------------------------
-    Controller.objects.update_or_create(
-        tag=Device.objects.get(tag=tag),
-        defaults={
-            "water_pump_signal": water_pump_signal,
-            "nutrient_pump_signal": nutrient_pump_signal,
-            "ph_downer_pump_signal": ph_downer_pump_signal,
-            "mixer_pump_signal": mixer_pump_signal,
-        },
-    )
-
     # generate JSON
     # --------------------------
     callback_d: dict = WaterCtrlDict(
         p1=int(water_pump_signal),
-        p2=int(nutrient_pump_signal),
-        p3=int(ph_downer_pump_signal),
-        p4=int(mixer_pump_signal),
-        fp1=int(fctl.force_water_pump_signal),
-        fp2=int(fctl.force_nutrient_pump_signal),
-        fp3=int(fctl.force_ph_downer_pump_signal),
-        fp4=int(fctl.force_mixer_pump_signal),
+        fps1=int(fctl.force_water_pump_signal),
+        fps2=int(fctl.force_nutrient_pump_signal),
+        fps3=int(fctl.force_ph_downer_pump_signal),
+        fps4=int(fctl.force_mixer_pump_signal),
+        fp1=int(fctl.water_pump_signal),
+        fp2=int(fctl.nutrient_pump_signal),
+        fp3=int(fctl.ph_downer_pump_signal),
+        fp4=int(fctl.mixer_pump_signal),
         tmax=cfg.tds_max_level,
         tmin=cfg.tds_min_level,
         pmax=cfg.ph_max_level,
