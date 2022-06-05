@@ -8,13 +8,12 @@ def is_any_require_water(tag: str) -> bool:
     linked water tank
     :return:
     """
-    r = Controller.objects.filter(
-        # filter sprinkler linked to water
-        pk__in=Config.objects.filter(
-            water_tag_link=Device.objects.get(tag=tag)
-        ).values_list("id")
-    ).values_list("water_valve_signal", flat=True)
-    return True if True in r else False
+    # retrieve sprinklers linked to this water tag
+    for _ in Config.objects.filter(water_tag_link=Device.objects.get(tag=tag)):
+        if Controller.objects.get(tag=_.tag).water_valve_signal:
+            return True
+    else:
+        return False
 
 
 def count_linked_sprinkler(tag: str) -> int:
