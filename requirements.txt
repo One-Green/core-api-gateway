@@ -71,7 +71,7 @@ tzlocal==4.1
 uritemplate==4.1.1
 urllib3==1.26.9
 vine==5.0.0
-waitress==2.1.1
+waitress==2.1.2
 wcwidth==0.2.5
 whitenoise==6.0.0
 wrapt==1.14.0
