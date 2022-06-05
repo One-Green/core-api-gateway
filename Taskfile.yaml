@@ -51,7 +51,7 @@ tasks:
       - sudo docker push {{.IMAGE}}:latest
     vars:
       IMAGE: docker.io/shanisma/og-core
-      TAG: 0.0.8
+      TAG: 0.0.9
 
   start-api:
     desc: start api

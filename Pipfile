@@ -12,7 +12,7 @@ orjson = "*"
 line-protocol-parser = "*"
 gunicorn = "*"
 waitress = "*"
-django = "*"
+django = "==4.0.4"
 # workaround for drf-yasg+dj4
 # https://github.com/axnsan12/drf-yasg/issues/761
 drf-yasg = {git = "https://github.com/axnsan12/drf-yasg"}
