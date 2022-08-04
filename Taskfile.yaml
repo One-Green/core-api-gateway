@@ -57,7 +57,7 @@ tasks:
     desc: start api
     cmds:
       - task up-db
-      - python manage.py runserver -p 8081
+      - python manage.py runserver 0.0.0.0:8001
 
   test-core:
     desc: run /core/tests py files
@@ -89,3 +89,13 @@ tasks:
     cmds:
       - task up-db
       - python get_routes.py
+
+  o:
+    desc: generate openapi schema
+    cmds:
+      - wget http://0.0.0.0:8001/\?format\=openapi -o openapi-schema.json
+
+  py-sdk:
+    desc: generate python sdk og-core-api
+    cmds:
+      - openapi-generator-cli generate -i openapi-schema.json -g python -o ../og-py-openapi-client
