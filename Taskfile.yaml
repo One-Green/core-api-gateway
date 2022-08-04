@@ -57,7 +57,7 @@ tasks:
     desc: start api
     cmds:
       - task up-db
-      - python manage.py runserver
+      - python manage.py runserver -p 8081
 
   test-core:
     desc: run /core/tests py files
