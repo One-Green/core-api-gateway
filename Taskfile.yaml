@@ -51,7 +51,7 @@ tasks:
       - sudo docker push {{.IMAGE}}:latest
     vars:
       IMAGE: docker.io/shanisma/og-core
-      TAG: 0.0.9
+      TAG: 0.0.10
 
   start-api:
     desc: start api
@@ -68,6 +68,7 @@ tasks:
   test-api:
     desc: test apis
     cmds:
+      - python manage.py test glbl
       - python manage.py test sprinkler
       - python manage.py test water
       - python manage.py test light

@@ -15,13 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from drf_yasg.generators import OpenAPISchemaGenerator
-
-import glbl.views
-import water.views
 
 
 class BothHttpAndHttpsSchemaGenerator(OpenAPISchemaGenerator):
@@ -46,10 +42,9 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    # Swagger views
     path("", schema_view.with_ui("swagger", cache_timeout=0), name="schema-swagger-ui"),
     path("redoc/", schema_view.with_ui("redoc", cache_timeout=0), name="schema-redoc"),
-    path("global/", include("glbl.urls"), name="global-config"),
+    path("global/", include(("glbl.urls", "glbl"), namespace="glbl")),
     path("sprinkler/", include(("sprinkler.urls", "sprinkler"), namespace="sprinkler")),
     path("water/", include(("water.urls", "water"), namespace="water")),
     path("light/", include(("light.urls", "light"), namespace="light")),

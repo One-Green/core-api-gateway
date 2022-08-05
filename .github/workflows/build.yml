@@ -30,4 +30,4 @@ jobs:
           context: .
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: docker.io/shanisma/og-core:0.0.9,docker.io/shanisma/og-core:latest
+          tags: docker.io/shanisma/og-core:0.0.10,docker.io/shanisma/og-core:latest
