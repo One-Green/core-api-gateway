@@ -156,6 +156,8 @@ REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 10,
 }
+# USER MODEL SETTING
+AUTH_USER_MODEL = "accounts.CustomUser"
 
 # CELERY + REDIS configuration
 BROKER_URL = "redis://{0}:{1}".format(
