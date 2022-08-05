@@ -98,7 +98,7 @@ tasks:
   py-sdk:
     desc: generate python sdk og-core-api
     cmds:
-      - openapi-generator-cli generate -i openapi-schema.json -g python -o ../og-py-openapi-client
+      - openapi-generator-cli generate -i openapi-schema.json -g python -o  ../og-py-openapi-client --package-name "og_client"
 
   js-sdk:
     desc: generate javascript sdk og-core-api
