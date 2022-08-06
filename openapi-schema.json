@@ -1,1 +1,3569 @@
-{"swagger": "2.0", "info": {"title": "One-Green Core API Gateway ", "description": "Plant cultivation framework", "termsOfService": "https://github.com/One-Green/core-api-gateway/blob/master/LICENSE", "contact": {"email": "shanmugathas.vigneswaran@outlook.fr"}, "license": {"name": "Creative Commons Zero v1.0 Universal"}, "version": "v1"}, "host": "0.0.0.0:8001", "schemes": ["http", "https"], "basePath": "/", "consumes": ["application/json"], "produces": ["application/json"], "securityDefinitions": {"Basic": {"type": "basic"}}, "security": [{"Basic": []}], "paths": {"/global/config/": {"get": {"operationId": "global_config_list", "description": "", "parameters": [{"name": "search", "in": "query", "description": "A search term.", "required": false, "type": "string"}, {"name": "page", "in": "query", "description": "A page number within the paginated result set.", "required": false, "type": "integer"}], "responses": {"200": {"description": "", "schema": {"required": ["count", "results"], "type": "object", "properties": {"count": {"type": "integer"}, "next": {"type": "string", "format": "uri", "x-nullable": true}, "previous": {"type": "string", "format": "uri", "x-nullable": true}, "results": {"type": "array", "items": {"$ref": "#/definitions/global_config"}}}}}}, "tags": ["global"]}, "post": {"operationId": "global_config_create", "description": "", "parameters": [{"name": "data", "in": "body", "required": true, "schema": {"$ref": "#/definitions/global_config"}}], "responses": {"201": {"description": "", "schema": {"$ref": "#/definitions/global_config"}}}, "tags": ["global"]}, "parameters": []}, "/global/config/{id}/": {"get": {"operationId": "global_config_read", "description": "", "parameters": [], "responses": {"200": {"description": "", "schema": {"$ref": "#/definitions/global_config"}}}, "tags": ["global"]}, "put": {"operationId": "global_config_update", "description": "", "parameters": [{"name": "data", "in": "body", "required": true, "schema": {"$ref": "#/definitions/global_config"}}], "responses": {"200": {"description": "", "schema": {"$ref": "#/definitions/global_config"}}}, "tags": ["global"]}, "patch": {"operationId": "global_config_partial_update", "description": "", "parameters": [{"name": "data", "in": "body", "required": true, "schema": {"$ref": "#/definitions/global_config"}}], "responses": {"200": {"description": "", "schema": {"$ref": "#/definitions/global_config"}}}, "tags": ["global"]}, "delete": {"operationId": "global_config_delete", "description": "", "parameters": [], "responses": {"204": {"description": ""}}, "tags": ["global"]}, "parameters": [{"name": "id", "in": "path", "description": "A unique integer value identifying this config.", "required": true, "type": "integer"}]}, "/light/config-calendar/": {"get": {"operationId": "light_config-calendar_list", "description": "", "parameters": [{"name": "search", "in": "query", "description": "A search term.", "required": false, "type": "string"}, {"name": "page", "in": "query", "description": "A page number within the paginated result set.", "required": false, "type": "integer"}], "responses": {"200": {"description": "", "schema": {"required": ["count", "results"], "type": "object", "properties": {"count": {"type": "integer"}, "next": {"type": "string", "format": "uri", "x-nullable": true}, "previous": {"type": "string", "format": "uri", "x-nullable": true}, "results": {"type": "array", "items": {"$ref": "#/definitions/light_configuration_calendar_range"}}}}}}, "tags": ["light"]}, "post": {"operationId": "light_config-calendar_create", "description": "", "parameters": [{"name": "data", "in": "body", "required": true, "schema": {"$ref": "#/definitions/light_configuration_calendar_range"}}], "responses": {"201": {"description": "", "schema": {"$ref": "#/definitions/light_configuration_calendar_range"}}}, "tags": ["light"]}, "parameters": []}, "/light/config-calendar/{id}/": {"get": {"operationId": "light_config-calendar_read", "description": "", "parameters": [], "responses": {"200": {"description": "", "schema": {"$ref": "#/definitions/light_configuration_calendar_range"}}}, "tags": ["light"]}, "put": {"operationId": "light_config-calendar_update", "description": "", "parameters": [{"name": "data", "in": "body", "required": true, "schema": {"$ref": "#/definitions/light_configuration_calendar_range"}}], "responses": {"200": {"description": "", "schema": {"$ref": "#/definitions/light_configuration_calendar_range"}}}, "tags": ["light"]}, "patch": {"operationId": "light_config-calendar_partial_update", "description": "", "parameters": [{"name": "data", "in": "body", "required": true, "schema": {"$ref": "#/definitions/light_configuration_calendar_range"}}], "responses": {"200": {"description": "", "schema": {"$ref": "#/definitions/light_configuration_calendar_range"}}}, "tags": ["light"]}, "delete": {"operationId": "light_config-calendar_delete", "description": "", "parameters": [], "responses": {"204": {"description": ""}}, "tags": ["light"]}, "parameters": [{"name": "id", "in": "path", "description": "A unique integer value identifying this calendar range.", "required": true, "type": "integer"}]}, "/light/config-daily/": {"get": {"operationId": "light_config-daily_list", "description": "", "parameters": [{"name": "search", "in": "query", "description": "A search term.", "required": false, "type": "string"}, {"name": "page", "in": "query", "description": "A page number within the paginated result set.", "required": false, "type": "integer"}], "responses": {"200": {"description": "", "schema": {"required": ["count", "results"], "type": "object", "properties": {"count": {"type": "integer"}, "next": {"type": "string", "format": "uri", "x-nullable": true}, "previous": {"type": "string", "format": "uri", "x-nullable": true}, "results": {"type": "array", "items": {"$ref": "#/definitions/light_configuration_daily_time_range"}}}}}}, "tags": ["light"]}, "post": {"operationId": "light_config-daily_create", "description": "", "parameters": [{"name": "data", "in": "body", "required": true, "schema": {"$ref": "#/definitions/light_configuration_daily_time_range"}}], "responses": {"201": {"description": "", "schema": {"$ref": "#/definitions/light_configuration_daily_time_range"}}}, "tags": ["light"]}, "parameters": []}, "/light/config-daily/{id}/": {"get": {"operationId": "light_config-daily_read", "description": "", "parameters": [], "responses": {"200": {"description": "", "schema": {"$ref": "#/definitions/light_configuration_daily_time_range"}}}, "tags": ["light"]}, "put": {"operationId": "light_config-daily_update", "description": "", "parameters": [{"name": "data", "in": "body", "required": true, "schema": {"$ref": "#/definitions/light_configuration_daily_time_range"}}], "responses": {"200": {"description": "", "schema": {"$ref": "#/definitions/light_configuration_daily_time_range"}}}, "tags": ["light"]}, "patch": {"operationId": "light_config-daily_partial_update", "description": "", "parameters": [{"name": "data", "in": "body", "required": true, "schema": {"$ref": "#/definitions/light_configuration_daily_time_range"}}], "responses": {"200": {"description": "", "schema": {"$ref": "#/definitions/light_configuration_daily_time_range"}}}, "tags": ["light"]}, "delete": {"operationId": "light_config-daily_delete", "description": "", "parameters": [], "responses": {"204": {"description": ""}}, "tags": ["light"]}, "parameters": [{"name": "id", "in": "path", "description": "A unique integer value identifying this daily time range.", "required": true, "type": "integer"}]}, "/light/config-type/": {"get": {"operationId": "light_config-type_list", "description": "", "parameters": [{"name": "search", "in": "query", "description": "A search term.", "required": false, "type": "string"}, {"name": "page", "in": "query", "description": "A page number within the paginated result set.", "required": false, "type": "integer"}], "responses": {"200": {"description": "", "schema": {"required": ["count", "results"], "type": "object", "properties": {"count": {"type": "integer"}, "next": {"type": "string", "format": "uri", "x-nullable": true}, "previous": {"type": "string", "format": "uri", "x-nullable": true}, "results": {"type": "array", "items": {"$ref": "#/definitions/light_configuration_type"}}}}}}, "tags": ["light"]}, "post": {"operationId": "light_config-type_create", "description": "", "parameters": [{"name": "data", "in": "body", "required": true, "schema": {"$ref": "#/definitions/light_configuration_type"}}], "responses": {"201": {"description": "", "schema": {"$ref": "#/definitions/light_configuration_type"}}}, "tags": ["light"]}, "parameters": []}, "/light/config-type/{id}/": {"get": {"operationId": "light_config-type_read", "description": "", "parameters": [], "responses": {"200": {"description": "", "schema": {"$ref": "#/definitions/light_configuration_type"}}}, "tags": ["light"]}, "put": {"operationId": "light_config-type_update", "description": "", "parameters": [{"name": "data", "in": "body", "required": true, "schema": {"$ref": "#/definitions/light_configuration_type"}}], "responses": {"200": {"description": "", "schema": {"$ref": "#/definitions/light_configuration_type"}}}, "tags": ["light"]}, "patch": {"operationId": "light_config-type_partial_update", "description": "", "parameters": [{"name": "data", "in": "body", "required": true, "schema": {"$ref": "#/definitions/light_configuration_type"}}], "responses": {"200": {"description": "", "schema": {"$ref": "#/definitions/light_configuration_type"}}}, "tags": ["light"]}, "delete": {"operationId": "light_config-type_delete", "description": "", "parameters": [], "responses": {"204": {"description": ""}}, "tags": ["light"]}, "parameters": [{"name": "id", "in": "path", "description": "A unique integer value identifying this config type.", "required": true, "type": "integer"}]}, "/light/config/": {"get": {"operationId": "light_config_list", "description": "", "parameters": [{"name": "search", "in": "query", "description": "A search term.", "required": false, "type": "string"}, {"name": "page", "in": "query", "description": "A page number within the paginated result set.", "required": false, "type": "integer"}], "responses": {"200": {"description": "", "schema": {"required": ["count", "results"], "type": "object", "properties": {"count": {"type": "integer"}, "next": {"type": "string", "format": "uri", "x-nullable": true}, "previous": {"type": "string", "format": "uri", "x-nullable": true}, "results": {"type": "array", "items": {"$ref": "#/definitions/light_configuration"}}}}}}, "tags": ["light"]}, "post": {"operationId": "light_config_create", "description": "", "parameters": [{"name": "data", "in": "body", "required": true, "schema": {"$ref": "#/definitions/light_configuration"}}], "responses": {"201": {"description": "", "schema": {"$ref": "#/definitions/light_configuration"}}}, "tags": ["light"]}, "parameters": []}, "/light/config/{id}/": {"get": {"operationId": "light_config_read", "description": "", "parameters": [], "responses": {"200": {"description": "", "schema": {"$ref": "#/definitions/light_configuration"}}}, "tags": ["light"]}, "put": {"operationId": "light_config_update", "description": "", "parameters": [{"name": "data", "in": "body", "required": true, "schema": {"$ref": "#/definitions/light_configuration"}}], "responses": {"200": {"description": "", "schema": {"$ref": "#/definitions/light_configuration"}}}, "tags": ["light"]}, "patch": {"operationId": "light_config_partial_update", "description": "", "parameters": [{"name": "data", "in": "body", "required": true, "schema": {"$ref": "#/definitions/light_configuration"}}], "responses": {"200": {"description": "", "schema": {"$ref": "#/definitions/light_configuration"}}}, "tags": ["light"]}, "delete": {"operationId": "light_config_delete", "description": "", "parameters": [], "responses": {"204": {"description": ""}}, "tags": ["light"]}, "parameters": [{"name": "id", "in": "path", "description": "A unique integer value identifying this config.", "required": true, "type": "integer"}]}, "/light/controller-force/": {"get": {"operationId": "light_controller-force_list", "description": "", "parameters": [{"name": "search", "in": "query", "description": "A search term.", "required": false, "type": "string"}, {"name": "page", "in": "query", "description": "A page number within the paginated result set.", "required": false, "type": "integer"}], "responses": {"200": {"description": "", "schema": {"required": ["count", "results"], "type": "object", "properties": {"count": {"type": "integer"}, "next": {"type": "string", "format": "uri", "x-nullable": true}, "previous": {"type": "string", "format": "uri", "x-nullable": true}, "results": {"type": "array", "items": {"$ref": "#/definitions/light_force_controller"}}}}}}, "tags": ["light"]}, "post": {"operationId": "light_controller-force_create", "description": "", "parameters": [{"name": "data", "in": "body", "required": true, "schema": {"$ref": "#/definitions/light_force_controller"}}], "responses": {"201": {"description": "", "schema": {"$ref": "#/definitions/light_force_controller"}}}, "tags": ["light"]}, "parameters": []}, "/light/controller-force/{id}/": {"get": {"operationId": "light_controller-force_read", "description": "", "parameters": [], "responses": {"200": {"description": "", "schema": {"$ref": "#/definitions/light_force_controller"}}}, "tags": ["light"]}, "put": {"operationId": "light_controller-force_update", "description": "", "parameters": [{"name": "data", "in": "body", "required": true, "schema": {"$ref": "#/definitions/light_force_controller"}}], "responses": {"200": {"description": "", "schema": {"$ref": "#/definitions/light_force_controller"}}}, "tags": ["light"]}, "patch": {"operationId": "light_controller-force_partial_update", "description": "", "parameters": [{"name": "data", "in": "body", "required": true, "schema": {"$ref": "#/definitions/light_force_controller"}}], "responses": {"200": {"description": "", "schema": {"$ref": "#/definitions/light_force_controller"}}}, "tags": ["light"]}, "delete": {"operationId": "light_controller-force_delete", "description": "", "parameters": [], "responses": {"204": {"description": ""}}, "tags": ["light"]}, "parameters": [{"name": "id", "in": "path", "description": "A unique integer value identifying this force controller.", "required": true, "type": "integer"}]}, "/light/controller/": {"get": {"operationId": "light_controller_list", "description": "Iot tag based controller live action to take\nonly get because always updated by Iot Controller", "parameters": [{"name": "search", "in": "query", "description": "A search term.", "required": false, "type": "string"}, {"name": "page", "in": "query", "description": "A page number within the paginated result set.", "required": false, "type": "integer"}], "responses": {"200": {"description": "", "schema": {"required": ["count", "results"], "type": "object", "properties": {"count": {"type": "integer"}, "next": {"type": "string", "format": "uri", "x-nullable": true}, "previous": {"type": "string", "format": "uri", "x-nullable": true}, "results": {"type": "array", "items": {"$ref": "#/definitions/light_controller"}}}}}}, "tags": ["light"]}, "parameters": []}, "/light/controller/{id}/": {"get": {"operationId": "light_controller_read", "description": "Iot tag based controller live action to take\nonly get because always updated by Iot Controller", "parameters": [], "responses": {"200": {"description": "", "schema": {"$ref": "#/definitions/light_controller"}}}, "tags": ["light"]}, "parameters": [{"name": "id", "in": "path", "description": "A unique integer value identifying this controller.", "required": true, "type": "integer"}]}, "/light/device/": {"get": {"operationId": "light_device_list", "description": "", "parameters": [{"name": "search", "in": "query", "description": "A search term.", "required": false, "type": "string"}, {"name": "page", "in": "query", "description": "A page number within the paginated result set.", "required": false, "type": "integer"}], "responses": {"200": {"description": "", "schema": {"required": ["count", "results"], "type": "object", "properties": {"count": {"type": "integer"}, "next": {"type": "string", "format": "uri", "x-nullable": true}, "previous": {"type": "string", "format": "uri", "x-nullable": true}, "results": {"type": "array", "items": {"$ref": "#/definitions/light_device"}}}}}}, "tags": ["light"]}, "post": {"operationId": "light_device_create", "description": "", "parameters": [{"name": "data", "in": "body", "required": true, "schema": {"$ref": "#/definitions/light_device"}}], "responses": {"201": {"description": "", "schema": {"$ref": "#/definitions/light_device"}}}, "tags": ["light"]}, "parameters": []}, "/light/device/{id}/": {"get": {"operationId": "light_device_read", "description": "", "parameters": [], "responses": {"200": {"description": "", "schema": {"$ref": "#/definitions/light_device"}}}, "tags": ["light"]}, "put": {"operationId": "light_device_update", "description": "", "parameters": [{"name": "data", "in": "body", "required": true, "schema": {"$ref": "#/definitions/light_device"}}], "responses": {"200": {"description": "", "schema": {"$ref": "#/definitions/light_device"}}}, "tags": ["light"]}, "patch": {"operationId": "light_device_partial_update", "description": "", "parameters": [{"name": "data", "in": "body", "required": true, "schema": {"$ref": "#/definitions/light_device"}}], "responses": {"200": {"description": "", "schema": {"$ref": "#/definitions/light_device"}}}, "tags": ["light"]}, "delete": {"operationId": "light_device_delete", "description": "", "parameters": [], "responses": {"204": {"description": ""}}, "tags": ["light"]}, "parameters": [{"name": "id", "in": "path", "description": "A unique integer value identifying this device.", "required": true, "type": "integer"}]}, "/light/sensor/": {"get": {"operationId": "light_sensor_list", "description": "IoT tag based sensors live values\nonly get because always updated by IoT", "parameters": [{"name": "search", "in": "query", "description": "A search term.", "required": false, "type": "string"}, {"name": "page", "in": "query", "description": "A page number within the paginated result set.", "required": false, "type": "integer"}], "responses": {"200": {"description": "", "schema": {"required": ["count", "results"], "type": "object", "properties": {"count": {"type": "integer"}, "next": {"type": "string", "format": "uri", "x-nullable": true}, "previous": {"type": "string", "format": "uri", "x-nullable": true}, "results": {"type": "array", "items": {"$ref": "#/definitions/light_sensor"}}}}}}, "tags": ["light"]}, "parameters": []}, "/light/sensor/{id}/": {"get": {"operationId": "light_sensor_read", "description": "IoT tag based sensors live values\nonly get because always updated by IoT", "parameters": [], "responses": {"200": {"description": "", "schema": {"$ref": "#/definitions/light_sensor"}}}, "tags": ["light"]}, "parameters": [{"name": "id", "in": "path", "description": "A unique integer value identifying this sensor.", "required": true, "type": "integer"}]}, "/sprinkler/config/": {"get": {"operationId": "sprinkler_config_list", "description": "", "parameters": [{"name": "search", "in": "query", "description": "A search term.", "required": false, "type": "string"}, {"name": "page", "in": "query", "description": "A page number within the paginated result set.", "required": false, "type": "integer"}], "responses": {"200": {"description": "", "schema": {"required": ["count", "results"], "type": "object", "properties": {"count": {"type": "integer"}, "next": {"type": "string", "format": "uri", "x-nullable": true}, "previous": {"type": "string", "format": "uri", "x-nullable": true}, "results": {"type": "array", "items": {"$ref": "#/definitions/sprinkler_configuration"}}}}}}, "tags": ["sprinkler"]}, "post": {"operationId": "sprinkler_config_create", "description": "", "parameters": [{"name": "data", "in": "body", "required": true, "schema": {"$ref": "#/definitions/sprinkler_configuration"}}], "responses": {"201": {"description": "", "schema": {"$ref": "#/definitions/sprinkler_configuration"}}}, "tags": ["sprinkler"]}, "parameters": []}, "/sprinkler/config/{id}/": {"get": {"operationId": "sprinkler_config_read", "description": "", "parameters": [], "responses": {"200": {"description": "", "schema": {"$ref": "#/definitions/sprinkler_configuration"}}}, "tags": ["sprinkler"]}, "put": {"operationId": "sprinkler_config_update", "description": "", "parameters": [{"name": "data", "in": "body", "required": true, "schema": {"$ref": "#/definitions/sprinkler_configuration"}}], "responses": {"200": {"description": "", "schema": {"$ref": "#/definitions/sprinkler_configuration"}}}, "tags": ["sprinkler"]}, "patch": {"operationId": "sprinkler_config_partial_update", "description": "", "parameters": [{"name": "data", "in": "body", "required": true, "schema": {"$ref": "#/definitions/sprinkler_configuration"}}], "responses": {"200": {"description": "", "schema": {"$ref": "#/definitions/sprinkler_configuration"}}}, "tags": ["sprinkler"]}, "delete": {"operationId": "sprinkler_config_delete", "description": "", "parameters": [], "responses": {"204": {"description": ""}}, "tags": ["sprinkler"]}, "parameters": [{"name": "id", "in": "path", "description": "A unique integer value identifying this config.", "required": true, "type": "integer"}]}, "/sprinkler/controller-force/": {"get": {"operationId": "sprinkler_controller-force_list", "description": "", "parameters": [{"name": "search", "in": "query", "description": "A search term.", "required": false, "type": "string"}, {"name": "page", "in": "query", "description": "A page number within the paginated result set.", "required": false, "type": "integer"}], "responses": {"200": {"description": "", "schema": {"required": ["count", "results"], "type": "object", "properties": {"count": {"type": "integer"}, "next": {"type": "string", "format": "uri", "x-nullable": true}, "previous": {"type": "string", "format": "uri", "x-nullable": true}, "results": {"type": "array", "items": {"$ref": "#/definitions/sprinkler_force_controller"}}}}}}, "tags": ["sprinkler"]}, "post": {"operationId": "sprinkler_controller-force_create", "description": "", "parameters": [{"name": "data", "in": "body", "required": true, "schema": {"$ref": "#/definitions/sprinkler_force_controller"}}], "responses": {"201": {"description": "", "schema": {"$ref": "#/definitions/sprinkler_force_controller"}}}, "tags": ["sprinkler"]}, "parameters": []}, "/sprinkler/controller-force/{id}/": {"get": {"operationId": "sprinkler_controller-force_read", "description": "", "parameters": [], "responses": {"200": {"description": "", "schema": {"$ref": "#/definitions/sprinkler_force_controller"}}}, "tags": ["sprinkler"]}, "put": {"operationId": "sprinkler_controller-force_update", "description": "", "parameters": [{"name": "data", "in": "body", "required": true, "schema": {"$ref": "#/definitions/sprinkler_force_controller"}}], "responses": {"200": {"description": "", "schema": {"$ref": "#/definitions/sprinkler_force_controller"}}}, "tags": ["sprinkler"]}, "patch": {"operationId": "sprinkler_controller-force_partial_update", "description": "", "parameters": [{"name": "data", "in": "body", "required": true, "schema": {"$ref": "#/definitions/sprinkler_force_controller"}}], "responses": {"200": {"description": "", "schema": {"$ref": "#/definitions/sprinkler_force_controller"}}}, "tags": ["sprinkler"]}, "delete": {"operationId": "sprinkler_controller-force_delete", "description": "", "parameters": [], "responses": {"204": {"description": ""}}, "tags": ["sprinkler"]}, "parameters": [{"name": "id", "in": "path", "description": "A unique integer value identifying this force controller.", "required": true, "type": "integer"}]}, "/sprinkler/controller/": {"get": {"operationId": "sprinkler_controller_list", "description": "Iot tag based controller live action to take\nonly get because always updated by Iot Controller", "parameters": [{"name": "search", "in": "query", "description": "A search term.", "required": false, "type": "string"}, {"name": "page", "in": "query", "description": "A page number within the paginated result set.", "required": false, "type": "integer"}], "responses": {"200": {"description": "", "schema": {"required": ["count", "results"], "type": "object", "properties": {"count": {"type": "integer"}, "next": {"type": "string", "format": "uri", "x-nullable": true}, "previous": {"type": "string", "format": "uri", "x-nullable": true}, "results": {"type": "array", "items": {"$ref": "#/definitions/sprinkler_controller"}}}}}}, "tags": ["sprinkler"]}, "parameters": []}, "/sprinkler/controller/{id}/": {"get": {"operationId": "sprinkler_controller_read", "description": "Iot tag based controller live action to take\nonly get because always updated by Iot Controller", "parameters": [], "responses": {"200": {"description": "", "schema": {"$ref": "#/definitions/sprinkler_controller"}}}, "tags": ["sprinkler"]}, "parameters": [{"name": "id", "in": "path", "description": "A unique integer value identifying this controller.", "required": true, "type": "integer"}]}, "/sprinkler/device/": {"get": {"operationId": "sprinkler_device_list", "description": "", "parameters": [{"name": "search", "in": "query", "description": "A search term.", "required": false, "type": "string"}, {"name": "page", "in": "query", "description": "A page number within the paginated result set.", "required": false, "type": "integer"}], "responses": {"200": {"description": "", "schema": {"required": ["count", "results"], "type": "object", "properties": {"count": {"type": "integer"}, "next": {"type": "string", "format": "uri", "x-nullable": true}, "previous": {"type": "string", "format": "uri", "x-nullable": true}, "results": {"type": "array", "items": {"$ref": "#/definitions/sprinkler_device"}}}}}}, "tags": ["sprinkler"]}, "post": {"operationId": "sprinkler_device_create", "description": "", "parameters": [{"name": "data", "in": "body", "required": true, "schema": {"$ref": "#/definitions/sprinkler_device"}}], "responses": {"201": {"description": "", "schema": {"$ref": "#/definitions/sprinkler_device"}}}, "tags": ["sprinkler"]}, "parameters": []}, "/sprinkler/device/{id}/": {"get": {"operationId": "sprinkler_device_read", "description": "", "parameters": [], "responses": {"200": {"description": "", "schema": {"$ref": "#/definitions/sprinkler_device"}}}, "tags": ["sprinkler"]}, "put": {"operationId": "sprinkler_device_update", "description": "", "parameters": [{"name": "data", "in": "body", "required": true, "schema": {"$ref": "#/definitions/sprinkler_device"}}], "responses": {"200": {"description": "", "schema": {"$ref": "#/definitions/sprinkler_device"}}}, "tags": ["sprinkler"]}, "patch": {"operationId": "sprinkler_device_partial_update", "description": "", "parameters": [{"name": "data", "in": "body", "required": true, "schema": {"$ref": "#/definitions/sprinkler_device"}}], "responses": {"200": {"description": "", "schema": {"$ref": "#/definitions/sprinkler_device"}}}, "tags": ["sprinkler"]}, "delete": {"operationId": "sprinkler_device_delete", "description": "", "parameters": [], "responses": {"204": {"description": ""}}, "tags": ["sprinkler"]}, "parameters": [{"name": "id", "in": "path", "description": "A unique integer value identifying this device.", "required": true, "type": "integer"}]}, "/sprinkler/sensor/": {"get": {"operationId": "sprinkler_sensor_list", "description": "IoT tag based sensors live values\nonly get because always updated by IoT", "parameters": [{"name": "search", "in": "query", "description": "A search term.", "required": false, "type": "string"}, {"name": "page", "in": "query", "description": "A page number within the paginated result set.", "required": false, "type": "integer"}], "responses": {"200": {"description": "", "schema": {"required": ["count", "results"], "type": "object", "properties": {"count": {"type": "integer"}, "next": {"type": "string", "format": "uri", "x-nullable": true}, "previous": {"type": "string", "format": "uri", "x-nullable": true}, "results": {"type": "array", "items": {"$ref": "#/definitions/sprinkler_sensor"}}}}}}, "tags": ["sprinkler"]}, "parameters": []}, "/sprinkler/sensor/{id}/": {"get": {"operationId": "sprinkler_sensor_read", "description": "IoT tag based sensors live values\nonly get because always updated by IoT", "parameters": [], "responses": {"200": {"description": "", "schema": {"$ref": "#/definitions/sprinkler_sensor"}}}, "tags": ["sprinkler"]}, "parameters": [{"name": "id", "in": "path", "description": "A unique integer value identifying this sensor.", "required": true, "type": "integer"}]}, "/water/config/": {"get": {"operationId": "water_config_list", "description": "", "parameters": [{"name": "search", "in": "query", "description": "A search term.", "required": false, "type": "string"}, {"name": "page", "in": "query", "description": "A page number within the paginated result set.", "required": false, "type": "integer"}], "responses": {"200": {"description": "", "schema": {"required": ["count", "results"], "type": "object", "properties": {"count": {"type": "integer"}, "next": {"type": "string", "format": "uri", "x-nullable": true}, "previous": {"type": "string", "format": "uri", "x-nullable": true}, "results": {"type": "array", "items": {"$ref": "#/definitions/water_configuration"}}}}}}, "tags": ["water"]}, "post": {"operationId": "water_config_create", "description": "", "parameters": [{"name": "data", "in": "body", "required": true, "schema": {"$ref": "#/definitions/water_configuration"}}], "responses": {"201": {"description": "", "schema": {"$ref": "#/definitions/water_configuration"}}}, "tags": ["water"]}, "parameters": []}, "/water/config/{id}/": {"get": {"operationId": "water_config_read", "description": "", "parameters": [], "responses": {"200": {"description": "", "schema": {"$ref": "#/definitions/water_configuration"}}}, "tags": ["water"]}, "put": {"operationId": "water_config_update", "description": "", "parameters": [{"name": "data", "in": "body", "required": true, "schema": {"$ref": "#/definitions/water_configuration"}}], "responses": {"200": {"description": "", "schema": {"$ref": "#/definitions/water_configuration"}}}, "tags": ["water"]}, "patch": {"operationId": "water_config_partial_update", "description": "", "parameters": [{"name": "data", "in": "body", "required": true, "schema": {"$ref": "#/definitions/water_configuration"}}], "responses": {"200": {"description": "", "schema": {"$ref": "#/definitions/water_configuration"}}}, "tags": ["water"]}, "delete": {"operationId": "water_config_delete", "description": "", "parameters": [], "responses": {"204": {"description": ""}}, "tags": ["water"]}, "parameters": [{"name": "id", "in": "path", "description": "A unique integer value identifying this config.", "required": true, "type": "integer"}]}, "/water/controller-force/": {"get": {"operationId": "water_controller-force_list", "description": "", "parameters": [{"name": "search", "in": "query", "description": "A search term.", "required": false, "type": "string"}, {"name": "page", "in": "query", "description": "A page number within the paginated result set.", "required": false, "type": "integer"}], "responses": {"200": {"description": "", "schema": {"required": ["count", "results"], "type": "object", "properties": {"count": {"type": "integer"}, "next": {"type": "string", "format": "uri", "x-nullable": true}, "previous": {"type": "string", "format": "uri", "x-nullable": true}, "results": {"type": "array", "items": {"$ref": "#/definitions/water_force_controller"}}}}}}, "tags": ["water"]}, "post": {"operationId": "water_controller-force_create", "description": "", "parameters": [{"name": "data", "in": "body", "required": true, "schema": {"$ref": "#/definitions/water_force_controller"}}], "responses": {"201": {"description": "", "schema": {"$ref": "#/definitions/water_force_controller"}}}, "tags": ["water"]}, "parameters": []}, "/water/controller-force/{id}/": {"get": {"operationId": "water_controller-force_read", "description": "", "parameters": [], "responses": {"200": {"description": "", "schema": {"$ref": "#/definitions/water_force_controller"}}}, "tags": ["water"]}, "put": {"operationId": "water_controller-force_update", "description": "", "parameters": [{"name": "data", "in": "body", "required": true, "schema": {"$ref": "#/definitions/water_force_controller"}}], "responses": {"200": {"description": "", "schema": {"$ref": "#/definitions/water_force_controller"}}}, "tags": ["water"]}, "patch": {"operationId": "water_controller-force_partial_update", "description": "", "parameters": [{"name": "data", "in": "body", "required": true, "schema": {"$ref": "#/definitions/water_force_controller"}}], "responses": {"200": {"description": "", "schema": {"$ref": "#/definitions/water_force_controller"}}}, "tags": ["water"]}, "delete": {"operationId": "water_controller-force_delete", "description": "", "parameters": [], "responses": {"204": {"description": ""}}, "tags": ["water"]}, "parameters": [{"name": "id", "in": "path", "description": "A unique integer value identifying this force controller.", "required": true, "type": "integer"}]}, "/water/controller/": {"get": {"operationId": "water_controller_list", "description": "Iot tag based controller live action to take\nonly get because always updated by Iot Controller", "parameters": [{"name": "search", "in": "query", "description": "A search term.", "required": false, "type": "string"}, {"name": "page", "in": "query", "description": "A page number within the paginated result set.", "required": false, "type": "integer"}], "responses": {"200": {"description": "", "schema": {"required": ["count", "results"], "type": "object", "properties": {"count": {"type": "integer"}, "next": {"type": "string", "format": "uri", "x-nullable": true}, "previous": {"type": "string", "format": "uri", "x-nullable": true}, "results": {"type": "array", "items": {"$ref": "#/definitions/water_controller"}}}}}}, "tags": ["water"]}, "parameters": []}, "/water/controller/{id}/": {"get": {"operationId": "water_controller_read", "description": "Iot tag based controller live action to take\nonly get because always updated by Iot Controller", "parameters": [], "responses": {"200": {"description": "", "schema": {"$ref": "#/definitions/water_controller"}}}, "tags": ["water"]}, "parameters": [{"name": "id", "in": "path", "description": "A unique integer value identifying this controller.", "required": true, "type": "integer"}]}, "/water/device/": {"get": {"operationId": "water_device_list", "description": "", "parameters": [{"name": "search", "in": "query", "description": "A search term.", "required": false, "type": "string"}, {"name": "page", "in": "query", "description": "A page number within the paginated result set.", "required": false, "type": "integer"}], "responses": {"200": {"description": "", "schema": {"required": ["count", "results"], "type": "object", "properties": {"count": {"type": "integer"}, "next": {"type": "string", "format": "uri", "x-nullable": true}, "previous": {"type": "string", "format": "uri", "x-nullable": true}, "results": {"type": "array", "items": {"$ref": "#/definitions/water_device"}}}}}}, "tags": ["water"]}, "post": {"operationId": "water_device_create", "description": "", "parameters": [{"name": "data", "in": "body", "required": true, "schema": {"$ref": "#/definitions/water_device"}}], "responses": {"201": {"description": "", "schema": {"$ref": "#/definitions/water_device"}}}, "tags": ["water"]}, "parameters": []}, "/water/device/{id}/": {"get": {"operationId": "water_device_read", "description": "", "parameters": [], "responses": {"200": {"description": "", "schema": {"$ref": "#/definitions/water_device"}}}, "tags": ["water"]}, "put": {"operationId": "water_device_update", "description": "", "parameters": [{"name": "data", "in": "body", "required": true, "schema": {"$ref": "#/definitions/water_device"}}], "responses": {"200": {"description": "", "schema": {"$ref": "#/definitions/water_device"}}}, "tags": ["water"]}, "patch": {"operationId": "water_device_partial_update", "description": "", "parameters": [{"name": "data", "in": "body", "required": true, "schema": {"$ref": "#/definitions/water_device"}}], "responses": {"200": {"description": "", "schema": {"$ref": "#/definitions/water_device"}}}, "tags": ["water"]}, "delete": {"operationId": "water_device_delete", "description": "", "parameters": [], "responses": {"204": {"description": ""}}, "tags": ["water"]}, "parameters": [{"name": "id", "in": "path", "description": "A unique integer value identifying this device.", "required": true, "type": "integer"}]}, "/water/sensor/": {"get": {"operationId": "water_sensor_list", "description": "IoT tag based sensors live values\nonly get because always updated by IoT", "parameters": [{"name": "search", "in": "query", "description": "A search term.", "required": false, "type": "string"}, {"name": "page", "in": "query", "description": "A page number within the paginated result set.", "required": false, "type": "integer"}], "responses": {"200": {"description": "", "schema": {"required": ["count", "results"], "type": "object", "properties": {"count": {"type": "integer"}, "next": {"type": "string", "format": "uri", "x-nullable": true}, "previous": {"type": "string", "format": "uri", "x-nullable": true}, "results": {"type": "array", "items": {"$ref": "#/definitions/water_sensor"}}}}}}, "tags": ["water"]}, "parameters": []}, "/water/sensor/{id}/": {"get": {"operationId": "water_sensor_read", "description": "IoT tag based sensors live values\nonly get because always updated by IoT", "parameters": [], "responses": {"200": {"description": "", "schema": {"$ref": "#/definitions/water_sensor"}}}, "tags": ["water"]}, "parameters": [{"name": "id", "in": "path", "description": "A unique integer value identifying this sensor.", "required": true, "type": "integer"}]}}, "definitions": {"global_config": {"required": ["site_tag", "timezone"], "type": "object", "properties": {"id": {"title": "ID", "type": "integer", "readOnly": true}, "site_tag": {"title": "Site tag", "type": "string", "maxLength": 200, "minLength": 1}, "address": {"title": "Address", "type": "string", "maxLength": 200, "x-nullable": true}, "timezone": {"title": "Timezone", "type": "string", "minLength": 1}}}, "light_configuration_calendar_range": {"required": ["name", "start_date_at", "end_date_at", "on_time_at", "off_time_at"], "type": "object", "properties": {"id": {"title": "ID", "type": "integer", "readOnly": true}, "name": {"title": "Name", "type": "string", "maxLength": 200, "minLength": 1}, "start_date_at": {"title": "Start date at", "type": "string", "format": "date"}, "end_date_at": {"title": "End date at", "type": "string", "format": "date"}, "on_time_at": {"title": "On time at", "type": "string"}, "off_time_at": {"title": "Off time at", "type": "string"}}}, "light_configuration_daily_time_range": {"required": ["name", "on_at", "off_at", "on_monday", "on_tuesday", "on_wednesday", "on_thursday", "on_friday", "on_saturday", "on_sunday"], "type": "object", "properties": {"id": {"title": "ID", "type": "integer", "readOnly": true}, "name": {"title": "Name", "type": "string", "maxLength": 200, "minLength": 1}, "on_at": {"title": "On at", "type": "string"}, "off_at": {"title": "Off at", "type": "string"}, "on_monday": {"title": "On monday", "type": "boolean"}, "on_tuesday": {"title": "On tuesday", "type": "boolean"}, "on_wednesday": {"title": "On wednesday", "type": "boolean"}, "on_thursday": {"title": "On thursday", "type": "boolean"}, "on_friday": {"title": "On friday", "type": "boolean"}, "on_saturday": {"title": "On saturday", "type": "boolean"}, "on_sunday": {"title": "On sunday", "type": "boolean"}}}, "light_configuration_type": {"required": ["name"], "type": "object", "properties": {"id": {"title": "ID", "type": "integer", "readOnly": true}, "name": {"title": "Name", "type": "string", "maxLength": 20, "minLength": 1}}}, "light_configuration": {"required": ["tag", "config_type", "daily_config"], "type": "object", "properties": {"id": {"title": "ID", "type": "integer", "readOnly": true}, "created_at": {"title": "Created at", "type": "string", "format": "date-time", "readOnly": true}, "updated_at": {"title": "Updated at", "type": "string", "format": "date-time", "readOnly": true}, "tag": {"title": "Tag", "type": "integer"}, "config_type": {"title": "Config type", "type": "integer"}, "daily_config": {"title": "Daily config", "type": "integer"}, "planner_configs": {"type": "array", "items": {"type": "integer"}, "uniqueItems": true}}}, "light_force_controller": {"required": ["force_light_signal", "light_signal", "tag"], "type": "object", "properties": {"id": {"title": "ID", "type": "integer", "readOnly": true}, "force_light_signal": {"title": "Force light signal", "type": "boolean"}, "light_signal": {"title": "Light signal", "type": "boolean"}, "tag": {"title": "Tag", "type": "integer"}}}, "light_controller": {"required": ["light_signal", "tag"], "type": "object", "properties": {"id": {"title": "ID", "type": "integer", "readOnly": true}, "created_at": {"title": "Created at", "type": "string", "format": "date-time", "readOnly": true}, "updated_at": {"title": "Updated at", "type": "string", "format": "date-time", "readOnly": true}, "light_signal": {"title": "Light signal", "type": "boolean"}, "tag": {"title": "Tag", "type": "integer"}}}, "light_device": {"required": ["tag"], "type": "object", "properties": {"id": {"title": "ID", "type": "integer", "readOnly": true}, "tag": {"title": "Tag", "type": "string", "maxLength": 200, "minLength": 1}}}, "light_sensor": {"required": ["lux_lvl", "photo_resistor_raw", "photo_resistor_percent", "tag"], "type": "object", "properties": {"id": {"title": "ID", "type": "integer", "readOnly": true}, "created_at": {"title": "Created at", "type": "string", "format": "date-time", "readOnly": true}, "updated_at": {"title": "Updated at", "type": "string", "format": "date-time", "readOnly": true}, "lux_lvl": {"title": "Lux lvl", "type": "number"}, "photo_resistor_raw": {"title": "Photo resistor raw", "type": "integer", "maximum": 2147483647, "minimum": -2147483648}, "photo_resistor_percent": {"title": "Photo resistor percent", "type": "integer", "maximum": 2147483647, "minimum": -2147483648}, "tag": {"title": "Tag", "type": "integer"}}}, "sprinkler_configuration": {"required": ["soil_moisture_min_level", "soil_moisture_max_level", "tag", "water_tag_link"], "type": "object", "properties": {"id": {"title": "ID", "type": "integer", "readOnly": true}, "created_at": {"title": "Created at", "type": "string", "format": "date-time", "readOnly": true}, "updated_at": {"title": "Updated at", "type": "string", "format": "date-time", "readOnly": true}, "soil_moisture_min_level": {"title": "Soil moisture min level", "type": "number"}, "soil_moisture_max_level": {"title": "Soil moisture max level", "type": "number"}, "tag": {"title": "Tag", "type": "integer"}, "water_tag_link": {"title": "Water tag link", "type": "integer"}}}, "sprinkler_force_controller": {"required": ["force_water_valve_signal", "water_valve_signal", "tag"], "type": "object", "properties": {"id": {"title": "ID", "type": "integer", "readOnly": true}, "updated_at": {"title": "Updated at", "type": "string", "format": "date-time", "readOnly": true}, "force_water_valve_signal": {"title": "Force water valve signal", "type": "boolean"}, "water_valve_signal": {"title": "Water valve signal", "type": "boolean"}, "tag": {"title": "Tag", "type": "integer"}}}, "sprinkler_controller": {"required": ["water_valve_signal", "tag"], "type": "object", "properties": {"id": {"title": "ID", "type": "integer", "readOnly": true}, "created_at": {"title": "Created at", "type": "string", "format": "date-time", "readOnly": true}, "updated_at": {"title": "Updated at", "type": "string", "format": "date-time", "readOnly": true}, "water_valve_signal": {"title": "Water valve signal", "type": "boolean"}, "tag": {"title": "Tag", "type": "integer"}}}, "sprinkler_device": {"required": ["tag"], "type": "object", "properties": {"id": {"title": "ID", "type": "integer", "readOnly": true}, "tag": {"title": "Tag", "type": "string", "maxLength": 200, "minLength": 1}}}, "sprinkler_sensor": {"required": ["soil_moisture_raw_adc", "soil_moisture", "tag"], "type": "object", "properties": {"id": {"title": "ID", "type": "integer", "readOnly": true}, "created_at": {"title": "Created at", "type": "string", "format": "date-time", "readOnly": true}, "updated_at": {"title": "Updated at", "type": "string", "format": "date-time", "readOnly": true}, "soil_moisture_raw_adc": {"title": "Soil moisture raw adc", "type": "integer", "maximum": 2147483647, "minimum": -2147483648}, "soil_moisture": {"title": "Soil moisture", "type": "number"}, "tag": {"title": "Tag", "type": "integer"}}}, "water_configuration": {"required": ["ph_min_level", "ph_max_level", "tds_min_level", "tds_max_level", "tag"], "type": "object", "properties": {"id": {"title": "ID", "type": "integer", "readOnly": true}, "created_at": {"title": "Created at", "type": "string", "format": "date-time", "readOnly": true}, "updated_at": {"title": "Updated at", "type": "string", "format": "date-time", "readOnly": true}, "ph_min_level": {"title": "Ph min level", "type": "number"}, "ph_max_level": {"title": "Ph max level", "type": "number"}, "tds_min_level": {"title": "Tds min level", "type": "number"}, "tds_max_level": {"title": "Tds max level", "type": "number"}, "tag": {"title": "Tag", "type": "integer"}}}, "water_force_controller": {"required": ["force_water_pump_signal", "force_nutrient_pump_signal", "force_ph_downer_pump_signal", "force_mixer_pump_signal", "water_pump_signal", "nutrient_pump_signal", "ph_downer_pump_signal", "mixer_pump_signal", "tag"], "type": "object", "properties": {"id": {"title": "ID", "type": "integer", "readOnly": true}, "updated_at": {"title": "Updated at", "type": "string", "format": "date-time", "readOnly": true}, "force_water_pump_signal": {"title": "Force water pump signal", "type": "boolean"}, "force_nutrient_pump_signal": {"title": "Force nutrient pump signal", "type": "boolean"}, "force_ph_downer_pump_signal": {"title": "Force ph downer pump signal", "type": "boolean"}, "force_mixer_pump_signal": {"title": "Force mixer pump signal", "type": "boolean"}, "water_pump_signal": {"title": "Water pump signal", "type": "boolean"}, "nutrient_pump_signal": {"title": "Nutrient pump signal", "type": "boolean"}, "ph_downer_pump_signal": {"title": "Ph downer pump signal", "type": "boolean"}, "mixer_pump_signal": {"title": "Mixer pump signal", "type": "boolean"}, "tag": {"title": "Tag", "type": "integer"}}}, "water_controller": {"required": ["water_pump_signal", "nutrient_pump_signal", "ph_downer_pump_signal", "mixer_pump_signal", "tag"], "type": "object", "properties": {"id": {"title": "ID", "type": "integer", "readOnly": true}, "created_at": {"title": "Created at", "type": "string", "format": "date-time", "readOnly": true}, "updated_at": {"title": "Updated at", "type": "string", "format": "date-time", "readOnly": true}, "water_pump_signal": {"title": "Water pump signal", "type": "boolean"}, "nutrient_pump_signal": {"title": "Nutrient pump signal", "type": "boolean"}, "ph_downer_pump_signal": {"title": "Ph downer pump signal", "type": "boolean"}, "mixer_pump_signal": {"title": "Mixer pump signal", "type": "boolean"}, "tag": {"title": "Tag", "type": "integer"}}}, "water_device": {"required": ["tag"], "type": "object", "properties": {"id": {"title": "ID", "type": "integer", "readOnly": true}, "tag": {"title": "Tag", "type": "string", "maxLength": 200, "minLength": 1}}}, "water_sensor": {"required": ["ph_voltage", "tds_voltage", "ph_level", "tds_level", "water_tk_lvl", "nutrient_tk_lvl", "ph_downer_tk_lvl", "tag"], "type": "object", "properties": {"id": {"title": "ID", "type": "integer", "readOnly": true}, "created_at": {"title": "Created at", "type": "string", "format": "date-time", "readOnly": true}, "updated_at": {"title": "Updated at", "type": "string", "format": "date-time", "readOnly": true}, "ph_voltage": {"title": "Ph voltage", "type": "number"}, "tds_voltage": {"title": "Tds voltage", "type": "number"}, "ph_level": {"title": "Ph level", "type": "number"}, "tds_level": {"title": "Tds level", "type": "number"}, "water_tk_lvl": {"title": "Water tk lvl", "type": "integer", "maximum": 2147483647, "minimum": -2147483648}, "nutrient_tk_lvl": {"title": "Nutrient tk lvl", "type": "integer", "maximum": 2147483647, "minimum": -2147483648}, "ph_downer_tk_lvl": {"title": "Ph downer tk lvl", "type": "integer", "maximum": 2147483647, "minimum": -2147483648}, "tag": {"title": "Tag", "type": "integer"}}}}}
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "One-Green Core API Gateway ",
+    "description": "Plant cultivation framework",
+    "termsOfService": "https://github.com/One-Green/core-api-gateway/blob/master/LICENSE",
+    "contact": {
+      "email": "shanmugathas.vigneswaran@outlook.fr"
+    },
+    "license": {
+      "name": "Creative Commons Zero v1.0 Universal"
+    },
+    "version": "v1"
+  },
+  "host": "0.0.0.0:8001",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "basePath": "/",
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "securityDefinitions": {
+    "Basic": {
+      "type": "basic"
+    }
+  },
+  "security": [
+    {
+      "Basic": []
+    }
+  ],
+  "paths": {
+    "/global/config/": {
+      "get": {
+        "operationId": "global_config_list",
+        "description": "",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "description": "A search term.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "A page number within the paginated result set.",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "required": [
+                "count",
+                "results"
+              ],
+              "type": "object",
+              "properties": {
+                "count": {
+                  "type": "integer"
+                },
+                "next": {
+                  "type": "string",
+                  "format": "uri",
+                  "x-nullable": true
+                },
+                "previous": {
+                  "type": "string",
+                  "format": "uri",
+                  "x-nullable": true
+                },
+                "results": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/global_config"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "global"
+        ]
+      },
+      "post": {
+        "operationId": "global_config_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/global_config"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/global_config"
+            }
+          }
+        },
+        "tags": [
+          "global"
+        ]
+      },
+      "parameters": []
+    },
+    "/global/config/{id}/": {
+      "get": {
+        "operationId": "global_config_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/global_config"
+            }
+          }
+        },
+        "tags": [
+          "global"
+        ]
+      },
+      "put": {
+        "operationId": "global_config_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/global_config"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/global_config"
+            }
+          }
+        },
+        "tags": [
+          "global"
+        ]
+      },
+      "patch": {
+        "operationId": "global_config_partial_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/global_config"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/global_config"
+            }
+          }
+        },
+        "tags": [
+          "global"
+        ]
+      },
+      "delete": {
+        "operationId": "global_config_delete",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "global"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this config.",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    },
+    "/light/config-calendar/": {
+      "get": {
+        "operationId": "light_config-calendar_list",
+        "description": "",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "description": "A search term.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "A page number within the paginated result set.",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "required": [
+                "count",
+                "results"
+              ],
+              "type": "object",
+              "properties": {
+                "count": {
+                  "type": "integer"
+                },
+                "next": {
+                  "type": "string",
+                  "format": "uri",
+                  "x-nullable": true
+                },
+                "previous": {
+                  "type": "string",
+                  "format": "uri",
+                  "x-nullable": true
+                },
+                "results": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/light_configuration_calendar_range"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "light"
+        ]
+      },
+      "post": {
+        "operationId": "light_config-calendar_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/light_configuration_calendar_range"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/light_configuration_calendar_range"
+            }
+          }
+        },
+        "tags": [
+          "light"
+        ]
+      },
+      "parameters": []
+    },
+    "/light/config-calendar/{id}/": {
+      "get": {
+        "operationId": "light_config-calendar_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/light_configuration_calendar_range"
+            }
+          }
+        },
+        "tags": [
+          "light"
+        ]
+      },
+      "put": {
+        "operationId": "light_config-calendar_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/light_configuration_calendar_range"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/light_configuration_calendar_range"
+            }
+          }
+        },
+        "tags": [
+          "light"
+        ]
+      },
+      "patch": {
+        "operationId": "light_config-calendar_partial_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/light_configuration_calendar_range"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/light_configuration_calendar_range"
+            }
+          }
+        },
+        "tags": [
+          "light"
+        ]
+      },
+      "delete": {
+        "operationId": "light_config-calendar_delete",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "light"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this calendar range.",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    },
+    "/light/config-daily/": {
+      "get": {
+        "operationId": "light_config-daily_list",
+        "description": "",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "description": "A search term.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "A page number within the paginated result set.",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "required": [
+                "count",
+                "results"
+              ],
+              "type": "object",
+              "properties": {
+                "count": {
+                  "type": "integer"
+                },
+                "next": {
+                  "type": "string",
+                  "format": "uri",
+                  "x-nullable": true
+                },
+                "previous": {
+                  "type": "string",
+                  "format": "uri",
+                  "x-nullable": true
+                },
+                "results": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/light_configuration_daily_time_range"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "light"
+        ]
+      },
+      "post": {
+        "operationId": "light_config-daily_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/light_configuration_daily_time_range"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/light_configuration_daily_time_range"
+            }
+          }
+        },
+        "tags": [
+          "light"
+        ]
+      },
+      "parameters": []
+    },
+    "/light/config-daily/{id}/": {
+      "get": {
+        "operationId": "light_config-daily_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/light_configuration_daily_time_range"
+            }
+          }
+        },
+        "tags": [
+          "light"
+        ]
+      },
+      "put": {
+        "operationId": "light_config-daily_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/light_configuration_daily_time_range"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/light_configuration_daily_time_range"
+            }
+          }
+        },
+        "tags": [
+          "light"
+        ]
+      },
+      "patch": {
+        "operationId": "light_config-daily_partial_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/light_configuration_daily_time_range"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/light_configuration_daily_time_range"
+            }
+          }
+        },
+        "tags": [
+          "light"
+        ]
+      },
+      "delete": {
+        "operationId": "light_config-daily_delete",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "light"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this daily time range.",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    },
+    "/light/config-type/": {
+      "get": {
+        "operationId": "light_config-type_list",
+        "description": "",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "description": "A search term.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "A page number within the paginated result set.",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "required": [
+                "count",
+                "results"
+              ],
+              "type": "object",
+              "properties": {
+                "count": {
+                  "type": "integer"
+                },
+                "next": {
+                  "type": "string",
+                  "format": "uri",
+                  "x-nullable": true
+                },
+                "previous": {
+                  "type": "string",
+                  "format": "uri",
+                  "x-nullable": true
+                },
+                "results": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/light_configuration_type"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "light"
+        ]
+      },
+      "post": {
+        "operationId": "light_config-type_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/light_configuration_type"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/light_configuration_type"
+            }
+          }
+        },
+        "tags": [
+          "light"
+        ]
+      },
+      "parameters": []
+    },
+    "/light/config-type/{id}/": {
+      "get": {
+        "operationId": "light_config-type_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/light_configuration_type"
+            }
+          }
+        },
+        "tags": [
+          "light"
+        ]
+      },
+      "put": {
+        "operationId": "light_config-type_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/light_configuration_type"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/light_configuration_type"
+            }
+          }
+        },
+        "tags": [
+          "light"
+        ]
+      },
+      "patch": {
+        "operationId": "light_config-type_partial_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/light_configuration_type"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/light_configuration_type"
+            }
+          }
+        },
+        "tags": [
+          "light"
+        ]
+      },
+      "delete": {
+        "operationId": "light_config-type_delete",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "light"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this config type.",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    },
+    "/light/config/": {
+      "get": {
+        "operationId": "light_config_list",
+        "description": "",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "description": "A search term.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "A page number within the paginated result set.",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "required": [
+                "count",
+                "results"
+              ],
+              "type": "object",
+              "properties": {
+                "count": {
+                  "type": "integer"
+                },
+                "next": {
+                  "type": "string",
+                  "format": "uri",
+                  "x-nullable": true
+                },
+                "previous": {
+                  "type": "string",
+                  "format": "uri",
+                  "x-nullable": true
+                },
+                "results": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/light_configuration"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "light"
+        ]
+      },
+      "post": {
+        "operationId": "light_config_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/light_configuration"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/light_configuration"
+            }
+          }
+        },
+        "tags": [
+          "light"
+        ]
+      },
+      "parameters": []
+    },
+    "/light/config/{id}/": {
+      "get": {
+        "operationId": "light_config_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/light_configuration"
+            }
+          }
+        },
+        "tags": [
+          "light"
+        ]
+      },
+      "put": {
+        "operationId": "light_config_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/light_configuration"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/light_configuration"
+            }
+          }
+        },
+        "tags": [
+          "light"
+        ]
+      },
+      "patch": {
+        "operationId": "light_config_partial_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/light_configuration"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/light_configuration"
+            }
+          }
+        },
+        "tags": [
+          "light"
+        ]
+      },
+      "delete": {
+        "operationId": "light_config_delete",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "light"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this config.",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    },
+    "/light/controller-force/": {
+      "get": {
+        "operationId": "light_controller-force_list",
+        "description": "",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "description": "A search term.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "A page number within the paginated result set.",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "required": [
+                "count",
+                "results"
+              ],
+              "type": "object",
+              "properties": {
+                "count": {
+                  "type": "integer"
+                },
+                "next": {
+                  "type": "string",
+                  "format": "uri",
+                  "x-nullable": true
+                },
+                "previous": {
+                  "type": "string",
+                  "format": "uri",
+                  "x-nullable": true
+                },
+                "results": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/light_force_controller"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "light"
+        ]
+      },
+      "post": {
+        "operationId": "light_controller-force_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/light_force_controller"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/light_force_controller"
+            }
+          }
+        },
+        "tags": [
+          "light"
+        ]
+      },
+      "parameters": []
+    },
+    "/light/controller-force/{id}/": {
+      "get": {
+        "operationId": "light_controller-force_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/light_force_controller"
+            }
+          }
+        },
+        "tags": [
+          "light"
+        ]
+      },
+      "put": {
+        "operationId": "light_controller-force_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/light_force_controller"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/light_force_controller"
+            }
+          }
+        },
+        "tags": [
+          "light"
+        ]
+      },
+      "patch": {
+        "operationId": "light_controller-force_partial_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/light_force_controller"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/light_force_controller"
+            }
+          }
+        },
+        "tags": [
+          "light"
+        ]
+      },
+      "delete": {
+        "operationId": "light_controller-force_delete",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "light"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this force controller.",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    },
+    "/light/controller/": {
+      "get": {
+        "operationId": "light_controller_list",
+        "description": "Iot tag based controller live action to take\nonly get because always updated by Iot Controller",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "description": "A search term.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "A page number within the paginated result set.",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "required": [
+                "count",
+                "results"
+              ],
+              "type": "object",
+              "properties": {
+                "count": {
+                  "type": "integer"
+                },
+                "next": {
+                  "type": "string",
+                  "format": "uri",
+                  "x-nullable": true
+                },
+                "previous": {
+                  "type": "string",
+                  "format": "uri",
+                  "x-nullable": true
+                },
+                "results": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/light_controller"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "light"
+        ]
+      },
+      "parameters": []
+    },
+    "/light/controller/{id}/": {
+      "get": {
+        "operationId": "light_controller_read",
+        "description": "Iot tag based controller live action to take\nonly get because always updated by Iot Controller",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/light_controller"
+            }
+          }
+        },
+        "tags": [
+          "light"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this controller.",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    },
+    "/light/device/": {
+      "get": {
+        "operationId": "light_device_list",
+        "description": "",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "description": "A search term.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "A page number within the paginated result set.",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "required": [
+                "count",
+                "results"
+              ],
+              "type": "object",
+              "properties": {
+                "count": {
+                  "type": "integer"
+                },
+                "next": {
+                  "type": "string",
+                  "format": "uri",
+                  "x-nullable": true
+                },
+                "previous": {
+                  "type": "string",
+                  "format": "uri",
+                  "x-nullable": true
+                },
+                "results": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/light_device"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "light"
+        ]
+      },
+      "post": {
+        "operationId": "light_device_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/light_device"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/light_device"
+            }
+          }
+        },
+        "tags": [
+          "light"
+        ]
+      },
+      "parameters": []
+    },
+    "/light/device/{id}/": {
+      "get": {
+        "operationId": "light_device_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/light_device"
+            }
+          }
+        },
+        "tags": [
+          "light"
+        ]
+      },
+      "put": {
+        "operationId": "light_device_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/light_device"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/light_device"
+            }
+          }
+        },
+        "tags": [
+          "light"
+        ]
+      },
+      "patch": {
+        "operationId": "light_device_partial_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/light_device"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/light_device"
+            }
+          }
+        },
+        "tags": [
+          "light"
+        ]
+      },
+      "delete": {
+        "operationId": "light_device_delete",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "light"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this device.",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    },
+    "/light/sensor/": {
+      "get": {
+        "operationId": "light_sensor_list",
+        "description": "IoT tag based sensors live values\nonly get because always updated by IoT",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "description": "A search term.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "A page number within the paginated result set.",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "required": [
+                "count",
+                "results"
+              ],
+              "type": "object",
+              "properties": {
+                "count": {
+                  "type": "integer"
+                },
+                "next": {
+                  "type": "string",
+                  "format": "uri",
+                  "x-nullable": true
+                },
+                "previous": {
+                  "type": "string",
+                  "format": "uri",
+                  "x-nullable": true
+                },
+                "results": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/light_sensor"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "light"
+        ]
+      },
+      "parameters": []
+    },
+    "/light/sensor/{id}/": {
+      "get": {
+        "operationId": "light_sensor_read",
+        "description": "IoT tag based sensors live values\nonly get because always updated by IoT",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/light_sensor"
+            }
+          }
+        },
+        "tags": [
+          "light"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this sensor.",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    },
+    "/sprinkler/config/": {
+      "get": {
+        "operationId": "sprinkler_config_list",
+        "description": "",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "description": "A search term.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "A page number within the paginated result set.",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "required": [
+                "count",
+                "results"
+              ],
+              "type": "object",
+              "properties": {
+                "count": {
+                  "type": "integer"
+                },
+                "next": {
+                  "type": "string",
+                  "format": "uri",
+                  "x-nullable": true
+                },
+                "previous": {
+                  "type": "string",
+                  "format": "uri",
+                  "x-nullable": true
+                },
+                "results": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/sprinkler_configuration"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "sprinkler"
+        ]
+      },
+      "post": {
+        "operationId": "sprinkler_config_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/sprinkler_configuration"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/sprinkler_configuration"
+            }
+          }
+        },
+        "tags": [
+          "sprinkler"
+        ]
+      },
+      "parameters": []
+    },
+    "/sprinkler/config/{id}/": {
+      "get": {
+        "operationId": "sprinkler_config_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/sprinkler_configuration"
+            }
+          }
+        },
+        "tags": [
+          "sprinkler"
+        ]
+      },
+      "put": {
+        "operationId": "sprinkler_config_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/sprinkler_configuration"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/sprinkler_configuration"
+            }
+          }
+        },
+        "tags": [
+          "sprinkler"
+        ]
+      },
+      "patch": {
+        "operationId": "sprinkler_config_partial_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/sprinkler_configuration"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/sprinkler_configuration"
+            }
+          }
+        },
+        "tags": [
+          "sprinkler"
+        ]
+      },
+      "delete": {
+        "operationId": "sprinkler_config_delete",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "sprinkler"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this config.",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    },
+    "/sprinkler/controller-force/": {
+      "get": {
+        "operationId": "sprinkler_controller-force_list",
+        "description": "",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "description": "A search term.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "A page number within the paginated result set.",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "required": [
+                "count",
+                "results"
+              ],
+              "type": "object",
+              "properties": {
+                "count": {
+                  "type": "integer"
+                },
+                "next": {
+                  "type": "string",
+                  "format": "uri",
+                  "x-nullable": true
+                },
+                "previous": {
+                  "type": "string",
+                  "format": "uri",
+                  "x-nullable": true
+                },
+                "results": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/sprinkler_force_controller"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "sprinkler"
+        ]
+      },
+      "post": {
+        "operationId": "sprinkler_controller-force_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/sprinkler_force_controller"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/sprinkler_force_controller"
+            }
+          }
+        },
+        "tags": [
+          "sprinkler"
+        ]
+      },
+      "parameters": []
+    },
+    "/sprinkler/controller-force/{id}/": {
+      "get": {
+        "operationId": "sprinkler_controller-force_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/sprinkler_force_controller"
+            }
+          }
+        },
+        "tags": [
+          "sprinkler"
+        ]
+      },
+      "put": {
+        "operationId": "sprinkler_controller-force_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/sprinkler_force_controller"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/sprinkler_force_controller"
+            }
+          }
+        },
+        "tags": [
+          "sprinkler"
+        ]
+      },
+      "patch": {
+        "operationId": "sprinkler_controller-force_partial_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/sprinkler_force_controller"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/sprinkler_force_controller"
+            }
+          }
+        },
+        "tags": [
+          "sprinkler"
+        ]
+      },
+      "delete": {
+        "operationId": "sprinkler_controller-force_delete",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "sprinkler"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this force controller.",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    },
+    "/sprinkler/controller/": {
+      "get": {
+        "operationId": "sprinkler_controller_list",
+        "description": "Iot tag based controller live action to take\nonly get because always updated by Iot Controller",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "description": "A search term.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "A page number within the paginated result set.",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "required": [
+                "count",
+                "results"
+              ],
+              "type": "object",
+              "properties": {
+                "count": {
+                  "type": "integer"
+                },
+                "next": {
+                  "type": "string",
+                  "format": "uri",
+                  "x-nullable": true
+                },
+                "previous": {
+                  "type": "string",
+                  "format": "uri",
+                  "x-nullable": true
+                },
+                "results": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/sprinkler_controller"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "sprinkler"
+        ]
+      },
+      "parameters": []
+    },
+    "/sprinkler/controller/{id}/": {
+      "get": {
+        "operationId": "sprinkler_controller_read",
+        "description": "Iot tag based controller live action to take\nonly get because always updated by Iot Controller",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/sprinkler_controller"
+            }
+          }
+        },
+        "tags": [
+          "sprinkler"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this controller.",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    },
+    "/sprinkler/device/": {
+      "get": {
+        "operationId": "sprinkler_device_list",
+        "description": "",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "description": "A search term.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "A page number within the paginated result set.",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "required": [
+                "count",
+                "results"
+              ],
+              "type": "object",
+              "properties": {
+                "count": {
+                  "type": "integer"
+                },
+                "next": {
+                  "type": "string",
+                  "format": "uri",
+                  "x-nullable": true
+                },
+                "previous": {
+                  "type": "string",
+                  "format": "uri",
+                  "x-nullable": true
+                },
+                "results": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/sprinkler_device"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "sprinkler"
+        ]
+      },
+      "post": {
+        "operationId": "sprinkler_device_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/sprinkler_device"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/sprinkler_device"
+            }
+          }
+        },
+        "tags": [
+          "sprinkler"
+        ]
+      },
+      "parameters": []
+    },
+    "/sprinkler/device/{id}/": {
+      "get": {
+        "operationId": "sprinkler_device_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/sprinkler_device"
+            }
+          }
+        },
+        "tags": [
+          "sprinkler"
+        ]
+      },
+      "put": {
+        "operationId": "sprinkler_device_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/sprinkler_device"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/sprinkler_device"
+            }
+          }
+        },
+        "tags": [
+          "sprinkler"
+        ]
+      },
+      "patch": {
+        "operationId": "sprinkler_device_partial_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/sprinkler_device"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/sprinkler_device"
+            }
+          }
+        },
+        "tags": [
+          "sprinkler"
+        ]
+      },
+      "delete": {
+        "operationId": "sprinkler_device_delete",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "sprinkler"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this device.",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    },
+    "/sprinkler/sensor/": {
+      "get": {
+        "operationId": "sprinkler_sensor_list",
+        "description": "IoT tag based sensors live values\nonly get because always updated by IoT",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "description": "A search term.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "A page number within the paginated result set.",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "required": [
+                "count",
+                "results"
+              ],
+              "type": "object",
+              "properties": {
+                "count": {
+                  "type": "integer"
+                },
+                "next": {
+                  "type": "string",
+                  "format": "uri",
+                  "x-nullable": true
+                },
+                "previous": {
+                  "type": "string",
+                  "format": "uri",
+                  "x-nullable": true
+                },
+                "results": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/sprinkler_sensor"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "sprinkler"
+        ]
+      },
+      "parameters": []
+    },
+    "/sprinkler/sensor/{id}/": {
+      "get": {
+        "operationId": "sprinkler_sensor_read",
+        "description": "IoT tag based sensors live values\nonly get because always updated by IoT",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/sprinkler_sensor"
+            }
+          }
+        },
+        "tags": [
+          "sprinkler"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this sensor.",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    },
+    "/water/config/": {
+      "get": {
+        "operationId": "water_config_list",
+        "description": "",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "description": "A search term.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "A page number within the paginated result set.",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "required": [
+                "count",
+                "results"
+              ],
+              "type": "object",
+              "properties": {
+                "count": {
+                  "type": "integer"
+                },
+                "next": {
+                  "type": "string",
+                  "format": "uri",
+                  "x-nullable": true
+                },
+                "previous": {
+                  "type": "string",
+                  "format": "uri",
+                  "x-nullable": true
+                },
+                "results": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/water_configuration"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "water"
+        ]
+      },
+      "post": {
+        "operationId": "water_config_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/water_configuration"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/water_configuration"
+            }
+          }
+        },
+        "tags": [
+          "water"
+        ]
+      },
+      "parameters": []
+    },
+    "/water/config/{id}/": {
+      "get": {
+        "operationId": "water_config_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/water_configuration"
+            }
+          }
+        },
+        "tags": [
+          "water"
+        ]
+      },
+      "put": {
+        "operationId": "water_config_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/water_configuration"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/water_configuration"
+            }
+          }
+        },
+        "tags": [
+          "water"
+        ]
+      },
+      "patch": {
+        "operationId": "water_config_partial_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/water_configuration"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/water_configuration"
+            }
+          }
+        },
+        "tags": [
+          "water"
+        ]
+      },
+      "delete": {
+        "operationId": "water_config_delete",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "water"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this config.",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    },
+    "/water/controller-force/": {
+      "get": {
+        "operationId": "water_controller-force_list",
+        "description": "",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "description": "A search term.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "A page number within the paginated result set.",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "required": [
+                "count",
+                "results"
+              ],
+              "type": "object",
+              "properties": {
+                "count": {
+                  "type": "integer"
+                },
+                "next": {
+                  "type": "string",
+                  "format": "uri",
+                  "x-nullable": true
+                },
+                "previous": {
+                  "type": "string",
+                  "format": "uri",
+                  "x-nullable": true
+                },
+                "results": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/water_force_controller"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "water"
+        ]
+      },
+      "post": {
+        "operationId": "water_controller-force_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/water_force_controller"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/water_force_controller"
+            }
+          }
+        },
+        "tags": [
+          "water"
+        ]
+      },
+      "parameters": []
+    },
+    "/water/controller-force/{id}/": {
+      "get": {
+        "operationId": "water_controller-force_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/water_force_controller"
+            }
+          }
+        },
+        "tags": [
+          "water"
+        ]
+      },
+      "put": {
+        "operationId": "water_controller-force_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/water_force_controller"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/water_force_controller"
+            }
+          }
+        },
+        "tags": [
+          "water"
+        ]
+      },
+      "patch": {
+        "operationId": "water_controller-force_partial_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/water_force_controller"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/water_force_controller"
+            }
+          }
+        },
+        "tags": [
+          "water"
+        ]
+      },
+      "delete": {
+        "operationId": "water_controller-force_delete",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "water"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this force controller.",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    },
+    "/water/controller/": {
+      "get": {
+        "operationId": "water_controller_list",
+        "description": "Iot tag based controller live action to take\nonly get because always updated by Iot Controller",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "description": "A search term.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "A page number within the paginated result set.",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "required": [
+                "count",
+                "results"
+              ],
+              "type": "object",
+              "properties": {
+                "count": {
+                  "type": "integer"
+                },
+                "next": {
+                  "type": "string",
+                  "format": "uri",
+                  "x-nullable": true
+                },
+                "previous": {
+                  "type": "string",
+                  "format": "uri",
+                  "x-nullable": true
+                },
+                "results": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/water_controller"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "water"
+        ]
+      },
+      "parameters": []
+    },
+    "/water/controller/{id}/": {
+      "get": {
+        "operationId": "water_controller_read",
+        "description": "Iot tag based controller live action to take\nonly get because always updated by Iot Controller",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/water_controller"
+            }
+          }
+        },
+        "tags": [
+          "water"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this controller.",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    },
+    "/water/device/": {
+      "get": {
+        "operationId": "water_device_list",
+        "description": "",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "description": "A search term.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "A page number within the paginated result set.",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "required": [
+                "count",
+                "results"
+              ],
+              "type": "object",
+              "properties": {
+                "count": {
+                  "type": "integer"
+                },
+                "next": {
+                  "type": "string",
+                  "format": "uri",
+                  "x-nullable": true
+                },
+                "previous": {
+                  "type": "string",
+                  "format": "uri",
+                  "x-nullable": true
+                },
+                "results": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/water_device"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "water"
+        ]
+      },
+      "post": {
+        "operationId": "water_device_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/water_device"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/water_device"
+            }
+          }
+        },
+        "tags": [
+          "water"
+        ]
+      },
+      "parameters": []
+    },
+    "/water/device/{id}/": {
+      "get": {
+        "operationId": "water_device_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/water_device"
+            }
+          }
+        },
+        "tags": [
+          "water"
+        ]
+      },
+      "put": {
+        "operationId": "water_device_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/water_device"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/water_device"
+            }
+          }
+        },
+        "tags": [
+          "water"
+        ]
+      },
+      "patch": {
+        "operationId": "water_device_partial_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/water_device"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/water_device"
+            }
+          }
+        },
+        "tags": [
+          "water"
+        ]
+      },
+      "delete": {
+        "operationId": "water_device_delete",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "water"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this device.",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    },
+    "/water/sensor/": {
+      "get": {
+        "operationId": "water_sensor_list",
+        "description": "IoT tag based sensors live values\nonly get because always updated by IoT",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "description": "A search term.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "A page number within the paginated result set.",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "required": [
+                "count",
+                "results"
+              ],
+              "type": "object",
+              "properties": {
+                "count": {
+                  "type": "integer"
+                },
+                "next": {
+                  "type": "string",
+                  "format": "uri",
+                  "x-nullable": true
+                },
+                "previous": {
+                  "type": "string",
+                  "format": "uri",
+                  "x-nullable": true
+                },
+                "results": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/water_sensor"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "water"
+        ]
+      },
+      "parameters": []
+    },
+    "/water/sensor/{id}/": {
+      "get": {
+        "operationId": "water_sensor_read",
+        "description": "IoT tag based sensors live values\nonly get because always updated by IoT",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/water_sensor"
+            }
+          }
+        },
+        "tags": [
+          "water"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this sensor.",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    }
+  },
+  "definitions": {
+    "global_config": {
+      "required": [
+        "site_tag",
+        "timezone"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "site_tag": {
+          "title": "Site tag",
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 1
+        },
+        "address": {
+          "title": "Address",
+          "type": "string",
+          "maxLength": 200,
+          "x-nullable": true
+        },
+        "timezone": {
+          "title": "Timezone",
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "light_configuration_calendar_range": {
+      "required": [
+        "name",
+        "start_date_at",
+        "end_date_at",
+        "on_time_at",
+        "off_time_at"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "name": {
+          "title": "Name",
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 1
+        },
+        "start_date_at": {
+          "title": "Start date at",
+          "type": "string",
+          "format": "date"
+        },
+        "end_date_at": {
+          "title": "End date at",
+          "type": "string",
+          "format": "date"
+        },
+        "on_time_at": {
+          "title": "On time at",
+          "type": "string"
+        },
+        "off_time_at": {
+          "title": "Off time at",
+          "type": "string"
+        }
+      }
+    },
+    "light_configuration_daily_time_range": {
+      "required": [
+        "name",
+        "on_at",
+        "off_at",
+        "on_monday",
+        "on_tuesday",
+        "on_wednesday",
+        "on_thursday",
+        "on_friday",
+        "on_saturday",
+        "on_sunday"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "name": {
+          "title": "Name",
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 1
+        },
+        "on_at": {
+          "title": "On at",
+          "type": "string"
+        },
+        "off_at": {
+          "title": "Off at",
+          "type": "string"
+        },
+        "on_monday": {
+          "title": "On monday",
+          "type": "boolean"
+        },
+        "on_tuesday": {
+          "title": "On tuesday",
+          "type": "boolean"
+        },
+        "on_wednesday": {
+          "title": "On wednesday",
+          "type": "boolean"
+        },
+        "on_thursday": {
+          "title": "On thursday",
+          "type": "boolean"
+        },
+        "on_friday": {
+          "title": "On friday",
+          "type": "boolean"
+        },
+        "on_saturday": {
+          "title": "On saturday",
+          "type": "boolean"
+        },
+        "on_sunday": {
+          "title": "On sunday",
+          "type": "boolean"
+        }
+      }
+    },
+    "light_configuration_type": {
+      "required": [
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "name": {
+          "title": "Name",
+          "type": "string",
+          "maxLength": 20,
+          "minLength": 1
+        }
+      }
+    },
+    "light_configuration": {
+      "required": [
+        "tag",
+        "config_type",
+        "daily_config"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "created_at": {
+          "title": "Created at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "updated_at": {
+          "title": "Updated at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "tag": {
+          "title": "Tag",
+          "type": "integer"
+        },
+        "config_type": {
+          "title": "Config type",
+          "type": "integer"
+        },
+        "daily_config": {
+          "title": "Daily config",
+          "type": "integer"
+        },
+        "planner_configs": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "light_force_controller": {
+      "required": [
+        "force_light_signal",
+        "light_signal",
+        "tag"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "force_light_signal": {
+          "title": "Force light signal",
+          "type": "boolean"
+        },
+        "light_signal": {
+          "title": "Light signal",
+          "type": "boolean"
+        },
+        "tag": {
+          "title": "Tag",
+          "type": "integer"
+        }
+      }
+    },
+    "light_controller": {
+      "required": [
+        "light_signal",
+        "tag"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "created_at": {
+          "title": "Created at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "updated_at": {
+          "title": "Updated at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "light_signal": {
+          "title": "Light signal",
+          "type": "boolean"
+        },
+        "tag": {
+          "title": "Tag",
+          "type": "integer"
+        }
+      }
+    },
+    "light_device": {
+      "required": [
+        "tag"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "tag": {
+          "title": "Tag",
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 1
+        }
+      }
+    },
+    "light_sensor": {
+      "required": [
+        "lux_lvl",
+        "photo_resistor_raw",
+        "photo_resistor_percent",
+        "tag"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "created_at": {
+          "title": "Created at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "updated_at": {
+          "title": "Updated at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "lux_lvl": {
+          "title": "Lux lvl",
+          "type": "number"
+        },
+        "photo_resistor_raw": {
+          "title": "Photo resistor raw",
+          "type": "integer",
+          "maximum": 2147483647,
+          "minimum": -2147483648
+        },
+        "photo_resistor_percent": {
+          "title": "Photo resistor percent",
+          "type": "integer",
+          "maximum": 2147483647,
+          "minimum": -2147483648
+        },
+        "tag": {
+          "title": "Tag",
+          "type": "integer"
+        }
+      }
+    },
+    "sprinkler_configuration": {
+      "required": [
+        "soil_moisture_min_level",
+        "soil_moisture_max_level",
+        "tag",
+        "water_tag_link"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "created_at": {
+          "title": "Created at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "updated_at": {
+          "title": "Updated at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "soil_moisture_min_level": {
+          "title": "Soil moisture min level",
+          "type": "number"
+        },
+        "soil_moisture_max_level": {
+          "title": "Soil moisture max level",
+          "type": "number"
+        },
+        "tag": {
+          "title": "Tag",
+          "type": "integer"
+        },
+        "water_tag_link": {
+          "title": "Water tag link",
+          "type": "integer"
+        }
+      }
+    },
+    "sprinkler_force_controller": {
+      "required": [
+        "force_water_valve_signal",
+        "water_valve_signal",
+        "tag"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "updated_at": {
+          "title": "Updated at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "force_water_valve_signal": {
+          "title": "Force water valve signal",
+          "type": "boolean"
+        },
+        "water_valve_signal": {
+          "title": "Water valve signal",
+          "type": "boolean"
+        },
+        "tag": {
+          "title": "Tag",
+          "type": "integer"
+        }
+      }
+    },
+    "sprinkler_controller": {
+      "required": [
+        "water_valve_signal",
+        "tag"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "created_at": {
+          "title": "Created at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "updated_at": {
+          "title": "Updated at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "water_valve_signal": {
+          "title": "Water valve signal",
+          "type": "boolean"
+        },
+        "tag": {
+          "title": "Tag",
+          "type": "integer"
+        }
+      }
+    },
+    "sprinkler_device": {
+      "required": [
+        "tag"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "tag": {
+          "title": "Tag",
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 1
+        }
+      }
+    },
+    "sprinkler_sensor": {
+      "required": [
+        "soil_moisture_raw_adc",
+        "soil_moisture",
+        "tag"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "created_at": {
+          "title": "Created at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "updated_at": {
+          "title": "Updated at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "soil_moisture_raw_adc": {
+          "title": "Soil moisture raw adc",
+          "type": "integer",
+          "maximum": 2147483647,
+          "minimum": -2147483648
+        },
+        "soil_moisture": {
+          "title": "Soil moisture",
+          "type": "number"
+        },
+        "tag": {
+          "title": "Tag",
+          "type": "integer"
+        }
+      }
+    },
+    "water_configuration": {
+      "required": [
+        "ph_min_level",
+        "ph_max_level",
+        "tds_min_level",
+        "tds_max_level",
+        "tag"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "created_at": {
+          "title": "Created at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "updated_at": {
+          "title": "Updated at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "ph_min_level": {
+          "title": "Ph min level",
+          "type": "number"
+        },
+        "ph_max_level": {
+          "title": "Ph max level",
+          "type": "number"
+        },
+        "tds_min_level": {
+          "title": "Tds min level",
+          "type": "number"
+        },
+        "tds_max_level": {
+          "title": "Tds max level",
+          "type": "number"
+        },
+        "tag": {
+          "title": "Tag",
+          "type": "integer"
+        }
+      }
+    },
+    "water_force_controller": {
+      "required": [
+        "force_water_pump_signal",
+        "force_nutrient_pump_signal",
+        "force_ph_downer_pump_signal",
+        "force_mixer_pump_signal",
+        "water_pump_signal",
+        "nutrient_pump_signal",
+        "ph_downer_pump_signal",
+        "mixer_pump_signal",
+        "tag"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "updated_at": {
+          "title": "Updated at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "force_water_pump_signal": {
+          "title": "Force water pump signal",
+          "type": "boolean"
+        },
+        "force_nutrient_pump_signal": {
+          "title": "Force nutrient pump signal",
+          "type": "boolean"
+        },
+        "force_ph_downer_pump_signal": {
+          "title": "Force ph downer pump signal",
+          "type": "boolean"
+        },
+        "force_mixer_pump_signal": {
+          "title": "Force mixer pump signal",
+          "type": "boolean"
+        },
+        "water_pump_signal": {
+          "title": "Water pump signal",
+          "type": "boolean"
+        },
+        "nutrient_pump_signal": {
+          "title": "Nutrient pump signal",
+          "type": "boolean"
+        },
+        "ph_downer_pump_signal": {
+          "title": "Ph downer pump signal",
+          "type": "boolean"
+        },
+        "mixer_pump_signal": {
+          "title": "Mixer pump signal",
+          "type": "boolean"
+        },
+        "tag": {
+          "title": "Tag",
+          "type": "integer"
+        }
+      }
+    },
+    "water_controller": {
+      "required": [
+        "water_pump_signal",
+        "nutrient_pump_signal",
+        "ph_downer_pump_signal",
+        "mixer_pump_signal",
+        "tag"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "created_at": {
+          "title": "Created at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "updated_at": {
+          "title": "Updated at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "water_pump_signal": {
+          "title": "Water pump signal",
+          "type": "boolean"
+        },
+        "nutrient_pump_signal": {
+          "title": "Nutrient pump signal",
+          "type": "boolean"
+        },
+        "ph_downer_pump_signal": {
+          "title": "Ph downer pump signal",
+          "type": "boolean"
+        },
+        "mixer_pump_signal": {
+          "title": "Mixer pump signal",
+          "type": "boolean"
+        },
+        "tag": {
+          "title": "Tag",
+          "type": "integer"
+        }
+      }
+    },
+    "water_device": {
+      "required": [
+        "tag"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "tag": {
+          "title": "Tag",
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 1
+        }
+      }
+    },
+    "water_sensor": {
+      "required": [
+        "ph_voltage",
+        "tds_voltage",
+        "ph_level",
+        "tds_level",
+        "water_tk_lvl",
+        "nutrient_tk_lvl",
+        "ph_downer_tk_lvl",
+        "tag"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "created_at": {
+          "title": "Created at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "updated_at": {
+          "title": "Updated at",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "ph_voltage": {
+          "title": "Ph voltage",
+          "type": "number"
+        },
+        "tds_voltage": {
+          "title": "Tds voltage",
+          "type": "number"
+        },
+        "ph_level": {
+          "title": "Ph level",
+          "type": "number"
+        },
+        "tds_level": {
+          "title": "Tds level",
+          "type": "number"
+        },
+        "water_tk_lvl": {
+          "title": "Water tk lvl",
+          "type": "integer",
+          "maximum": 2147483647,
+          "minimum": -2147483648
+        },
+        "nutrient_tk_lvl": {
+          "title": "Nutrient tk lvl",
+          "type": "integer",
+          "maximum": 2147483647,
+          "minimum": -2147483648
+        },
+        "ph_downer_tk_lvl": {
+          "title": "Ph downer tk lvl",
+          "type": "integer",
+          "maximum": 2147483647,
+          "minimum": -2147483648
+        },
+        "tag": {
+          "title": "Tag",
+          "type": "integer"
+        }
+      }
+    }
+  }
+}

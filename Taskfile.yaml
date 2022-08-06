@@ -94,7 +94,9 @@ tasks:
   o:
     desc: generate openapi schema
     cmds:
-      - wget http://0.0.0.0:8001/\?format\=openapi -o openapi-schema.json
+      - wget http://0.0.0.0:8001/\?format\=openapi -O _.json
+      - cat _.json | jq "." > openapi-schema.json
+      - rm _.json
 
   py-sdk:
     desc: generate python sdk og-core-api
