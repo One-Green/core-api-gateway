@@ -4,6 +4,6 @@ from rest_framework.viewsets import ModelViewSet
 
 
 class ConfigView(ModelViewSet):
-    queryset = Config.objects.all()
+    queryset = Config.objects.all().order_by('id')
     serializer_class = ConfigSerializer
     search_fields = ["site_tag"]

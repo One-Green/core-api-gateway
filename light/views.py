@@ -22,7 +22,7 @@ from light.models import (
 
 
 class DeviceView(ModelViewSet):
-    queryset = Device.objects.all()
+    queryset = Device.objects.all().order_by('id')
     serializer_class = DeviceSerializer
     search_fields = ["tag"]
 
@@ -33,32 +33,32 @@ class SensorView(ModelViewSet):
     only get because always updated by IoT
     """
 
-    queryset = Sensor.objects.all()
+    queryset = Sensor.objects.all().order_by('id')
     serializer_class = SensorSerializer
     http_method_names = ["get"]
     search_fields = ["tag__tag"]
 
 
 class ConfigView(ModelViewSet):
-    queryset = Config.objects.all()
+    queryset = Config.objects.all().order_by('id')
     serializer_class = ConfigSerializer
     search_fields = ["tag__tag"]
 
 
 class ConfigTypeView(ModelViewSet):
-    queryset = ConfigType.objects.all()
+    queryset = ConfigType.objects.all().order_by('id')
     serializer_class = ConfigTypeSerializer
     search_fields = ["name"]
 
 
 class DailyTimeRangeView(ModelViewSet):
-    queryset = DailyTimeRange.objects.all()
+    queryset = DailyTimeRange.objects.all().order_by('id')
     serializer_class = DailyTimeRangeSerializer
     search_fields = ["name"]
 
 
 class CalendarRangeView(ModelViewSet):
-    queryset = CalendarRange.objects.all()
+    queryset = CalendarRange.objects.all().order_by('id')
     serializer_class = CalendarRangeSerializer
     search_fields = ["name"]
 
@@ -69,13 +69,13 @@ class ControllerView(ModelViewSet):
     only get because always updated by Iot Controller
     """
 
-    queryset = Controller.objects.all()
+    queryset = Controller.objects.all().order_by('id')
     serializer_class = ControllerSerializer
     http_method_names = ["get"]
     search_fields = ["tag__tag"]
 
 
 class ForceControllerView(ModelViewSet):
-    queryset = ForceController.objects.all()
+    queryset = ForceController.objects.all().order_by('id')
     serializer_class = ForceControllerSerializer
     search_fields = ["tag__tag"]
