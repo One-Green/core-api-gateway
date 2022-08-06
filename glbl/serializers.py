@@ -7,3 +7,4 @@ class ConfigSerializer(serializers.ModelSerializer):
         ref_name = "global_config"
         model = Config
         fields = "__all__"
+        ordering = ['-id']

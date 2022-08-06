@@ -16,20 +16,21 @@ class DeviceSerializer(serializers.ModelSerializer):
         ref_name = "light_device"
         model = Device
         fields = "__all__"
-
+        ordering = ['-id']
 
 class SensorSerializer(serializers.ModelSerializer):
     class Meta:
         ref_name = "light_sensor"
         model = Sensor
         fields = "__all__"
-
+        ordering = ['-id']
 
 class DailyTimeRangeSerializer(serializers.ModelSerializer):
     class Meta:
         ref_name = "light_configuration_daily_time_range"
         model = DailyTimeRange
         fields = "__all__"
+        ordering = ['-id']
 
 
 class CalendarRangeSerializer(serializers.ModelSerializer):
@@ -37,6 +38,7 @@ class CalendarRangeSerializer(serializers.ModelSerializer):
         ref_name = "light_configuration_calendar_range"
         model = CalendarRange
         fields = "__all__"
+        ordering = ['-id']
 
 
 class ConfigSerializer(serializers.ModelSerializer):
@@ -44,6 +46,7 @@ class ConfigSerializer(serializers.ModelSerializer):
         ref_name = "light_configuration"
         model = Config
         fields = "__all__"
+        ordering = ['-id']
 
 
 class ConfigTypeSerializer(serializers.ModelSerializer):
@@ -51,6 +54,7 @@ class ConfigTypeSerializer(serializers.ModelSerializer):
         ref_name = "light_configuration_type"
         model = ConfigType
         fields = "__all__"
+        ordering = ['-id']
 
 
 class ControllerSerializer(serializers.ModelSerializer):
@@ -58,6 +62,7 @@ class ControllerSerializer(serializers.ModelSerializer):
         ref_name = "light_controller"
         model = Controller
         fields = "__all__"
+        ordering = ['-id']
 
 
 class ForceControllerSerializer(serializers.ModelSerializer):
@@ -65,3 +70,4 @@ class ForceControllerSerializer(serializers.ModelSerializer):
         ref_name = "light_force_controller"
         model = ForceController
         fields = "__all__"
+        ordering = ['-id']
