@@ -13,7 +13,6 @@ class DeviceSerializer(serializers.ModelSerializer):
         ref_name = "sprinkler_device"
         model = Device
         fields = "__all__"
-        ordering = ['-id']
 
 
 class SensorSerializer(serializers.ModelSerializer):
@@ -21,7 +20,6 @@ class SensorSerializer(serializers.ModelSerializer):
         ref_name = "sprinkler_sensor"
         model = Sensor
         fields = "__all__"
-        ordering = ['-id']
 
 
 class ConfigSerializer(serializers.ModelSerializer):
@@ -29,7 +27,6 @@ class ConfigSerializer(serializers.ModelSerializer):
         ref_name = "sprinkler_configuration"
         model = Config
         fields = "__all__"
-        ordering = ['-id']
 
 
 class ControllerSerializer(serializers.ModelSerializer):
@@ -37,7 +34,6 @@ class ControllerSerializer(serializers.ModelSerializer):
         ref_name = "sprinkler_controller"
         model = Controller
         fields = "__all__"
-        ordering = ['-id']
 
 
 class ForceControllerSerializer(serializers.ModelSerializer):
@@ -45,4 +41,3 @@ class ForceControllerSerializer(serializers.ModelSerializer):
         ref_name = "sprinkler_force_controller"
         model = ForceController
         fields = "__all__"
-        ordering = ['-id']
