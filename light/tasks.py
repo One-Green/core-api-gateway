@@ -12,7 +12,7 @@ from light.models import (
     Controller,
     ForceController,
 )
-from light.config import set_default_config
+from light.config import set_default_config, set_default_force_controller
 from light.dict_def import LightCtrlDict
 from project.settings import MQTT_HOST
 from project.settings import MQTT_PORT
@@ -102,16 +102,10 @@ def node_controller(message):
     # --------------------------
     try:
         fctl = ForceController.objects.get(tag=Device.objects.get(tag=tag))
-        if fctl.force_light_signal:
-            light_signal = fctl.light_signal
     except ForceController.DoesNotExist:
-        # create class to add force_light_signal attribute to mock
-        # if ForceController object not found
-        class A:
-            pass
-
-        fctl = A()
-        fctl.force_light_signal = False
+        set_default_force_controller(tag=tag)
+    finally:
+        fctl = ForceController.objects.get(tag=Device.objects.get(tag=tag))
 
     # save controller  status
     # --------------------------

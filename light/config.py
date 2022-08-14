@@ -1,6 +1,6 @@
 import django
 from datetime import time
-from light.models import Device, ConfigType, DailyTimeRange, Config
+from light.models import Device, ConfigType, DailyTimeRange, Config, ForceController
 
 
 def set_default_config(tag: str):
@@ -37,3 +37,14 @@ def set_default_config(tag: str):
         config_type=ConfigType.objects.get(name=config_type),
         daily_config=DailyTimeRange.objects.get(name="daily-default"),
     ).save()
+
+
+def set_default_force_controller(tag):
+    try:
+        ForceController.objects.create(
+            tag=Device.objects.get(tag=tag),
+            force_light_signal=False,
+            light_signal=False
+        ).save()
+    except django.db.IntegrityError:
+        pass
