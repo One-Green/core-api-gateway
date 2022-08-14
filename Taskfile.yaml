@@ -26,7 +26,7 @@ tasks:
     desc: start postgres
     cmds:
       - sudo docker rm postgres-dev --force || true
-      - sudo docker run --name postgres-dev -d -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres  postgres
+      - sudo docker run --name postgres-dev -d -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres  postgres -c log_statement=all
 
   celery:
     desc: start celery worker
