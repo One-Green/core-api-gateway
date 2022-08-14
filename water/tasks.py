@@ -10,7 +10,7 @@ from project.settings import MQTT_USERNAME
 from project.settings import MQTT_PASSWORD
 from project.settings import MQTT_WATER_CONTROLLER_TOPIC
 from water.helpers import is_any_require_water, count_linked_sprinkler
-from water.config import set_default_config
+from water.config import set_default_config, set_default_force_controller
 from water.dict_def import WaterCtrlDict
 from celery import shared_task
 from posixpath import join
@@ -75,17 +75,9 @@ def node_controller(message):
     try:
         fctl = ForceController.objects.get(tag=Device.objects.get(tag=tag))
     except ForceController.DoesNotExist:
-        class A:
-            pass
-        fctl = A()
-        fctl.water_pump_signal = False
-        fctl.nutrient_pump_signal = False
-        fctl.ph_downer_pump_signal = False
-        fctl.mixer_pump_signal = False
-        fctl.force_water_pump_signal = False
-        fctl.force_nutrient_pump_signal = False
-        fctl.force_ph_downer_pump_signal = False
-        fctl.force_mixer_pump_signal = False
+        set_default_force_controller(tag=tag)
+    finally:
+        fctl = ForceController.objects.get(tag=Device.objects.get(tag=tag))
 
     # generate JSON
     # --------------------------
