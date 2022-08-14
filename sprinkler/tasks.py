@@ -4,7 +4,7 @@ Celery + Redis async tasks
 
 from line_protocol_parser import parse_line
 from core.controller import BinaryController
-from sprinkler.config import set_default_config
+from sprinkler.config import set_default_config, set_default_force_controller
 from sprinkler.dict_def import SprinklerCtrlDict
 from project.settings import MQTT_HOST
 from project.settings import MQTT_PORT
@@ -84,13 +84,9 @@ def node_controller(message):
     try:
         fctl = ForceController.objects.get(tag=Device.objects.get(tag=tag))
     except ForceController.DoesNotExist:
-        # create class to add force_light_signal attribute to mock
-        # if ForceController object not found
-        class A:
-            pass
-        fctl = A()
-        fctl.force_water_valve_signal = False
-        fctl.water_valve_signal = False
+        set_default_force_controller(tag=tag)
+    finally:
+        fctl = ForceController.objects.get(tag=Device.objects.get(tag=tag))
 
     # generate JSON
     # --------------------------
