@@ -3321,6 +3321,9 @@
         "ph_max_level",
         "tds_min_level",
         "tds_max_level",
+        "water_tank_height",
+        "nutrient_tank_height",
+        "ph_downer_tank_height",
         "tag"
       ],
       "type": "object",
@@ -3356,6 +3359,18 @@
         },
         "tds_max_level": {
           "title": "Tds max level",
+          "type": "number"
+        },
+        "water_tank_height": {
+          "title": "Water tank height",
+          "type": "number"
+        },
+        "nutrient_tank_height": {
+          "title": "Nutrient tank height",
+          "type": "number"
+        },
+        "ph_downer_tank_height": {
+          "title": "Ph downer tank height",
           "type": "number"
         },
         "tag": {
