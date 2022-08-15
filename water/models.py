@@ -37,6 +37,9 @@ class Config(models.Model):
     ph_max_level = models.FloatField(blank=False, null=False)
     tds_min_level = models.FloatField(blank=False, null=False)
     tds_max_level = models.FloatField(blank=False, null=False)
+    water_tank_height = models.FloatField(blank=False, null=False)
+    nutrient_tank_height = models.FloatField(blank=False, null=False)
+    ph_downer_tank_height = models.FloatField(blank=False, null=False)
 
     def __str__(self):
         return f"{self.tag}"

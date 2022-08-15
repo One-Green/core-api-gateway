@@ -10,6 +10,9 @@ def set_default_config(tag):
             ph_max_level=7.8,
             tds_min_level=100,
             tds_max_level=200,
+            water_tank_height=100,
+            nutrient_tank_height=100,
+            ph_downer_tank_height=100,
         ).save()
     except django.db.IntegrityError:
         pass
